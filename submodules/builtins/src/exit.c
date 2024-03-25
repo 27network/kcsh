@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 22:10:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:59:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 {
 	int	ret;
 
-	ret = 0;
 	if (argc == 2 && !ft_strcmp(argv[1], "--help"))
 		msh_exit_help(msh, argv[0]);
 	printf("exit\n");
-	if (argc == 1)
-		msh->exit_code = 0;
 	if (argc == 1)
 		return (-1);
 	if (!msh_parse_numeric(argv[1], &ret))

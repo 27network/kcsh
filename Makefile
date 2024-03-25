@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/03/24 17:47:23 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/03/25 15:39:40 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ NAME			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_NAME)
 VERSION			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_VERSION)
 EXTRA_DEBUG		=	$(shell $(MAKE) -f $(CONFIG_MK) print_EXTRA_DEBUG)
 COMP_MODE		?=	"MANDATORY_MSH"
+
+-include header.mk
 
 CWD				?=	$(shell pwd)
 SUBMODULES		=	submodules
@@ -40,48 +42,14 @@ D_FILES			:=	$(foreach dep, $(DEPENDENCY_TREE), $(shell $(MAKE) -C $(SUBMODULES)
 
 RM				=	rm -rf
 
-# Colors
-TPUT			:=	tput -Txterm-256color
-BLUE			:=	$(shell $(TPUT) setaf 4)
-GRAY			:=	$(shell $(TPUT) setaf 8)
-BOLD 			:=  $(shell $(TPUT) bold)
-RED				:=	$(shell $(TPUT) setaf 1)
-RESET			:=	$(shell $(TPUT) sgr0)
-GREEN			:=	$(shell $(TPUT) setaf 2)
-BOLD_WHITE		:=	$(RESET)$(BOLD)
-
-AUTHORS			=	$(shell paste -s -d ':' config/author | rev | sed -e 's/\:/ \& /' -e 's/:/ ,/g' | rev) 
 VG_RUN			?=
-
-# multiline BANNER
-define BANNER
- $(BLUE)               $(BOLD_WHITE)    $(RED)__  
- $(BLUE)   ____ ___  $(BOLD_WHITE)_____$(RED)/ /_ 
- $(BLUE)  / __ `__ \$(BOLD_WHITE)/ ___$(RED)/ __ \  
- $(BLUE) / / / / / $(BOLD_WHITE)(__  )$(RED) / / /
- $(BLUE)/_/ /_/ /_$(BOLD_WHITE)/____/$(RED)_/ /_/  $(RESET)v$(VERSION)
-             by $(AUTHORS)
-endef
-
 _DISABLE_CLEAN_LOG := 0
-_DISABLE_BANNER := 0
 
-all:	 _banner $(NAME) 
+all:	 $(NAME) 
 
 build:	all clean
 
 -include $(D_FILES)
-
-_banner:
-	@if [ $(_DISABLE_BANNER) -eq 0 ]; then \
-		printf "$(info $(BANNER))"; \
-		printf "⚙️ Compilation mode: $(COMP_MODE)"; \
-		if [ $(EXTRA_DEBUG) -eq 1 ]; then \
-			printf " ($(RED)Debug Mode$(RESET))"; \
-		fi; \
-		printf "\n\n"; \
-	fi
-	$(eval _DISABLE_BANNER := 1)
 
 # invalidation mechanism
 $(CACHE_DIR)/%:
@@ -94,21 +62,21 @@ $(CLI_EXEC):
 	@$(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) DEPTH="1" CACHE_DIR="$(CACHE_DIR)" LIBFT_DIR="$(LIBFT_DIR)" # 3>/dev/null 2>&3
 
 $(NAME): $(LIBFT) $(CONFIG_MK) $(FEATURES_H_ACTUAL) $(FEATURES_H) $(CLI_EXEC)
-	@printf "⛓ Linking $(CLI_EXEC) -> $(NAME)"
+	@printf "⛓  Linking $(CLI_EXEC) -> $(NAME)"
 	@cp -f "$(CLI_EXEC)" "$(NAME)" # 🤓 erm acshually its not a link but a copy 🤓
 	@printf "\33[2K\r✅ Linked $(BOLD_WHITE)$(NAME)$(RESET), enjoy this dumb madness.\n"
 
 $(LIBFT):
-	@printf "🛠️  Making libft\n"
+	@printf "🛠️  Making $(BOLD_WHITE)libft$(RESET)\n"
 	@$(MAKE) -C $(LIBFT_DIR) -j 
-	@printf "\033[1A\33[2K\r✅ Built $(BOLD_WHITE)libft$(RESET)\n"
+	@printf "\033[1A\33[2K\r✅ Built $(BOLD_WHITE)libft$(RESET)    \n\33[2K\r"
 
 $(FEATURES_H_ACTUAL): $(FEATURES_H_GEN)
-	@printf "✍  Generating $(FEATURES_H_ACTUAL)\n"
+	@printf "✍  Generating $(BOLD_WHITE)$(FEATURES_H_ACTUAL)$(RESET)\n"
 	@$(MAKE) -C config -f features.mk gen
 
 $(FEATURES_H):
-	@printf "⛓  Linking $(FEATURES_H) -> $(FEATURES_H_ACTUAL)\n"
+	@printf "⛓  Linking $(BOLD_WHITE)$(FEATURES_H)$(RESET)\n"
 	@$(MAKE) -C config -f features.mk genlink 
 
 bonus:
@@ -141,7 +109,7 @@ fclean:			_fclean_prelude clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
-re:				_banner fclean all
+re:				fclean all
 
 valgrind:		$(NAME)
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
