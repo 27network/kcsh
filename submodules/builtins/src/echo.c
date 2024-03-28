@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/25 22:50:28 by cglandus         ###   ########.fr       */
+/*   Updated: 2024/03/28 21:09:43 by cglandus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ static int	is_opt(char *arg, const char *set, t_echo_opt *opt)
 	i = 1;
 	while (arg[i])
 	{
-		if (strchr(set, arg[i]) == 0)
+		if (ft_strchr(set, arg[i]) == 0)
 			return (0);
-		if (arg[i] == 'n')
+		if ((arg[i] == 'e' || arg[i] == 'E') && !ECHO_OPT)
+			return (0);
+		if (arg[i] == 'n' && ((ft_strchr(arg, 'e') == 0
+					&& ft_strchr(arg, 'E') == 0) || ECHO_OPT))
 			opt->no_nl = true;
 		else if (arg[i] == 'e')
 			opt->bslh_enable = true;
@@ -39,7 +42,7 @@ static int	opt_skip(char **argv, t_echo_opt *opt)
 	i = 1;
 	while (argv[i])
 	{
-		if (argv[i][0] != '-' || strlen(argv[i]) < 2)
+		if (argv[i][0] != '-' || ft_strlen(argv[i]) < 2)
 			break ;
 		if (!is_opt(argv[i], "neE", opt)
 			|| (!ECHO_OPT && !is_opt(argv[i], "n", opt)))
