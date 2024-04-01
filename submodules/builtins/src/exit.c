@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/25 15:59:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/03/25 19:08:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static bool	msh_parse_numeric(const char *str, int *res)
 	return (true);
 }
 
-static void	msh_exit_help(t_minishell *msh, const char *argv0)
+static int	msh_exit_help(const char *argv0)
 {
 	printf("%s: %s [n]\n", argv0, argv0);
 	printf("    Exit the shell.\n    \n");
 	printf("    Exits the shell with a status of N.  "
 		"If N is omitted, the exit status\n");
 	printf("    is that of the last command executed.\n");
-	msh_exit(msh, 0);
+	return (0);
 }
 
 static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
@@ -38,7 +38,7 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 	int	ret;
 
 	if (argc == 2 && !ft_strcmp(argv[1], "--help"))
-		msh_exit_help(msh, argv[0]);
+		return (msh_exit_help(argv[0]));
 	printf("exit\n");
 	if (argc == 1)
 		return (-1);

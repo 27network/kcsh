@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 23:30:48 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/23 04:08:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:20:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,15 @@ static void	msh_pwd_help(const char *argv0)
 			"current working\n    		directory\n");
 		printf("      -P	print the physical directory, without any "
 			"symbolic links\n    \n    ");
-		printf("By default, `%s' behaves as if `-L' were specified.", argv0);
-		printf("\n    \n    Exit Status:\n    Returns 0 unless an invalid "
-			"option is given or the current directory\n    cannot be read.\n");
+		printf("By default, `%s' behaves as if `-L' were specified.\n    ",
+			argv0);
 	}
+	printf("\n    Exit Status:\n    Returns 0 unless an invalid "
+		"option is given or the current directory\n    cannot be read.\n");
 }
 
-//TODO: @cglandus: Implement argc==1
 static int	msh_builtin_pwd(int argc, char **argv, t_minishell *msh)
 {
-	(void) argc;
-	(void) argv;
 	(void) msh;
 	if (argc == 1)
 	{
