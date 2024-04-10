@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 22:24:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:47:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static bool	msh_check_binary_file(const char *sample, ssize_t sample_len)
 }
 
 static int	msh_runner_check_binary(
+	t_minishell *msh,
 	const char *file,
 	char *string,
 	ssize_t nread
@@ -62,18 +63,18 @@ static int	msh_runner_check_binary(
 		nread = 80;
 	if (msh_check_binary_file(string, nread))
 	{
-		ft_dprintf(2, "%s: %s: cannot execute binary file\n", file, file);
+		msh_error(msh, "%s: cannot execute binary file\n", file);
 		ret = 126;
 	}
 	free(string);
 	return (ret);
 }
 
-static bool	msh_runner_check_meta(
+static int	msh_runner_check_meta(
+	t_minishell *msh,
 	const char *file,
 	int fd,
-	struct stat *st,
-	int *ret
+	struct stat *st
 ) {
 	size_t	file_size;
 	char	*string;
@@ -82,8 +83,8 @@ static bool	msh_runner_check_meta(
 	file_size = (size_t) st->st_size;
 	if ((off_t) file_size != st->st_size || file_size + 1 < file_size)
 	{
-		ft_dprintf(2, "%s: %s: file is too large\n", file, file);
-		*ret = 126;
+		msh_error(msh, "%s: file is too large\n", file);
+		return (126);
 	}
 	else
 	{
@@ -95,10 +96,10 @@ static bool	msh_runner_check_meta(
 			nread = read(fd, string, file_size);
 			if (nread >= 0)
 				string[nread] = 0;
-			*ret = msh_runner_check_binary(file, string, nread);
+			return (msh_runner_check_binary(msh, file, string, nread));
 		}
 	}
-	return (*ret == 0);
+	return (0);
 }
 
 bool	msh_runner_check(t_minishell *msh, const char *file, int fd, int *ret)
@@ -107,20 +108,20 @@ bool	msh_runner_check(t_minishell *msh, const char *file, int fd, int *ret)
 
 	if (fstat(fd, &st) < 0)
 	{
-		ft_dprintf(2, "%s: %s: %s\n", msh->name, file, strerror(errno));
+		msh_error(msh, "%s: %s\n", file, strerror(errno));
 		*ret = 1;
 	}
 	else if (S_ISDIR(st.st_mode))
 	{
-		ft_dprintf(2, "%s: %s: Is a directory\n", msh->name, file);
+		msh_error(msh, "%s: %s\n", file, strerror(EISDIR));
 		*ret = 126;
 	}
 	else if (!S_ISREG(st.st_mode))
 	{
-		ft_dprintf(2, "%s: %s: not a regular file\n", msh->name, file);
+		msh_error(msh, "%s: not a regular file\n", file);
 		*ret = 126;
 	}
 	else
-		msh_runner_check_meta(file, fd, &st, ret);
+		*ret = msh_runner_check_meta(msh, file, fd, &st);
 	return (*ret == 0);
 }

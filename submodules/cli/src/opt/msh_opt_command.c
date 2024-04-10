@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 22:18:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:40:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 	c_flag_index = msh_find_flag_index(argv);
 	if (c_flag_index == -1 || argc <= c_flag_index + 1)
 	{
-		ft_dprintf(2, "%s: -c: option requires an argument\n", msh->name);
+		msh_error(msh, "-c: option requires an argument\n");
 		msh_exit(msh, 2);
 	}
 	cmd = argv[c_flag_index + 1];

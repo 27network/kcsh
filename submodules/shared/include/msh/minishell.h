@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:51:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:07:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ typedef struct s_program_args
 }	t_program_args;
 
 /**
+ * @brief Error handler function pointer type.
+ */
+typedef void	t_error_handler(void *msh, const char *msg);
+
+/**
  * @brief Inner structure of minishell.
  *
  * @param binary_name Binary file name, set to argv[0] and never changes.
@@ -59,6 +64,9 @@ typedef struct s_program_args
  *					 not the arguments passed to the shell program itself,
  *					 rather the parsed arguments from -c, -s, and for scripts.
  * @param flags Internal flags for minishell, see `t_msh_flags` in `flags.h`.
+ *
+ * @param error_handler_fn Function pointer to the error handler, 
+ *						   see `t_error_handler`.
  *
  * @param env Environment variables map, see `t_map`.
  * @param exit_code Exit code of the shell.
@@ -72,6 +80,8 @@ typedef struct s_minishell
 	const char		*name;
 	t_program_args	shell_args;
 	t_msh_flags		flags;
+
+	t_error_handler	*error_handler;
 
 	t_map			*env;
 	int				exit_code;
@@ -94,6 +104,16 @@ typedef struct s_minishell
  */
 void	msh_init(t_minishell *msh, int argc, const char **argv,
 			const char **envp);
+
+/**
+ * @brief Prints the given message via the error handler.
+ *
+ * @param msh Minishell instance to print the error with.
+ * @param format Format string for the message.
+ * @param ... Arguments for the format string.
+ */
+void	msh_error(t_minishell *msh, const char *format, ...)
+		__attribute__((format(printf, 2, 3)));
 
 /**
  * @brief Frees all resources used by minishell.
