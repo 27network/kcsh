@@ -7,7 +7,7 @@
 *.dylib
 *.exe
 *.out
-minishell
+minishell*
 dummyshell
 .vscode/
 *.nfs*

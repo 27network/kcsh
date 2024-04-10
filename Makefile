@@ -6,19 +6,30 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/03/25 15:39:40 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/04/10 20:07:55 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKE			=	make --debug=none --no-print-directory
+SHOW_BANNER		?=	0
 
 CONFIG_MK		=	config/config.mk
 NAME			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_NAME)
+
+ifdef OVERRIDE_NAME
+NAME			:=	$(OVERRIDE_NAME)
+endif
+ifdef SUFFIX
+NAME			:=	$(NAME)$(SUFFIX)
+endif
+
 VERSION			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_VERSION)
 EXTRA_DEBUG		=	$(shell $(MAKE) -f $(CONFIG_MK) print_EXTRA_DEBUG)
 COMP_MODE		?=	"MANDATORY_MSH"
 
 -include header.mk
+
+POSSIBLE_NAMES	=	minishell minishell_bonus minishell++ 42sh 42sh_bonus
 
 CWD				?=	$(shell pwd)
 SUBMODULES		=	submodules
@@ -45,7 +56,8 @@ RM				=	rm -rf
 VG_RUN			?=
 _DISABLE_CLEAN_LOG := 0
 
-all:	 $(NAME) 
+all:	 
+	@$(MAKE) SHOW_BANNER=1 $(NAME) 
 
 build:	all clean
 
@@ -80,16 +92,16 @@ $(FEATURES_H):
 	@$(MAKE) -C config -f features.mk genlink 
 
 bonus:
-	@$(MAKE) COMP_MODE="BONUS_MSH" re
+	@$(MAKE) COMP_MODE="BONUS_MSH" SUFFIX="_bonus" re
 
 extras:
-	@$(MAKE) COMP_MODE="EXTRAS" re
+	@$(MAKE) COMP_MODE="EXTRAS" SUFFIX="++" re
 
-42sh:
-	@$(MAKE) COMP_MODE="MANDATORY_42SH" re
+42:
+	@$(MAKE) COMP_MODE="MANDATORY_42SH" OVERRIDE_NAME="42sh" re
 
-42sh-bonus:
-	@$(MAKE) COMP_MODE="BONUS_42SH" re
+42bonus:
+	@$(MAKE) COMP_MODE="BONUS_42SH" OVERRIDE_NAME="42sh" SUFFIX="_bonus" re
 
 remake: clean all
 
@@ -106,10 +118,11 @@ fclean:			_fclean_prelude clean
 	@$(RM) $(FEATURES_H_ACTUAL)
 	@$(RM) $(FEATURES_H)
 
-	@$(RM) $(NAME)
+	@$(RM) $(POSSIBLE_NAMES)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
-re:				fclean all
+re:				
+	@$(MAKE) SHOW_BANNER=1 fclean $(NAME)
 
 valgrind:		$(NAME)
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)

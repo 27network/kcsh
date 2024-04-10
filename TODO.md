@@ -7,7 +7,7 @@
 - [ ] Execution structure
 - [x] Tokenizer, environment manager, `execve`
 - [ ] Lexer & Parser (part 1)
-- [ ] Builtins (part 1), manager, dynamic registration
+- [x] Builtins (part 1), manager, dynamic registration
 - [ ] To be defined
 
 ### Minishell goals
@@ -32,7 +32,7 @@
     - [ ] Handle `$?`
   - Signal handling
     - [x] Interactive mode
-    - [ ] Passed down to subprocesses
+    - [x] Passed down to subprocesses
   - Builtins
     - [ ] `echo` with `-n`
     - [ ] `cd` with a relative or absolute path
@@ -48,6 +48,7 @@
   - [ ] Wildcards `*` for the current directory
     - [ ] Handle `?` and `[]`
 
+- Extras (outstanding):
   - [ ] Implement `alias`
   - [ ] Auto-completion feature
 
@@ -79,9 +80,6 @@
 
 -->
 ## bordel
-
-- [x] Test system
-  - [ ] Proper test suite
 
 Feature management system ideas:
 - `features.h` + `features.mk`

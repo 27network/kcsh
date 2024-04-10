@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/25 15:29:36 by kiroussa          #+#    #+#              #
-#    Updated: 2024/03/25 15:29:38 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/04/10 20:08:08 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,10 @@ endef
 
 DISABLE_BANNER ?= 0
 
+ifeq ($(SHOW_BANNER), 1)
 ifeq ($(DISABLE_BANNER), 0)
 $(info $(BANNER))
 $(info ⚙️ Compilation mode: $(COMP_MODE))
 $(info )
 endif
-
+endif
