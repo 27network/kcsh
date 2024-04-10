@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:14:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 22:18:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:40:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	msh_print_help(t_minishell *msh, int fd);
 static void	msh_handle_invalid(t_minishell *msh, const char *flag, bool is_long)
 {
 	if (is_long)
-		ft_dprintf(2, "%s: %s: %s\n", msh->name, flag, "invalid option");
+		msh_error(msh, "%s: %s\n", flag, "invalid option");
 	else
-		ft_dprintf(2, "%s: -%c: %s\n", msh->name, flag[0], "invalid option");
+		msh_error(msh, "-%c: %s\n", flag[0], "invalid option");
 	msh_print_help(msh, 2);
 	msh_exit(msh, 2);
 }
