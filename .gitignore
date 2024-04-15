@@ -18,3 +18,5 @@ dummyshell
 minishell-tester
 minishell_tester
 42sh*
+
+.direnv/

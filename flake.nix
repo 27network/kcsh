@@ -1,26 +1,36 @@
 {
-  description = "A development environment for minishell";
+  description = "dev-env for 42 projects";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
-  }: let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-    stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clang17Stdenv;
-  in {
-    devShells.${system}.default = (pkgs.mkShell.override {inherit stdenv;}) {
-      name = "minishell";
-      packages = with pkgs; [
-        readline
-        valgrind
-      ];
-    };
-  };
+    flake-utils
+  }: flake-utils.lib.eachDefaultSystem
+    (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clang17Stdenv;
+      in
+      {
+        devShell = (pkgs.mkShell.override { inherit stdenv; }) {
+          buildInputs = with pkgs; [
+            readline
+          ];
+          nativeBuildInputs = with pkgs; [
+            valgrind
+            gdb
+          ];
+        };
+      }
+    );
 }
 # vim: ts=2 sw=2 et
 
