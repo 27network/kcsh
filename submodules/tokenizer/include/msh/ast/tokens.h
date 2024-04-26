@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/24 12:57:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:45:54 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/04/21 02:05:56 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/04/26 17:24:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 
 typedef enum e_token_type
 {
+	//						// -- Single character tokens --
 	TKN_WORD = 0,			// any sequence of characters
 	TKN_SPACE,				// ' ' or '\t'
 	TKN_PIPE,				// '|'
 	TKN_SEMICOLON,			// ';'
-	TKN_BACKGROUND,			// '&'
+	TKN_EOF,				// '\0'
+	TKN_DOLLAR,				// '$'
+	TKN_AMP,				// '&'
 	TKN_NEWLINE,			// '\n'
-	TKN_EOF,				// end of file
 	TKN_REDIR_OUT,			// '>'
 	TKN_REDIR_IN,			// '<'
 	TKN_LPAREN,				// '('
@@ -33,19 +35,21 @@ typedef enum e_token_type
 	TKN_RBRACE,				// '}'
 	TKN_LBRACKET,			// '['
 	TKN_RBRACKET,			// ']'
-	TKN_ASSIGN,				// '='
-	____TKN_SEP,			// separator between Pure and Compound tokens
-	TKN_ASSIGNMENT_WORD,	// any sequence of characters of the form name=value
-	TKN_AND_IF,				// '&&'
-	TKN_OR_IF,				// '||'
+	TKN_ASSIGN,				/* '=' 
+	separator,				// -- Compound tokens -- */
+	TKN_SUBST,				// substituable token $VAR, ${EXPR}, *[], $((math))
+	TKN_ASSIGN_WORD,		// any sequence of characters of the form name=value
+	TKN_AND,				// '&&'
+	TKN_OR,					// '||'
 	TKN_REDIR_APPEND,		// '>>'
-	TKN_REDIR_HERE_DOC,		// '<<' or '<<-'
-	____DUMB_SEP,
+	TKN_REDIR_HEREDOC,		/* '<<' or '<<-' 
+	separator,				// -- */
 	TKN_FD_REF,				// '&[n]' or '&[n]-'
 	TKN_REDIR_OUT_CLOBBER,	// '>|'
-	TKN_REDIR_HERE_STR,		// '<<<'
-	TKN_REDIR_WORD,			// '<>'
+	TKN_REDIR_HERESTR,		// '<<<'
+	TKN_REDIR_BOTH,			// '<>'
 	TKN_UNKNOWN,			// any other character
+	TKN_COUNT,				//// end of the enum
 }	t_token_type;
 
 const char	*msh_ast_tkn_type(t_token_type type);

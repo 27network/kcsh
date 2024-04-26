@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 04:42:13 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/07 06:39:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:25:09 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	msh_ast_tkn_free(t_token *token)
 		return ;
 	if (token->data)
 	{
-		if (token->type == TKN_ASSIGNMENT_WORD)
+		if (token->type == TKN_ASSIGN_WORD)
 		{
 			free(((t_tkn_assign_data *)token->data)->key);
 			free(((t_tkn_assign_data *)token->data)->value);

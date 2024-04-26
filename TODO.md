@@ -4,10 +4,14 @@
 
 - [x] Basic setup, submodules, Makefiles, dependencies 
 - [x] Shell-like input w/ readline, basic prompt
-- [ ] Execution structure
-- [x] Tokenizer, environment manager, `execve`
-- [ ] Lexer & Parser (part 1)
-- [x] Builtins (part 1), manager, dynamic registration
+- [x] Execution structure
+- [x] Tokenizer (part 1), environment manager, `execve`
+- [ ] Tokenizer (part 2): Separate environment variables, 
+- [ ] Lexer & Parser
+- [ ] AST Builder (part 1)
+- [ ] Builtins (part 1), manager, dynamic registration
+- [ ] Pipeline builder
+- [ ] Execution (part 1)
 - [ ] To be defined
 
 ### Minishell goals

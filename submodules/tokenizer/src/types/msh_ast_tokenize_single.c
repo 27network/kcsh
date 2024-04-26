@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:49:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/09 23:28:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:19:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ t_token	*msh_ast_tokenize_single(const char *line, size_t *cursor)
 	else if (c == '|')
 		token = msh_ast_tkn_new(TKN_PIPE, NULL);
 	else if (c == '&')
-		token = msh_ast_tkn_new(TKN_BACKGROUND, NULL);
+		token = msh_ast_tkn_new(TKN_AMP, NULL);
 	else if (c == '<')
 		token = msh_ast_tkn_new(TKN_REDIR_IN, NULL);
 	else if (c == '>')
 		token = msh_ast_tkn_new(TKN_REDIR_OUT, NULL);
 	else if (c == '=')
 		token = msh_ast_tkn_new(TKN_ASSIGN, NULL);
+	else if (c == '$')
+		token = msh_ast_tkn_new(TKN_DOLLAR, NULL);
 	else
 		return (NULL);
 	return (token);
