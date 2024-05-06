@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/03/15 21:19:22 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/04/26 20:43:04 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	ast
-DEPS		=	shared tokenizer
+DEPS		=	shared ast-tokenizer
 
 include ../common-prelude.mk
 

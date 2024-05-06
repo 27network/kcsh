@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:24:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:48:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/06 22:11:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ typedef struct s_pipeline
 	t_command	*commands;
 	int			pipe_count;
 }	t_pipeline;
+
+typedef enum e_pipeline_separator
+{
+	PIPELINE_SEP_SEMICOLON,
+	PIPELINE_SEP_AND,
+	PIPELINE_SEP_OR,
+}	t_pipeline_separator;
 
 int	msh_exec_simple(t_minishell *msh, char **line);
 

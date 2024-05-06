@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_is_directory.c                                 :+:      :+:    :+:   */
+/*   preprocessor.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 23:57:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/06 20:50:51 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/04/26 20:45:00 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/04/26 20:46:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <fcntl.h>
-#include <stdbool.h>
-#include <unistd.h>
+#ifndef PREPROCESSOR_H
+# define PREPROCESSOR_H
+# undef PREPROCESSOR_H
+# ifndef __MSH_AST_PREPROCESSOR_H__
+#  define __MSH_AST_PREPROCESSOR_H__
 
-bool	msh_is_directory(const char *path)
-{
-	int	fd;
+#  include <ft/data/list.h>
+#  include <msh/ast/tokenizer.h>
 
-	fd = open(path, O_RDWR);
-	if (fd < 0)
-		return (errno == EISDIR);
-	(void) close(fd);
-	return (false);
-}
+bool	msh_ast_tkn_verify(t_list *tokens);
+
+# endif // __MSH_AST_PREPROCESSOR_H__
+#endif // PREPROCESSOR_H

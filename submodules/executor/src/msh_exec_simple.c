@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/23 03:37:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/06 20:47:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	msh_exec_status(int wait_status)
 	else if (WIFSIGNALED(wait_status))
 	{
 		sig = WTERMSIG(wait_status);
-		if (sig != SIGINT && sig != SIGQUIT)
+		if (sig != SIGINT)
 			ft_dprintf(2, "Terminated by signal %d\n", WTERMSIG(wait_status));
 		return (sig + 128);
 	}
