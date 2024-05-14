@@ -1,23 +1,23 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    config.mk                                          :+:      :+:    :+:    #
+#    defaults.mk                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/04/26 17:34:14 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/14 17:57:44 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROJECT_NAME	?= minishell
-PROJECT_VERSION	?= 0.2.2
+PROJECT_VERSION	?= 0.3.0-indev
 
 SRC_DIR			?= src
 INCLUDE_DIR		?= include
 
 CC				= clang
-CFLAGS			= -Wall -Wextra -Werror -g3 -std=c2x
+CFLAGS			= -Wall -Wextra -Werror -g3
 DFLAGS 			= -MT $@ -MMD -MP -MF $(D_DIR)/$*.tmp.d
 
 #LDFLAGS shouldn't be defined here, as it's shared with `ar`. 

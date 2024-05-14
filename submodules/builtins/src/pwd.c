@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 23:30:48 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/27 18:20:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:39:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	msh_pwd_help(const char *argv0)
 		"option is given or the current directory\n    cannot be read.\n");
 }
 
+//TODO: Implement path traversal
 static int	msh_builtin_pwd(int argc, char **argv, t_minishell *msh)
 {
 	(void) msh;

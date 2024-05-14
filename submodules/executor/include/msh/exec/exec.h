@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:24:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/06 22:11:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:22:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum e_pipeline_separator
 }	t_pipeline_separator;
 
 int	msh_exec_simple(t_minishell *msh, char **line);
+int	msh_exec_status(int wait_status);
 
 # endif // __MSH_EXEC_EXEC_H__
 #endif // EXEC_H

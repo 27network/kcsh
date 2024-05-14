@@ -15,6 +15,7 @@ dummyshell
 *.*swp*
 .*.swp*
 
+config/.last_comp
 minishell-tester
 minishell_tester
 42sh*

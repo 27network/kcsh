@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:09:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/23 03:32:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:01:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,31 @@ extern int	g_signal;
  *
  * @param msh The minishell instance. 
  */
-void	msh_signal_init(t_minishell *msh);
-void	msh_signal_handler(int signum);
-void	msh_signal_setdfl(void);
+void		msh_signal_init(t_minishell *msh);
+
+/**
+ * @brief Minishell's mode-independant signal handler function.
+ *
+ * @param signum The signal number.
+ */
+void		msh_signal_handler(int signum);
+
+/**
+ * @brief Forces the signal handler for all signals to be reset to the default
+ * signal handler.
+ *
+ * @note This function is used inside forks before calling `execve`.
+ */
+void		msh_signal_setdfl(void);
+
+/**
+ * @brief Returns the signal name for a given signal number.
+ *
+ * @param signum The signal number.
+ *
+ * @return The signal name.
+ */
+const char	*msh_strsignal(int signum);
 
 # endif // __MSH_SIGNAL_H__
 #endif // SIGNAL_H

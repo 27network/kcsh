@@ -6,16 +6,20 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 21:12:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:43:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/signal.h>
+#include <readline/readline.h>
 
 void	msh_signal_init(t_minishell *msh)
 {
-	(void) msh;
-	signal(SIGINT, msh_signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
+	rl_catch_signals = msh->interactive;
+	if (msh->interactive)
+		signal(SIGINT, msh_signal_handler);
+	else
+		signal(SIGINT, SIG_IGN);
 }

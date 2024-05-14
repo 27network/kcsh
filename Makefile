@@ -6,14 +6,14 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/04/10 20:07:55 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/14 16:43:12 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKE			=	make --debug=none --no-print-directory
-SHOW_BANNER		?=	0
 
-CONFIG_MK		=	config/config.mk
+CONFIG_DIR		=	config
+CONFIG_MK		=	$(CONFIG_DIR)/config.mk
 NAME			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_NAME)
 
 ifdef OVERRIDE_NAME
@@ -25,11 +25,28 @@ endif
 
 VERSION			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_VERSION)
 EXTRA_DEBUG		=	$(shell $(MAKE) -f $(CONFIG_MK) print_EXTRA_DEBUG)
-COMP_MODE		?=	"MANDATORY_MSH"
+COMP_MODE		?=	MANDATORY_MSH
+
+CACHE_DIR_NAME	=	.cache
+CACHE_DIR		=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
+
+LAST_COMP		=	$(CONFIG_DIR)/.last_comp
+_LAST_COMP_DATA	:=	$(shell cat $(LAST_COMP) 2>/dev/null)
+_LAST_COMP		:=	$(word 1, $(_LAST_COMP_DATA))
+ifneq ($(_LAST_COMP), $(COMP_MODE))
+ifeq ($(BUILD), 1)
+REBUILD			:=	1
+ifeq ($(_LAST_COMP), )
+REBUILD			:=	0
+endif
+_				:=	$(shell echo "$(COMP_MODE)" > $(LAST_COMP))
+_				:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
+endif
+endif
 
 -include header.mk
 
-POSSIBLE_NAMES	=	minishell minishell_bonus minishell++ 42sh 42sh_bonus
+POSSIBLE_NAMES	=	minishell minishell_bonus 42sh 42sh_bonus
 
 CWD				?=	$(shell pwd)
 SUBMODULES		=	submodules
@@ -37,18 +54,16 @@ SUBMODULES		=	submodules
 LIBFT_DIR		=	$(CWD)/third-party/libft
 LIBFT			=	$(LIBFT_DIR)/libft.so
 
-CACHE_DIR_NAME	=	.cache
-CACHE_DIR		=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
-
 FEATURES_H		=	$(SUBMODULES)/shared/include/msh/features.h
-FEATURES_H_ACTUAL=	config/features.h
-FEATURES_H_GEN	=	config/features.h.gen.sh
+FEATURES_H_ACTUAL=	$(CONFIG_DIR)/features.h
+FEATURES_H_GEN	=	$(FEATURES_H_ACTUAL).gen.sh
 
 MAIN_MODULE		=	cli
 MAIN_MODULE_OUT	=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) print_OUTPUT)
 CLI_EXEC		=	$(CWD)/$(MAIN_MODULE_OUT)
 
 DEPENDENCY_TREE	=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) printdeptree)
+
 D_FILES			:=	$(foreach dep, $(DEPENDENCY_TREE), $(shell $(MAKE) -C $(SUBMODULES)/$(dep) printdepfiles CACHE_DIR="$(CACHE_DIR)"))
 
 RM				=	rm -rf
@@ -57,9 +72,9 @@ VG_RUN			?=
 _DISABLE_CLEAN_LOG := 0
 
 all:	 
-	@$(MAKE) SHOW_BANNER=1 $(NAME) 
+	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME) 
 
-build:	all clean
+build: clean all
 
 -include $(D_FILES)
 
@@ -83,25 +98,24 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) -j 
 	@printf "\033[1A\33[2K\r✅ Built $(BOLD_WHITE)libft$(RESET)    \n\33[2K\r"
 
-$(FEATURES_H_ACTUAL): $(FEATURES_H_GEN)
+$(LAST_COMP):
+
+$(FEATURES_H_ACTUAL): $(FEATURES_H_GEN) $(LAST_COMP)
 	@printf "✍  Generating $(BOLD_WHITE)$(FEATURES_H_ACTUAL)$(RESET)\n"
-	@$(MAKE) -C config -f features.mk gen
+	@$(MAKE) -C config -f features.mk gen COMP_MODE="$(COMP_MODE)"
 
 $(FEATURES_H):
 	@printf "⛓  Linking $(BOLD_WHITE)$(FEATURES_H)$(RESET)\n"
-	@$(MAKE) -C config -f features.mk genlink 
+	@$(MAKE) -C config -f features.mk genlink COMP_MODE="$(COMP_MODE)"
 
 bonus:
-	@$(MAKE) COMP_MODE="BONUS_MSH" SUFFIX="_bonus" re
-
-extras:
-	@$(MAKE) COMP_MODE="EXTRAS" SUFFIX="++" re
+	@$(MAKE) COMP_MODE="BONUS_MSH" SUFFIX="_bonus"
 
 42:
-	@$(MAKE) COMP_MODE="MANDATORY_42SH" OVERRIDE_NAME="42sh" re
+	@$(MAKE) COMP_MODE="MANDATORY_42SH" OVERRIDE_NAME="42sh"
 
 42bonus:
-	@$(MAKE) COMP_MODE="BONUS_42SH" OVERRIDE_NAME="42sh" SUFFIX="_bonus" re
+	@$(MAKE) COMP_MODE="BONUS_42SH" OVERRIDE_NAME="42sh" SUFFIX="_bonus"
 
 remake: clean all
 

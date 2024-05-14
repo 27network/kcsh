@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/25 19:08:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:47:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <msh/builtin/defaults.h>
 #include <stdio.h>
 
-//TODO: @cglandus: Implement
+//TODO: Implement
 static bool	msh_parse_numeric(const char *str, int *res)
 {
 	(void) str;

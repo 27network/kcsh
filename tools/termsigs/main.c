@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 20:14:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/06 20:44:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:13:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Invalid type\n");
 		return (1);
 	}
-	printf("Running \"%s\"...\n", argv[1]);
 	func();
 	while (1)
 		;

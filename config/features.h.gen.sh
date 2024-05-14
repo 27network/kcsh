@@ -42,9 +42,6 @@ FEAT_BONUS_42SH=( \
 	"BUILTIN_HELP_SET" 1 \
 )
 
-FEAT_EXTRAS=( \
-)
-
 # > Category flags
 # Every category of flags. 
 #
@@ -56,13 +53,11 @@ CATEGORY_FLAGS=( \
 	"MANDATORY_42SH" 1 \
 	"MODULAR_42SH" 1 \
 	"BONUS_42SH" 1 \
-	"EXTRAS" 1 \
 )
 DEP_BONUS_MSH=()
 DEP_MANDATORY_42SH=(BONUS_MSH)
 DEP_MODULAR_42SH=(MANDATORY_42SH)
 DEP_BONUS_42SH=(MODULAR_42SH)
-DEP_EXTRAS=()
 
 ## Functions
 

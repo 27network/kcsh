@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/03/25 18:41:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:43:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <msh/io.h>
 #include <msh/cli/opt.h>
 #include <msh/cli/shell.h>
+#include <readline/readline.h>
 
 int	main(int argc, const char *argv[], const char *envp[])
 {

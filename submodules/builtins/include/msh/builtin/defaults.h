@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/28 22:11:55 by cglandus         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:37:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # ifndef __MSH_BUILTIN_DEFAULTS_H__
 #  define __MSH_BUILTIN_DEFAULTS_H__
 
-#  define ECHO_OPT 0
 #  include <msh/minishell.h>
 #  include <ft/print.h>
 #  include <ft/string.h>
@@ -27,20 +26,11 @@
 typedef struct s_builtin
 {
 	const char	*name;
+	const char	*usage;
 
 	int			(*func)();
 	int			needs;
 }	t_builtin;
-
-typedef union u_opt
-{
-	bool	_;
-	struct
-	{
-		bool	no_nl:1;
-		bool	bslh_enable:1;
-	};
-}	t_echo_opt;
 
 void		msh_builtin_register(t_builtin builtin);
 

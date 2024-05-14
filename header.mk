@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/25 15:29:36 by kiroussa          #+#    #+#              #
-#    Updated: 2024/04/10 20:08:08 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/14 16:21:38 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,16 @@ define BANNER
              by $(AUTHORS)
 endef
 
+SHOW_BANNER	?=	0
 DISABLE_BANNER ?= 0
 
 ifeq ($(SHOW_BANNER), 1)
 ifeq ($(DISABLE_BANNER), 0)
 $(info $(BANNER))
 $(info ⚙️ Compilation mode: $(COMP_MODE))
+ifeq ($(REBUILD), 1)
+$(info 🔄 Rebuilding $(NAME) with $(BOLD_WHITE)$(COMP_MODE)$(RESET) mode)
+endif
 $(info )
 endif
 endif
