@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 22:09:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:19:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	msh_init(
 			(t_map_cmp_function *) &ft_strcmp);
 	if (!msh->env)
 	{
-		ft_putendl_fd(STDERR_FILENO, "msh_init: failed to allocate env map");
+		ft_putendl_fd("msh_init: failed to allocate env map", STDERR_FILENO);
 		msh_exit(msh, -1);
 	}
 	if (!msh_env_populate(msh, envp))
 	{
-		ft_putendl_fd(STDERR_FILENO, "msh_init: failed to populate env");
+		ft_putendl_fd("msh_init: failed to populate env", STDERR_FILENO);
 		msh_exit(msh, -2);
 	}
 	msh_env_defaults(msh);

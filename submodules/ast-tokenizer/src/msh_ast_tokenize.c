@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 06:40:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/23 03:12:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:20:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	msh_ast_try_merge(t_list **tokens)
 		return ;
 	if (t_curr->type == TKN_WORD && t_next->type == TKN_WORD)
 	{
-		t_curr->data = ft_strjoin(2, "", 0b10, t_curr->data, t_next->data);
+		t_curr->data = ft_strjoins(2, "", 0b10, t_curr->data, t_next->data);
 		current->next = next->next;
 		ft_lst_delete(next, (t_lst_dealloc) msh_ast_tkn_free);
 	}
