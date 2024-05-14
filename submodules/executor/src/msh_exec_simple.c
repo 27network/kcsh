@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 18:33:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:47:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,6 @@
 
 #define SHOULD_EXIT -1
 #define BUILTIN_NOT_FOUND -2
-
-#ifndef WCOREDUMP
-
-bool	_wcoredump(int status)
-{
-	return (false);
-}
-
-# define WCOREDUMP _wcoredump
-#endif
 
 static void	msh_exec_error(t_minishell *msh, int err, char *name)
 {

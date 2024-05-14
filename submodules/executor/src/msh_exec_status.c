@@ -6,13 +6,23 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:21:50 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 18:31:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:48:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
 #include <msh/signal.h>
 #include <sys/wait.h>
+
+#ifndef WCOREDUMP
+
+bool	_wcoredump(int status)
+{
+	return (false);
+}
+
+# define WCOREDUMP _wcoredump
+#endif
 
 int	msh_exec_status(int wait_status)
 {
