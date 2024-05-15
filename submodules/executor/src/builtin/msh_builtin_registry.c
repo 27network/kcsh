@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 16:54:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:52:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 /**
  * @brief Get the registry of builtins
  *
- * This is the ONLY static "hack" in the project, which is necessary since we
- * access it on shared object construction and don't have shared resources 
- * with main() at that point.
+ * This is the ONLY "global-static-hack" in the project, which is necessary
+ * since we access it on libc object construction and don't have shared
+ * resources with main() at that point.
  *
- * This was either that or putting a 64bit pointer as a string literal appended
- * to argv[0] so be happy this is here.
+ * This was either that, or putting a 64bit pointer as a string literal appended
+ * to argv[0], so be happy.
  *
- * @return t_list** The registry
+ * @return t_builtin* The builtin registry array.
  */
 t_builtin	*msh_builtin_registry(void)
 {

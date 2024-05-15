@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 22:19:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:49:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	msh_print_help(t_minishell *msh, int fd)
 	ft_dprintf(fd, "        %s [GNU long option] [option] script-file ...\n",
 		argv0);
 	ft_dprintf(fd, "GNU long options:\n");
+	ft_dprintf(fd, "        --flags\n");
 	ft_dprintf(fd, "        --help\n");
 	ft_dprintf(fd, "        --print-ast\n");
 	ft_dprintf(fd, "        --print-pipelines\n");
@@ -42,7 +43,7 @@ void	msh_opt_help(t_minishell *msh)
 	argv0 = msh->name;
 	msh_print_version(1);
 	msh_print_help(msh, 1);
-	if (FEAT_BUILTIN_HELP_SET)
+	if (FEAT_BUILTIN_HELP && FEAT_BUILTIN_SET)
 		ft_printf("Type `%s -c \"help set\"' for more information about "
 			"shell options.\n", argv0);
 	if (FEAT_BUILTIN_HELP)

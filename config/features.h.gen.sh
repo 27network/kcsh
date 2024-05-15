@@ -9,6 +9,7 @@
 # - The second element is whether that feature is enabled or not.
 
 FEAT_BONUS_MSH=( \
+	"COMMAND_LINE_INTERFACE" 1 \
 	"PARSER_WILDCARD" 1 \
 	"TOK_OR" 1 \
 	"TOK_AND" 1 \
@@ -39,7 +40,6 @@ FEAT_BONUS_42SH=( \
 	"BUILTIN_TRUE" 1 \
 	"BUILTIN_FALSE" 1 \
 	"BUILTIN_HELP" 1 \
-	"BUILTIN_HELP_SET" 1 \
 )
 
 # > Category flags

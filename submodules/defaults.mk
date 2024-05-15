@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    defaults.mk                                        :+:      :+:    :+:    #
+#    config.mk                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/14 17:57:44 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 13:37:37 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ DFLAGS 			= -MT $@ -MMD -MP -MF $(D_DIR)/$*.tmp.d
 #LDFLAGS shouldn't be defined here, as it's shared with `ar`. 
 # See `submodules/common-prelude.mk`
 
-EXTRA_DEBUG		?= 0
+EXTRA_DEBUG		?= 1
 
 print_%:
 	@echo $($*)
