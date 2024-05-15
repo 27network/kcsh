@@ -49,50 +49,34 @@ FEAT_BONUS_42SH=( \
 # - The first element is the name of the category.
 # - The second element is whether that category is enabled or not.
 CATEGORY_FLAGS=( \
-	"BONUS_MSH" 1 \
-	"MANDATORY_42SH" 1 \
-	"MODULAR_42SH" 1 \
-	"BONUS_42SH" 1 \
+	"BONUS_MSH" 0 \
+	"MANDATORY_42SH" 0 \
+	"MODULAR_42SH" 0 \
+	"BONUS_42SH" 0 \
 )
-DEP_BONUS_MSH=()
-DEP_MANDATORY_42SH=(BONUS_MSH)
-DEP_MODULAR_42SH=(MANDATORY_42SH)
-DEP_BONUS_42SH=(MODULAR_42SH)
+CATEGORY_LENGTH=${#CATEGORY_FLAGS[@]}
 
-## Functions
+## Initial config from args
 
-resolve_deps() {
-	local changed=0
-	for i in "${!CATEGORY_FLAGS[@]}"; do
-		if [[ $(((i-1) % 2)) -eq 0 ]]; then
-			name="${CATEGORY_FLAGS[$i-1]}"
-			dep_name="DEP_$name"
-			dep_array="${!dep_name}"
-			for dep in "${dep_array[@]}"; do
-				# search for dep in category flags
-				for j in "${!CATEGORY_FLAGS[@]}"; do
-					# if j-1 is dep
-					if [[ "${CATEGORY_FLAGS[$j-1]}" == "$dep" ]]; then
-						# if dep is disabled
-						if [[ "${CATEGORY_FLAGS[$j]}" == 0 ]]; then
-							# if we're enabled
-							if [[ "${CATEGORY_FLAGS[$i]}" == 1 ]]; then
-								# kil- uh, disable yourself.
-								CATEGORY_FLAGS[$i]=0
-								changed=1
-							fi
-						fi
-					fi
-				done
-			done
+TARGET_MODE="$1"
+if [[ -z "$TARGET_MODE" ]]; then
+	TARGET_MODE="MANDATORY_MSH"
+fi
+
+# Loop in reverse and enable every category after the target mode
+found=0
+for i in "${!CATEGORY_FLAGS[@]}"; do
+	i=$((CATEGORY_LENGTH - i))
+	if [[ $(((i-1) % 2)) -eq 0 ]]; then
+		if [[ "${CATEGORY_FLAGS[$i-1]}" == "$TARGET_MODE" ]]; then
+			found=1
 		fi
-	done
-
-	# State has changed, might wanna re-check stuff out :3
-	if [[ $changed -eq 1 ]]; then
-		resolve_deps
+		if [[ $found -eq 1 ]]; then
+			CATEGORY_FLAGS[$i]=1
+		fi
 	fi
-}
+done
+unset found
 
 # Generate 42 header
 generate_42_header() {
@@ -139,14 +123,6 @@ start_header_guard() {
 EOF
 }
 
-# End header guard
-end_header_guard() {
-	cat <<EOF
-# endif // __MSH_FEATURES_H__
-#endif // FEATURES_H
-EOF
-}
-
 # Generate category flags
 generate_category_flags() {
 	array_all="$1[@]"
@@ -168,15 +144,35 @@ generate_category_flags() {
 	done
 }
 
-## Main execution
-resolve_deps
+# Generate the enabled feature string
+generate_category_enabled_strings() { 
+	array_all="$1[@]"
+	array="$1"
+	local i=0
+	for feat in "${!array_all}"; do
+		statement="${array}[$((${i}-1))]"
+		name="${!statement}"
+		if [[ "${feat}" == 1 ]]; then
+			echo "$name \\"
+		fi
+		((i++))
+	done
+}
 
+# End header guard
+end_header_guard() {
+	cat <<EOF
+# endif // __MSH_FEATURES_H__
+#endif // FEATURES_H
+EOF
+}
+
+## Main execution
 generate_42_header
 auto_gen_warning
 start_header_guard
 
 # Define everything to false
-
 # only use flags that are a 1
 for i in "${!CATEGORY_FLAGS[@]}"; do
 	name="${CATEGORY_FLAGS[$i-1]}"
@@ -190,5 +186,17 @@ for i in "${!CATEGORY_FLAGS[@]}"; do
 		echo ""
 	fi
 done
+
+echo "#  define ENABLED_FEATURES_STRING \"\\"
+
+for i in "${!CATEGORY_FLAGS[@]}"; do
+	name="${CATEGORY_FLAGS[$i-1]}"
+	if [[ "${CATEGORY_FLAGS[$i]}" == 1 ]]; then
+		generate_category_enabled_strings "FEAT_$name"
+	fi
+done
+
+echo "\""
+echo ""
 
 end_header_guard

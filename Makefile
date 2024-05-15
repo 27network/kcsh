@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/14 16:43:12 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 10:38:15 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,7 +120,7 @@ bonus:
 remake: clean all
 
 _fclean_prelude:
-	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) $(GRAY)(./$(NAME))$(RESET)\n"
+	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) binaries $(GRAY)(./$(NAME))$(RESET)\n"
 	$(eval _DISABLE_CLEAN_LOG := 1)
 
 clean:

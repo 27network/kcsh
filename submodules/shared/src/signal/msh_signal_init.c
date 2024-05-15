@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 18:43:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 10:35:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/signal.h>
+#include <stdio.h>
 #include <readline/readline.h>
 
 void	msh_signal_init(t_minishell *msh)
