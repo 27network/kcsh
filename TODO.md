@@ -2,6 +2,8 @@
 
 ## Goals
 
+- [ ] Makefile related: transitive dependencies
+
 - [x] Basic setup, submodules, Makefiles, dependencies 
 - [x] Shell-like input w/ readline, basic prompt
 - [x] Execution structure

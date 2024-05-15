@@ -6,11 +6,11 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 13:37:37 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 14:10:15 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-PROJECT_NAME	?= minishell
+PROJECT_NAME	?= 42sh
 PROJECT_VERSION	?= 0.3.0-indev
 
 SRC_DIR			?= src
@@ -23,7 +23,7 @@ DFLAGS 			= -MT $@ -MMD -MP -MF $(D_DIR)/$*.tmp.d
 #LDFLAGS shouldn't be defined here, as it's shared with `ar`. 
 # See `submodules/common-prelude.mk`
 
-EXTRA_DEBUG		?= 1
+EXTRA_DEBUG		?= 0
 
 print_%:
 	@echo $($*)

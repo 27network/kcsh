@@ -6,12 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:23:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 13:36:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:03:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/builtin/defaults.h>
-#include <stdio.h>
 #define WIP_BUILTINS "job_spec\0\
 .\0\
 [\0\
@@ -75,19 +74,36 @@ wait\0\
 while\0\
 {\0\0"
 
-// Using __attribute__ instead of ATTR here because the norminette crashes.
-// Understandably so, but still, lol.
+static int	msh_builtin_not_implemented(
+	ATTR((unused)) int argc,
+	ATTR((unused)) char **argv,
+	t_minishell *msh
+) {
+	msh_error(msh, "%s: this builtin is not implemented yet.\n", argv[0]);
+	return (1);
+}
+
+// Using __attribute__ instead of ATTR here because the norminette either
+// crashes or breaks horribly. Understandably so, but still, lol.
 __attribute__((constructor))
 void	msh_register_wip_builtins(void)
 {
 	const char	*string = WIP_BUILTINS;
+	const char	*name;
 	size_t		i;
 
-	printf("CONSTRUCT");
 	i = 0;
 	while (string[i])
 	{
-		printf("Registering %s\n", string + i);
+		name = string + i;
+		msh_builtin_register((t_builtin){
+			.name = name,
+			.help = "Unimplemented builtin",
+			.usage = NULL,
+			.func = msh_builtin_not_implemented,
+			.needs = NEEDS_MSH,
+			.enabled = false,
+		});
 		i += ft_strlen(string + i) + 1;
 	}
 }

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/03/20 03:23:28 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 13:44:16 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,15 +22,12 @@ CACHE_DIR		?=	.cache
 IS_EXEC			?=	0
 LDFLAGS			?=
 
+LD 				=	$(CC)
+LDFLAGS		+=	-lreadline -lm
 ifeq ($(IS_EXEC), 1)
-	OUTPUT		=	$(NAME)
-	LD 			=	$(CC)
-	LDFLAGS		+=	-lreadline -lm
+OUTPUT			=	$(NAME)
 else
-	OUTPUT		=	lib$(NAME).a
-	LD			=	ar
-	LDFLAGS		+=	rcs
-	CFLAGS		+=	-nostdlib
+OUTPUT			=	lib$(NAME).so
 endif
 
 MODULE_CACHE	:=	$(CACHE_DIR)/$(NAME)
@@ -43,32 +40,31 @@ include ../defaults.mk
 
 CFLAGS			+=	-I$(shell pwd)/$(INCLUDE_DIR)
 ifdef LIBFT_DIR
-	CFLAGS		+=	-I$(LIBFT_DIR)/include
+CFLAGS			+=	-I$(LIBFT_DIR)/include
 endif
 
 CFLAGS			+=	-DMSH_DEFAULT_NAME="\"$(PROJECT_NAME)\""
 CFLAGS			+=	-DMSH_VERSION="\"$(PROJECT_VERSION)\""
 
 ifdef DEPS
-	TMPDEPDECL 	:= $(DEPS:%=-I$(shell pwd | xargs dirname)/%/include)
-	CFLAGS		+=	$(TMPDEPDECL)
+TMPDEPDECL 		:= $(DEPS:%=-I$(shell pwd | xargs dirname)/%/include)
+CFLAGS			+=	$(TMPDEPDECL)
 endif
 
 # static linking
 LIBS :=
-BUILD_NEW_ARRAY = $(eval LIBS += $(CACHE_DIR)/$(shell echo "$(1)" | xargs)/lib$(shell echo "$(1)" | xargs).a)
+BUILD_NEW_ARRAY = $(eval LIBS += $(CACHE_DIR)/$(shell echo "$(1)" | xargs)/lib$(shell echo "$(1)" | xargs).so)
 _ := $(foreach item, $(DEPS), $(call BUILD_NEW_ARRAY, $(item)))
 ifdef DEPS
-ifeq ($(IS_EXEC), 1)
-	LDFLAGS		+=	$(LIBS:%=-Wl,--whole-archive %)
-	LDFLAGS		+=	-Wl,--no-whole-archive
-endif
+LDFLAGS			+=	$(LIBS)
 endif
 
 ifdef LIBFT_DIR
-ifeq ($(IS_EXEC), 1)
-	LDFLAGS		+=	$(LIBFT_DIR)/libft.so 
+LDFLAGS			+=	$(LIBFT_DIR)/libft.so 
 endif
+
+ifeq ($(IS_EXEC), 0)
+LDFLAGS			+=	-shared
 endif
 
 OUTPUT			:=	$(addprefix $(MODULE_CACHE)/, $(OUTPUT))

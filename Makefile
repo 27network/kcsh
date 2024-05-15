@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 10:38:15 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 14:08:35 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ MAKE			=	make --debug=none --no-print-directory
 
 CONFIG_DIR		=	config
 CONFIG_MK		=	$(CONFIG_DIR)/config.mk
-NAME			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_NAME)
+NAME			=	minishell
 
 ifdef OVERRIDE_NAME
 NAME			:=	$(OVERRIDE_NAME)

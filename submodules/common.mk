@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:14:16 by kiroussa          #+#    #+#              #
-#    Updated: 2024/03/21 21:28:52 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 13:45:54 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,21 +51,16 @@ all: $(OUTPUT)
 
 $(OUTPUT): $(SELF_DEP) $(LIBS) $(OBJ)
 	@printf "$(SPACING)"
-ifneq ($(IS_EXEC),1)
-	@printf "💼 Linking library 'lib$(NAME).a'\n"
-ifeq ($(EXTRA_DEBUG), 1)
-	$(LD) $(LDFLAGS) $(OUTPUT) $(OBJ) 
-else
-	@$(LD) $(LDFLAGS) $(OUTPUT) $(OBJ) 
-endif
-else
+ifeq ($(IS_EXEC),1)
 	@#don't ask me why but we need 2 spaces here, unicode is a nice thing
 	@printf "🖥️  Linking executable '$(NAME)'\n"
+else
+	@printf "💼 Linking library 'lib$(NAME).so'\n"
+endif
 ifeq ($(EXTRA_DEBUG), 1)
 	$(LD) $(OBJ) -o $(OUTPUT) $(LDFLAGS)
 else
 	@$(LD) $(OBJ) -o $(OUTPUT) $(LDFLAGS)  
-endif
 endif
 
 $(LIBS):
