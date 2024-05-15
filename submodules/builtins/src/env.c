@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 22:56:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:59:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	register_env(void)
 {
 	msh_builtin_register((t_builtin){
 		.name = "env",
-		.usage = NULL,
-		.help = NULL,
+		.usage = "none",
+		.help = "none",
 		.func = msh_builtin_env,
 		.needs = NEEDS_ENV,
 		.enabled = true,

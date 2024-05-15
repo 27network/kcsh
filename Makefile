@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 23:52:42 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 23:59:00 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ RM				=	rm -rf
 VG_RUN			?=
 _DISABLE_CLEAN_LOG := 0
 
-all: _hide_cursor	 
+all: _hide_cursor
 	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); ret=$$?; \
 		printf "\033[?25h"; \
 		exit $$ret
@@ -136,6 +136,10 @@ clean:
 	@$(RM) $(CACHE_DIR)
 	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then $(MAKE) -C $(LIBFT_DIR) clean; fi 
 
+oclean:
+	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object files $(GRAY)(./$(CACHE_DIR))$(RESET)\n"
+	@$(RM) $(CACHE_DIR)
+
 fclean:			_fclean_prelude clean
 	@$(RM) $(FEATURES_H_ACTUAL)
 	@$(RM) $(FEATURES_H)
@@ -143,10 +147,12 @@ fclean:			_fclean_prelude clean
 	@$(RM) $(POSSIBLE_NAMES)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
-re:				
-	@$(MAKE) BUILD=1 SHOW_BANNER=1 fclean $(NAME) 
+re: _hide_cursor
+	@$(MAKE) BUILD=1 SHOW_BANNER=1 fclean $(NAME); ret=$$?; \
+		printf "\033[?25h"; \
+		exit $$ret
 
 valgrind:		$(NAME)
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 
-.PHONY:			all bonus remake clean fclean re valgrind _fclean_prelude _banner
+.PHONY:			all bonus remake clean oclean fclean re valgrind _fclean_prelude _banner _hide_cursor
