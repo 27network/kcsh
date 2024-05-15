@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 14:03:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 22:53:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <ft/print.h>
 #include <ft/string.h>
 #include <msh/env.h>
-#include <msh/exec/builtin.h>
+#include <msh/builtin.h>
 #include <msh/exec/exec.h>
 #include <msh/io.h>
 #include <stdlib.h>

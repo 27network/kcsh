@@ -6,12 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 12:52:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 22:56:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
-#include <msh/exec/builtin.h>
+#include <msh/builtin.h>
 
 /**
  * @brief Get the registry of builtins

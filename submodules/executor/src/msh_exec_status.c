@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:21:50 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 19:48:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 22:53:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 bool	_wcoredump(int status)
 {
-	return (false);
+	return (status & 0x80);
 }
 
 # define WCOREDUMP _wcoredump

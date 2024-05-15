@@ -6,13 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:23:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 13:35:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:18:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
 #include <msh/features.h>
-#include <msh/builtin/defaults.h>
+#include <msh/builtin.h>
 
 #define TRUE_HELP "Return a successful result.\n\
 \n\
@@ -47,21 +47,21 @@ void	register_no_op(void)
 {
 	msh_builtin_register((t_builtin){
 		.name = ":",
-		.usage = "",
+		.usage = ":",
 		.help = COLON_HELP,
 		.func = msh_builtin_no_op,
 		.enabled = FEAT_BUILTIN_COLON,
 	});
 	msh_builtin_register((t_builtin){
 		.name = "true",
-		.usage = "",
+		.usage = "true",
 		.help = TRUE_HELP,
 		.func = msh_builtin_no_op,
 		.enabled = FEAT_BUILTIN_TRUE,
 	});
 	msh_builtin_register((t_builtin){
 		.name = "false",
-		.usage = "",
+		.usage = "false",
 		.help = FALSE_HELP,
 		.func = msh_builtin_no_op,
 		.enabled = FEAT_BUILTIN_FALSE,

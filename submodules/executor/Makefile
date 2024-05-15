@@ -6,20 +6,16 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 13:46:56 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 22:57:32 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	executor
-DEPS		=	builtins shared
+DEPS		=	builtins
 
 include ../common-prelude.mk
 
-SRC			=	builtin/msh_builtin_get.c \
-				builtin/msh_builtin_print_help.c \
-				builtin/msh_builtin_register.c \
-				builtin/msh_builtin_registry.c \
-				msh_exec_simple.c \
+SRC			=	msh_exec_simple.c \
 				msh_exec_status.c
 
 include ../common.mk

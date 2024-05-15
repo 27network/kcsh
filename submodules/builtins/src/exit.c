@@ -6,17 +6,17 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 13:34:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:17:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
 #include <ft/string.h>
-#include <msh/builtin/defaults.h>
+#include <msh/builtin.h>
 #include <stdio.h>
 
 #define EXIT_NAME "exit"
-#define EXIT_USAGE "[n]"
+#define EXIT_USAGE "exit [n]"
 #define EXIT_HELP "Exit the shell.\n\
 \n\
 Exits the shell with a status of N.  If N is omitted, the exit status\n\
@@ -36,7 +36,7 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 
 	if (argc == 2 && !ft_strcmp(argv[1], "--help"))
 	{
-		msh_builtin_print_help(EXIT_NAME, 1);
+		msh_builtin_help_page(EXIT_NAME, 1);
 		return (0);
 	}
 	printf("exit\n");

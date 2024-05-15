@@ -6,14 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 13:16:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 22:56:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/features.h>
 #if !FEAT_BUILTIN_ENV_DISABLE
 # include <ft/math.h>
-# include <msh/builtin/defaults.h>
+# include <msh/builtin.h>
 # include <stdio.h>
 
 static void	msh_env_help(const char *argv0)

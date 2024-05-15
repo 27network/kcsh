@@ -6,14 +6,25 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 12:57:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:28:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/builtin/defaults.h>
+#include <msh/builtin.h>
 
-#define ECHO_USAGE "[-neE] [arg ...]"
+#define ECHO_USAGE "echo [arg ...]"
+#define ECHO_USAGE_OPT "echo [-neE] [arg ...]"
 #define ECHO_HELP "Write arguments to the standard output.\n\
+\n\
+Display the ARGs, separated by a single space character and followed by a\n\
+newline, on the standard output.\n\
+\n\
+Options:\n\
+  -n	do not append a newline\n\
+\n\
+Exit Status:\n\
+Returns success unless a write error occurs."
+#define ECHO_HELP_OPT "Write arguments to the standard output.\n\
 \n\
 Display the ARGs, separated by a single space character and followed by a\n\
 newline, on the standard output.\n\
@@ -54,13 +65,24 @@ static int	msh_echo(
 	return (0);
 }
 
-ATTR((constructor))
+__attribute__((constructor))
 void	register_echo(void)
 {
+	char	*help;
+	char	*usage;
+
+	help = ECHO_HELP;
+	usage = ECHO_USAGE;
+	if (FEAT_BUILTIN_ECHO_OPT)
+	{
+		help = ECHO_HELP_OPT;
+		usage = ECHO_USAGE_OPT;
+	}
 	msh_builtin_register((t_builtin){
 		.name = "echo",
-		.usage = ECHO_USAGE,
-		.help = ECHO_HELP,
+		.usage = usage,
+		.help = help,
 		.func = msh_echo,
+		.enabled = true,
 	});
 }

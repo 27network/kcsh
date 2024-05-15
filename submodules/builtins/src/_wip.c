@@ -6,11 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:23:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 14:03:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:17:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/builtin/defaults.h>
+#include <msh/builtin.h>
 #define WIP_BUILTINS "job_spec\0\
 .\0\
 [\0\
@@ -99,7 +99,7 @@ void	msh_register_wip_builtins(void)
 		msh_builtin_register((t_builtin){
 			.name = name,
 			.help = "Unimplemented builtin",
-			.usage = NULL,
+			.usage = "Unimplemented builtin",
 			.func = msh_builtin_not_implemented,
 			.needs = NEEDS_MSH,
 			.enabled = false,

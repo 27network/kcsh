@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 14:08:35 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/15 23:52:42 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,8 +71,13 @@ RM				=	rm -rf
 VG_RUN			?=
 _DISABLE_CLEAN_LOG := 0
 
-all:	 
-	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME) 
+all: _hide_cursor	 
+	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); ret=$$?; \
+		printf "\033[?25h"; \
+		exit $$ret
+
+_hide_cursor:
+	@printf "\033[?25l"
 
 build: clean all
 
@@ -80,6 +85,9 @@ build: clean all
 
 # invalidation mechanism
 $(CACHE_DIR)/%:
+ifeq ($(EXTRA_DEBUG), 1)
+	@printf "Invalidate: $* $< $@\n"
+endif
 	@if [ $(findstring .c, $<) ]; then \
 		rm -rf $@; \
 	fi
@@ -136,7 +144,7 @@ fclean:			_fclean_prelude clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re:				
-	@$(MAKE) SHOW_BANNER=1 fclean $(NAME)
+	@$(MAKE) BUILD=1 SHOW_BANNER=1 fclean $(NAME) 
 
 valgrind:		$(NAME)
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)

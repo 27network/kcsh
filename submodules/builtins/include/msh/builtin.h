@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   defaults.h                                         :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 13:18:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/15 22:52:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEFAULTS_H
-# define DEFAULTS_H
-# undef DEFAULTS_H
-# ifndef __MSH_BUILTIN_DEFAULTS_H__
-#  define __MSH_BUILTIN_DEFAULTS_H__
+#ifndef BUILTIN_H
+# define BUILTIN_H
+# undef BUILTIN_H
+# ifndef __MSH_BUILTIN_H__
+#  define __MSH_BUILTIN_H__
 
 #  include <msh/minishell.h>
 #  include <ft/print.h>
@@ -54,8 +54,26 @@ typedef struct s_builtin
 	bool		hidden;
 }	t_builtin;
 
-void	msh_builtin_register(t_builtin builtin);
-void	msh_builtin_print_help(char *name, int fd);
+void		msh_builtin_register(t_builtin builtin);
 
-# endif // __MSH_BUILTIN_DEFAULTS_H__
-#endif // DEFAULTS_H
+void		msh_builtin_help_page(char *name, int fd);
+void		msh_builtin_print_help(t_builtin *builtin, int fd);
+void		msh_builtin_print_usage(t_builtin *builtin, int fd);
+
+// just to be sure
+#  define BUILTIN_REGISTRY_SIZE 256
+
+// god i hate C2X 
+typedef int	(*t_builtin_fboth)(int, char **, char **, t_minishell *);
+typedef int	(*t_builtin_fenv)(int, char **, char **);
+typedef int	(*t_builtin_fmsh)(int, char **, t_minishell *);
+typedef int	(*t_builtin_fnone)(int, char **);
+
+/**
+ * @see src/builtin/msh_builtin_registry.c
+ */
+t_builtin	*msh_builtin_registry(void);
+t_builtin	*msh_builtin_get(const char *name);
+
+# endif // __MSH_BUILTIN_H__
+#endif // BUILTIN_H
