@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:14:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/04/10 19:40:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:39:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static void	msh_handle_opt(
 	{
 		if (ft_strcmp(cmd, "--version") == 0)
 			msh_opt_version(msh);
+		else if (ft_strcmp(cmd, "--flags") == 0)
+			msh_opt_flags(msh);
 		else if (ft_strcmp(cmd, "--print-ast") == 0)
 			msh->flags.print_ast = true;
 		else if (ft_strcmp(cmd, "--print-pipelines") == 0)

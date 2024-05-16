@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 12:41:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 23:18:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/16 00:04:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	msh_help(
 	return (0);
 }
 
-ATTR((constructor))
+__attribute__((constructor))
 void	register_help(void)
 {
 	msh_builtin_register((t_builtin){

@@ -25,6 +25,7 @@
             readline
           ];
           nativeBuildInputs = with pkgs; [
+            cloc
             valgrind
             gdb
           ];

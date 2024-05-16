@@ -6,14 +6,19 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 23:59:00 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/16 14:43:49 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-MAKE			=	make --debug=none --no-print-directory
-
 CONFIG_DIR		=	config
 CONFIG_MK		=	$(CONFIG_DIR)/config.mk
+
+-include $(CONFIG_MK)
+ifeq ($(MAKE_TRACE), 1)
+$(info Included $(CONFIG_MK))
+endif
+
+MAKE			=	make --no-print-directory --debug=none
 NAME			=	minishell
 
 ifdef OVERRIDE_NAME
@@ -22,9 +27,10 @@ endif
 ifdef SUFFIX
 NAME			:=	$(NAME)$(SUFFIX)
 endif
+ifeq ($(MAKE_TRACE), 1)
+$(info NAME: $(NAME))
+endif
 
-VERSION			=	$(shell $(MAKE) -f $(CONFIG_MK) print_PROJECT_VERSION)
-EXTRA_DEBUG		=	$(shell $(MAKE) -f $(CONFIG_MK) print_EXTRA_DEBUG)
 COMP_MODE		?=	MANDATORY_MSH
 
 CACHE_DIR_NAME	=	.cache
@@ -38,6 +44,9 @@ ifeq ($(BUILD), 1)
 REBUILD			:=	1
 ifeq ($(_LAST_COMP), )
 REBUILD			:=	0
+endif
+ifeq ($(MAKE_TRACE), 1)
+$(info Setting new compilation mode: $(COMP_MODE))
 endif
 _				:=	$(shell echo "$(COMP_MODE)" > $(LAST_COMP))
 _				:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
@@ -59,12 +68,26 @@ FEATURES_H_ACTUAL=	$(CONFIG_DIR)/features.h
 FEATURES_H_GEN	=	$(FEATURES_H_ACTUAL).gen.sh
 
 MAIN_MODULE		=	cli
+ifeq ($(MAKE_TRACE), 1)
+$(info MAIN_MODULE: $(MAIN_MODULE))
+endif
 MAIN_MODULE_OUT	=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) print_OUTPUT)
 CLI_EXEC		=	$(CWD)/$(MAIN_MODULE_OUT)
 
-DEPENDENCY_TREE	=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) printdeptree)
+ifeq ($(MAKE_TRACE), 1)
+$(info Fetching dependency tree...)
+endif
 
-D_FILES			:=	$(foreach dep, $(DEPENDENCY_TREE), $(shell $(MAKE) -C $(SUBMODULES)/$(dep) printdepfiles CACHE_DIR="$(CACHE_DIR)"))
+DEPENDENCY_TREE	?=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) printdeptree)
+
+ifeq ($(MAKE_TRACE), 1)
+$(info Fetching dependency files...)
+endif
+D_FILES			?=	$(foreach dep, $(DEPENDENCY_TREE), $(shell $(MAKE) -C $(SUBMODULES)/$(dep) printdepfiles CACHE_DIR="$(CACHE_DIR)"))
+
+ifeq ($(MAKE_TRACE), 1)
+$(info Found $(words $(D_FILES)) d-files)
+endif
 
 RM				=	rm -rf
 

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/25 15:29:36 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 23:52:53 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/17 00:56:00 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ define BANNER
  $(BLUE)   ____ ___  $(BOLD_WHITE)_____$(RED)/ /_ 
  $(BLUE)  / __ `__ \$(BOLD_WHITE)/ ___$(RED)/ __ \  
  $(BLUE) / / / / / $(BOLD_WHITE)(__  )$(RED) / / /
- $(BLUE)/_/ /_/ /_$(BOLD_WHITE)/____/$(RED)_/ /_/  $(RESET)v$(VERSION)
+ $(BLUE)/_/ /_/ /_$(BOLD_WHITE)/____/$(RED)_/ /_/  $(RESET)v$(PROJECT_VERSION)
              by $(AUTHORS)
 endef
 
@@ -39,6 +39,9 @@ ifeq ($(SHOW_BANNER), 1)
 ifeq ($(DISABLE_BANNER), 0)
 $(info $(BANNER))
 $(info ⚙️  Compilation mode: $(COMP_MODE))
+ifeq ($(HYPERTHREADING), 1)
+$(info 🚀 Hyperthreading enabled)
+endif
 ifeq ($(REBUILD), 1)
 $(info 🔄 Rebuilding $(NAME) with $(BOLD_WHITE)$(COMP_MODE)$(RESET) mode)
 endif

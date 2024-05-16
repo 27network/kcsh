@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 23:44:39 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/17 00:37:27 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,15 @@ ifndef NAME
 	$(error NAME is not defined)
 endif
 
-NAME			?=	$(NAME) # you know what, fuck you, redefines your name
+NAME			?=	$(NAME) # you know what, redefines your name
 
 DEPTH			?=	0
-DEPTH_FACTOR	?=  6
-SPACING			?=	$(shell printf "%$$(($(DEPTH)*$(DEPTH_FACTOR)))s" "")
+DEPTH_FACTOR	?=  4
+SPACING			=	$(shell for i in $(shell seq 1 $(DEPTH)); do printf "%$(DEPTH_FACTOR)s" ""; done)
+SPACING_TARGET	:=	$(SPACING)
+#TODO: linear connections
+# SPACING			=	$(shell for i in $(shell seq 1 $(DEPTH)); do printf "%$(DEPTH_FACTOR)s│%$(DEPTH_FACTOR)s" "" ""; done)
+# SPACING_TARGET	:=	$(shell echo "$(SPACING)")
 CACHE_DIR		?=	.cache
 IS_EXEC			?=	0
 LDFLAGS			?=

@@ -154,7 +154,7 @@ generate_category_enabled_strings() {
 		statement="${array}[$((${i}-1))]"
 		name="${!statement}"
 		if [[ "${feat}" == 1 ]]; then
-			echo "$name \\"
+			echo "$name\\0\\"
 		fi
 		((i++))
 	done
@@ -197,7 +197,7 @@ for i in "${!CATEGORY_FLAGS[@]}"; do
 	fi
 done
 
-echo "\""
+echo "\\0\""
 echo ""
 
 end_header_guard
