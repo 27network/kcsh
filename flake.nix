@@ -25,7 +25,11 @@
             readline
           ];
           nativeBuildInputs = with pkgs; [
+            flex
+            bison
+
             cloc
+
             valgrind
             gdb
           ];
