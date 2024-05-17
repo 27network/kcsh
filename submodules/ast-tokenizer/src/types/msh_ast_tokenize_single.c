@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:49:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/17 02:12:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/17 02:23:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,13 @@
 
 t_token	*msh_ast_tokenize_single(const char *line, size_t *cursor)
 {
-	static t_token_type	*char_to_type[] = {
+	static t_token_type	char_to_type[] = {
 	['('] = TKN_LPAREN, [')'] = TKN_RPAREN, ['['] = TKN_LBRACKET,
 	[']'] = TKN_RBRACKET, ['{'] = TKN_LBRACE, ['}'] = TKN_RBRACE,
 	[' '] = TKN_SPACE, ['\n'] = TKN_NEWLINE, [';'] = TKN_SEMICOLON,
 	['|'] = TKN_PIPE, ['&'] = TKN_AMP, ['<'] = TKN_REDIR_IN,
 	['>'] = TKN_REDIR_OUT, ['='] = TKN_ASSIGN, ['$'] = TKN_DOLLAR
 	};
-	char				c;
-	t_token				*token;
 
-	c = line[*cursor];
-	if (ft_strchr(_PARAN_TYPES, c))
-		return (msh_ast_tokenize_paran_type(line, cursor));
-	return (msh_ast_tkn_new(char_to_type[(int)c], NULL));
+	return (msh_ast_tkn_new(char_to_type[(int) line[*cursor]], NULL));
 }

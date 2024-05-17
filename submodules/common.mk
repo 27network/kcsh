@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:14:16 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/17 00:43:27 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/17 02:26:57 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,8 +69,7 @@ else
 endif
 
 $(LIBS):
-	$(eval NUMBER_OF_SLASHES := $(shell echo $(shell pwd) | grep -o "/" | \wc -l))
-	$(eval NUMBER_OF_SLASHES := $(shell expr $(NUMBER_OF_SLASHES) + 1))
+	$(eval NUMBER_OF_SLASHES := $(shell expr $(shell echo $(shell pwd) | grep -o "/" | \wc -l) + 1))
 	$(eval CURRENT_LIB := $(shell echo $@ | cut -d'/' -f$(NUMBER_OF_SLASHES)))
 	@printf "$(SPACING_TARGET)📑 Making '$(CURRENT_LIB)'\n"
 ifeq ($(EXTRA_DEBUG), 1)

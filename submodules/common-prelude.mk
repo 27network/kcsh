@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/17 00:37:27 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/17 02:22:00 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ LDFLAGS			+=	$(LIBFT_DIR)/libft.so
 endif
 
 ifeq ($(IS_EXEC), 0)
+CFLAGS			+=	-fPIC
 LDFLAGS			+=	-shared
 endif
 

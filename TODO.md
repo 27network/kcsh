@@ -2,18 +2,20 @@
 
 ## Goals
 
-- [ ] Makefile related: transitive dependencies
-
 - [x] Basic setup, submodules, Makefiles, dependencies 
+- [x] Makefile: transitive dependencies
+- [x] Makefile: speedups
 - [x] Shell-like input w/ readline, basic prompt
+  - [ ] Prompt picker builtin?
 - [x] Execution structure
 - [x] Tokenizer (part 1), environment manager, `execve`
 - [ ] Tokenizer (part 2): Separate environment variables, 
 - [ ] Lexer & Parser
 - [ ] AST Builder (part 1)
-- [ ] Builtins (part 1), manager, dynamic registration
+- [x] Builtins (part 1), manager, dynamic registration
 - [ ] Pipeline builder
 - [ ] Execution (part 1)
+
 - [ ] To be defined
 
 ### Minishell goals
@@ -31,6 +33,7 @@
   - Implement redirections
     - [ ] In
     - [ ] Out
+      - [ ] Clobber flag?
     - [ ] Out-append
     - [ ] Here-docs
   - [ ] Implement pipes
@@ -56,6 +59,7 @@
 
 - Extras (outstanding):
   - [ ] Implement `alias`
+  - [ ] PS1 parsing
   - [ ] Auto-completion feature
 
 <!--
@@ -85,31 +89,18 @@
     - [ ]
 
 -->
-## bordel
-
-Feature management system ideas:
-- `features.h` + `features.mk`
-
-Make related:
-- [x] Dependency system
-  - [x] Automatically make
-  - [x] Fix submodules trying to relink deps
-  - [x] Build dependency tree
-  - [x] Generate .d files
-  - [x] Depend on .d files
-    - [x] in ./Makefile
-    - [x] in ./submodules/common.mk
-  - [x] Fix bug where .c files dont recompile .o
-- [x] Add /third-party to compilation
-- [ ] Better output
 
 ## Execution sources
 
 - [x] `minishell` interactive
 - [x] `minishell -c "cmd"`
   - `bash -c "echo meow"` exec la cmd
-  - `bash -c "meow echo" "minishell"` exec la cmd, change le nom du shell
+  - `bash -c "meow echo" "arg0" "arg1"` exec la cmd, change le nom du shell (arg0) et passe les args script (arg1)
 - [x] `echo "echo lol" | minishell`
 - [ ] `minishell test.sh`
   - `bash anything.sh [arg1] [arg2]`, exec script, needs read perm, rejects binary executables 
+    - [x] Reject binary executable
+    - [x] Check path
+    - [x] Check perms
+    - [ ] Actually run the damn file 
   - shebang: redirects to `minishell <file>`

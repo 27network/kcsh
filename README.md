@@ -1,11 +1,5 @@
-# minishell
+# kcsh
 
-Or as we like to call it:
+> A reimplementation of a UNIX Shell based on the [minishell](https://github.com/27network/minishell/blob/main/tools/subjects/minishell%40en.subject.pdf) and [42sh](https://github.com/27network/minishell/blob/main/tools/subjects/42sh%40en.subject.pdf) projects, as well as POSIX requirements.
 
-##### The pain of my existence and the thorn of my soul.
-
-## Some info 
-
-`minishell` is split into multiple independant-ish [submodules](./submodules).
-
-You can find the project's current goals [over here](./TODO.md)
+**o7**

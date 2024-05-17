@@ -19,5 +19,6 @@ config/.last_comp
 minishell-tester
 minishell_tester
 42sh*
+!tools/subjects/*
 
 .direnv/
