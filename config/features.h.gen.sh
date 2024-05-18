@@ -42,6 +42,7 @@ FEAT_BONUS_42SH=( \
 	"BUILTIN_FALSE" 1 \
 	"BUILTIN_HELP" 1 \
 	"BUILTIN_ALL_BASH" 1 \
+	"SCRIPT_RUNNER" 1 \
 )
 
 # > Category flags

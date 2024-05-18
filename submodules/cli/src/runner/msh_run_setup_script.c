@@ -6,26 +6,23 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 03:37:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 04:03:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
 #include <msh/env.h>
+#include <msh/features.h>
 #include <msh/cli/runner.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-#define UNSTABLE_SCRIPT_RUNNER 1
+#if FEAT_SCRIPT_RUNNER
 
 void	msh_run_setup_script(t_minishell *msh, int fd, const char *filename)
 {
-	char	*env;
+	const char	*env = msh_env_get(msh, "MSH_DISABLE_SCRIPT_WARNING");
 
-	if (!UNSTABLE_SCRIPT_RUNNER)
-	{
-		msh_error(msh, "%s: running scripts isn't supported.\n", filename);
-		return ;
-	}
-	env = msh_env_get(msh, "MSH_DISABLE_SCRIPT_WARNING");
 	if (!env || !*env)
 		msh_error(msh, "warning: the script runner is very much WIP, bugs will"
 			" arise.\nrun with MSH_DISABLE_SCRIPT_WARNING=1 to disable this"
@@ -35,3 +32,17 @@ void	msh_run_setup_script(t_minishell *msh, int fd, const char *filename)
 	msh->execution_context.show_line = true;
 	msh->interactive = false;
 }
+
+#else
+
+void	msh_run_setup_script(t_minishell *msh, int fd, const char *filename)
+{
+	msh_error(msh, "%s: running scripts isn't supported.\n", filename);
+	if (fd >= 0)
+		close(fd);
+	if (msh->name)
+		free((char *) msh->name);
+	msh_exit(msh, 121);
+}
+
+#endif // FEAT_SCRIPT_RUNNER

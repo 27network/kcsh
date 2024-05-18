@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 12:49:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 03:58:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	msh_print_help(t_minishell *msh, int fd)
 
 	argv0 = msh->name;
 	ft_dprintf(fd, "Usage:  %s [GNU long option] [option] ...\n", argv0);
-	ft_dprintf(fd, "        %s [GNU long option] [option] script-file ...\n",
-		argv0);
+	if (FEAT_SCRIPT_RUNNER)
+		ft_dprintf(fd, "        %s [GNU long option] [option] script-file"
+			" ...\n", argv0);
 	ft_dprintf(fd, "GNU long options:\n");
 	ft_dprintf(fd, "        --flags\n");
 	ft_dprintf(fd, "        --help\n");
@@ -43,12 +44,14 @@ void	msh_opt_help(t_minishell *msh)
 	argv0 = msh->name;
 	msh_print_version(1);
 	msh_print_help(msh, 1);
-	if (FEAT_BUILTIN_HELP && FEAT_BUILTIN_SET)
-		ft_printf("Type `%s -c \"help set\"' for more information about "
-			"shell options.\n", argv0);
 	if (FEAT_BUILTIN_HELP)
+	{
+		if (FEAT_BUILTIN_SET)
+			ft_printf("Type `%s -c \"help set\"' for more information about "
+				"shell options.\n", argv0);
 		ft_printf("Type `%s -c help' for more information about shell "
 			"builtin commands.\n", argv0);
+	}
 	ft_printf("\n%s home page: <https://github.com/27network/minishell>\n",
 		MSH_DEFAULT_NAME);
 	msh_exit(msh, 0);

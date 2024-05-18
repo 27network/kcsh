@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 02:35:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 04:07:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static void	msh_exec_error(t_minishell *msh, int err, char *name)
 	if (ft_strchr(name, '/'))
 	{
 		if (msh_is_directory(name))
-			ft_dprintf(2, "%s: %s: %s\n", msh->name, name, strerror(EISDIR));
+			msh_error(msh, "%s: %s\n", name, strerror(EISDIR));
 		else
-			ft_dprintf(2, "%s: %s: %s\n", msh->name, name, strerror(err));
+			msh_error(msh, "%s: %s\n", name, strerror(err));
 	}
 	else
-		ft_dprintf(2, "%s: command not found\n", name);
+		ft_dprintf(2, "%s: command not found\n", name); //TODO: msh_error_low, msh_warn?
 }
 
 static int	msh_exec(
@@ -62,12 +62,12 @@ static int	msh_exec(
 		return (1);
 	}
 	else if (pid < 0)
-		ft_dprintf(2, "%s: %s: %m\n", msh->name, binary_path);
+		msh_error(msh, "%s: %m\n", binary_path);
 	else
 	{
 		msh_signal_init(msh);
 		if (waitpid(pid, &status, 0) < 0)
-			ft_dprintf(2, "%s: %s: %m\n", msh->name, binary_path);
+			msh_error(msh, "%s: %m\n", binary_path);
 	}
 	return (msh_exec_status(status));
 }
