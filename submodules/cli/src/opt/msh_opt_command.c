@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/04/10 19:40:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 03:37:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,8 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 		msh->name = argv[c_flag_index + 2];
 	if (msh->name == NULL)
 		msh->name = MSH_DEFAULT_NAME;
-	msh_exit(msh, msh_handle_line(msh, (char *) cmd));
+	msh->interactive = false;
+	msh->execution_context.show_line = true;
+	msh_handle_line(msh, (char *) cmd);
+	msh_exit(msh, msh->execution_context.exit_code);
 }

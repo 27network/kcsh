@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_run_script.c                                   :+:      :+:    :+:   */
+/*   msh_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/10 03:06:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/04/10 19:38:25 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/18 01:44:25 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/18 03:39:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
-#include <msh/minishell.h>
-#include <msh/cli/runner.h>
+#include <ft/io.h>
+#include <msh/cli/input.h>
+#include <stdio.h>
+#include <readline/readline.h>
 
-void	msh_runner_error_handler(void *msh, const char *msg);
-
-int	msh_run_script(t_minishell *msh, int fd, const char *filename)
+char	*msh_input(t_minishell *msh, const char *interactive_prompt)
 {
-	msh->name = msh->binary_name;
-	msh_error(msh, "%s: running scripts isn't supported.\n", filename);
-	msh->error_handler = &msh_runner_error_handler;
-	(void)fd;
-	return (121);
+	if (msh->interactive)
+		return (readline(interactive_prompt));
+	return (get_next_line(msh->execution_context.file));
 }

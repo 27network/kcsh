@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/17 00:40:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/17 03:08:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,15 @@ int		msh_fileno(FILE	*stream);
  * @return True if the shell is running in interactive mode, false otherwise.
  */
 bool	msh_is_interactive(void);
+
+/**
+ * @brief Provides the number of columns of the running terminal.
+ *
+ * @param minishell The minishell instance (to access the environment variables).
+ *
+ * @return the number of columns.
+ */
+size_t	msh_columns(t_minishell *msh);
 
 # endif // __MSH_IO_H__
 #endif // IO_H

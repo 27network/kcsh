@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 10:35:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:44:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 void	msh_signal_init(t_minishell *msh)
 {
+	rl_catch_signals = msh->interactive;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-	rl_catch_signals = msh->interactive;
 	if (msh->interactive)
 		signal(SIGINT, msh_signal_handler);
 	else
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, msh_signal_handler_nonint);
 }

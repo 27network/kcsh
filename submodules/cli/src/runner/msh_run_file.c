@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:41:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/04/10 19:23:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:12:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static int	msh_resolve_fd(t_minishell *msh, const char *filename, char **name)
 	int		fd;
 	char	*resolved;
 
-	*name = NULL;
+	if (name)
+		*name = NULL;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
@@ -34,20 +35,20 @@ static int	msh_resolve_fd(t_minishell *msh, const char *filename, char **name)
 		if (resolved)
 		{
 			fd = open(resolved, O_RDONLY);
-			if (fd >= 0)
+			if (fd >= 0 && name)
 				*name = resolved;
 			else
 				free(resolved);
 		}
 	}
-	else
+	else if (name)
 		*name = ft_strdup((char *)filename);
 	return (fd);
 }
 
 void	msh_run_file(
 	t_minishell *msh,
-	const char *filename,
+	const char *file,
 	int argc,
 	const char **argv
 ) {
@@ -56,21 +57,23 @@ void	msh_run_file(
 	int		ret;
 
 	ret = 0;
-	msh->shell_args.argc = argc;
-	msh->shell_args.argv = argv;
-	fd = msh_resolve_fd(msh, filename, &resolved);
+	msh->execution_context.shell_args.argc = argc;
+	msh->execution_context.shell_args.argv = argv;
+	resolved = NULL;
+	fd = msh_resolve_fd(msh, file, &resolved);
 	if (fd < 0)
 	{
-		ft_dprintf(2, "%s: %s: %s\n", msh->name, filename, strerror(errno));
+		ft_dprintf(2, "%s: %s: %s\n", msh->name, file, strerror(errno));
 		if (resolved)
 			free(resolved);
 		msh_exit(msh, 127);
 	}
-	msh->name = resolved;
 	if (msh_runner_check(msh, resolved, fd, &ret))
-		ret = msh_run_script(msh, fd, filename);
+	{
+		msh_run_setup_script(msh, msh_resolve_fd(msh, file, NULL), file);
+		return ;
+	}
 	if (resolved)
 		free(resolved);
-	close(fd);
 	msh_exit(msh, ret);
 }

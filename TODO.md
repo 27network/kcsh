@@ -50,8 +50,9 @@
     - [ ] `pwd` no flags
     - [ ] `export` no flags
     - [ ] `unset` no flags
-    - [ ] `env` no flags or arg
-    - [ ] `exit` no flags
+    - [x] `env` no flags or arg
+      - TODO: fix env ordering 
+    - [x] `exit`
 - Bonus
   - [ ] Implement `&&`, `||`, and `()`
   - [ ] Wildcards `*` for the current directory

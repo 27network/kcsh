@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 22:52:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/17 03:03:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ typedef struct s_builtin
 	bool		hidden;
 }	t_builtin;
 
-void		msh_builtin_register(t_builtin builtin);
-
 void		msh_builtin_help_page(char *name, int fd);
 void		msh_builtin_print_help(t_builtin *builtin, int fd);
 void		msh_builtin_print_usage(t_builtin *builtin, int fd);
@@ -73,7 +71,9 @@ typedef int	(*t_builtin_fnone)(int, char **);
  * @see src/builtin/msh_builtin_registry.c
  */
 t_builtin	*msh_builtin_registry(void);
+void		msh_builtin_register(t_builtin builtin);
 t_builtin	*msh_builtin_get(const char *name);
+size_t		msh_builtin_count(void);
 
 # endif // __MSH_BUILTIN_H__
 #endif // BUILTIN_H

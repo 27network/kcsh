@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 20:55:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 19:19:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 01:34:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	msh_destroy(t_minishell *msh)
 	{
 		ft_putendl_fd("msh_destroy: msh is NULL", STDERR_FILENO);
 		exit(-1);
+	}
+	if (msh->execution_context.file != 0)
+	{
+		close(msh->execution_context.file);
+		free((char *) msh->name);
 	}
 	msh_env_free(msh);
 	if (msh->free_buffer)

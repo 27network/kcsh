@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/05/15 13:35:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:36:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <msh/minishell.h>
 #include <msh/io.h>
 #include <msh/signal.h>
-#include <readline/readline.h>
 
 int	main(int argc, const char *argv[], const char *envp[])
 {
@@ -36,5 +35,5 @@ int	main(int argc, const char *argv[], const char *envp[])
 	}
 	msh_shell_loop(&minishell);
 	msh_destroy(&minishell);
-	return (minishell.exit_code);
+	return (minishell.execution_context.exit_code);
 }

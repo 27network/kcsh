@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:09:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 13:01:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:46:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,18 @@ extern int	g_signal;
 void		msh_signal_init(t_minishell *msh);
 
 /**
- * @brief Minishell's mode-independant signal handler function.
+ * @brief Minishell's signal handler function.
  *
  * @param signum The signal number.
  */
 void		msh_signal_handler(int signum);
+
+/**
+ * @brief Minishell's signal handler function, non-interative edition:tm:
+ *
+ * @param signum The signal number.
+ */
+void		msh_signal_handler_nonint(int signum);
 
 /**
  * @brief Forces the signal handler for all signals to be reset to the default

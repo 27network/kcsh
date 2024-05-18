@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_runner_error_handler.c                         :+:      :+:    :+:   */
+/*   input.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 18:51:02 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 19:18:06 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/18 01:43:22 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/18 01:44:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
-#include <msh/minishell.h>
-#include <unistd.h>
+#ifndef INPUT_H
+# define INPUT_H
+# undef INPUT_H
+# ifndef __MSH_CLI_INPUT_H__
+#  define __MSH_CLI_INPUT_H__
 
-void	msh_runner_error_handler(t_minishell *msh, const char *msg)
-{
-	ft_putstr_fd(msh->name, STDERR_FILENO);
-	ft_putstr_fd(": line ", STDERR_FILENO);
-	ft_putstr_fd("N/A", STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-}
+#  include <msh/minishell.h>
+
+char	*msh_input(t_minishell *msh, const char *interactive_prompt);
+
+# endif // __MSH_CLI_INPUT_H__
+#endif // INPUT_H

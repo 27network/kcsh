@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/14 12:59:04 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/17 03:19:29 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC			=	env/msh_env_defaults.c \
 				env/msh_env_populate.c \
 				env/msh_env_tab.c \
 				env/msh_env_tab_free.c \
+				io/msh_columns.c \
 				io/msh_fileno.c \
 				io/msh_get_hostname.c \
 				io/msh_is_directory.c \

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 19:19:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 03:38:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,6 @@ void	msh_init(
 		msh_exit(msh, -2);
 	}
 	msh_env_defaults(msh);
+	msh->execution_context.running = true;
+	msh->execution_context.line = 1;
 }

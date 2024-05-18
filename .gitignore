@@ -7,7 +7,11 @@
 *.dylib
 *.exe
 *.out
-minishell*
+vgcore*
+/minishell
+/minishell_bonus
+/42sh
+/42sh_bonus
 dummyshell
 .vscode/
 *.nfs*
@@ -18,7 +22,5 @@ dummyshell
 config/.last_comp
 minishell-tester
 minishell_tester
-42sh*
-!tools/subjects/*
 
 .direnv/

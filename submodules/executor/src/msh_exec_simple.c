@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 22:53:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:35:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static int	msh_exec(
 		msh_signal_setdfl();
 		if (execve(binary_path, av, envp) == -1)
 			msh_exec_error(msh, errno, av[0]);
-		return (SHOULD_EXIT);
+		msh->execution_context.running = false;
+		return (1);
 	}
 	else if (pid < 0)
 		ft_dprintf(2, "%s: %s: %m\n", msh->name, binary_path);
@@ -107,12 +108,12 @@ int	msh_exec_simple(t_minishell *msh, char **args)
 	char	*path;
 	bool	old_interactive;
 
+	if (!args[0])
+		return (0);
 	env = msh_env_tab(msh);
 	status = msh_exec_builtin(msh, args, env);
 	if (status != BUILTIN_NOT_FOUND)
 		return (status);
-	if (!args[0])
-		return (0);
 	if (*args[0] != '.' && !ft_strchr(args[0], '/'))
 		path = msh_resolve_path(msh, args[0]);
 	else

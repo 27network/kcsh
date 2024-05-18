@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/04/10 19:07:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 03:37:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,39 +55,69 @@ typedef struct s_program_args
 typedef void	t_error_handler(void *msh, const char *msg);
 
 /**
- * @brief Inner structure of minishell.
+ * @brief A stripped-down view of the execution context.
  *
- * @param binary_name Binary file name, set to argv[0] and never changes.
- * @param name Name of the shell, defaults to argv[0], can be overwritten
- * 			   by the -c and -s flags.
  * @param shell_args Arguments passed to the shell. Note that these are
  *					 not the arguments passed to the shell program itself,
  *					 rather the parsed arguments from -c, -s, and for scripts.
- * @param flags Internal flags for minishell, see `t_msh_flags` in `flags.h`.
  *
- * @param error_handler_fn Function pointer to the error handler, 
- *						   see `t_error_handler`.
+ * @param running	 Whether the shell is running or not. This is used to
+ * 					 break out of the main loop in non-interactive mode, or
+ * 					 when special builtins want to exit the shell.
+ * @param exit_code  The last exit code of the shell.
  *
- * @param env Environment variables map, see `t_map`.
- * @param exit_code Exit code of the shell.
- * @param interactive Whether the shell is running in interactive mode.
+ * @param file		 File descriptor of the shell input, usually 0 (stdin).
+ * @param filename	 Name of the file being executed, or NULL if not applicable.
  *
- * @param free_buffer List of pointers to free when the shell is destroyed.
+ * @param show_line	 Whether to show the line number in error messages.
+ * @param line		 Current line number of the shell input. This doesn't apply
+ * 					 to interactive mode.
+ */
+typedef struct s_execution_context
+{
+	t_program_args	shell_args;
+
+	bool			running;
+	int				exit_code;
+
+	int				file;
+	const char		*filename;
+
+	bool			show_line;
+	size_t			line;
+}	t_execution_context;
+
+/**
+ * @brief Inner structure of minishell.
+ *
+ * @param binary_name		Binary file name, set to argv[0] and never changes.
+ * @param name				Name of the shell, defaults to argv[0], can be
+ *							overwritten by the -c and -s flags.
+ * @param execution_context Execution context of the shell,
+ *							see `t_execution_context`.
+ * @param flags				Internal flags for minishell.
+ *
+ * @param error_handler_fn	Function pointer to the error handler, 
+ *							see `t_error_handler`.
+ *
+ * @param env				Environment variables map, see `t_map`.
+ * @param interactive		Whether the shell is running in interactive mode.
+ *
+ * @param free_buffer		List of pointers to free when the shell is destroyed.
  */
 typedef struct s_minishell
 {
-	const char		*binary_name;
-	const char		*name;
-	t_program_args	shell_args;
-	t_msh_flags		flags;
+	const char				*binary_name;
+	const char				*name;
+	t_execution_context		execution_context;
+	t_msh_flags				flags;
 
-	t_error_handler	*error_handler;
+	t_error_handler			*error_handler;
 
-	t_map			*env;
-	int				exit_code;
-	bool			interactive;
+	t_map					*env;
+	bool					interactive;
 
-	t_list			*free_buffer;
+	t_list					*free_buffer;
 }	t_minishell;
 
 /**

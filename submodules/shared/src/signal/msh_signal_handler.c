@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:13:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 18:42:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:45:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 #include <readline/readline.h>
 
 int	g_signal;
+
+void	msh_signal_handler_nonint(int signo)
+{
+	g_signal = signo;
+}
 
 void	msh_signal_handler(int signo)
 {

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/04/10 19:47:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:15:03 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,22 @@ static int	msh_runner_check_meta(
 	return (0);
 }
 
+static bool	msh_runner_early_exit(t_minishell *msh, const char *file, int fd,
+	int *ret)
+{
+	msh_error(msh, "%s: %s\n", file, strerror(ENOENT));
+	*ret = 127;
+	close(fd);
+	return (false);
+}
+
 bool	msh_runner_check(t_minishell *msh, const char *file, int fd, int *ret)
 {
 	struct stat	st;
 
+	if (!file)
+		return (msh_runner_early_exit(msh, file, fd, ret));
+	msh->name = file;
 	if (fstat(fd, &st) < 0)
 	{
 		msh_error(msh, "%s: %s\n", file, strerror(errno));
@@ -123,5 +135,6 @@ bool	msh_runner_check(t_minishell *msh, const char *file, int fd, int *ret)
 	}
 	else
 		*ret = msh_runner_check_meta(msh, file, fd, &st);
+	close(fd);
 	return (*ret == 0);
 }
