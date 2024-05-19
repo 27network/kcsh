@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 03:37:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:10:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ typedef struct s_program_args
 	int			argc;
 	const char	**argv;
 }	t_program_args;
-
-/**
- * @brief Error handler function pointer type.
- */
-typedef void	t_error_handler(void *msh, const char *msg);
 
 /**
  * @brief A stripped-down view of the execution context.
@@ -97,9 +92,6 @@ typedef struct s_execution_context
  *							see `t_execution_context`.
  * @param flags				Internal flags for minishell.
  *
- * @param error_handler_fn	Function pointer to the error handler, 
- *							see `t_error_handler`.
- *
  * @param env				Environment variables map, see `t_map`.
  * @param interactive		Whether the shell is running in interactive mode.
  *
@@ -111,8 +103,6 @@ typedef struct s_minishell
 	const char				*name;
 	t_execution_context		execution_context;
 	t_msh_flags				flags;
-
-	t_error_handler			*error_handler;
 
 	t_map					*env;
 	bool					interactive;
@@ -136,26 +126,6 @@ void	msh_init(t_minishell *msh, int argc, const char **argv,
 			const char **envp);
 
 /**
- * @brief Prints the given message via the error handler.
- *
- * @param msh Minishell instance to print the error with.
- * @param format Format string for the message.
- * @param ... Arguments for the format string.
- */
-void	msh_error(t_minishell *msh, const char *format, ...)
-		__attribute__((format(printf, 2, 3)));
-
-/**
- * @brief Frees all resources used by minishell.
- *
- * @param msh Minishell instance to destroy.
- *
- * @note Passing a NULL pointer is safe, this function will emit a warning
- *		 and exit with return code -1.
- */
-void	msh_destroy(t_minishell *msh);
-
-/**
  * @brief Frees all resources used by minishell and exits with the given
  * 		  exit code. This function should be used instead of `msh_destroy`
  * 		  or `exit` for better callsite management.
@@ -167,6 +137,16 @@ void	msh_destroy(t_minishell *msh);
  * 		 and exit with return code -1.
  */
 void	msh_exit(t_minishell *msh, int64_t exit_code);
+
+/**
+ * @brief Frees all resources used by minishell.
+ *
+ * @param msh Minishell instance to destroy.
+ *
+ * @note Passing a NULL pointer is safe, this function will emit a warning
+ *		 and exit with return code -1.
+ */
+void	msh_destroy(t_minishell *msh);
 
 # endif // __MSH_MINISHELL_H__
 #endif // MINISHELL_H

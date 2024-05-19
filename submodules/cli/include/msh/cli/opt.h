@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/16 00:01:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 22:04:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # ifndef __MSH_CLI_OPT_H__
 #  define __MSH_CLI_OPT_H__
 
+#  include <msh/log.h>
 #  include <msh/minishell.h>
 
 #  define RETURN_SUCCESS 0

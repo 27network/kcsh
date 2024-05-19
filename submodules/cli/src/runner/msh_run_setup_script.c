@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 04:03:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 22:05:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
 #include <msh/env.h>
 #include <msh/features.h>
+#include <msh/log.h>
 #include <msh/cli/runner.h>
 #include <stdlib.h>
 #include <unistd.h>

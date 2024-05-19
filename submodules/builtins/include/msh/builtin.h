@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/17 03:03:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 21:54:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #  define __MSH_BUILTIN_H__
 
 #  include <msh/minishell.h>
+#  include <msh/log.h>
 #  include <ft/print.h>
 #  include <ft/string.h>
 

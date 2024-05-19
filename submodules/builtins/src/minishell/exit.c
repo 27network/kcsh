@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 03:13:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 03:59:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 Exits the shell with a status of N.  If N is omitted, the exit status\n\
 is that of the last command executed."
 
-//TODO: Implement
 static bool	msh_parse_numeric(const char *str, int *res)
 {
 	long long				n;

@@ -6,16 +6,17 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 04:07:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 21:54:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <ft/print.h>
 #include <ft/string.h>
-#include <msh/minishell.h>
-#include <msh/io.h>
 #include <msh/env.h>
+#include <msh/io.h>
+#include <msh/log.h>
+#include <msh/minishell.h>
 #include <unistd.h>
 
 /**
@@ -54,12 +55,12 @@ void	msh_init(
 			(t_map_cmp_function *) &ft_strcmp);
 	if (!msh->env)
 	{
-		ft_putendl_fd("msh_init: failed to allocate env map", STDERR_FILENO);
+		msh_error(msh, "failed to allocate env map");
 		msh_exit(msh, -1);
 	}
 	if (!msh_env_populate(msh, envp))
 	{
-		ft_putendl_fd("msh_init: failed to populate env", STDERR_FILENO);
+		msh_error(msh, "failed to populate env");
 		msh_exit(msh, -2);
 	}
 	msh_env_defaults(msh);

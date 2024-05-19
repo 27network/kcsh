@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 04:07:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 02:49:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	msh_exec_error(t_minishell *msh, int err, char *name)
 			msh_error(msh, "%s: %s\n", name, strerror(err));
 	}
 	else
-		ft_dprintf(2, "%s: command not found\n", name); //TODO: msh_error_low, msh_warn?
+		msh_warn(msh, "%s: command not found\n", name);
 }
 
 static int	msh_exec(

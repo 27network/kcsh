@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 04:02:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/18 22:04:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <fcntl.h>
 #include <ft/mem.h>
 #include <ft/print.h>
+#include <msh/log.h>
 #include <msh/minishell.h>
 #include <msh/io.h>
 #include <stdlib.h>

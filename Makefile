@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/18 04:03:54 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/19 03:31:36 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,7 +119,7 @@ $(NAME): $(LIBFT) $(CONFIG_MK) $(FEATURES_H_ACTUAL) $(FEATURES_H) $(CLI_EXEC)
 	@cp -f "$(CLI_EXEC)" "$(NAME)" # 🤓 erm acshually its not a link but a copy 🤓
 	@printf "\33[2K\r✅ Linked $(BOLD_WHITE)$(NAME)$(RESET), enjoy this dumb madness.\n"
 
-$(LIBFT): $(LIBFT_DIR)/Makefile
+$(LIBFT): $(LIBFT_DIR)/Makefile $(LIBFT_DIR)/version
 	@printf "🛠️  Making $(BOLD_WHITE)libft$(RESET)\n"
 	@$(MAKE) -C $(LIBFT_DIR) -j CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
 	@printf "\033[1A\33[2K\r✅ Built $(BOLD_WHITE)libft$(RESET)    \n\33[2K\r"
@@ -170,7 +170,7 @@ re: _hide_cursor
 		printf "\033[?25h"; \
 		exit $$ret
 
-valgrind:		$(NAME)
+valgrind:
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 
 .PHONY:			all bonus remake clean oclean fclean re valgrind _fclean_prelude _banner _hide_cursor

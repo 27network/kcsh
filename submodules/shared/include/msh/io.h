@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/17 03:08:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 02:43:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ char	*msh_get_hostname(t_minishell *msh);
 int		msh_fileno(FILE	*stream);
 
 /**
- * @note You probably don't need to call this, as this value is stored in 
+ * @note You **shouldn't** call this, as this value is only used for 
+ *		 initialization. You should use the stored value in 
  *		 minishell's instance (msh->interactive).
  *
  * @return True if the shell is running in interactive mode, false otherwise.
@@ -90,6 +91,42 @@ bool	msh_is_interactive(void);
  * @return the number of columns.
  */
 size_t	msh_columns(t_minishell *msh);
+
+/**
+ * @brief Compares two strings using the current locale.
+ *
+ * @param msh The minishell instance.
+ * @param s1 The first string.
+ * @param s2 The second string.
+ *
+ * @return An integer less than, equal to, or greater than zero if s1 is found,
+ * 		   respectively, to be less than, to match, or be greater than s2.
+ *
+ * @note This is badly hardcoded stuff but it's the best I can do. I thought
+ * 		 about trying to pry the locale instance from glibc, but from what I've
+ * 		 seen it's not exposed, or at least not easily so, in the library.
+ * @rant 42 subjects let us use useful functions (challenge) [impossible]
+ */
+int		msh_strcoll(t_minishell *msh, char *s1, char *s2);
+
+/**
+ * @brief Gets the current user's effective ID.
+ *
+ * @param msh The minishell instance.
+ *
+ * @return the effective user ID.
+ */
+int		msh_geteuid(t_minishell *msh);
+
+/**
+ * @brief Interprets the ANSI escape codes in the given string.
+ *
+ * @param input The string to interpret.
+ * @param retlen A pointer to store the length of the newly interpreted string.
+ *
+ * @return The interpreted string.
+ */
+char	*msh_ansicstr(char *input, size_t *retlen);
 
 # endif // __MSH_IO_H__
 #endif // IO_H

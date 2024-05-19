@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 23:59:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 01:11:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static int	msh_builtin_env(int argc, char **argv, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		ft_printf("%s", envp[i]);
+		ft_putstr(envp[i]);
 		if (i % 2 == 0)
-			ft_printf("\n");
+			ft_putchar('\n');
 		else
-			ft_printf("=");
+			ft_putchar('=');
 		i++;
 	}
 	return (0);
