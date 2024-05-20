@@ -1,4 +1,4 @@
-#!./minishell --print-tokens
+#!../minishell
 
 echo heyyyy
 

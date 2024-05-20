@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 02:49:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 04:36:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,25 @@
 #define SHOULD_EXIT -1
 #define BUILTIN_NOT_FOUND -2
 
-static void	msh_exec_error(t_minishell *msh, int err, char *name)
+static int	msh_exec_error(t_minishell *msh, int err, char *name)
 {
+	int	ret;
+
+	ret = 127;
 	if (ft_strchr(name, '/'))
 	{
 		if (msh_is_directory(name))
+		{
+			ret = 126;
 			msh_error(msh, "%s: %s\n", name, strerror(EISDIR));
+		}
 		else
 			msh_error(msh, "%s: %s\n", name, strerror(err));
 	}
 	else
 		msh_warn(msh, "%s: command not found\n", name);
+	errno = err;
+	return (ret);
 }
 
 static int	msh_exec(
@@ -57,9 +65,9 @@ static int	msh_exec(
 	{
 		msh_signal_setdfl();
 		if (execve(binary_path, av, envp) == -1)
-			msh_exec_error(msh, errno, av[0]);
+			status = msh_exec_error(msh, errno, av[0]);
 		msh->execution_context.running = false;
-		return (1);
+		return (status);
 	}
 	else if (pid < 0)
 		msh_error(msh, "%s: %m\n", binary_path);

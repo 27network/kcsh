@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 03:59:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 04:20:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,45 @@ static bool	msh_parse_numeric(const char *str, int *res)
 	return (true);
 }
 
+static int	msh_exit_opts(int argc, char **argv)
+{
+	if (argc > 1)
+	{
+		if (!ft_strcmp(argv[1], "--"))
+			return (2);
+		if (!ft_strcmp(argv[1], "--help"))
+		{
+			msh_builtin_help_page(EXIT_NAME, 1);
+			return (0);
+		}
+	}
+	return (1);
+}
+
 static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 {
 	int	ret;
+	int	opt;
 
-	if (argc == 2 && !ft_strcmp(argv[1], "--help"))
-		msh_builtin_help_page(EXIT_NAME, 1);
-	if (argc == 2 && !ft_strcmp(argv[1], "--help"))
+	opt = msh_exit_opts(argc, argv);
+	if (opt == 0)
 		return (0);
 	if (msh->interactive)
 		printf("exit\n");
-	if (argc == 1)
+	if (argc == 1 || opt == 2)
 		msh->execution_context.running = false;
-	if (argc == 1)
+	if (argc == 1 || opt == 2)
 		return (msh->execution_context.exit_code);
-	if (!msh_parse_numeric(argv[1], &ret))
+	if (!msh_parse_numeric(argv[opt], &ret))
 	{
 		msh_error(msh, "%s: %s: numeric argument required\n",
-			argv[0], argv[1]);
+			argv[0], argv[opt]);
 		msh->execution_context.running = false;
 		return (2);
 	}
-	if (argc > 2)
+	if (argc > opt + 1)
 		msh_error(msh, "%s: too many arguments\n", argv[0]);
-	if (argc > 2)
+	if (argc > opt + 1)
 		return (1);
 	msh->execution_context.running = false;
 	return (ret);

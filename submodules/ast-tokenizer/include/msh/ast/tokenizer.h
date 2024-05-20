@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:36:44 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:45:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/19 23:52:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #  define _LOWERCASE	"abcdefghijklmnopqrstuvwxyz"
 #  define _UPPERCASE	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #  define _DIGITS		"0123456789"
-#  define SINGLE_TOKENS "=;&|<>(){}[]\n "
+#  define SINGLE_TOKENS ";&|<>(){}[]\n "
 
 typedef struct s_token
 {
