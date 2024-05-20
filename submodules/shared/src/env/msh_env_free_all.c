@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_env_get.c                                      :+:      :+:    :+:   */
+/*   msh_env_free_all.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 16:58:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 15:31:37 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/20 15:45:04 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/20 15:45:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/env.h>
 
-t_variable	*msh_env_get(t_minishell *msh, const char *key)
+void	msh_env_free_all(t_minishell *msh)
 {
-	t_variable	*root;
+	t_variables	*tmp;
+	t_variables	*next;
 
-	root = msh->variables;
-	while (root)
+	if (!msh->variables)
+		return ;
+	tmp = msh->variables;
+	while (tmp)
 	{
-		if (ft_strcmp(root->key, key) == 0)
-			return (root);
-		root = root->next;
+		next = tmp->next;
+		msh_env_free(tmp);
+		tmp = next;
 	}
-	return (NULL);
 }

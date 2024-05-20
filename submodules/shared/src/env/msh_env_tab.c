@@ -6,54 +6,69 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 20:24:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:55:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:11:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <ft/print.h>
-#include <msh/minishell.h>
 #include <msh/env.h>
-#include <unistd.h>
+#include <msh/log.h>
 
-static char	**msh_build_env(t_minishell *msh, t_list *keys)
+static size_t	msh_env_exportable_size(t_minishell *msh)
 {
-	char	**env;
+	size_t		size;
+	t_variable	*root;
+
+	size = 0;
+	root = msh->variables;
+	while (root)
+	{
+		if (msh_env_is_flag(root, ENV_EXPORTABLE))
+			size++;
+		root = root->next;
+	}
+	return (size);
+}
+
+static char	*msh_env_tab_error(t_minishell *msh, char **array)
+{
 	size_t	i;
 
-	env = ft_calloc(sizeof(char *), ft_lst_size(keys) + 1);
-	if (!env)
-		return (__environ);
 	i = 0;
-	while (keys)
+	while (array[i])
 	{
-		env[i] = ft_format("%s=%s", keys->content,
-				ft_map_get(msh->env, keys->content));
-		if (!env[i])
-		{
-			msh_env_tab_free(env);
-			return (__environ);
-		}
-		keys = keys->next;
+		free(array[i]);
 		i++;
 	}
-	return (env);
+	free(array);
+	msh_error(msh, "couldn't build environment tab");
+	return (NULL);
 }
 
 char	**msh_env_tab(t_minishell *msh)
 {
-	t_list	*keys;
-	char	**env;
+	size_t		i;
+	char		**array;
+	t_variable	*root;
 
-	keys = ft_map_keys(msh->env);
-	if (!keys)
-		return (__environ);
-	if (ft_lst_size(keys) == 0)
+	array = ft_calloc(msh_env_exportable_size(msh) + 1, sizeof(char *));
+	if (!array)
+		msh_error(msh, "couldn't build environment tab");
+	if (!array)
+		return (ft_calloc(1, sizeof(char *)));
+	root = msh->variables;
+	i = 0;
+	while (root)
 	{
-		ft_lst_free(&keys, NULL);
-		return (__environ);
+		if (msh_env_is_flag(root, ENV_EXPORTABLE))
+		{
+			array[i] = ft_strjoins(2, "=", 0b00, root->key, root->value);
+			if (!array[i])
+				return (msh_env_tab_error(msh, array));
+			i++;
+		}
+		root = root->next;
 	}
-	env = msh_build_env(msh, keys);
-	ft_lst_free(&keys, NULL);
-	return (env);
+	return (array);
 }

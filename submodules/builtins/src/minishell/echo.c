@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 04:55:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:10:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,15 @@ static int	msh_echo_handle_opts(
 	while (i < argc)
 	{
 		arg = argv[i];
-		if (*arg != '-')
+		if (*arg++ != '-')
 			break ;
-		arg++;
 		j = 0;
 		while (arg[j])
-			if (!ft_strchr(VALID_ECHO_OPTS, arg[j++]))
+		{
+			if (!ft_strchr(VALID_ECHO_OPTS, arg[j]))
 				break ;
+			j++;
+		}
 		if (*arg == 0 || arg[j])
 			break ;
 		while (*arg)

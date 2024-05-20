@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/05/19 01:00:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:07:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <msh/minishell.h>
 #include <msh/io.h>
 #include <msh/signal.h>
+#include <stdio.h>
+#include <readline/readline.h>
 
 int	main(int argc, const char *argv[], const char *envp[])
 {
@@ -23,6 +25,7 @@ int	main(int argc, const char *argv[], const char *envp[])
 
 	msh_init(&minishell, argc, argv, envp);
 	msh_signal_init(&minishell);
+	rl_outstream = stderr;
 	if (argc != 1)
 	{
 		if (FEAT_COMMAND_LINE_INTERFACE)

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 20:10:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:29:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@
 #  include <msh/features.h>
 #  include <msh/flags.h>
 #  include <ft/data/list.h>
-#  include <ft/data/map.h>
 #  include <stdbool.h>
+#  include <stdint.h>
 
 #  ifndef MSH_DEFAULT_NAME
 #   define MSH_DEFAULT_NAME "minishell"
 #  endif // MSH_DEFAULT_NAME
 
 #  ifndef MSH_VERSION
-#   define MSH_VERSION "0.0.0-indev"
+#   define MSH_VERSION "0.0.0-unknown"
 #  endif // MSH_VERSION
+
+typedef struct s_variable	t_variable;
 
 /**
  * @brief Program arguments for minishell. See brief of `t_minishell` 
@@ -59,12 +61,12 @@ typedef struct s_program_args
  * @param running	 Whether the shell is running or not. This is used to
  * 					 break out of the main loop in non-interactive mode, or
  * 					 when special builtins want to exit the shell.
+ * @param show_line	 Whether to show the line number in error messages.
  * @param exit_code  The last exit code of the shell.
  *
  * @param file		 File descriptor of the shell input, usually 0 (stdin).
  * @param filename	 Name of the file being executed, or NULL if not applicable.
  *
- * @param show_line	 Whether to show the line number in error messages.
  * @param line		 Current line number of the shell input. This doesn't apply
  * 					 to interactive mode.
  */
@@ -73,12 +75,12 @@ typedef struct s_execution_context
 	t_program_args	shell_args;
 
 	bool			running;
+	bool			show_line;
 	int				exit_code;
 
 	int				file;
 	const char		*filename;
 
-	bool			show_line;
 	size_t			line;
 }	t_execution_context;
 
@@ -104,7 +106,7 @@ typedef struct s_minishell
 	t_execution_context		execution_context;
 	t_msh_flags				flags;
 
-	t_map					*env;
+	t_variable				*variables;
 	bool					interactive;
 
 	t_list					*free_buffer;
@@ -112,15 +114,15 @@ typedef struct s_minishell
 
 /**
  * @brief Initializes minishell with the given program arguments. Note that
- * 		  these arguments aren't stored in `#shell_args`, see the CLI's 
- * 		  option parsing for that.
+ * 		  these arguments aren't stored in `execution_context.shell_args`,
+ * 		  see the CLI's option parsing for that.
  *
  * @param msh Minishell instance to initialize.
  * @param argc Number of arguments.
  * @param argv Arguments as an array of string.
  * @param envp Environment variables as an array of string,
  * 			   represented as NAME=VALUE. These are then copied to the
- * 			   environment map `#env`.
+ *			   `variables` array as exported environment variables.
  */
 void	msh_init(t_minishell *msh, int argc, const char **argv,
 			const char **envp);

@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_env_get.c                                      :+:      :+:    :+:   */
+/*   msh_env_is_flag.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 16:58:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 15:31:37 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/20 15:54:11 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/20 15:54:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/env.h>
 
-t_variable	*msh_env_get(t_minishell *msh, const char *key)
+bool	msh_env_is_flag(t_variable *variable, t_env_flags flag)
 {
-	t_variable	*root;
-
-	root = msh->variables;
-	while (root)
-	{
-		if (ft_strcmp(root->key, key) == 0)
-			return (root);
-		root = root->next;
-	}
-	return (NULL);
+	return (variable->flags & flag);
 }
