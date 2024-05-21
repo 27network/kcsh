@@ -6,12 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:16:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:09:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:38:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include <ft/util.h>
+#include <ft/io.h>
 #include <ft/string.h>
 #include <msh/minishell.h>
 #include <stdlib.h>

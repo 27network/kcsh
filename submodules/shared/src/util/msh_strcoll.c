@@ -6,13 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:14:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 15:58:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:39:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
 #include <msh/env.h>
-#include <msh/io.h>
+#include <msh/util.h>
 
 #define UTF8_COLLATED_TABLE "$0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrR\
 sStT\001\002\003\004\005\006\a\b\016\017\020\021\022\023\024\025\026\027\030\

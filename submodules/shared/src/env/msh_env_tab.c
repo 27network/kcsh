@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 20:24:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:04:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:18:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t	msh_env_size_for(t_minishell *msh, int match_flags)
 	root = msh->variables;
 	while (root)
 	{
-		if ((root->flags & match_flags) == match_flags)
+		if ((root->flags & match_flags) == match_flags && root->value)
 			size++;
 		root = root->next;
 	}
@@ -62,7 +62,7 @@ char	**msh_env_tab(t_minishell *msh, int match_flags)
 	i = 0;
 	while (root)
 	{
-		if ((root->flags & match_flags) == match_flags)
+		if ((root->flags & match_flags) == match_flags && root->value)
 		{
 			array[i] = ft_strjoins(2, "=", 0b00, root->name, root->value);
 			if (!array[i])

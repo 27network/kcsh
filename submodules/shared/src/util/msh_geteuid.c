@@ -6,13 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:38:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 00:36:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:39:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string/parse.h>
 #include <ft/string.h>
-#include <msh/io.h>
+#include <msh/util.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>

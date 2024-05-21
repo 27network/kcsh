@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 22:05:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:06:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 void	msh_run_setup_script(t_minishell *msh, int fd, const char *filename)
 {
-	const char	*env = msh_env_get(msh, "MSH_DISABLE_SCRIPT_WARNING");
+	const char	*env = msh_env_value(msh, "MSH_DISABLE_SCRIPT_WARNING");
 
 	if (!env || !*env)
 		msh_error(msh, "warning: the script runner is very much WIP, bugs will"

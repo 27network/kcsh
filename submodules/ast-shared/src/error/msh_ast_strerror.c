@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:49:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 13:50:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:44:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ const char	*msh_ast_strerror(t_ast_error_type type)
 	[AST_ERROR_ALLOC] = "allocation error",
 	};
 
-	if (type < 0 || type >= AST_ERROR_COUNT)
+	if (type < 0 || type >= _AST_ERROR_COUNT)
 		return ("unknown error");
 	return (types[type]);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:10:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:18:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:45:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*msh_prompt_bash(t_minishell *msh)
 	char	*format;
 	char	sep;
 
-	user = msh_env_get(msh, "USER");
-	home = msh_env_get(msh, "HOME");
+	user = msh_env_value(msh, "USER");
+	home = msh_env_value(msh, "HOME");
 	if (!user || !home)
 		return (ft_strdup(MSH_DEFAULT_NAME"-"MSH_VERSION"$ "));
 	sep = '$';

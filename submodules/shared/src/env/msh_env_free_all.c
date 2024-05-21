@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:45:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 15:45:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:50:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	msh_env_free_all(t_minishell *msh)
 {
-	t_variables	*tmp;
-	t_variables	*next;
+	t_variable	*tmp;
+	t_variable	*next;
 
 	if (!msh->variables)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:44:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:58:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:12:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*msh_resolve_path(t_minishell *msh, const char *filename)
 
 	if (filename[0] == '/' || ft_strchr(filename, '/'))
 		return (ft_strdup(filename));
-	path = msh_env_get(msh, "PATH");
-	if (!path)
+	path = msh_env_value(msh, "PATH");
+	if (!path || !*path)
 		return (ft_strdup(filename));
 	dirs = ft_split(path, ':');
 	if (!dirs)

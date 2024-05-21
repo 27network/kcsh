@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:01:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:19:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,13 @@ char		**msh_env_tab(t_minishell *msh, int match_flags);
  * @param tab The array of variables.
  */
 void		msh_env_tab_free(char **tab);
+
+/**
+ * @brief Debug function used to print all flags of a variable.
+ *
+ * @param variable The variable to print the flags of.
+ */
+void		msh_env_print_flags(t_variable *variable);
 
 # endif // __MSH_ENV_H__
 #endif // ENV_H

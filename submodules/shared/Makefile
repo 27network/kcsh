@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/21 01:52:15 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/21 23:49:44 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,15 @@ NAME		=	shared
 include ../common-prelude.mk
 
 SRC			=	env/msh_env_defaults.c \
+				env/msh_env_find.c \
 				env/msh_env_free.c \
+				env/msh_env_free_all.c \
 				env/msh_env_get.c \
 				env/msh_env_populate.c \
+				env/msh_env_push.c \
 				env/msh_env_tab.c \
 				env/msh_env_tab_free.c \
+				env/msh_env_value.c \
 				log/msh_error.c \
 				log/msh_log.c \
 				log/msh_vlog.c \

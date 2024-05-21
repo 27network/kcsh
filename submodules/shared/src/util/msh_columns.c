@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 03:08:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:09:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:38:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	ioctl_tiocgwinsz(__attribute__((unused)) int *col)
 size_t	msh_columns(t_minishell *msh)
 {
 	int			value;
-	const char	*columns_env = msh_env_get(msh, "COLUMNS");
+	const char	*columns_env = msh_env_value(msh, "COLUMNS");
 
 	value = 80;
 	if (columns_env && *columns_env)

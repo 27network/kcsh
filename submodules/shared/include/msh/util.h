@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 01:51:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:37:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #  include <msh/minishell.h>
 #  include <stdio.h>
+#  include <sys/stat.h>
 
 /**
  * @brief Resolve the path of a file or script

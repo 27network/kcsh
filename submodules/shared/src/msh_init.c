@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:05:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:40:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,9 @@
 #include <msh/minishell.h>
 #include <unistd.h>
 
-/**
- * @brief A simple hash function for strings.
- *
- * @param data The string to hash.
- * @return uint64_t The hash value.
- */
-static uint64_t	msh_string_hash(void *data);
-
 void	msh_init(
 	t_minishell *msh,
-	__attributes__((unused)) int argc,
+	__attribute__((unused)) int argc,
 	const char **argv,
 	const char **envp
 ) {
@@ -45,19 +37,4 @@ void	msh_init(
 	msh_env_defaults(msh);
 	msh->execution_context.running = true;
 	msh->execution_context.line = 0;
-}
-
-static uint64_t	msh_string_hash(void *data)
-{
-	char		*str;
-	uint64_t	hash;
-
-	str = (char *) data;
-	hash = 5381;
-	while (*str)
-	{
-		hash = ((hash << 5) + hash) + *str;
-		str++;
-	}
-	return (hash);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:05:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:42:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	msh_exec_simple(t_minishell *msh, char **args)
 
 	if (!args[0])
 		return (0);
-	env = msh_env_tab(msh);
+	env = msh_env_tab(msh, ENV_EXPORTED);
 	status = msh_exec_builtin(msh, args, env);
 	if (status != BUILTIN_NOT_FOUND)
 		return (status);

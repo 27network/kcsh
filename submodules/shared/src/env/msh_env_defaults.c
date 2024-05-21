@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:01:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:36:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	msh_env_setup_pwd(t_minishell *msh)
 
 	v_pwd = msh_env_get(msh, "PWD", 0);
 	v_home = msh_env_find(msh, "HOME");
+	(void) v_home;
 	v_pwd->flags |= ENV_EXPORTED;
 }
 

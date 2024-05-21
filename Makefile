@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/19 03:31:36 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/22 00:19:01 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -172,5 +172,8 @@ re: _hide_cursor
 
 valgrind:
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
+
+voidgrind:
+	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i ./$(NAME) $(VG_RUN)
 
 .PHONY:			all bonus remake clean oclean fclean re valgrind _fclean_prelude _banner _hide_cursor

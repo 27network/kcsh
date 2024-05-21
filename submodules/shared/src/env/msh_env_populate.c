@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:49:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:03:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:24:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static int	msh_env_create(t_minishell *msh, char *key, char *value)
 {
-	const int	flags = ENV_ALLOC_NAME | ENV_ALLOC_VALUE \
-						| ENV_EXPORTED | ENV_IMPORTED;
+	const int	flags = ENV_ALLOC_NAME | ENV_ALLOC_VALUE
+		| ENV_EXPORTED | ENV_IMPORTED;
 	t_variable	*variable;
 
 	variable = msh_env_push(msh, key, value, flags);
