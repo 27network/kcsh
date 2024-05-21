@@ -2,7 +2,7 @@
 
 for i in range(1, 127):
     try:
-        with open(f"{chr(i)}.txt", "w") as f:
+        with open(f"{chr(i)}", "w") as f:
             f.write("pog")
     except Exception as e:
         print(f"err for {i} ", e)

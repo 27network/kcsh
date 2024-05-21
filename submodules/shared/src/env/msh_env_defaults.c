@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 13:09:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:01:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,18 @@ static void	msh_env_setup_pwd(t_minishell *msh)
 	t_variable	*v_pwd;
 	t_variable	*v_home;
 
-	v_pwd = msh_env_get_create(msh, "PWD");
-	v_home = msh_env_get(msh, "HOME");
-	// if (v_home && v_pwd &&
-	msh_env_set_flag(v_pwd, ENV_EXPORTED);
+	v_pwd = msh_env_get(msh, "PWD", 0);
+	v_home = msh_env_find(msh, "HOME");
+	v_pwd->flags |= ENV_EXPORTED;
 }
 
 static void	msh_env_adjust_shlvl(t_minishell *msh, int change)
 {
 	char		*old_shlvl;
 	int			shlvl;
-	t_variable	*v_shlvl;
 
-	old_shlvl = msh_env_get_string(msh, "SHLVL");
-	if (!old_shlvl)
+	old_shlvl = msh_env_value(msh, "SHLVL");
+	if (!old_shlvl || !*old_shlvl)
 		old_shlvl = "0";
 	shlvl = ft_atoi(old_shlvl);
 	shlvl += change;
@@ -40,9 +38,7 @@ static void	msh_env_adjust_shlvl(t_minishell *msh, int change)
 		shlvl = 0;
 	else if (shlvl >= 1000)
 		shlvl = 1;
-	v_shlvl = msh_env_get(msh, "SHLVL");
-	msh_env_set_string(v_shlvl, ft_itoa(shlvl));
-	msh_env_set_flag(v_shlvl, ENV_ALLOC_VALUE | ENV_EXPORTED);
+	msh_env_push(msh, "SHLVL", ft_itoa(shlvl), ENV_EXPORTED | ENV_ALLOC_VALUE);
 }
 
 void	msh_env_defaults(t_minishell *msh)

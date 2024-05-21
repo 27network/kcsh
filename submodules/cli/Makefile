@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/18 01:51:13 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/21 15:49:37 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		=	cli
-DEPS		=	executor ast
+DEPS		=	executor ast-builder
 IS_EXEC		=	1
 
 include ../common-prelude.mk

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 01:47:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:01:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,38 @@ int			msh_env_populate(t_minishell *msh, const char **envp);
 void		msh_env_defaults(t_minishell *msh);
 
 /**
- * @brief Gets a variable by name.
+ * @brief Gets a variable by name, or NULL if not found.
  *
  * @param msh The minishell instance.
  * @param name The name of the variable.
  *
  * @return The variable or NULL if not found.
  */
-t_variable	*msh_env_get(t_minishell *msh, const char *name);
+t_variable	*msh_env_find(t_minishell *msh, const char *name);
 
 /**
  * @brief Gets a variable by name, creating it if it doesn't exist.
  *
  * @param msh The minishell instance.
  * @param name The name of the variable.
+ * @param flags The flags of the variable if it needs to be created.
  *
  * @return The variable.
  */
-t_variable	*msh_env_get_create(t_minishell *msh, const char *name);
+t_variable	*msh_env_get(t_minishell *msh, const char *name, int flags);
+
+/**
+ * @brief Pushes a new variable to the environment, or updates an existing one.
+ *
+ * @param msh The minishell instance.
+ * @param key The name of the variable.
+ * @param name The value of the variable.
+ * @param flags The flags of the variable.
+ *
+ * @return The variable that was pushed, or NULL if something failed.
+ */
+t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *name,
+				int flags);
 
 /**
  * @brief Gets the value of a variable by name.
@@ -87,24 +101,6 @@ t_variable	*msh_env_get_create(t_minishell *msh, const char *name);
  * @return The value of the variable or NULL if not found.
  */
 char		*msh_env_value(t_minishell *msh, const char *name);
-
-/**
- * @brief Checks if a variable has a flag.
- *
- * @param variable The variable to check.
- * @param flag The flag to check.
- *
- * @return `true` if the variable has the flag, `false` otherwise.
- */
-bool		msh_env_is_flag(t_variable *variable, int flag);
-
-/**
- * @brief Sets a flag on a variable.
- *
- * @param variable The variable to set the flag on.
- * @param flag The flag to set.
- */
-void		msh_env_set_flag(t_variable *variable, int flag);
 
 /**
  * @brief Frees all variables.

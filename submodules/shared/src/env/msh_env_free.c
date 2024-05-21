@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:46:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 15:53:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:00:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	msh_env_free(t_variable *variable)
 {
-	if (variable->flags & ENV_FLAG_ALLOC_NAME && variable->key)
-		free(variable->key);
-	if (variable->flags & ENV_FLAG_ALLOC_VALUE && variable->value)
+	if (variable->flags & ENV_ALLOC_NAME && variable->name)
+		free(variable->name);
+	if (variable->flags & ENV_ALLOC_VALUE && variable->value)
 		free(variable->value);
 	free(variable);
 }

@@ -6,12 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:16:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/03/22 17:56:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:09:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include <ft/io.h>
+#include <ft/util.h>
 #include <ft/string.h>
 #include <msh/minishell.h>
 #include <stdlib.h>
@@ -33,7 +33,10 @@ char	*msh_get_hostname(t_minishell *msh)
 		}
 		if (!hostname)
 			hostname = ft_strdup("localhost");
-		ft_lst_tadd(&msh->free_buffer, hostname);
+		if (hostname)
+			ft_lst_tadd(&msh->free_buffer, hostname);
 	}
+	if (!hostname)
+		return ("localhost");
 	return (hostname);
 }

@@ -1,0 +1,184 @@
+= Yet another shell (yash) マニュアル
+渡邊裕貴 <magicant@wonderwand.net>
+v{yashversion},
+:encoding: UTF-8
+:lang: ja
+//:title: Yash マニュアル - Yet another shell (yash) マニュアル
+:description: Yash のマニュアルの目次
+
+[[contents-list]]
+== 目次
+
+[role="list-group"]
+--
+// (Replaced with generated contents list) //
+--
+
+[[builtins]]
+== 組込みコマンド
+
+括弧書きの文字は{zwsp}link:builtin.html#types[組込みコマンドの種類]を表します。
+(S) は特殊組込みコマンド、(M) は必須組込みコマンド、(L) は任意組込みコマンド、(X) は拡張組込みコマンド、無印は代替組込みコマンドです。
+
+[[alpha-order]]
+=== 組込みコマンド一覧 (アルファベット順)
+
+[role="list-group"]
+- link:_dot.html[+.+ (ドット)] (S)
+- link:_colon.html[+:+ (コロン)] (S)
+- link:_test.html[+[+ (括弧)]
+- link:_alias.html[+alias+] (M)
+- link:_array.html[+array+] (X)
+- link:_bg.html[+bg+] (M)
+- link:_bindkey.html[+bindkey+] (L)
+- link:_break.html[+break+] (S)
+- link:_cd.html[+cd+] (M)
+- link:_command.html[+command+] (M)
+- link:_complete.html[+complete+] (L)
+- link:_continue.html[+continue+] (S)
+- link:_dirs.html[+dirs+] (L)
+- link:_disown.html[+disown+] (L)
+- link:_echo.html[+echo+]
+- link:_eval.html[+eval+] (S)
+- link:_exec.html[+exec+] (S)
+- link:_exit.html[+exit+] (S)
+- link:_export.html[+export+] (S)
+- link:_false.html[+false+] (M)
+- link:_fc.html[+fc+] (M)
+- link:_fg.html[+fg+] (M)
+- link:_getopts.html[+getopts+] (M)
+- link:_hash.html[+hash+] (M)
+- link:_help.html[+help+] (L)
+- link:_history.html[+history+] (L)
+- link:_jobs.html[+jobs+] (M)
+- link:_kill.html[+kill+] (M)
+- link:_local.html[+local+] (L)
+- link:_popd.html[+popd+] (L)
+- link:_printf.html[+printf+]
+- link:_pushd.html[+pushd+] (L)
+- link:_pwd.html[+pwd+] (M)
+- link:_read.html[+read+] (M)
+- link:_readonly.html[+readonly+] (S)
+- link:_return.html[+return+] (S)
+- link:_set.html[+set+] (S)
+- link:_shift.html[+shift+] (S)
+- link:_suspend.html[+suspend+] (L)
+- link:_test.html[+test+]
+- link:_times.html[+times+] (S)
+- link:_trap.html[+trap+] (S)
+- link:_true.html[+true+] (M)
+- link:_type.html[+type+] (M)
+- link:_typeset.html[+typeset+] (L)
+- link:_ulimit.html[+ulimit+] (M)
+- link:_umask.html[+umask+] (M)
+- link:_unalias.html[+unalias+] (M)
+- link:_unset.html[+unset+] (S)
+- link:_wait.html[+wait+] (M)
+
+[[groups]]
+=== 種類別組込みコマンド一覧
+
+[[g-control]]
+==== 実行制御
+
+[role="list-group"]
+- link:_eval.html[+eval+] (S)
+- link:_dot.html[+.+ (ドット)] (S)
+- link:_exec.html[+exec+] (S)
+- link:_command.html[+command+] (M)
+- link:_hash.html[+hash+] (M)
+- link:_break.html[+break+] (S)
+- link:_continue.html[+continue+] (S)
+- link:_return.html[+return+] (S)
+- link:_suspend.html[+suspend+] (L)
+- link:_exit.html[+exit+] (S)
+
+[[g-environ]]
+==== コマンド実行環境関連
+
+[role="list-group"]
+- link:_set.html[+set+] (S)
+- link:_ulimit.html[+ulimit+] (M)
+- link:_umask.html[+umask+] (M)
+- link:_trap.html[+trap+] (S)
+- link:_cd.html[+cd+] (M)
+- link:_pwd.html[+pwd+] (M)
+- link:_times.html[+times+] (S)
+
+[[g-job]]
+==== ジョブ制御・シグナル関連
+
+[role="list-group"]
+- link:_jobs.html[+jobs+] (M)
+- link:_fg.html[+fg+] (M)
+- link:_bg.html[+bg+] (M)
+- link:_wait.html[+wait+] (M)
+- link:_disown.html[+disown+] (L)
+- link:_kill.html[+kill+] (M)
+- link:_trap.html[+trap+] (S)
+
+[[g-variable]]
+==== パラメータ・変数関連
+
+[role="list-group"]
+- link:_typeset.html[+typeset+] (L)
+- link:_export.html[+export+] (S)
+- link:_local.html[+local+] (L)
+- link:_readonly.html[+readonly+] (S)
+- link:_array.html[+array+] (X)
+- link:_set.html[+set+] (S)
+- link:_shift.html[+shift+] (S)
+- link:_read.html[+read+] (M)
+- link:_getopts.html[+getopts+] (M)
+- link:_unset.html[+unset+] (S)
+
+[[g-directory]]
+==== 作業ディレクトリ関連
+
+[role="list-group"]
+- link:_cd.html[+cd+] (M)
+- link:_pwd.html[+pwd+] (M)
+- link:_pushd.html[+pushd+] (L)
+- link:_popd.html[+popd+] (L)
+- link:_dirs.html[+dirs+] (L)
+
+[[g-alias]]
+==== エイリアス関連
+
+[role="list-group"]
+- link:_alias.html[+alias+] (M)
+- link:_unalias.html[+unalias+] (M)
+
+[[g-history]]
+==== コマンド履歴関連
+
+[role="list-group"]
+- link:_fc.html[+fc+] (M)
+- link:_history.html[+history+] (L)
+
+[[g-print]]
+==== 文字列出力
+
+[role="list-group"]
+- link:_echo.html[+echo+]
+- link:_printf.html[+printf+]
+
+[[g-lineedit]]
+==== 行編集関連
+
+[role="list-group"]
+- link:_bindkey.html[+bindkey+] (L)
+- link:_complete.html[+complete+] (L)
+
+[[g-misc]]
+==== その他のコマンド
+
+[role="list-group"]
+- link:_help.html[+help+] (L)
+- link:_colon.html[+:+ (コロン)] (S)
+- link:_true.html[+true+] (M)
+- link:_false.html[+false+] (M)
+- link:_test.html[+[+ (括弧), +test+]
+- link:_type.html[+type+] (M)
+
+// vim: set filetype=asciidoc expandtab:

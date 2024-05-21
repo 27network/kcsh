@@ -6,16 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 02:00:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 02:46:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:09:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <ft/string/parse.h>
 #include <ft/string.h>
-#include <msh/io.h>
-
-#include <stdio.h>
+#include <msh/util.h>
 
 static char	msh_get_escaped_char(char *input)
 {

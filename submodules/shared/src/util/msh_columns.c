@@ -6,13 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 03:08:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/17 03:22:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:09:21 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string/parse.h>
 #include <msh/env.h>
-#include <msh/io.h>
+#include <msh/util.h>
 #include <readline/readline.h>
 
 #ifdef TIOCGWINSZ

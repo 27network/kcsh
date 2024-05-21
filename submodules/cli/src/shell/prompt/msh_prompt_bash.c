@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:10:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/14 18:01:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:18:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <ft/string.h>
 #include <msh/minishell.h>
 #include <msh/env.h>
-#include <msh/io.h>
+#include <msh/util.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-//TODO: Parse PS1 and PS2 variables
+//TODO: Parse PS1
 char	*msh_prompt_bash(t_minishell *msh)
 {
 	char	*user;

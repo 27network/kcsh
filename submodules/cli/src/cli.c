@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/05/20 20:07:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:19:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <msh/cli/shell.h>
 #include <msh/features.h>
 #include <msh/minishell.h>
-#include <msh/io.h>
+#include <msh/util.h>
 #include <msh/signal.h>
 #include <stdio.h>
 #include <readline/readline.h>

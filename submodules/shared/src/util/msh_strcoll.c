@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:14:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 20:07:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:58:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	msh_strcoll(t_minishell *msh, char *s1, char *s2)
 {
 	char	*locale;
 
-	locale = msh_env_get_string(msh, "LC_COLLATE");
+	locale = msh_env_value(msh, "LC_COLLATE");
 	if (!locale || !*locale)
 		locale = "C";
 	if (*locale == 'C' || !ft_strcmp(locale, "POSIX"))

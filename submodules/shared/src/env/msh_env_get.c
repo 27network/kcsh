@@ -5,23 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 16:58:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 15:31:37 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/21 17:14:24 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/21 19:00:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/env.h>
 
-t_variable	*msh_env_get(t_minishell *msh, const char *key)
+t_variable	*msh_env_get(t_minishell *msh, const char *key, int flags)
 {
-	t_variable	*root;
+	t_variable	*variable;
 
-	root = msh->variables;
-	while (root)
-	{
-		if (ft_strcmp(root->key, key) == 0)
-			return (root);
-		root = root->next;
-	}
-	return (NULL);
+	variable = msh_env_find(msh, key);
+	if (!variable)
+		variable = msh_env_push(msh, key, NULL, flags);
+	return (variable);
 }
