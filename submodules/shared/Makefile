@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/19 02:10:48 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/21 01:52:15 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,6 @@ SRC			=	env/msh_env_defaults.c \
 				env/msh_env_populate.c \
 				env/msh_env_tab.c \
 				env/msh_env_tab_free.c \
-				io/msh_ansicstr.c \
-				io/msh_columns.c \
-				io/msh_fileno.c \
-				io/msh_get_hostname.c \
-				io/msh_geteuid.c \
-				io/msh_is_directory.c \
-				io/msh_is_interactive.c \
-				io/msh_resolve_path.c \
-				io/msh_strcoll.c \
 				log/msh_error.c \
 				log/msh_log.c \
 				log/msh_vlog.c \
@@ -37,6 +28,16 @@ SRC			=	env/msh_env_defaults.c \
 				signal/msh_signal_init.c \
 				signal/msh_signal_setdfl.c \
 				signal/msh_strsignal.c \
+				util/msh_ansicstr.c \
+				util/msh_columns.c \
+				util/msh_fileno.c \
+				util/msh_get_hostname.c \
+				util/msh_geteuid.c \
+				util/msh_is_directory.c \
+				util/msh_is_interactive.c \
+				util/msh_resolve_path.c \
+				util/msh_same_file.c \
+				util/msh_strcoll.c \
 				msh_destroy.c \
 				msh_exit.c \
 				msh_init.c

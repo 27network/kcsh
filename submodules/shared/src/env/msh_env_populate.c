@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:49:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 18:10:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:54:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static int	msh_env_create(t_minishell *msh, char *key, char *value)
 		free(value);
 		return (0);
 	}
-	if (variable->name && variable->flags & ENV_FLAG_ALLOC_NAME)
+	if (variable->name && variable->flags & ENV_ALLOC_NAME)
 		free(variable->name);
-	if (variable->value && variable->flags & ENV_FLAG_ALLOC_VALUE)
+	if (variable->value && variable->flags & ENV_ALLOC_VALUE)
 		free(variable->value);
-	variable->flags |= ENV_FLAG_ALLOC_NAME | ENV_FLAG_ALLOC_VALUE;
+	variable->flags |= ENV_ALLOC_NAME | ENV_ALLOC_VALUE | ENV_EXPORTED
+		| ENV_IMPORTED;
 	variable->name = key;
 	variable->value = value;
 	return (1);

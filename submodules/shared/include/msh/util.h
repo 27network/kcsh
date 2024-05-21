@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io.h                                               :+:      :+:    :+:   */
+/*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 02:43:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:51:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IO_H
-# define IO_H
-# undef IO_H
-# ifndef __MSH_IO_H__
-#  define __MSH_IO_H__
+#ifndef UTIL_H
+# define UTIL_H
+# undef UTIL_H
+# ifndef __MSH_UTIL_H__
+#  define __MSH_UTIL_H__
 
 #  include <msh/minishell.h>
 #  include <stdio.h>
@@ -79,7 +79,7 @@ int		msh_fileno(FILE	*stream);
  *		 initialization. You should use the stored value in 
  *		 minishell's instance (msh->interactive).
  *
- * @return True if the shell is running in interactive mode, false otherwise.
+ * @return `true` if the shell is running in interactive mode, `false` otherwise.
  */
 bool	msh_is_interactive(void);
 
@@ -114,7 +114,7 @@ int		msh_strcoll(t_minishell *msh, char *s1, char *s2);
  *
  * @param msh The minishell instance.
  *
- * @return the effective user ID.
+ * @return The effective user ID.
  */
 int		msh_geteuid(t_minishell *msh);
 
@@ -128,5 +128,18 @@ int		msh_geteuid(t_minishell *msh);
  */
 char	*msh_ansicstr(char *input, size_t *retlen);
 
-# endif // __MSH_IO_H__
-#endif // IO_H
+/**
+ * @brief Checks if the given paths are the same file.
+ *
+ * @param path1 The first path.
+ * @param path2 The second path.
+ * @param stat1 The stat struct of the first path, or NULL if not required.
+ * @param stat2 The stat struct of the second path, or NULL if not required.
+ *
+ * @return `true` if the paths are the same file, `false` otherwise.
+ */
+bool	msh_same_file(const char *path1, const char *path2,
+			struct stat *stat1, struct stat *stat2);
+
+# endif // __MSH_UTIL_H__
+#endif // UTIL_H

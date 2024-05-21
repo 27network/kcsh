@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 20:30:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:47:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,21 @@
 
 #  define DEFAULT_IFS " \t\n"
 
-#  define ENV_FLAG_EXPORTED		0x0000001	
-#  define ENV_FLAG_READONLY		0x0000002
-#  define ENV_FLAG_ARRAY		0x0000004
-#  define ENV_FLAG_FUNCTION		0x0000008
-#  define ENV_FLAG_INTEGER		0x0000010
-#  define ENV_FLAG_ASSOC		0x0000020
-#  define ENV_FLAG_DYNGEN		0x0000040
-#  define ENV_FLAG_USER_MASK	0x0000fff
+#  define ENV_EXPORTED		0x0000001	
+#  define ENV_READONLY		0x0000002
+#  define ENV_ARRAY			0x0000004
+#  define ENV_FUNCTION		0x0000008
+#  define ENV_INTEGER		0x0000010
+#  define ENV_ASSOC			0x0000020
+#  define ENV_DYNGEN		0x0000040
+#  define ENV_USER_MASK		0x0000fff
 
-#  define ENV_FLAG_NO_UNSET		0x0001000
-#  define ENV_FLAG_ALLOC_NAME	0x0002000
-#  define ENV_FLAG_ALLOC_VALUE	0x0004000
-#  define ENV_FLAG_INT_MASK		0x00ff000
+#  define ENV_NO_UNSET		0x0001000
+#  define ENV_ALLOC_NAME	0x0002000
+#  define ENV_ALLOC_VALUE	0x0004000
+#  define ENV_IMPORTED		0x0008000
+#  define ENV_INVISIBLE		0x0010000
+#  define ENV_INT_MASK		0x00ff000
 
 typedef struct s_variable	t_variable;
 
@@ -67,6 +69,16 @@ void		msh_env_defaults(t_minishell *msh);
 t_variable	*msh_env_get(t_minishell *msh, const char *name);
 
 /**
+ * @brief Gets a variable by name, creating it if it doesn't exist.
+ *
+ * @param msh The minishell instance.
+ * @param name The name of the variable.
+ *
+ * @return The variable.
+ */
+t_variable	*msh_env_get_create(t_minishell *msh, const char *name);
+
+/**
  * @brief Gets the value of a variable by name.
  *
  * @param msh The minishell instance.
@@ -74,18 +86,7 @@ t_variable	*msh_env_get(t_minishell *msh, const char *name);
  *
  * @return The value of the variable or NULL if not found.
  */
-char		*msh_env_get_value(t_minishell *msh, const char *name);
-
-/**
- * @brief Adds a new variable, or updates an existing one.
- *
- * @param msh The minishell instance.
- * @param variable The new variable.
- *
- * @return The added variable, the already existing variable,
- *		   or NULL if an error occurred.
- */
-t_variable	*msh_env_push(t_minishell *msh, t_variable *variable);
+char		*msh_env_value(t_minishell *msh, const char *name);
 
 /**
  * @brief Checks if a variable has a flag.

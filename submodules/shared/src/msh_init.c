@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 21:54:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:55:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,28 @@
  * @param data The string to hash.
  * @return uint64_t The hash value.
  */
+static uint64_t	msh_string_hash(void *data);
+
+void	msh_init(
+	t_minishell *msh,
+	__attributes__((unused)) int argc,
+	const char **argv,
+	const char **envp
+) {
+	ft_bzero(msh, sizeof(t_minishell));
+	msh->binary_name = argv[0];
+	msh->name = argv[0];
+	msh->interactive = msh_is_interactive();
+	if (!msh_env_populate(msh, envp))
+	{
+		msh_error(msh, "failed to populate env");
+		msh_exit(msh, -2);
+	}
+	msh_env_defaults(msh);
+	msh->execution_context.running = true;
+	msh->execution_context.line = 0;
+}
+
 static uint64_t	msh_string_hash(void *data)
 {
 	char		*str;
@@ -38,32 +60,4 @@ static uint64_t	msh_string_hash(void *data)
 		str++;
 	}
 	return (hash);
-}
-
-void	msh_init(
-	t_minishell *msh,
-	int argc,
-	const char **argv,
-	const char **envp
-) {
-	(void) argc;
-	ft_bzero(msh, sizeof(t_minishell));
-	msh->binary_name = argv[0];
-	msh->name = argv[0];
-	msh->interactive = msh_is_interactive();
-	msh->env = ft_map_new(100, msh_string_hash,
-			(t_map_cmp_function *) &ft_strcmp);
-	if (!msh->env)
-	{
-		msh_error(msh, "failed to allocate env map");
-		msh_exit(msh, -1);
-	}
-	if (!msh_env_populate(msh, envp))
-	{
-		msh_error(msh, "failed to populate env");
-		msh_exit(msh, -2);
-	}
-	msh_env_defaults(msh);
-	msh->execution_context.running = true;
-	msh->execution_context.line = 0;
 }
