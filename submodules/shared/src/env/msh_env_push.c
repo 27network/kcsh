@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:20:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 00:20:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 01:07:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // char *newshlvl = itoa(shlvl + 1)
 // push("SHLVL", newshlvl, ENV_ALLOC_VALUE | ENV_EXPORTED);
 
-static void	msh_env_update_existing(t_variable *variable,
+static void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
 			const char *value, int flags)
 {
 	if (!value && (flags & ENV_ALLOC_VALUE))
@@ -26,12 +26,15 @@ static void	msh_env_update_existing(t_variable *variable,
 			" suggest it should be allocated\n");
 	if (variable->value && variable->flags & ENV_ALLOC_VALUE)
 		free(variable->value);
-	variable->value = (char *) value;
+	if (variable->set_fn)
+		variable->set_fn(msh, variable, 0, value);
+	else
+		variable->value = (char *) value;
 	variable->flags |= flags;
 }
 
-static t_variable	*msh_env_create(const char *key, const char *value,
-						int flags)
+static t_variable	*msh_env_create(t_minishell *msh, const char *key,
+						const char *value, int flags)
 {
 	t_variable	*variable;
 
@@ -39,7 +42,7 @@ static t_variable	*msh_env_create(const char *key, const char *value,
 	if (!variable)
 		return (NULL);
 	variable->name = (char *) key;
-	msh_env_update_existing(variable, value, flags);
+	msh_env_update_existing(msh, variable, value, flags);
 	return (variable);
 }
 
@@ -67,10 +70,10 @@ t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *value,
 		return (NULL);
 	variable = msh_env_find(msh, key);
 	if (variable)
-		msh_env_update_existing(variable, value, flags);
+		msh_env_update_existing(msh, variable, value, flags);
 	else
 	{
-		variable = msh_env_create(key, value, flags);
+		variable = msh_env_create(msh, key, value, flags);
 		if (variable)
 			msh_env_insert(msh, variable);
 	}

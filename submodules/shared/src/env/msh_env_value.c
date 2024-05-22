@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:47:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:59:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 01:36:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*msh_env_value(t_minishell *msh, const char *key)
 	var = msh_env_find(msh, key);
 	if (var)
 	{
-		if (var->fn)
-			return (var->fn(msh, var));
+		if (var->value_fn)
+			return (var->value_fn(msh, var, 0, key));
 		return (var->value);
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 00:19:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 03:32:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #  include <msh/minishell.h>
 
-#  define DEFAULT_ENV_PS1 "\u@\h:\w\$ "
+#  define DEFAULT_ENV_PS1 "\\u@\\h:\\w\\$ "
 #  define DEFAULT_ENV_PS2 "> "
 #  define DEFAULT_ENV_PS3 "# "
 #  define DEFAULT_ENV_PS4 "+ "
@@ -32,25 +32,25 @@
 #  define ENV_INTEGER		0x0000010
 #  define ENV_ASSOC			0x0000020
 #  define ENV_DYNGEN		0x0000040
-#  define ENV_USER_MASK		0x0000fff
 
 #  define ENV_NO_UNSET		0x0001000
 #  define ENV_ALLOC_NAME	0x0002000
 #  define ENV_ALLOC_VALUE	0x0004000
 #  define ENV_IMPORTED		0x0008000
 #  define ENV_INVISIBLE		0x0010000
-#  define ENV_INT_MASK		0x00ff000
+#  define ENV_COPIED		0x0020000
 
 typedef struct s_variable	t_variable;
 
 typedef char				*t_variable_fn(t_minishell *msh,
-								t_variable *variable);
+	t_variable *variable, size_t array_idx, const char *target);
 
 typedef struct s_variable
 {
 	char				*name;
 	char				*value;
-	t_variable_fn		*fn;
+	t_variable_fn		*value_fn;
+	t_variable_fn		*set_fn;
 	int					flags;
 	struct s_variable	*next;
 }	t_variable;
@@ -103,6 +103,15 @@ t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *name,
 char		*msh_env_value(t_minishell *msh, const char *name);
 
 /**
+ * @brief Gets an array of variables sorted by name.
+ *
+ * @param msh The minishell instance.
+ *
+ * @return The array of variables.
+ */
+t_variable	*msh_env_sorted(t_minishell *msh);
+
+/**
  * @brief Frees all variables.
  *
  * @param msh The minishell instance.
@@ -134,11 +143,23 @@ char		**msh_env_tab(t_minishell *msh, int match_flags);
 void		msh_env_tab_free(char **tab);
 
 /**
+ * @brief Prints an assignment statement for a variable (such as NAME=VALUE)
+ *
+ * @param msh The minishell instance.
+ * @param variable The variable to print the assignment for.
+ * @param quote_type The quoting strategy to use.
+ */
+void		msh_env_print_assignment(t_minishell *msh, t_variable *variable,
+				int quote_type);
+
+#  if 0
+/**
  * @brief Debug function used to print all flags of a variable.
  *
  * @param variable The variable to print the flags of.
  */
 void		msh_env_print_flags(t_variable *variable);
+#  endif
 
 # endif // __MSH_ENV_H__
 #endif // ENV_H

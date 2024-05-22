@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:37:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 01:26:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,24 @@ char	*msh_ansicstr(char *input, size_t *retlen);
  */
 bool	msh_same_file(const char *path1, const char *path2,
 			struct stat *stat1, struct stat *stat2);
+
+/**
+ * @brief Checks if the given string contains shell metacharacters.
+ *
+ * @param str The string to check.
+ *
+ * @return `true` if the string contains shell metacharacters, `false` otherwise.
+ */
+bool	msh_contains_shell_metas(const char *str);
+
+/**
+ * @brief Quotes the given string.
+ *
+ * @param str The string to quote.
+ *
+ * @return The quoted string.
+ */
+char	*msh_quote(const char *str);
 
 # endif // __MSH_UTIL_H__
 #endif // UTIL_H
