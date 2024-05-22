@@ -6,12 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:49:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 03:24:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:14:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/builtin.h>
-#include <msh/env.h>
+#include <msh/features.h>
+#if FEAT_BUILTIN_SET
+# include <msh/builtin.h>
+# include <msh/env.h>
 
 static void	msh_print_vars(t_minishell *msh)
 {
@@ -35,8 +37,10 @@ static void	msh_print_vars(t_minishell *msh)
 
 static int	msh_builtin_set(int argc, char **argv, t_minishell *msh)
 {
-	if (argc == 1)
+	if (argc == 1 || !FEAT_BUILTIN_SET_FULL)
 		msh_print_vars(msh);
+	if (!FEAT_BUILTIN_SET_FULL)
+		return (0);
 	(void) argv;
 	return (0);
 }
@@ -53,3 +57,4 @@ void	register_set(void)
 		.enabled = true,
 	});
 }
+#endif // FEAT_BUILTIN_SET
