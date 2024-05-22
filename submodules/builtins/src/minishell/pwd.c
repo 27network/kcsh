@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 23:30:48 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 23:42:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:57:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@
 #include <msh/builtin.h>
 #include <stdio.h>
 
-#define PWD_USAGE "pwd"
-#define PWD_USAGE_OPT "pwd [-LP]"
-#define PWD_HELP "Print the name of the current working directory.\n\
-\n\
-Exit Status:\n\
-Returns 0 unless an invalid option is given or the current directory\n\
-cannot be read."
-#define PWD_HELP_OPT "Print the name of the current working directory.\n\
+#if FEAT_BUILTIN_PWD_OPT
+# define PWD_USAGE "pwd [-LP]"
+# define PWD_HELP_OPT "Print the name of the current working directory.\n\
 \n\
 Options:\n\
   -L	print the value of $PWD if it names the current working\n\
@@ -34,6 +29,14 @@ By default, `pwd' behaves as if `-L' were specified.\n\
 Exit Status:\n\
 Returns 0 unless an invalid option is given or the current directory\n\
 cannot be read."
+#else
+# define PWD_USAGE "pwd"
+# define PWD_HELP "Print the name of the current working directory.\n\
+\n\
+Exit Status:\n\
+Returns 0 unless an invalid option is given or the current directory\n\
+cannot be read."
+#endif // FEAT_BUILTIN_PWD_OPT
 
 //TODO: Implement path traversal
 static int	msh_builtin_pwd(int argc, char **argv, t_minishell *msh)
@@ -54,16 +57,6 @@ static int	msh_builtin_pwd(int argc, char **argv, t_minishell *msh)
 __attribute__((constructor))
 void	register_pwd(void)
 {
-	char	*usage;
-	char	*help;
-
-	usage = PWD_USAGE;
-	help = PWD_HELP;
-	if (FEAT_BUILTIN_PWD_OPT)
-	{
-		usage = PWD_USAGE_OPT;
-		help = PWD_HELP_OPT;
-	}
 	msh_builtin_register((t_builtin){
 		.name = "pwd",
 		.usage = usage,

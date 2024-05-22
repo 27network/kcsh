@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:42:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:51:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define ECHO_USAGE "echo [-n] [arg ...]"
-#define ECHO_HELP "Write arguments to the standard output.\n\
-\n\
-Display the ARGs on the standard output followed by a newline.\n\
-\n\
-Options:\n\
-  -n	do not append a newline\n\
-\n\
-Exit Status:\n\
-Returns success unless a write error occurs."
-
-#define ECHO_USAGE_V9 "echo [-neE] [arg ...]"
-#define ECHO_HELP_V9 "Write arguments to the standard output.\n\
+#if FEAT_BUILTIN_ECHO_OPT
+# define ECHO_USAGE "echo [-neE] [arg ...]"
+# define ECHO_HELP "Write arguments to the standard output.\n\
 \n\
 Display the ARGs, separated by a single space character and followed by a\n\
 newline, on the standard output.\n\
@@ -53,10 +43,18 @@ Options:\n\
 \n\
 Exit Status:\n\
 Returns success unless a write error occurs."
-
-#if FEAT_BUILTIN_ECHO_OPT
 # define VALID_ECHO_OPTS "neE"
 #else
+# define ECHO_USAGE "echo [-n] [arg ...]"
+# define ECHO_HELP "Write arguments to the standard output.\n\
+\n\
+Display the ARGs on the standard output followed by a newline.\n\
+\n\
+Options:\n\
+  -n	do not append a newline\n\
+\n\
+Exit Status:\n\
+Returns success unless a write error occurs."
 # define VALID_ECHO_OPTS "n"
 #endif // FEAT_BUILTIN_ECHO_OPT
 
@@ -154,20 +152,10 @@ static int	msh_echo(
 __attribute__((constructor))
 void	register_echo(void)
 {
-	char	*help;
-	char	*usage;
-
-	help = ECHO_HELP;
-	usage = ECHO_USAGE;
-	if (FEAT_BUILTIN_ECHO_OPT)
-	{
-		help = ECHO_HELP_V9;
-		usage = ECHO_USAGE_V9;
-	}
 	msh_builtin_register((t_builtin){
 		.name = "echo",
-		.usage = usage,
-		.help = help,
+		.usage = ECHO_USAGE,
+		.help = ECHO_HELP,
 		.func = msh_echo,
 		.needs = NEEDS_MSH,
 		.enabled = true,
