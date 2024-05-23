@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 19:02:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 19:17:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/23 02:24:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #  define __FT_OPT_H__
 
 #  include <stdbool.h>
+#  include <stddef.h>
+
+/* Globals */
 
 typedef struct s_opt_globals
 {
@@ -24,23 +27,46 @@ typedef struct s_opt_globals
 	int		optind;
 	int		optopt;
 	int		opterr;
+
+	int		_optpos;
+
+	char	*_optchar;
+	int		_optchar_len;
 }	t_opt_globals;
 
-t_opt_globals	*ft_opt_globals(void);
-void			ft_resetopt(void);
+t_opt_globals	ft_opt_globals(void);
+void			ft_opt_reset(t_opt_globals *globals);
 
-#  define G_OPT ft_opt_globals
+/* Arguments */
 
 typedef struct s_opt_args
 {
 	int			argc;
 	char		**argv;
-	char		**envp;
+	bool		posix;
 	const char	*optstring;
 }	t_opt_args;
 
-t_opt_args		ft_opt_args(int argc, char **argv, char **envp,
+t_opt_args		ft_opt_args(int argc, char **argv, bool posix,
 					const char *optstring);
+
+/* getopt */
+
+int				ft_opt_get(t_opt_globals *g_opt, t_opt_args *args);
+
+/* getopt_long */
+
+int				ft_opt_get_long(t_opt_globals *g_opt, t_opt_args *args,
+					const char *longopts, int *longindex);
+
+#  ifdef __FT_OPT_INTERNAL__
+
+int				ft_opt_get_posix(t_opt_globals *g_opt, t_opt_args *args);
+
+void			ft_opt_msg(const char *a, const char *b,
+					const char *c, size_t size_c);
+
+#  endif // __FT_OPT_INTERNAL__
 
 # endif // __FT_OPT_H__
 #endif // OPT_H

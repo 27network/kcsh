@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 23:30:48 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 18:57:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 21:00:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #if FEAT_BUILTIN_PWD_OPT
 # define PWD_USAGE "pwd [-LP]"
-# define PWD_HELP_OPT "Print the name of the current working directory.\n\
+# define PWD_HELP "Print the name of the current working directory.\n\
 \n\
 Options:\n\
   -L	print the value of $PWD if it names the current working\n\
@@ -59,8 +59,8 @@ void	register_pwd(void)
 {
 	msh_builtin_register((t_builtin){
 		.name = "pwd",
-		.usage = usage,
-		.help = help,
+		.usage = PWD_USAGE,
+		.help = PWD_HELP,
 		.func = msh_builtin_pwd,
 		.needs = NEEDS_MSH,
 		.enabled = true,

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:47:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/22 21:53:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static void	msh_handle_ast(t_minishell *msh, char *line)
 	// tokens = msh_ast_tokenize(line);
 	// if (!tokens)
 	// 	return ;
-	// if (*line && msh->interactive)
-	// 	add_history(line);
 	// if (msh->flags.print_tokens)
 	// 	printf("\nFinal token list:\n");
 	// if (msh->flags.print_tokens)
@@ -59,5 +57,7 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 void	msh_handle_line(t_minishell *msh, char *line)
 {
 	msh_handle_ast(msh, line);
+	if (*line && msh->interactive)
+		add_history(line);
 	msh_debug_exec(msh, line);
 }

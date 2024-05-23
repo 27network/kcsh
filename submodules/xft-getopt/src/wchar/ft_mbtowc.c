@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_globals.c                                   :+:      :+:    :+:   */
+/*   ft_mbtowc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 19:07:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 20:43:08 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/22 23:29:53 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/22 23:32:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/opt.h>
+#include <ft/wchar.h>
 
-t_opt_globals	ft_opt_globals(void)
+//TODO: actual widechar support
+int	ft_mbtowc(wchar_t *pwc, const char *s, size_t n)
 {
-	t_opt_globals	opt;
-
-	ft_opt_reset(&opt);
-	return (opt);
+	if (!n)
+		return (-1);
+	if (pwc)
+		*pwc = (unsigned char) *s;
+	return (!!*s);
 }

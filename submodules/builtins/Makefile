@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/22 19:14:23 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/22 21:03:33 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC			=	42sh/jobs/bg.c \
 				minishell/export.c \
 				minishell/pwd.c \
 				minishell/unset.c \
+				ptdr.c \
 				posix/no-op.c
 
 include ../common.mk
