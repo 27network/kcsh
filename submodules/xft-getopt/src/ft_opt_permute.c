@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_get.c                                       :+:      :+:    :+:   */
+/*   ft_opt_permute.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:33:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 22:40:49 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/23 13:02:24 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/23 13:03:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __FT_OPT_INTERNAL__
 #include <ft/opt.h>
 
-int	ft_opt_get(t_opt_globals *globals, t_opt_args *args)
+void	ft_opt_permute(char **av, int dest, int src)
 {
-	if (args->posix)
-		return (ft_opt_get_posix(globals, args));
-	return (ft_opt_get_long(globals, args, NULL, NULL));
+	char	*tmp;
+	int		i;
+
+	tmp = av[src];
+	i = src;
+	while (i > dest)
+	{
+		av[i] = av[i - 1];
+		i--;
+	}
+	av[dest] = tmp;
 }

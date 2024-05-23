@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_get.c                                       :+:      :+:    :+:   */
+/*   ft_wchar_oob.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:33:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 22:40:49 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/23 21:02:32 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/23 21:12:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __FT_OPT_INTERNAL__
-#include <ft/opt.h>
+#include <ft/wchar.h>
 
-int	ft_opt_get(t_opt_globals *globals, t_opt_args *args)
+int	ft_wchar_oob(unsigned int c, unsigned char b)
 {
-	if (args->posix)
-		return (ft_opt_get_posix(globals, args));
-	return (ft_opt_get_long(globals, args, NULL, NULL));
+	return (((((b) >> 3) - 0x10) | (((b) >> 3) + ((int32_t)(c) >> 26))) & ~7);
 }

@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_get.c                                       :+:      :+:    :+:   */
+/*   ft_opt_get_long.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:33:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 22:40:49 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/23 13:01:15 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/23 21:17:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __FT_OPT_INTERNAL__
 #include <ft/opt.h>
 
-int	ft_opt_get(t_opt_globals *globals, t_opt_args *args)
+int	ft_opt_get_long(t_opt_globals *g_opt, t_opt_args *args,
+		const t_opt_option *longopts, int *longindex)
 {
-	if (args->posix)
-		return (ft_opt_get_posix(globals, args));
-	return (ft_opt_get_long(globals, args, NULL, NULL));
+	(void) g_opt;
+	(void) args;
+	(void) longopts;
+	(void) longindex;
+	return (0);
 }

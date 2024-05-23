@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_get.c                                       :+:      :+:    :+:   */
+/*   ft_codeunit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:33:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 22:40:49 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/23 20:33:58 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/23 20:34:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __FT_OPT_INTERNAL__
-#include <ft/opt.h>
+#include <ft/wchar.h>
 
-int	ft_opt_get(t_opt_globals *globals, t_opt_args *args)
+wchar_t	ft_codeunit(unsigned char c)
 {
-	if (args->posix)
-		return (ft_opt_get_posix(globals, args));
-	return (ft_opt_get_long(globals, args, NULL, NULL));
+	return (0xdfff & (signed char)(c));
 }

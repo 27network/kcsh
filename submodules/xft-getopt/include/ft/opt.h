@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 19:02:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 02:24:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:20:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,23 @@ int				ft_opt_get(t_opt_globals *g_opt, t_opt_args *args);
 
 /* getopt_long */
 
+enum e_argument_req
+{
+	no_argument = 0,
+	required_argument = 1,
+	optional_argument = 2
+};
+
+typedef struct s_opt_option
+{
+	const char	*name;
+	int			has_arg;
+	int			*flag;
+	int			val;
+}	t_opt_option;
+
 int				ft_opt_get_long(t_opt_globals *g_opt, t_opt_args *args,
-					const char *longopts, int *longindex);
+					const t_opt_option *longopts, int *longindex);
 
 #  ifdef __FT_OPT_INTERNAL__
 

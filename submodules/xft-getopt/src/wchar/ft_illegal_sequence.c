@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_get.c                                       :+:      :+:    :+:   */
+/*   ft_illegal_sequence.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:33:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 22:40:49 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/23 20:34:32 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/23 20:34:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __FT_OPT_INTERNAL__
-#include <ft/opt.h>
+#include <errno.h>
 
-int	ft_opt_get(t_opt_globals *globals, t_opt_args *args)
+int	ft_illegal_sequence(void)
 {
-	if (args->posix)
-		return (ft_opt_get_posix(globals, args));
-	return (ft_opt_get_long(globals, args, NULL, NULL));
+	errno = EILSEQ;
+	return (-1);
 }
