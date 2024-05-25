@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 17:11:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 07:40:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  */
 
 #  include <msh/minishell.h>
+#  include <stdbool.h>
 
 /**
  * @brief The type of an AST error.
@@ -30,6 +31,9 @@ typedef enum e_ast_error_type
 {
 	AST_ERROR_NONE = 0,
 	AST_ERROR_ALLOC,
+	AST_ERROR_SYNTAX,
+	AST_ERROR_UNEXPECTED_TOKEN,
+	AST_ERROR_BAD_SUBSTITUTION,
 	_AST_ERROR_COUNT,
 }	t_ast_error_type;
 
@@ -37,11 +41,12 @@ typedef struct s_ast_error
 {
 	t_ast_error_type	type;
 	void				*data;
+	bool				retry;
 }	t_ast_error;
 
 /**
  * @brief Conveniance function; returns a new error with type `AST_ERROR_NONE`.
- * 
+ *
  * @return An AST error with type AST_ERROR_NONE
  */
 t_ast_error	msh_ast_ok(void);
@@ -60,10 +65,11 @@ t_ast_error	msh_ast_okd(void *data);
  * @brief Conveniance function; returns a new error with the given type.
  *
  * @param type The type of the error
+ * @param retry Whether the error is recoverable
  *
  * @return An AST error with the given type
  */
-t_ast_error	msh_ast_err(t_ast_error_type type);
+t_ast_error	msh_ast_err(t_ast_error_type type, bool retry);
 
 /**
  * @brief Conveniance function; returns a new error with the given type
@@ -71,10 +77,11 @@ t_ast_error	msh_ast_err(t_ast_error_type type);
  *
  * @param type The type of the error
  * @param data The data to associate with the error
+ * @param retry Whether the error is recoverable
  *
  * @return An AST error with the given type and data
  */
-t_ast_error	msh_ast_errd(t_ast_error_type type, void *data);
+t_ast_error	msh_ast_errd(t_ast_error_type type, void *data, bool retry);
 
 /**
  * @brief Returns the error string associated with the given error type.

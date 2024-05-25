@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 03:32:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:33:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 
 #  include <msh/minishell.h>
 
-#  define DEFAULT_ENV_PS1 "\\u@\\h:\\w\\$ "
-#  define DEFAULT_ENV_PS2 "> "
-#  define DEFAULT_ENV_PS3 "# "
-#  define DEFAULT_ENV_PS4 "+ "
+#  define ENV_DEFAULT_PS1 "\\u@\\h:\\w\\$ "
+#  define ENV_DEFAULT_PS2 "> "
+#  define ENV_DEFAULT_PS3 "# "
+#  define ENV_DEFAULT_PS4 "+ "
 
-#  define DEFAULT_IFS " \t\n"
+#  define ENV_DEFAULT_PATH ""
+#  define ENV_DEFAULT_IFS " \t\n"
 
 #  define ENV_EXPORTED		0x0000001	
 #  define ENV_READONLY		0x0000002
@@ -91,6 +92,19 @@ t_variable	*msh_env_get(t_minishell *msh, const char *name, int flags);
  */
 t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *name,
 				int flags);
+
+/**
+ * @brief Sets the value of a variable by name, only if it doesn't exist.
+ *
+ * @param msh The minishell instance.
+ * @param key The name of the variable.
+ * @param value The value of the variable.
+ * @param flags The flags of the variable.
+ *
+ * @return The variable that was set, or NULL if something failed.
+ */
+t_variable	*msh_env_set_if_not(t_minishell *msh, const char *key,
+				const char *value, int flags);
 
 /**
  * @brief Gets the value of a variable by name.

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/22 03:05:14 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/25 09:33:50 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC			=	env/msh_env_defaults.c \
 				env/msh_env_populate.c \
 				env/msh_env_print_assignment.c \
 				env/msh_env_push.c \
+				env/msh_env_set_if_not.c \
 				env/msh_env_sorted.c \
 				env/msh_env_tab.c \
 				env/msh_env_tab_free.c \

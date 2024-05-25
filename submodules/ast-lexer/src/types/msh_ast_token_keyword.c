@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_err.c                                      :+:      :+:    :+:   */
+/*   msh_ast_token_keyword.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 13:48:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 07:41:24 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/25 08:17:41 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/25 08:19:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/error.h>
+#include <msh/ast/lexer.h>
 
-t_ast_error	msh_ast_err(t_ast_error_type type, bool retry)
+t_ast_error	msh_ast_token_keyword(t_ast_lexer *state, t_ast_token **token,
+				size_t *inc)
 {
-	return ((t_ast_error){.type = type, .data = NULL, .retry = retry});
+	t_ast_error	err;
+
+	err = msh_ast_ok();
+	return (err);
 }

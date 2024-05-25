@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:47:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 13:48:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 07:41:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 t_ast_error	msh_ast_ok(void)
 {
-	return ((t_ast_error){.type = AST_ERROR_NONE, .data = NULL});
+	return ((t_ast_error){.type = AST_ERROR_NONE, .data = NULL, .retry = false});
 }

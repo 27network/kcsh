@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_err.c                                      :+:      :+:    :+:   */
+/*   msh_ast_token_free.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 13:48:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 07:41:24 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/25 10:45:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/error.h>
+#include <ft/mem.h>
+#include <msh/ast/lexer.h>
 
-t_ast_error	msh_ast_err(t_ast_error_type type, bool retry)
+void	msh_ast_token_free(t_ast_token *token)
 {
-	return ((t_ast_error){.type = type, .data = NULL, .retry = retry});
+	if (!token)
+		return ;
+	if (token->value)
+		free(token->value);
+	free(token);
 }

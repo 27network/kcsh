@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   msh_ast_lexer_init.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 13:28:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 15:44:54 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/25 07:35:56 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/25 09:02:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-# define TYPES_H
-# undef TYPES_H
-# ifndef __MSH_AST_TYPES_H__
-#  define __MSH_AST_TYPES_H__
+#include <msh/ast/lexer.h>
+#include <stddef.h>
 
-/**
- * @file types.h
- * @brief This file contains the definition of shared types used in the AST,
- *		  such the AST data type, but also context-holding structures.
- */
-
-# endif // __MSH_AST_TYPES_H__
-#endif // TYPES_H
+void	msh_ast_lexer_init(t_ast_lexer *state, t_minishell *msh,
+			const char *line)
+{
+	state->msh = msh;
+	state->input = line;
+	state->cursor = 0;
+	state->token_start = 0;
+	state->token_end = 0;
+	state->tokens = NULL;
+}

@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_err.c                                      :+:      :+:    :+:   */
+/*   msh_ast_token_new.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 13:48:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 07:41:24 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/25 10:03:20 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/25 10:03:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/error.h>
+#include <ft/mem.h>
+#include <msh/ast/lexer.h>
 
-t_ast_error	msh_ast_err(t_ast_error_type type, bool retry)
+t_ast_error	msh_ast_token_new(t_ast_tkn_type type, t_ast_token **tknret)
 {
-	return ((t_ast_error){.type = type, .data = NULL, .retry = retry});
+	t_ast_token	*token;
+
+	token = ft_calloc(1, sizeof(t_ast_token));
+	if (!token)
+	{
+		*tknret = NULL;
+		return (msh_ast_err(AST_ERROR_ALLOC, false));
+	}
+	token->type = type;
+	*tknret = token;
+	return (msh_ast_ok());
 }

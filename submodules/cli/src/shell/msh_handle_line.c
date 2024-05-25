@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 01:30:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:34:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,35 @@
 #include <msh/ast/lexer.h>
 #include <msh/cli/shell.h>
 #include <msh/exec/exec.h>
+#include <msh/env.h>
 #include <stdio.h>
 #include <readline/history.h>
 #include <stdlib.h>
 
-static void	msh_handle_ast(t_minishell *msh, char *line)
+static t_list	*msh_build_ast_tokens(t_minishell *msh, char *line)
 {
-	(void) msh;
-	(void) line;
-	// t_list	*tokens;
-	//
-	// tokens = msh_ast_tokenize(line);
-	// if (!tokens)
-	// 	return ;
-	// if (msh->flags.print_tokens)
-	// 	printf("\nFinal token list:\n");
-	// if (msh->flags.print_tokens)
-	// 	ft_lst_foreach(tokens, (void (*)(void *)) & msh_ast_tkn_print);
-	// ft_lst_free(&tokens, (t_lst_dealloc) & msh_ast_tkn_free);
+	t_ast_lexer	lexer;
+	t_ast_error	err;
+	char		*prompt;
+
+	prompt = msh_env_value(msh, "PS2");
+	if (!prompt || !*prompt)
+		prompt = ENV_DEFAULT_PS2;
+	msh_ast_lexer_init(&lexer, msh, line);
+	err = msh_ast_tokenize(&lexer);
+	while (err.retry)
+	{
+		lexer.input = msh_input(prompt);
+		err = msh_ast_tokenize(&lexer);
+	}
+	if (err.type != AST_ERROR_NONE)
+	{
+		msh_ast_error_print(msh, err);
+		if (lexer.tokens)
+			ft_lst_free(&lexer.tokens, free);
+		return (NULL);
+	}
+	return (lexer.tokens);
 }
 
 static void	msh_debug_exec(t_minishell *msh, char *line)
