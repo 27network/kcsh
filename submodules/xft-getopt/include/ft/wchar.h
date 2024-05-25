@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:30:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:42 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 01:11:37 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #  include <wchar.h>
 
 int			ft_mbtowc(wchar_t *pwc, const char *s, size_t n);
+int			ft_mblen(const char *s, size_t n);
 
 #  ifdef __FT_WCHAR_INTERNAL__
 

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:04:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 23:14:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 01:58:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <msh/builtin.h>
 #include <stdbool.h>
 #include <stdlib.h>
+
+#if 1 // BUILTIN_REGISTRY_DEBUG
 
 static void	msh_builtin_check(t_builtin *builtin)
 {
@@ -28,6 +30,15 @@ static void	msh_builtin_check(t_builtin *builtin)
 	if (!(builtin->func && builtin->name))
 		exit(-2);
 }
+
+#else
+
+static void	msh_builtin_check(t_builtin *builtin)
+{
+	(void)builtin;
+}
+
+#endif // BUILTIN_REGISTRY_DEBUG
 
 void	msh_builtin_register(t_builtin builtin)
 {

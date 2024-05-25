@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:00:54 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 00:14:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 05:29:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ int	msh_builtin_ptdr(
 	int				c;
 
 	opt = ft_opt_globals();
-	args = ft_opt_args(argc, argv, false, PTDROPT);
+	args = ft_opt_args(argc, argv, OPT_BASH_LIKE, PTDROPT);
 	while (1)
 	{
 		c = ft_opt_get(&opt, &args);
 		if (c == -1)
 			break ;
-		if (c == 'a')
+		if (c == HELP_OPT)
+			printf("HELPHELPHLEPHLEPLHP\n");
+		else if (c == 'a')
 			flags[0] = 1;
 		else if (c == 'b')
 			flags[1] = 1;

@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:48:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 00:12:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/25 05:33:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #define __FT_OPT_INTERNAL__
 #include <ft/opt.h>
+#include <ft/string.h>
 #include <ft/wchar.h>
 #include <wchar.h>
 #include <limits.h>
@@ -84,6 +85,16 @@ static int	ft_getopt_handle_unknown(
 	if (!(chars[TARGET_ARG] != chars[TARGET_OPT] || chars[TARGET_ARG] == ':'))
 		return (ft_getopt_handle_arguments(g_opt, args, chars, i));
 	g_opt->optopt = chars[TARGET_ARG];
+	if (g_opt->_optchar_len == 1 && g_opt->_optchar[0] == '-'
+		&& args->bash_like)
+	{
+		if (!ft_strcmp(args->argv[g_opt->optind], "--help"))
+		{
+			g_opt->optind += 1;
+			g_opt->_optpos = 0;
+			return (HELP_OPT);
+		}
+	}
 	if (args->optstring[0] != ':' && g_opt->opterr)
 		ft_opt_msg(args->argv[0], ": unrecognized option: ", g_opt->_optchar,
 			g_opt->_optchar_len);
