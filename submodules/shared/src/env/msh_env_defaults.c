@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 09:22:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:20:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	msh_env_adjust_shlvl(t_minishell *msh, int change)
 void	msh_env_defaults(t_minishell *msh)
 {
 	msh_env_setup_pwd(msh);
-	msh_env_set_if_not(msh, "_", msh->
+	msh_env_set_if_not(msh, "_", msh->binary_name, ENV_EXPORTED
+		| ENV_INVISIBLE);
 	msh_env_set_if_not(msh, "PATH", ENV_DEFAULT_PATH, 0);
 	msh_env_set_if_not(msh, "TERM", "dumb", 0);
 	msh_env_set_if_not(msh, "PS1", ENV_DEFAULT_PS1, 0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_columns.c                                      :+:      :+:    :+:   */
+/*   msh_term_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 03:08:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:38:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 05:01:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #ifdef TIOCGWINSZ
 
-static void	ioctl_tiocgwinsz(int *col)
+static void	ioctl_tiocgwinsz(size_t *lines, size_t *col)
 {
 	int				tty;
 	struct winsize	win;
@@ -25,32 +25,33 @@ static void	ioctl_tiocgwinsz(int *col)
 	tty = STDIN_FILENO;
 	if (rl_instream)
 		tty = msh_fileno(rl_instream);
-	if (tty >= 0 && ioctl(tty, TIOCGWINSZ, &win) == 0 && win.ws_col > 0)
-		*col = win.ws_col;
+	if (tty >= 0 && ioctl(tty, TIOCGWINSZ, &win) == 0)
+	{
+		if (lines)
+			*lines = win.ws_row;
+		if (col)
+			*col = win.ws_col;
+	}
 }
 
 #else
 
-static void	ioctl_tiocgwinsz(__attribute__((unused)) int *col)
-{
+static void	ioctl_tiocgwinsz(
+	__attribute__((unused)) size_t *lines,
+	__attribute__((unused)) size_t *col
+) {
 }
 
 #endif // TIOCGWINSZ
 
-size_t	msh_columns(t_minishell *msh)
+void	msh_term_size(t_minishell *msh, size_t *lines, size_t *cols)
 {
-	int			value;
 	const char	*columns_env = msh_env_value(msh, "COLUMNS");
+	const char	*lines_env = msh_env_value(msh, "LINES");
 
-	value = 80;
-	if (columns_env && *columns_env)
-	{
-		value = ft_atoi(columns_env);
-		if (value > 0)
-			return ((size_t) value);
-	}
-	ioctl_tiocgwinsz(&value);
-	if (value > 0)
-		return (value);
-	return (80);
+	ioctl_tiocgwinsz(lines, cols);
+	if (lines && *lines == 0 && lines_env && *lines_env)
+		*lines = ft_atoi(lines_env);
+	if (cols && *cols == 0 && columns_env && *columns_env)
+		*cols = ft_atoi(columns_env);
 }

@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/25 05:02:43 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/26 18:16:23 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		=	builtins
-DEPS		=	shared xft-getopt
+DEPS		=	shared
 
 include ../common-prelude.mk
 

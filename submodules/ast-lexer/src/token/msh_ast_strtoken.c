@@ -6,18 +6,20 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:53:13 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 06:55:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 01:19:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/tokens.h>
+#include <msh/ast/lexer/tokens.h>
 
-const char	*msh_ast_strtoken(t_ast_tkn_type type)
+const char	*msh_ast_strtoken(t_ast_token_type type)
 {
 	static const char	*tkn_names[] = {
-	[TKN_KEYWORD] = "keyword", [TKN_PIPE] = "pipe", [TKN_DELIM] = "delimiter",
-	[TKN_REDIR] = "redirection", [TKN_STRING] = "string", [TKN_WORD] = "word",
-	[TKN_SUBSTI] = "substitution", [TKN_NEWLINE] = "newline", [TKN_EOF] = "eof"
+	[TKN_SEP] = "separator", [TKN_SPACE] = "space", [TKN_KEYWORD] = "keyword",
+	[TKN_PIPE] = "pipe", [TKN_DELIM] = "delimiter", [TKN_REDIR] = "redirection",
+	[TKN_SEMISEMI] = "dsemi", [TKN_GROUP] = "group", [TKN_COMMENT] = "comment",
+	[TKN_STRING] = "string", [TKN_WORD] = "word", [TKN_SUBSTI] = "substitution",
+	[TKN_EOF] = "eof"
 	};
 
 	if (type < 0 || type > TKN_EOF)

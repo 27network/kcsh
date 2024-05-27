@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 12:41:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:05:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 05:47:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/math.h>
+#include <ft/mem.h>
 #include <msh/builtin.h>
 #include <msh/features.h>
 #include <msh/util.h>
@@ -33,19 +34,55 @@ Options:\n\
 #define DISPLAY_MANPAGE 2
 #define DISPLAY_SHORT_USAGE 4
 
+#define DISPLAY_BUFFER_SIZE 128
+
 void	msh_print_version(int fd);
+
+static void	display_col(size_t i, char *buffer, size_t width, size_t height)
+{
+	const size_t	count = msh_builtin_count(false);
+	t_builtin		*builtin;
+
+	ft_memset(buffer, ' ', DISPLAY_BUFFER_SIZE);
+	builtin = msh_builtin_registry() + i;
+	buffer[0] = ' ';
+	if (!builtin->enabled)
+		buffer[0] = '*';
+	ft_strncpy(buffer + 1, builtin->usage, width - 2);
+	ft_strncpy(buffer + width - 2, ">", 2);
+	printf("%s", buffer);
+	if ((i << 1) >= count || (i + height) >= count)
+		return ;
+	ft_memset(buffer, ' ', DISPLAY_BUFFER_SIZE);
+	builtin = msh_builtin_registry() + (i + height);
+	buffer[0] = ' ';
+	if (!builtin->enabled)
+		buffer[0] = '*';
+	ft_strncpy(buffer + 1, builtin->usage, width - 2);
+	ft_strncpy(buffer + width - 3, ">", 2);
+	printf("%s", buffer);
+}
 
 static void	msh_help_command_wall(t_minishell *msh)
 {
 	size_t	width;
 	size_t	height;
+	size_t	cols;
+	char	buffer[DISPLAY_BUFFER_SIZE];
+	size_t	i;
 
-	width = ft_min(128, msh_columns(msh) / 2);
+	msh_term_size(msh, NULL, &cols);
+	width = ft_min(DISPLAY_BUFFER_SIZE, cols / 2);
 	if (width <= 3)
 		width = 40;
-	height = (msh_builtin_count() + 1) / 2;
-	(void) width;
-	(void) height;
+	height = (msh_builtin_count(false) + 1) / 2;
+	i = 0;
+	while (i < height)
+	{
+		display_col(i, buffer, width, height);
+		printf("\n");
+		i++;
+	}
 }
 
 static int	msh_help(

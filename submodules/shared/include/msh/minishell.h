@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/20 20:29:25 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 01:00:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 #  ifndef MSH_VERSION
 #   define MSH_VERSION "0.0.0-unknown"
 #  endif // MSH_VERSION
+
+#  ifndef MSH_HOMEPAGE
+#   define MSH_HOMEPAGE "https://codeberg.org/27/kcsh"
+#  endif // MSH_HOMEPAGE
 
 typedef struct s_variable	t_variable;
 

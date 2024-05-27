@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_lexer_init.c                               :+:      :+:    :+:   */
+/*   msh_ast_lexer_sub.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 07:35:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 09:02:04 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/26 00:31:55 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/27 06:18:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/lexer.h>
 #include <stddef.h>
 
-void	msh_ast_lexer_init(t_ast_lexer *state, t_minishell *msh,
-			const char *line)
+t_ast_lexer	msh_ast_lexer_sub(t_ast_lexer *parent, char delim)
 {
-	state->msh = msh;
-	state->input = line;
-	state->cursor = 0;
-	state->token_start = 0;
-	state->token_end = 0;
-	state->tokens = NULL;
+	t_ast_lexer	lexer;
+
+	lexer.id = parent->id + 1;
+	lexer.msh = parent->msh;
+	lexer.input = &parent->input[parent->cursor];
+	lexer.parent = parent;
+	lexer.cursor = 0;
+	lexer.delim = delim;
+	lexer.found_matching = false;
+	lexer.tokens = NULL;
+	lexer.allow_escape = parent->allow_escape && delim != '\'';
+	return (lexer);
 }

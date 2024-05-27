@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_illegal_sequence.c                              :+:      :+:    :+:   */
+/*   msh_ast_lexer_debug.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 20:34:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/23 20:34:43 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/27 01:13:13 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/27 01:42:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
+#define __MSH_LOG_INTERNALS__
+#include <msh/log.h>
+#include <stdarg.h>
 
-int	ft_illegal_sequence(void)
+void	msh_ast_lexer_debug(t_minishell *msh, const char *format, ...)
 {
-	errno = EILSEQ;
-	return (-1);
+	va_list	args;
+
+	va_start(args, format);
+	msh_vlog(msh, MSG_DEBUG_AST_TOKENIZER, format, args);
+	va_end(args);
 }

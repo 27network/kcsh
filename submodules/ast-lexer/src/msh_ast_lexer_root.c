@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opt_get.c                                       :+:      :+:    :+:   */
+/*   msh_ast_lexer_root.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:33:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 04:59:11 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/25 07:35:56 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/27 06:36:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __FT_OPT_INTERNAL__
-#include <ft/opt.h>
+#include <msh/ast/lexer.h>
+#include <msh/features.h>
+#include <stddef.h>
 
-int	ft_opt_get(t_opt_globals *globals, t_opt_args *args)
+t_ast_lexer	msh_ast_lexer_root(t_minishell *msh, const char *line)
 {
-	if (!args->posix)
-		return (ft_opt_get_long(globals, args, NULL, NULL));
-	return (ft_opt_get_posix(globals, args));
+	return ((t_ast_lexer){
+		.id = 0,
+		.msh = msh,
+		.input = line,
+		.parent = NULL,
+		.cursor = 0,
+		.delim = '\n',
+		.found_matching = false,
+		.tokens = NULL,
+		.allow_escape = FEAT_PARSER_INHIBITORS,
+	});
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:44:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 06:52:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	msh_ast_error_data(
 	__attribute__((unused)) t_ast_error_type type,
 	void *data
 ) {
+	ft_putstr_fd(data, STDERR_FILENO);
 	free(data);
 }
 
@@ -30,8 +31,11 @@ void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 
 	if (error.type == AST_ERROR_NONE)
 		return ;
-	msh_error(msh, "%s", type_message);
+	ft_putstr_fd(msh->name, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
 	if (error.data)
 		msh_ast_error_data(msh, error.type, error.data);
+	else
+		msh_error(msh, "%s", type_message);
 	ft_putchar_fd('\n', STDERR_FILENO);
 }

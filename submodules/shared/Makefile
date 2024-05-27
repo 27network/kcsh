@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/25 09:33:50 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/27 04:51:41 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ SRC			=	env/msh_env_defaults.c \
 				signal/msh_signal_setdfl.c \
 				signal/msh_strsignal.c \
 				util/msh_ansicstr.c \
-				util/msh_columns.c \
 				util/msh_contains_shell_metas.c \
 				util/msh_fileno.c \
 				util/msh_get_hostname.c \
@@ -47,6 +46,7 @@ SRC			=	env/msh_env_defaults.c \
 				util/msh_resolve_path.c \
 				util/msh_same_file.c \
 				util/msh_strcoll.c \
+				util/msh_term_size.c \
 				msh_destroy.c \
 				msh_exit.c \
 				msh_init.c

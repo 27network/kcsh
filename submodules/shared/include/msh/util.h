@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 01:26:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 05:01:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int		msh_fileno(FILE	*stream);
 bool	msh_is_interactive(void);
 
 /**
- * @brief Provides the number of columns of the running terminal.
+ * @brief Provides the number of lines and columns of the running terminal.
  *
- * @param minishell The minishell instance (to access the environment variables).
- *
- * @return the number of columns.
+ * @param minishell The minishell instance (to access the fallback environment).
+ * @param lines A pointer to store the number of lines.
+ * @param columns A pointer to store the number of columns.
  */
-size_t	msh_columns(t_minishell *msh);
+void	msh_term_size(t_minishell *msh, size_t *lines, size_t *columns);
 
 /**
  * @brief Compares two strings using the current locale.

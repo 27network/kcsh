@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:42:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 07:38:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	msh_exec(
 		msh_error(msh, "%s: %m\n", binary_path);
 	else
 	{
-		msh_signal_init(msh);
+		msh_signal_init(msh, false);
 		if (waitpid(pid, &status, 0) < 0)
 			msh_error(msh, "%s: %m\n", binary_path);
 	}
@@ -132,7 +132,7 @@ int	msh_exec_simple(t_minishell *msh, char **args)
 	if (path)
 		free(path);
 	msh->interactive = old_interactive;
-	msh_signal_init(msh);
+	msh_signal_init(msh, false);
 	msh_env_tab_free(env);
 	return (status);
 }

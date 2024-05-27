@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 04:37:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 06:02:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static int	msh_find_flag_index(const char **argv)
 
 void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 {
-	const char	*cmd;
-	int			c_flag_index;
+	char	*cmd;
+	int		c_flag_index;
 
 	c_flag_index = msh_find_flag_index(argv);
 	if (c_flag_index == -1 || argc <= c_flag_index + 1)
@@ -44,7 +44,7 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 		msh_error(msh, "-c: option requires an argument\n");
 		msh_exit(msh, 2);
 	}
-	cmd = argv[c_flag_index + 1];
+	cmd = (char *) argv[c_flag_index + 1];
 	if (argc > c_flag_index + 2)
 		msh->name = argv[c_flag_index + 2];
 	if (msh->name == NULL)
@@ -52,6 +52,11 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 	msh->interactive = false;
 	msh->execution_context.show_line = true;
 	msh->execution_context.line = 1;
-	msh_handle_line(msh, (char *) cmd);
+	cmd = (char *) ft_strdup(cmd);
+	if (!cmd)
+		msh_error(msh, "-c: %s\n", "error while allocating memory");
+	if (!cmd)
+		msh_exit(msh, 1);
+	msh_handle_line(msh, cmd);
 	msh_exit(msh, msh->execution_context.exit_code);
 }

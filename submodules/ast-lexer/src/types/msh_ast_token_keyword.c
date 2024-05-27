@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:17:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 08:19:20 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/26 23:11:09 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ t_ast_error	msh_ast_token_keyword(t_ast_lexer *state, t_ast_token **token,
 {
 	t_ast_error	err;
 
+	(void)state;
+	(void)token;
+	(void)inc;
 	err = msh_ast_ok();
 	return (err);
 }

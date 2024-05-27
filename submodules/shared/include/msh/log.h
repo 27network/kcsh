@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:07:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 21:44:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 01:43:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@
  */
 typedef enum e_log_type
 {
-	MSG_ERROR,
+	MSG_ERROR = 0,
 	MSG_WARNING,
-	MSH_DEBUG_AST_TOKENIZER,
-	MSH_DEBUG_AST_SANITIZER,
-	MSH_DEBUG_AST_BUILDER,
-	MSH_DEBUG_EXEC_BUILDER,
-	MSH_DEBUG_EXEC_RUNNER,
+	MSG_DEBUG_AST_TOKENIZER,
+	MSG_DEBUG_AST_SANITIZER,
+	MSG_DEBUG_AST_BUILDER,
+	MSG_DEBUG_EXECUTOR_BUILDER,
+	MSG_DEBUG_EXECUTOR,
 }	t_log_type;
 
 #  ifdef __MSH_LOG_INTERNALS__

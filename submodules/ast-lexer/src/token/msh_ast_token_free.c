@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_token_new.c                                :+:      :+:    :+:   */
+/*   msh_ast_token_free.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 10:03:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 10:03:55 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/27 03:17:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
-#include <msh/ast/lexer.h>
+#include <msh/ast/lexer/tokens.h>
 
-t_ast_error	msh_ast_token_new(t_ast_tkn_type type, t_ast_token **tknret)
+void	msh_ast_token_free(t_ast_token *token)
 {
-	t_ast_token	*token;
-
-	token = ft_calloc(1, sizeof(t_ast_token));
 	if (!token)
-	{
-		*tknret = NULL;
-		return (msh_ast_err(AST_ERROR_ALLOC, false));
-	}
-	token->type = type;
-	*tknret = token;
-	return (msh_ast_ok());
+		return ;
+	if (token->value.string && (token->type == TKN_WORD
+			|| token->type == TKN_SEP || token->type == TKN_COMMENT))
+		free(token->value.string);
+	else if (token->value.list && (token->type == TKN_GROUP
+			|| token->type == TKN_STRING))
+		ft_lst_free(&token->value.list, (t_lst_dealloc) msh_ast_token_free);
+	free(token);
 }

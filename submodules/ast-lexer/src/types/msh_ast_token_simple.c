@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:27:16 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 08:34:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:45:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define TOKEN_ALLOC_ERR ": failed to allocate memory for token"
 
-t_ast_error	msh_ast_token_simple(t_ast_tkn_type type, t_ast_token **tknret,
+t_ast_error	msh_ast_token_simple(t_ast_token_type type, t_ast_token **tknret,
 				size_t *inc, size_t size)
 {
 	t_ast_token	*token;
@@ -24,7 +24,7 @@ t_ast_error	msh_ast_token_simple(t_ast_tkn_type type, t_ast_token **tknret,
 	if (!token)
 	{
 		*tknret = NULL;
-		return (msh_ast_err(AST_ERROR_ALLOC, TOKEN_ALLOC_ERR, false));
+		return (msh_ast_errd(AST_ERROR_ALLOC, TOKEN_ALLOC_ERR, false));
 	}
 	token->type = type;
 	*tknret = token;

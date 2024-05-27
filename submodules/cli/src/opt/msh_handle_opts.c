@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:14:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/16 01:39:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 01:08:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,16 @@ static void	msh_handle_opt(
 			msh_opt_version(msh);
 		else if (ft_strcmp(cmd, "--flags") == 0)
 			msh_opt_flags(msh);
-		else if (ft_strcmp(cmd, "--print-ast") == 0)
-			msh->flags.print_ast = true;
-		else if (ft_strcmp(cmd, "--print-pipelines") == 0)
-			msh->flags.print_pipelines = true;
-		else if (ft_strcmp(cmd, "--print-tokens") == 0)
-			msh->flags.print_tokens = true;
+		else if (ft_strcmp(cmd, "--debug-ast") == 0)
+			msh->flags.debug_ast = true;
+		else if (ft_strcmp(cmd, "--debug-executor") == 0)
+			msh->flags.debug_executor = true;
+		else if (ft_strcmp(cmd, "--debug-pipelines") == 0)
+			msh->flags.debug_pipelines = true;
+		else if (ft_strcmp(cmd, "--debug-sanitizer") == 0)
+			msh->flags.debug_sanitizer = true;
+		else if (ft_strcmp(cmd, "--debug-tokens") == 0)
+			msh->flags.debug_tokenizer = true;
 		else
 			msh_handle_invalid(msh, cmd, true);
 	}

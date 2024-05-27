@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:09:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 02:46:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 07:37:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ extern int	g_signal;
  * @brief Initializes default signal handling for minishell.
  *
  * @param msh The minishell instance. 
+ * @param close_stdin Whether to close stdin on SIGINT.
  */
-void		msh_signal_init(t_minishell *msh);
+void		msh_signal_init(t_minishell *msh, bool close_stdin);
 
 /**
  * @brief Minishell's signal handler function.
@@ -48,6 +49,14 @@ void		msh_signal_handler(int signum);
  * @param signum The signal number.
  */
 void		msh_signal_handler_nonint(int signum);
+
+/**
+ * @brief Minishell's signal handler function, non-interative, stdin closing
+ *																	edition:tm:
+ *
+ * @param signum The signal number.
+ */
+void		msh_signal_handler_close(int signum);
 
 /**
  * @brief Forces the signal handler for all signals to be reset to the default

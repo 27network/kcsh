@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 21:54:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:59:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef int	(*t_builtin_fnone)(int, char **);
 t_builtin	*msh_builtin_registry(void);
 void		msh_builtin_register(t_builtin builtin);
 t_builtin	*msh_builtin_get(const char *name);
-size_t		msh_builtin_count(void);
+size_t		msh_builtin_count(bool show_hidden);
 
 # endif // __MSH_BUILTIN_H__
 #endif // BUILTIN_H

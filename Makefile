@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/22 00:19:01 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/26 20:19:04 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,6 @@ $(NAME): $(LIBFT) $(CONFIG_MK) $(FEATURES_H_ACTUAL) $(FEATURES_H) $(CLI_EXEC)
 $(LIBFT): $(LIBFT_DIR)/Makefile $(LIBFT_DIR)/version
 	@printf "🛠️  Making $(BOLD_WHITE)libft$(RESET)\n"
 	@$(MAKE) -C $(LIBFT_DIR) -j CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
-	@printf "\033[1A\33[2K\r✅ Built $(BOLD_WHITE)libft$(RESET)    \n\33[2K\r"
 
 $(LAST_COMP):
 

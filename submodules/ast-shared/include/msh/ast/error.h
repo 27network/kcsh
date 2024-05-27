@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 07:40:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 05:51:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_ast_error_type
 	AST_ERROR_NONE = 0,
 	AST_ERROR_ALLOC,
 	AST_ERROR_SYNTAX,
-	AST_ERROR_UNEXPECTED_TOKEN,
+	AST_ERROR_UNEXPECTED,
 	AST_ERROR_BAD_SUBSTITUTION,
 	_AST_ERROR_COUNT,
 }	t_ast_error_type;
