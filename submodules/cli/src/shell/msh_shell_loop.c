@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 20:07:38 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 23:48:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string/parse.h>
 #include <ft/print.h>
 #include <ft/string.h>
+#include <msh/cli/history.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
 #include <msh/env.h>
@@ -56,6 +57,7 @@ void	msh_shell_loop(t_minishell *msh)
 	char			*prompt;
 
 	prompt = NULL;
+	msh_history_load(msh);
 	while (msh->execution_context.running)
 	{
 		msh->execution_context.exit_code = 0;
@@ -75,4 +77,5 @@ void	msh_shell_loop(t_minishell *msh)
 		if (result.type == INPUT_EOF)
 			break ;
 	}
+	msh_history_save(msh);
 }

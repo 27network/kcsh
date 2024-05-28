@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:00:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 23:42:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@
 #  ifndef MSH_HOMEPAGE
 #   define MSH_HOMEPAGE "https://codeberg.org/27/kcsh"
 #  endif // MSH_HOMEPAGE
+
+#  ifndef MSH_HISTORY_FILE
+//  We include the leading slash to make it easier to append to a HOME
+//  variable that has a trailing slash.
+#   define MSH_HISTORY_FILE "/.kcsh_history"
+#  endif // MSH_HISTORY_FILE
 
 typedef struct s_variable	t_variable;
 

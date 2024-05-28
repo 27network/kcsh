@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 21:10:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 23:52:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,27 @@
 
 #define REINPUT_ALLOC_ERROR ": error while joining secondary input"
 
+static void	msh_handle_history(t_input_result input, bool should_pop)
+{
+	size_t	size;
+	bool	change;
+
+	if (input.type != INPUT_OK)
+		return ;
+	if (!input.buffer || !*input.buffer)
+		return ;
+	(void) should_pop;
+	// if (should_pop)
+	// 	msh_history_pop();
+	size = ft_strlen(input.buffer);
+	change = (size && input.buffer[size - 1] == '\n');
+	if (change)
+		input.buffer[size - 1] = 0;
+	msh_history_push(input.buffer);
+	if (change)
+		input.buffer[size - 1] = '\n';
+}
+
 static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
 						const char *prompt)
 {
@@ -34,6 +55,7 @@ static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
 			ft_strdel((char **) &result.buffer);
 		return (msh_ast_errd(AST_ERROR_INPUT, result.buffer, false));
 	}
+	msh_handle_history(result, true);
 	if (result.buffer)
 		lexer->input = ft_strjoins(2, "", 0b11 + msh->interactive,
 				lexer->input, result.buffer);
@@ -95,6 +117,7 @@ static void	msh_handle_ast(t_minishell *msh, t_input_result input)
 	ft_lst_free(&save, (t_lst_dealloc) msh_ast_token_free);
 }
 
+/*
 __attribute__((unused))
 static void	msh_debug_exec(t_minishell *msh, char *line)
 {
@@ -115,6 +138,7 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 	}
 	free(array);
 }
+*/
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 {
@@ -126,9 +150,6 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		return ;
 	}
 	printf("line: '%s'\n", input.buffer);
-	msh_history_push(input.buffer);
+	msh_handle_history(input, false);
 	msh_handle_ast(msh, input);
-	// if (*line && msh->interactive)
-		// add_history(line);
-	// msh_debug_exec(msh, line);
 }

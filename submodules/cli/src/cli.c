@@ -6,12 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/05/27 07:38:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 00:03:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <ft/string.h>
+#include <msh/cli/history.h>
 #include <msh/cli/opt.h>
 #include <msh/cli/shell.h>
 #include <msh/builtin.h>
@@ -62,6 +63,7 @@ int	main(int argc, const char *argv[], const char *envp[])
 {
 	t_minishell	minishell;
 
+	(void) msh_history_raw();
 	msh_sort_builtins_registry();
 	msh_init(&minishell, argc, argv, envp);
 	msh_signal_init(&minishell, false);

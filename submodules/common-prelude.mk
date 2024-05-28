@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/28 15:04:22 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/28 23:10:28 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,9 @@ IS_EXEC			?=	0
 LDFLAGS			?=
 
 LD 				=	$(CC)
-LDFLAGS			+=	-lreadline -lm
+LDFLAGS			+=	-lm
+LDFLAGS			+=	-lreadline
+
 ifeq ($(IS_EXEC), 1)
 OUTPUT			=	$(NAME)
 else
