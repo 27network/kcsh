@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/26 20:19:04 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/28 15:03:42 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ CWD				?=	$(shell pwd)
 SUBMODULES		=	submodules
 
 LIBFT_DIR		=	$(CWD)/third-party/libft
-LIBFT			=	$(LIBFT_DIR)/libft.so
+LIBFT			=	$(LIBFT_DIR)/build/output/libft.so
 
 FEATURES_H		=	$(SUBMODULES)/shared/include/msh/features.h
 FEATURES_H_ACTUAL=	$(CONFIG_DIR)/features.h
@@ -121,7 +121,11 @@ $(NAME): $(LIBFT) $(CONFIG_MK) $(FEATURES_H_ACTUAL) $(FEATURES_H) $(CLI_EXEC)
 
 $(LIBFT): $(LIBFT_DIR)/Makefile $(LIBFT_DIR)/version
 	@printf "🛠️  Making $(BOLD_WHITE)libft$(RESET)\n"
+ifeq ($(HYPERTHREADING), 1)
 	@$(MAKE) -C $(LIBFT_DIR) -j CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
+else
+	@$(MAKE) -C $(LIBFT_DIR) CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
+endif
 
 $(LAST_COMP):
 

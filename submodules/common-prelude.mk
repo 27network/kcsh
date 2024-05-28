@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/17 02:22:00 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/28 15:04:22 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ LDFLAGS			+=	$(LIBS)
 endif
 
 ifdef LIBFT_DIR
-LDFLAGS			+=	$(LIBFT_DIR)/libft.so 
+LDFLAGS			+=	$(LIBFT_DIR)/build/output/libft.so 
 endif
 
 ifeq ($(IS_EXEC), 0)

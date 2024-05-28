@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/28 12:12:49 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/28 21:11:33 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,10 @@ IS_EXEC		=	1
 
 include ../common-prelude.mk
 
-SRC			=	opt/msh_handle_opts.c \
+SRC			=	history/msh_history_print.c \
+				history/msh_history_push.c \
+				history/msh_history_raw.c \
+				opt/msh_handle_opts.c \
 				opt/msh_opt_command.c \
 				opt/msh_opt_flags.c \
 				opt/msh_opt_help.c \

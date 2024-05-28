@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 06:02:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:11:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 
 	c_flag_index = msh_find_flag_index(argv);
 	if (c_flag_index == -1 || argc <= c_flag_index + 1)
-	{
 		msh_error(msh, "-c: option requires an argument\n");
+	if (c_flag_index == -1 || argc <= c_flag_index + 1)
 		msh_exit(msh, 2);
-	}
 	cmd = (char *) argv[c_flag_index + 1];
 	if (argc > c_flag_index + 2)
 		msh->name = argv[c_flag_index + 2];
@@ -57,6 +56,7 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 		msh_error(msh, "-c: %s\n", "error while allocating memory");
 	if (!cmd)
 		msh_exit(msh, 1);
-	msh_handle_line(msh, cmd);
+	msh_shell_handle_input(msh,
+		(t_input_result){.buffer = cmd, .type = INPUT_EOF});
 	msh_exit(msh, msh->execution_context.exit_code);
 }

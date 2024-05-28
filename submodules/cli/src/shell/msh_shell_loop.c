@@ -6,12 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 12:03:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 20:07:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
 #include <ft/string/parse.h>
+#include <ft/print.h>
+#include <ft/string.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
 #include <msh/env.h>
@@ -62,14 +63,16 @@ void	msh_shell_loop(t_minishell *msh)
 		g_signal = -1;
 		if (msh->interactive)
 			prompt = msh_shell_prompt_parse(msh);
-		line = msh_input_forked(msh, prompt);
+		result = msh_input_forked(msh, prompt);
 		if (prompt)
 			free(prompt);
+		if (result.type == INPUT_IGNORED)
+			break ;
 		msh_update_execution_context(msh);
 		msh_shell_handle_input(msh, result);
-		if (result.line)
-			free(result.line);
-		if (!msh->interactive && g_signal == SIGINT || g_signal == SIGQUIT)
+		if (!msh->interactive && (g_signal == SIGINT || g_signal == SIGQUIT))
+			break ;
+		if (result.type == INPUT_EOF)
 			break ;
 	}
 }
