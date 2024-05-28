@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   msh_signal_handler_interactive.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 05:19:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 12:13:43 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/28 12:04:43 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/28 12:06:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
-# undef SHELL_H
-# ifndef __MSH_SHELL_H__
-#  define __MSH_SHELL_H__
+#include <ft/print.h>
+#include <msh/signal.h>
+#include <stdio.h>
+#include <readline/readline.h>
 
-#  include <msh/minishell.h>
-#  include <msh/cli/input.h>
-
-void	msh_shell_loop(t_minishell *msh);
-void	msh_shell_handle_input(t_minishell *msh, t_input_result input);
-
-char	*msh_shell_prompt_parse(t_minishell *msh);
-
-# endif // __MSH_SHELL_H__
-#endif // SHELL_H
+void	msh_signal_handler(int signo)
+{
+	g_signal = signo;
+	if (signo == SIGINT)
+	{
+		ft_putstr("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}

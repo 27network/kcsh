@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:09:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 07:37:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:10:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,26 @@
 # ifndef __MSH_SIGNAL_H__
 #  define __MSH_SIGNAL_H__
 
-#  ifndef NSIG
-#   ifndef __USE_MISC
-#    define __USE_POSIX19930
-#    define __USE_MISC
-#   endif // !__USE_MISC
-#  endif // !NSIG
+#  ifndef __USE_MISC
+#   define __USE_POSIX19930
+#   define __USE_MISC
+#  endif // !__USE_MISC
 
 #  include <signal.h>
+
+#  ifndef NSIG
+#   ifdef _NSIG
+#    define NSIG _NSIG
+#   else
+#    error "Invalid system configuration: NSIG or _NSIG aren't present"
+#   endif // SIG
+#  endif // !NSIG
+
 #  include <msh/minishell.h>
 
-extern int	g_signal;
+extern int		g_signal;
+
+typedef void	t_signal_handler_fn(int signo);
 
 /**
  * @brief Initializes default signal handling for minishell.
@@ -41,14 +50,14 @@ void		msh_signal_init(t_minishell *msh, bool close_stdin);
  *
  * @param signum The signal number.
  */
-void		msh_signal_handler(int signum);
+void		msh_signal_handler_interactive(int signum);
 
 /**
  * @brief Minishell's signal handler function, non-interative edition:tm:
  *
  * @param signum The signal number.
  */
-void		msh_signal_handler_nonint(int signum);
+void		msh_signal_handler_catch(int signum);
 
 /**
  * @brief Minishell's signal handler function, non-interative, stdin closing

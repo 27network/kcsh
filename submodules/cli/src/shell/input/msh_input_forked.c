@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 07:48:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:59:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,13 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 	msh->interactive = false;
 }
 
-static char	*msh_forked_read(int status, int fd)
+static char	*msh_forked_read(int fd)
 {
 	char	*buffer;
 
 	buffer = get_next_line(fd);
 	close(fd);
-	printf("read: %p\n", buffer);
-	//TODO: figure out a dumb way to differentiate CTRL+C and EOF
-	if (WIFEXITED(status))
-	{
-		printf("msh: child process exited with %d\n", WEXITSTATUS(status));
-		free(buffer);
-		return ((char *) 1);
-	}
+	printf("read: %s\n", buffer);
 	return (buffer);
 }
 
@@ -67,7 +60,6 @@ char	*msh_input_forked(t_minishell *msh, const char *interactive_prompt)
 	const bool	interactive = msh->interactive;
 	int			fds[2];
 	pid_t		pid;
-	int			status;
 
 	if (pipe(fds) == -1)
 	{
@@ -81,10 +73,10 @@ char	*msh_input_forked(t_minishell *msh, const char *interactive_prompt)
 		msh_forked_write(msh, fds, interactive_prompt);
 	else if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, NULL, 0);
 		close(fds[1]);
 		msh->interactive = interactive;
-		return (msh_forked_read(status, fds[0]));
+		return (msh_forked_read(fds[0]));
 	}
 	else
 		msh_error(msh, "msh_input_forked: fork: %s\n", strerror(errno));

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 07:50:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:03:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void	msh_update_execution_context(t_minishell *msh)
 
 void	msh_shell_loop(t_minishell *msh)
 {
-	char	*line;
-	char	*prompt;
+	t_input_result	result;
+	char			*prompt;
 
 	prompt = NULL;
 	while (msh->execution_context.running)
@@ -61,19 +61,15 @@ void	msh_shell_loop(t_minishell *msh)
 		msh_update_env(msh, true);
 		g_signal = -1;
 		if (msh->interactive)
-			prompt = msh_prompt_bash(msh);
+			prompt = msh_shell_prompt_parse(msh);
 		line = msh_input_forked(msh, prompt);
 		if (prompt)
 			free(prompt);
 		msh_update_execution_context(msh);
-		if ((!line || (line != (char *)1 && !*line)) && msh->interactive)
-			ft_dprintf(2, "exit\n");
-		if (!line || (line != (char *)1 && !*line))
-			break ;
-		msh_handle_line(msh, line);
-		if (!msh->interactive && g_signal == SIGINT)
+		msh_shell_handle_input(msh, result);
+		if (result.line)
+			free(result.line);
+		if (!msh->interactive && g_signal == SIGINT || g_signal == SIGQUIT)
 			break ;
 	}
-	if (line)
-		free(line);
 }

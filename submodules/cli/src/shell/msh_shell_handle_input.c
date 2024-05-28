@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_handle_line.c                                  :+:      :+:    :+:   */
+/*   msh_shell_handle_input.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 07:44:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:02:03 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,13 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 	free(array);
 }
 
-void	msh_handle_line(t_minishell *msh, char *line)
+void	msh_shell_handle_input(t_minishell *msh, t_input_result input) 
 {
-	if (line == (char *)1)
+	if (input.type == INPUT_ERROR)
+	{
+		msh->execution_context.exit_code = 1;
 		return ;
+	}
 	printf("line: '%s'\n", line);
 	msh_handle_ast(msh, line);
 	// if (*line && msh->interactive)

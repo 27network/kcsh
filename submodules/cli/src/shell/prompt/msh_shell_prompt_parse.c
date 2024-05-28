@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_prompt_bash.c                                  :+:      :+:    :+:   */
+/*   msh_shell_prompt_parse.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:10:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:45:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:58:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #include <unistd.h>
 
 //TODO: Parse PS1
-char	*msh_prompt_bash(t_minishell *msh)
+//This is equivalent to [\u@\h \W]\$
+char	*msh_shell_prompt_parse(t_minishell *msh)
 {
 	char	*user;
 	char	*home;
@@ -32,7 +33,7 @@ char	*msh_prompt_bash(t_minishell *msh)
 	if (!user || !home)
 		return (ft_strdup(MSH_DEFAULT_NAME"-"MSH_VERSION"$ "));
 	sep = '$';
-	if (ft_strncmp(user, "root", 5) == 0)
+	if (msh_geteuid(msh) == 0)
 		sep = '#';
 	cwd = getcwd(NULL, 0);
 	if (!cwd)

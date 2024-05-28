@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/27 04:51:41 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/28 12:12:33 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRC			=	env/msh_env_defaults.c \
 				log/msh_log.c \
 				log/msh_vlog.c \
 				log/msh_warn.c \
-				signal/msh_signal_handler.c \
+				signal/handlers/msh_signal_handler_catch.c \
+				signal/handlers/msh_signal_handler_close.c \
+				signal/handlers/msh_signal_handler_interactive.c \
 				signal/msh_signal_init.c \
 				signal/msh_signal_setdfl.c \
 				signal/msh_strsignal.c \

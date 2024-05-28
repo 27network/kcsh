@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/27 07:18:14 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/28 12:12:49 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,7 @@ IS_EXEC		=	1
 
 include ../common-prelude.mk
 
-SRC			=	input/msh_input.c \
-				input/msh_input_forked.c \
-				opt/msh_handle_opts.c \
+SRC			=	opt/msh_handle_opts.c \
 				opt/msh_opt_command.c \
 				opt/msh_opt_flags.c \
 				opt/msh_opt_help.c \
@@ -26,8 +24,10 @@ SRC			=	input/msh_input.c \
 				runner/msh_run_file.c \
 				runner/msh_run_setup_script.c \
 				runner/msh_runner_check.c \
-				shell/prompt/msh_prompt_bash.c \
-				shell/msh_handle_line.c \
+				shell/input/msh_input.c \
+				shell/input/msh_input_forked.c \
+				shell/prompt/msh_shell_prompt_parse.c \
+				shell/msh_shell_handle_input.c \
 				shell/msh_shell_loop.c \
 				cli.c
 
