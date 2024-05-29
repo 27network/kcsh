@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:32:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 23:50:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:57:37 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,24 @@ void	msh_history_save(t_minishell *msh)
 	int			i;
 	int			fd;
 
-	if (!msh->interactive)
+	if (!msh->interactive || msh->forked)
 		return ;
 	history_ptr = msh_history_raw();
 	if (!history_ptr || !*history_ptr)
 		return ;
+	history = *history_ptr;
 	fd = msh_history_file(msh, O_CREAT | O_TRUNC | O_WRONLY);
 	if (fd < 0)
 		return ;
-	history = *history_ptr;
-	i = 0;
-	while (history[i])
+	i = -1;
+	while (history[++i])
 	{
-		if (ft_dprintf(fd, "%s\n", history[i]->line) <= 0)
-			break ;
-		i++;
+		if (history[i]->line && *history[i]->line)
+		{
+			if (ft_dprintf(fd, "%s\n", history[i]->line) <= 0)
+				break ;
+		}
 	}
-	close(fd);
+	if (close(fd) >= 0)
+		msh_log(msh, MSG_DEBUG_GENERIC, "saved history to file successfully\n");
 }

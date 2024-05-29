@@ -6,12 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:18:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 00:05:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
-#define __MSH_LOG_INTERNALS__
+#define __MSH_LOG_INTERNAL__
 #include <msh/log.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -19,7 +19,11 @@
 
 static bool	msh_should_print_type(t_minishell *msh, t_log_type type)
 {
+	if (!msh)
+		return (true);
 	if (type == MSG_WARNING || type == MSG_ERROR)
+		return (true);
+	if (msh->flags.debug_generic)
 		return (true);
 	if (type == MSG_DEBUG_AST_TOKENIZER)
 		return (msh->flags.debug_tokenizer);
@@ -34,17 +38,37 @@ static bool	msh_should_print_type(t_minishell *msh, t_log_type type)
 	return (false);
 }
 
+static const char	*msh_debug_log_prefix(t_log_type type)
+{
+	if (type == MSG_DEBUG_GENERIC)
+		return ("[DEBUG] ");
+	if (type == MSG_DEBUG_AST_TOKENIZER)
+		return ("[AST/TOKENIZER] ");
+	if (type == MSG_DEBUG_AST_SANITIZER)
+		return ("[AST/SANITIZER] ");
+	if (type == MSG_DEBUG_AST_BUILDER)
+		return ("[AST/BUILDER] ");
+	if (type == MSG_DEBUG_EXECUTOR_BUILDER)
+		return ("[EXECUTOR/PIPELINES] ");
+	if (type == MSG_DEBUG_EXECUTOR)
+		return ("[EXECUTOR] ");
+	return (NULL);
+}
+
 static void	msh_message_handler(t_minishell *msh, t_log_type type,
 	char *msg)
 {
 	const int	target_fd = STDERR_FILENO;
+	const char	*prefix = msh_debug_log_prefix(type);
 
-	if (type == MSG_ERROR || msh->execution_context.show_line)
+	if (msh && (type == MSG_ERROR || msh->execution_context.show_line))
 	{
 		ft_putstr_fd(msh->name, target_fd);
 		ft_putstr_fd(": ", target_fd);
 	}
-	if (msh->execution_context.show_line)
+	if (prefix)
+		ft_putstr_fd(prefix, target_fd);
+	if (msh && msh->execution_context.show_line)
 	{
 		ft_putstr_fd("line ", target_fd);
 		ft_putnbr_fd(msh->execution_context.line, target_fd);

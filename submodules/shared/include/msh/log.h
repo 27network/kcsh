@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:07:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:43:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 00:13:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 #  include <msh/minishell.h>
 
-#  ifdef __MSH_LOG_INTERNALS__
+#  ifdef __MSH_LOG_INTERNAL__
 #   include <stdarg.h>
-#  endif // __MSH_LOG_INTERNALS__
+#  endif // __MSH_LOG_INTERNAL__
 
 /**
  * @brief A message type for logs.
@@ -34,6 +34,7 @@ typedef enum e_log_type
 {
 	MSG_ERROR = 0,
 	MSG_WARNING,
+	MSG_DEBUG_GENERIC,
 	MSG_DEBUG_AST_TOKENIZER,
 	MSG_DEBUG_AST_SANITIZER,
 	MSG_DEBUG_AST_BUILDER,
@@ -41,7 +42,7 @@ typedef enum e_log_type
 	MSG_DEBUG_EXECUTOR,
 }	t_log_type;
 
-#  ifdef __MSH_LOG_INTERNALS__
+#  ifdef __MSH_LOG_INTERNAL__
 /**
  * @brief Internal implementation of the log function, which takes directly
  * 		  a va_list.
@@ -56,7 +57,7 @@ typedef enum e_log_type
  */
 void	msh_vlog(t_minishell *msh, t_log_type type, const char *format,
 			va_list args);
-#  endif // __MSH_LOG_INTERNALS__
+#  endif // __MSH_LOG_INTERNAL__
 
 /**
  * @brief Prints the given log message.

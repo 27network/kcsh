@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_warn.c                                         :+:      :+:    :+:   */
+/*   msh_input_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 20:15:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 00:05:39 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/30 00:23:25 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/30 00:24:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __MSH_LOG_INTERNAL__
-#include <msh/log.h>
+#include <msh/cli/input.h>
 
-void	msh_warn(t_minishell *msh, const char *format, ...)
+const char	*msh_input_type(t_input_result_type type)
 {
-	va_list	args;
+	static const char	*types[] = {
+	[INPUT_OK] = "OK",
+	[INPUT_EOF] = "EOF",
+	[INPUT_ERROR] = "ERROR",
+	[INPUT_IGNORED] = "IGNORED",
+	[INPUT_INTERRUPTED] = "INTERRUPTED",
+	};
 
-	va_start(args, format);
-	msh_vlog(msh, MSG_WARNING, format, args);
-	va_end(args);
+	if (type < 0 || type >= _INPUT_RESULT_COUNT)
+		return ("unknown type");
+	return (types[type]);
 }

@@ -6,10 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 00:08:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 00:16:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
 #include <ft/print.h>
 #include <msh/cli/history.h>
 #include <readline/readline.h>
@@ -24,19 +25,26 @@ HIST_ENTRY	***msh_history_raw(void)
 	static HIST_ENTRY	***history_ptr = NULL;
 	static bool			initialized = false;
 	uint64_t			base_ptr;
+	bool				checks[2];
 
 	if (!initialized)
 	{
+		ft_bzero(checks, sizeof(checks));
 		initialized = true;
-		base_ptr = (uint64_t) & history_max_entries;
+		base_ptr = (uint64_t)(&history_max_entries);
 		history_ptr = (HIST_ENTRY ***)(base_ptr + 12);
-		add_history("msh_history_raw");
-		if (!history_ptr || !*history_ptr)
+		if (history_ptr)
 		{
-			ft_putstr_fd(HISTACCESS_WARNING, STDERR_FILENO);
-			history_ptr = NULL;
+			checks[0] = !*history_ptr;
+			add_history("msh_history_raw");
+			checks[1] = *history_ptr;
+			rl_clear_history();
+			if (!checks[0] || !checks[1])
+			{
+				ft_dprintf(STDERR_FILENO, HISTACCESS_WARNING);
+				history_ptr = NULL;
+			}
 		}
-		rl_clear_history();
 	}
 	return (history_ptr);
 }

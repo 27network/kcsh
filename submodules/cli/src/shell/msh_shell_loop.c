@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 23:48:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 01:40:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
 #include <msh/env.h>
+#include <msh/log.h>
 #include <msh/signal.h>
 #include <msh/util.h>
 #include <stdio.h>
@@ -30,6 +31,8 @@ static void	msh_update_env(t_minishell *msh, bool update_lineno)
 
 	lines = 80;
 	cols = 80;
+	msh->execution_context.exit_code = 0;
+	g_signal = -1;
 	msh_term_size(msh, &lines, &cols);
 	if (update_lineno)
 		msh_env_push(msh, "LINENO", ft_itoa(msh->execution_context.line),
@@ -38,13 +41,18 @@ static void	msh_update_env(t_minishell *msh, bool update_lineno)
 	msh_env_push(msh, "LINES", ft_itoa(lines), ENV_ALLOC_VALUE);
 }
 
-static void	msh_update_execution_context(t_minishell *msh)
+static void	msh_update_execution_context(t_minishell *msh,
+				t_input_result result)
 {
 	msh->execution_context.line++;
-	if (g_signal != -1)
+	if (result.type == INPUT_EOF)
+		msh->execution_context.running = false;
+	if (result.type == INPUT_INTERRUPTED)
+		msh->execution_context.exit_code = 130;
+	if (result.type == INPUT_ERROR)
 	{
-		msh->execution_context.exit_code = 128 + g_signal;
-		g_signal = -1;
+		msh_error(msh, "input: an error occured while reading input\n");
+		msh->execution_context.exit_code = 2;
 	}
 	msh_env_push(msh, "?", ft_itoa(msh->execution_context.exit_code),
 		ENV_ALLOC_VALUE | ENV_INVISIBLE);
@@ -57,25 +65,21 @@ void	msh_shell_loop(t_minishell *msh)
 	char			*prompt;
 
 	prompt = NULL;
-	msh_history_load(msh);
-	while (msh->execution_context.running)
+	while (msh->execution_context.running && !msh->forked)
 	{
-		msh->execution_context.exit_code = 0;
 		msh_update_env(msh, true);
-		g_signal = -1;
 		if (msh->interactive)
 			prompt = msh_shell_prompt_parse(msh);
-		result = msh_input_forked(msh, prompt);
+		result = msh_input(msh, prompt);
 		if (prompt)
 			free(prompt);
-		if (result.type == INPUT_IGNORED)
+		if (msh->forked)
 			break ;
-		msh_update_execution_context(msh);
+		msh_update_execution_context(msh, result);
+		if (result.type == INPUT_INTERRUPTED)
+			continue ;
 		msh_shell_handle_input(msh, result);
-		if (!msh->interactive && (g_signal == SIGINT || g_signal == SIGQUIT))
-			break ;
-		if (result.type == INPUT_EOF)
-			break ;
+		if (result.buffer)
+			free(result.buffer);
 	}
-	msh_history_save(msh);
 }

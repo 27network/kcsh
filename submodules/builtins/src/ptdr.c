@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:00:54 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 05:29:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 00:04:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 #include <msh/builtin.h>
 #include <msh/env.h>
 #include <stdio.h>
-
-#define BOLD "\033[1m"
-#define RED "\033[0;31m"
-#define RESET "\033[0m"
 
 #define PTDROPT "abc:"
 
@@ -59,9 +55,6 @@ int	msh_builtin_ptdr(
 __attribute__((constructor))
 void	register_ptdr(void)
 {
-	fprintf(stderr, BOLD RED "DEVELOPMENT BUILD ""DEVELOPMENT BUILD "
-		"DEVELOPMENT BUILD ""DEVELOPMENT BUILD ""DEVELOPMENT BUILD "
-		"DEVELOPMENT BUILD ""\n" RESET);
 	msh_builtin_register((t_builtin){
 		.name = "ptdr",
 		.usage = "ptdr",

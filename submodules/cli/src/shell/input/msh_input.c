@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:44:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 21:10:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:15:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,11 @@ t_input_result	msh_input(t_minishell *msh, const char *interactive_prompt)
 	size_t				size;
 
 	if (msh->interactive)
-	{
-		line = readline(interactive_prompt);
-		type = INPUT_OK;
-		if (!line)
-			type = INPUT_EOF;
-		return ((t_input_result){.type = type, .buffer = line});
-	}
+		return (msh_input_forked(msh, interactive_prompt));
 	line = get_next_line(msh->execution_context.file);
 	type = INPUT_OK;
 	size = ft_strlen(line);
-	if (line[size - 1] == '\n')
+	if (line[size - 1] != '\n')
 		type = INPUT_EOF;
 	if (line[size - 1] == '\n')
 		line[size - 1] = 0;

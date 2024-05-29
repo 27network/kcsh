@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:02:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:54:09 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@ void	msh_print_help(t_minishell *msh, int fd)
 	ft_dprintf(fd, "GNU long options:\n");
 	ft_dprintf(fd, "        --flags\n");
 	ft_dprintf(fd, "        --help\n");
-	ft_dprintf(fd, "        --debug-ast        "KCSH_SPECIFIC"\n");
-	ft_dprintf(fd, "        --debug-executor   "KCSH_SPECIFIC"\n");
-	ft_dprintf(fd, "        --debug-pipelines  "KCSH_SPECIFIC"\n");
-	ft_dprintf(fd, "        --debug-sanitizer  "KCSH_SPECIFIC"\n");
-	ft_dprintf(fd, "        --debug-tokens     "KCSH_SPECIFIC"\n");
+	ft_dprintf(fd, "        --debug\n");
+	ft_dprintf(fd, "        --debug-ast\n");
+	ft_dprintf(fd, "        --debug-executor\n");
+	ft_dprintf(fd, "        --debug-pipelines\n");
+	ft_dprintf(fd, "        --debug-sanitizer\n");
+	ft_dprintf(fd, "        --debug-tokens\n");
 	ft_dprintf(fd, "        --version\n");
 	ft_dprintf(fd, "Shell options:\n");
 	ft_dprintf(fd, "        -c command         (invocation only)\n");

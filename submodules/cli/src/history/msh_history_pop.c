@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:09:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 00:09:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 03:27:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/cli/history.h>
+#include <stdlib.h>
 
 void	msh_history_pop(void)
 {
@@ -27,7 +28,8 @@ void	msh_history_pop(void)
 		i++;
 	if (i > 0)
 	{
-		free(history[i - 1]->line);
+		if (history[i - 1]->line)
+			free(history[i - 1]->line);
 		free(history[i - 1]);
 		history[i - 1] = NULL;
 	}

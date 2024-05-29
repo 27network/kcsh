@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 00:07:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 22:14:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,55 @@
  * @return HIST_ENTRY*** Pointer to the history entry list, or NULL.
  */
 HIST_ENTRY	***msh_history_raw(void);
+
+/**
+ * @brief Print a debug message with the history entry list.
+ */
 void		msh_history_print(void);
 
+/**
+ * @brief Add a line to the history.
+ *
+ * @param line The line to add.
+ *
+ * @note This function does some checks to avoid adding NULL or empty lines.
+ */
 void		msh_history_push(const char *line);
 
-void		msh_history_load(t_minishell *msh);
-void		msh_history_save(t_minishell *msh);
+/**
+ * @brief Remove the last line from the history.
+ */
+void		msh_history_pop(void);
+
+/**
+ * @brief Open the minishell history file with the provided flags.
+ *
+ * @param msh The minishell instance.
+ * @param flags The flags to open the file with.
+ *
+ * @return int The file descriptor of the history file, or -1 on error.
+ *
+ * @note The minishell instance is used to get the HOME environment variable.
+ */
 int			msh_history_file(t_minishell *msh, int flags);
+
+/**
+ * @brief Load the history from the history file.
+ *
+ * @param msh The minishell instance.
+ *
+ * @note The history file is found via `msh_history_file`.
+ */
+void		msh_history_load(t_minishell *msh);
+
+/**
+ * @brief Save the history to the history file.
+ *
+ * @param msh The minishell instance.
+ *
+ * @note The history file is found via `msh_history_file`.
+ */
+void		msh_history_save(t_minishell *msh);
 
 # endif // __MSH_CLI_HISTORY_H__
 #endif // HISTORY_H

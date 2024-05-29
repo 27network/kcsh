@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 19:23:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 01:02:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 {
 	char	*line;
 
+	(void) msh;
 	rl_catch_signals = 1;
 	close(fds[0]);
-	if (msh->interactive)
-		line = readline(interactive_prompt);
-	else
-		line = get_next_line(msh->execution_context.file);
+	msh->interactive = true;
+	msh_signal_init(msh, true);
+	line = readline(interactive_prompt);
+	printf("readline return: \"%s\"\n", line);
 	if (line)
 	{
 		ft_putstr_fd(line, fds[1]);
@@ -43,16 +44,39 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 		free(line);
 	}
 	close(fds[1]);
-	msh->interactive = false;
 }
 
-static t_input_result	msh_forked_read(int fd)
+static void	close_gnl(int fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		ft_strdel(&line);
+	}
+}
+
+static t_input_result	msh_forked_read(t_minishell *msh, int fd)
 {
 	char	*buffer;
 	size_t	size;
 
 	buffer = get_next_line(fd);
+	printf("GNL return: \"%s\"\n", buffer);
+	(void) close_gnl(fd);
 	close(fd);
+	msh->interactive = true;
+	msh_signal_init(msh, false);
+	(void) msh;
+	if (g_signal == SIGINT)
+	{
+		g_signal = -1;
+		ft_strdel(&buffer);
+		return ((t_input_result){.type = INPUT_INTERRUPTED, .buffer = NULL});
+	}
 	if (!buffer)
 		return ((t_input_result){.type = INPUT_EOF, .buffer = NULL});
 	size = ft_strlen(buffer);
@@ -65,18 +89,17 @@ static t_input_result	msh_input_forked0(t_minishell *msh,
 							int fds[2], pid_t pid,
 							const char *interactive_prompt)
 {
-	const bool	interactive = msh->interactive;
-
-	msh->interactive = pid == 0;
-	msh_signal_init(msh, true);
 	if (pid == 0)
+	{
 		msh_forked_write(msh, fds, interactive_prompt);
-	if (pid == 0)
-		return ((t_input_result){.type = INPUT_IGNORED, .buffer = NULL});
+		return ((t_input_result){.type = INPUT_OK, .buffer = NULL});
+	}
+	msh->interactive = false;
+	msh_signal_init(msh, false);
+	g_signal = -1;
 	waitpid(pid, NULL, 0);
 	close(fds[1]);
-	msh->interactive = interactive;
-	return (msh_forked_read(fds[0]));
+	return (msh_forked_read(msh, fds[0]));
 }
 
 t_input_result	msh_input_forked(t_minishell *msh,
@@ -85,16 +108,24 @@ t_input_result	msh_input_forked(t_minishell *msh,
 	const t_input_result	error = {.type = INPUT_ERROR, .buffer = NULL};
 	int						fds[2];
 	pid_t					pid;
+	t_input_result			result;
 
+	if (!interactive_prompt)
+		interactive_prompt = "> ";
 	if (pipe(fds) == -1)
 	{
 		msh_error(msh, "msh_input_forked: pipe: %s\n", strerror(errno));
 		return (error);
 	}
-	pid = fork();
+	pid = msh_fork(msh);
+	printf("pid: %d, msh->forked=%d\n", pid, msh->forked);
 	if (pid == -1)
+	{
 		msh_error(msh, "msh_input_forked: fork: %s\n", strerror(errno));
-	if (pid == -1)
 		return (error);
-	return (msh_input_forked0(msh, fds, pid, interactive_prompt));
+	}
+	result = msh_input_forked0(msh, fds, pid, interactive_prompt);
+	msh_log(msh, MSG_DEBUG_GENERIC, "result = { buffer: \"%s\", type: %s }\n",
+		result.buffer, msh_input_type(result.type));
+	return (result);
 }

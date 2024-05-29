@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 23:56:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:58:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <ft/io.h>
 #include <ft/string.h>
 #include <msh/cli/history.h>
+#include <msh/log.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -26,7 +27,7 @@ static void	msh_history_push_nonewline(char *line)
 	size = ft_strlen(line);
 	if (size && line[size - 1] == '\n')
 		line[size - 1] = '\0';
-	add_history(line);
+	msh_history_push(line);
 }
 
 void	msh_history_load(t_minishell *msh)
@@ -36,7 +37,7 @@ void	msh_history_load(t_minishell *msh)
 
 	if (fd < 0)
 		return ;
-	while (1)
+	while (!msh->forked)
 	{
 		line = get_next_line(fd);
 		if (!line)
@@ -45,4 +46,5 @@ void	msh_history_load(t_minishell *msh)
 		free(line);
 	}
 	close(fd);
+	msh_log(msh, MSG_DEBUG_GENERIC, "loaded history from file successfully\n");
 }

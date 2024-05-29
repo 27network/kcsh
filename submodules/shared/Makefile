@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/28 12:12:33 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/29 23:06:47 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC			=	env/msh_env_defaults.c \
 				util/msh_term_size.c \
 				msh_destroy.c \
 				msh_exit.c \
+				msh_fork.c \
 				msh_init.c
 
 include ../common.mk

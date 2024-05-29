@@ -6,26 +6,38 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:04:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 01:58:42 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 00:09:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define __MSH_LOG_INTERNAL__
+#include <msh/log.h>
 #include <ft/print.h>
 #include <msh/builtin.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
 #if 1 // BUILTIN_REGISTRY_DEBUG
+# include <stdarg.h>
+# define DBG msh_builtin_debug
+
+static void	msh_builtin_debug(const char *msg, ...)
+{
+	va_list	ap;
+
+	va_start(ap, msg);
+	msh_vlog(NULL, MSG_DEBUG_GENERIC, msg, ap);
+	va_end(ap);
+}
 
 static void	msh_builtin_check(t_builtin *builtin)
 {
 	if (!builtin->name)
-		ft_dprintf(2, "builtin registry: builtin name is NULL\n");
+		DBG("builtin registry: builtin name is NULL\n");
 	if (!builtin->func)
-		ft_dprintf(2, "builtin registry: func for %s is NULL\n",
-			builtin->name);
+		DBG("builtin registry: func for %s is NULL\n", builtin->name);
 	if (!builtin->usage || !builtin->help)
-		ft_dprintf(2, "builtin registry: usage or help for %s is NULL\n",
+		DBG("builtin registry: usage or help for %s is NULL\n",
 			builtin->name);
 	if (!(builtin->func && builtin->name))
 		exit(-2);

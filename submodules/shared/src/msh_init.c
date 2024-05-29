@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:40:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 22:43:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	msh_init(
 	msh->binary_name = argv[0];
 	msh->name = argv[0];
 	msh->interactive = msh_is_interactive();
+	msh->forked = false;
 	if (!msh_env_populate(msh, envp))
 	{
 		msh_error(msh, "failed to populate env");

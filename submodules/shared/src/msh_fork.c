@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_warn.c                                         :+:      :+:    :+:   */
+/*   msh_fork.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 20:15:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 00:05:39 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/29 22:43:26 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/29 23:17:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define __MSH_LOG_INTERNAL__
-#include <msh/log.h>
+#include <msh/minishell.h>
+#include <unistd.h>
 
-void	msh_warn(t_minishell *msh, const char *format, ...)
+int	msh_fork(t_minishell *msh)
 {
-	va_list	args;
+	const int	pid = fork();
 
-	va_start(args, format);
-	msh_vlog(msh, MSG_WARNING, format, args);
-	va_end(args);
+	if (pid == 0)
+		msh->forked = true;
+	return (pid);
 }

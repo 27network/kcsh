@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 06:52:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:09:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 	if (error.type == AST_ERROR_NONE)
 		return ;
 	ft_putstr_fd(msh->name, STDERR_FILENO);
+	if (msh->forked)
+		ft_putstr_fd(" (forked)", STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	if (error.data)
 		msh_ast_error_data(msh, error.type, error.data);

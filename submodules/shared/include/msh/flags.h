@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:11:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:54:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 typedef struct s_msh_flags
 {
+	bool	debug_generic;
 	bool	debug_ast;
 	bool	debug_executor;
 	bool	debug_pipelines;

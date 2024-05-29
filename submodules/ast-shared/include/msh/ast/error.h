@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 18:44:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:08:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_ast_error_type
 {
 	AST_ERROR_NONE = 0,
 	AST_ERROR_ALLOC,
+	AST_ERROR_GENERIC,
 	AST_ERROR_INPUT,
 	AST_ERROR_SYNTAX,
 	AST_ERROR_UNEXPECTED,

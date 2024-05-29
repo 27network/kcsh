@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 23:42:23 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:16:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_execution_context
  *
  * @param env				Environment variables map, see `t_map`.
  * @param interactive		Whether the shell is running in interactive mode.
+ * @param forked			Whether the running process is a fork.
  *
  * @param free_buffer		List of pointers to free when the shell is destroyed.
  */
@@ -118,6 +119,7 @@ typedef struct s_minishell
 
 	t_variable				*variables;
 	bool					interactive;
+	bool					forked;
 
 	t_list					*free_buffer;
 }	t_minishell;
@@ -159,6 +161,17 @@ void	msh_exit(t_minishell *msh, int64_t exit_code);
  *		 and exit with return code -1.
  */
 void	msh_destroy(t_minishell *msh);
+
+/**
+ * @brief Forks a new process, basically a wrapper around `fork`.
+ *
+ * @param msh Minishell instance to fork.
+ *
+ * @return int The PID of the child process, or -1 on error.
+ *
+ * @note This is used to set the `forked` flag in the minishell instance.
+ */
+int		msh_fork(t_minishell *msh);
 
 # endif // __MSH_MINISHELL_H__
 #endif // MINISHELL_H
