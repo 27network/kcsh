@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 22:14:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:54:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void		msh_history_print(void);
 void		msh_history_push(const char *line);
 
 /**
- * @brief Remove the last line from the history.
+ * @brief Modify the last history entry.
+ *
+ * @param line The line to modify the last entry with.
  */
-void		msh_history_pop(void);
+void		msh_history_modify_last(const char *line);
 
 /**
  * @brief Open the minishell history file with the provided flags.

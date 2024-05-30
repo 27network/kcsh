@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/30 01:13:04 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/30 12:27:28 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -178,8 +178,5 @@ valgrind:
 
 voidgrind:
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i ./$(NAME) $(VG_RUN)
-
-debug42bonus:
-	make 42bonus && clear && make valgrind NAME="42sh_bonus" VG_RUN="--debug-tokens --debug"
 
 .PHONY:			all bonus remake clean oclean fclean re valgrind _fclean_prelude _banner _hide_cursor

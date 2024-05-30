@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 01:02:59 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 11:03:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 {
 	char	*line;
 
-	(void) msh;
 	rl_catch_signals = 1;
 	close(fds[0]);
 	msh->interactive = true;
 	msh_signal_init(msh, true);
 	line = readline(interactive_prompt);
-	printf("readline return: \"%s\"\n", line);
 	if (line)
 	{
 		ft_putstr_fd(line, fds[1]);
@@ -46,27 +44,12 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 	close(fds[1]);
 }
 
-static void	close_gnl(int fd)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		ft_strdel(&line);
-	}
-}
-
 static t_input_result	msh_forked_read(t_minishell *msh, int fd)
 {
 	char	*buffer;
 	size_t	size;
 
 	buffer = get_next_line(fd);
-	printf("GNL return: \"%s\"\n", buffer);
-	(void) close_gnl(fd);
 	close(fd);
 	msh->interactive = true;
 	msh_signal_init(msh, false);
@@ -118,7 +101,7 @@ t_input_result	msh_input_forked(t_minishell *msh,
 		return (error);
 	}
 	pid = msh_fork(msh);
-	printf("pid: %d, msh->forked=%d\n", pid, msh->forked);
+	msh_log(msh, MSG_DEBUG_GENERIC, "fork(); pid: %d\n", pid);
 	if (pid == -1)
 	{
 		msh_error(msh, "msh_input_forked: fork: %s\n", strerror(errno));

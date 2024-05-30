@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 00:25:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:00:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ static void	msh_handle_history(t_input_result input, bool should_pop)
 	size_t	size;
 	bool	change;
 
-	printf("adding to history\n");
 	if (input.type != INPUT_OK)
 		return ;
 	if (!input.buffer || !*input.buffer)
 		return ;
-	if (should_pop)
-		msh_history_pop();
 	size = ft_strlen(input.buffer);
 	change = (size && input.buffer[size - 1] == '\n');
 	if (change)
 		input.buffer[size - 1] = 0;
-	msh_history_push(input.buffer);
+	if (should_pop)
+		msh_history_modify_last(input.buffer);
+	else
+		msh_history_push(input.buffer);
 	if (change)
 		input.buffer[size - 1] = '\n';
 }

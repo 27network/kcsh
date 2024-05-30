@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 00:16:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:55:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,44 @@
 #define HISTACCESS_WARNING "msh: warning: unable to access internal history, \
 some features will be disabled\n"
 
+/**
+ * @brief Fetches the pointer to readline's `the_history`.
+ *
+ * @note This is done by reading the offset from the `history_list` function
+ *		 directly in assembly. We read the `history_list` function, we then
+ *       skip `endbr64` (+4), the `mov` opcode (+1), the `mov` intrinsics (+2),
+ *       and read the int offset from %rsi (function address + 4). We then add
+ *       the offset to the function address to get the pointer to `the_history`.
+ *
+ * @return uint64_t The pointer.
+ */
+static HIST_ENTRY	***msh_fetch_pointer(void)
+{
+	uint64_t	offset;
+	void		*base_ptr;
+	int			*offset_ptr;
+	HIST_ENTRY	***the_history;
+
+	base_ptr = (void *)(&history_list);
+	offset_ptr = (int *)(base_ptr + 4 + 1 + 2);
+	offset = *offset_ptr;
+	the_history = (HIST_ENTRY ***)(base_ptr + 4 + 7 + offset);
+	return (the_history);
+}
+
 HIST_ENTRY	***msh_history_raw(void)
 {
 	static HIST_ENTRY	***history_ptr = NULL;
 	static bool			initialized = false;
-	uint64_t			base_ptr;
-	bool				checks[2];
 
 	if (!initialized)
 	{
-		ft_bzero(checks, sizeof(checks));
 		initialized = true;
-		base_ptr = (uint64_t)(&history_max_entries);
-		history_ptr = (HIST_ENTRY ***)(base_ptr + 12);
-		if (history_ptr)
+		history_ptr = msh_fetch_pointer();
+		if (!history_ptr || *history_ptr)
 		{
-			checks[0] = !*history_ptr;
-			add_history("msh_history_raw");
-			checks[1] = *history_ptr;
-			rl_clear_history();
-			if (!checks[0] || !checks[1])
-			{
-				ft_dprintf(STDERR_FILENO, HISTACCESS_WARNING);
-				history_ptr = NULL;
-			}
+			ft_dprintf(STDERR_FILENO, HISTACCESS_WARNING);
+			history_ptr = NULL;
 		}
 	}
 	return (history_ptr);

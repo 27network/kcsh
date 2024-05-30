@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/28 22:50:00 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/30 14:24:17 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC_DIR			?= src
 INCLUDE_DIR		?= include
 
 CC				?= clang
-CFLAGS			+= -Wall -Wextra -Werror -g3
+CFLAGS			+= -Wall -Wextra -Werror -g3 -fno-plt -fPIE
 DFLAGS 			+= -MT $@ -MMD -MP -MF $(D_DIR)/$*.tmp.d
 
 MAKE_TRACE		?= 0
