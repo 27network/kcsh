@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 14:55:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:43:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,15 @@ static HIST_ENTRY	***msh_fetch_pointer(void)
 	void		*base_ptr;
 	int			*offset_ptr;
 	HIST_ENTRY	***the_history;
+	int			endbr64_offset;
 
 	base_ptr = (void *)(&history_list);
-	offset_ptr = (int *)(base_ptr + 4 + 1 + 2);
+	endbr64_offset = 0;
+	if (*(unsigned char *)base_ptr == 243)
+		endbr64_offset = 4;
+	offset_ptr = (int *)(base_ptr + endbr64_offset + 1 + 2);
 	offset = *offset_ptr;
-	the_history = (HIST_ENTRY ***)(base_ptr + 4 + 7 + offset);
+	the_history = (HIST_ENTRY ***)(base_ptr + endbr64_offset + 7 + offset);
 	return (the_history);
 }
 
