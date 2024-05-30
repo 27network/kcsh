@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 01:40:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:20:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	msh_update_execution_context(t_minishell *msh,
 		msh->execution_context.exit_code = 2;
 	}
 	msh_env_push(msh, "?", ft_itoa(msh->execution_context.exit_code),
-		ENV_ALLOC_VALUE | ENV_INVISIBLE);
+		ENV_ALLOC_VALUE | ENV_INVISIBLE | ENV_NO_UNSET);
 	msh_update_env(msh, false);
 }
 
@@ -79,7 +79,7 @@ void	msh_shell_loop(t_minishell *msh)
 		if (result.type == INPUT_INTERRUPTED)
 			continue ;
 		msh_shell_handle_input(msh, result);
-		if (result.buffer)
-			free(result.buffer);
+		if (result.type == INPUT_EOF)
+			printf("exit\n");
 	}
 }

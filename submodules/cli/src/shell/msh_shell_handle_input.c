@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 15:00:23 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:21:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,12 @@
 #include <msh/cli/history.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
-#include <msh/exec/exec.h>
 #include <msh/env.h>
 #include <msh/log.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define REINPUT_ALLOC_ERROR ": error while joining secondary input"
-
-static void	msh_handle_history(t_input_result input, bool should_pop)
+void	msh_handle_history(t_input_result input, bool should_pop)
 {
 	size_t	size;
 	bool	change;
@@ -44,91 +41,44 @@ static void	msh_handle_history(t_input_result input, bool should_pop)
 		input.buffer[size - 1] = '\n';
 }
 
-static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
-						const char *prompt, bool *eof)
+static void	msh_dump_tokens(t_minishell *msh, t_list *tokens)
 {
-	const t_input_result	result = msh_input_forked(msh, prompt);
-	const char				*save;
-
-	if (msh->forked || result.type == INPUT_INTERRUPTED)
-		return (msh_ast_errd(AST_ERROR_GENERIC, NULL, false));
-	if (result.type == INPUT_ERROR)
-	{
-		if (result.buffer)
-			ft_strdel((char **) &result.buffer);
-		return (msh_ast_errd(AST_ERROR_INPUT, result.buffer, false));
-	}
-	msh_handle_history(result, /*true*/ false);
-	*eof = (result.type == INPUT_EOF);
-	if (result.buffer)
-	{
-		save = lexer->input;
-		lexer->input = ft_strjoin(lexer->input, result.buffer);
-		free((char *) save);
-		ft_strdel((char **) &result.buffer);
-	}
-	if (!lexer->input)
-		return (msh_ast_errd(AST_ERROR_ALLOC, REINPUT_ALLOC_ERROR, false));
-	return (msh_ast_ok());
-}
-
-static t_list	*msh_build_ast_tokens(t_minishell *msh, t_input_result input,
-				char *prompt)
-{
-	t_ast_lexer	lexer;
-	t_ast_error	err;
-	bool		eof;
-
-	printf(">>> Built AST tokens\n");
-	eof = false;
-	lexer = msh_ast_lexer_root(msh, input.buffer);
-	while (1)
-	{
-		err = msh_ast_tokenize(&lexer);
-		if (err.type == AST_ERROR_NONE)
-			break ;
-		if (!err.retry || eof)
-			break ;
-		msh_ast_lexer_debug(msh, "error type %d, reprompting...\n", err.type);
-		msh->execution_context.line++;
-		lexer.cursor = 0;
-		err = msh_reinput(msh, &lexer, prompt, &eof);
-		if (err.type != AST_ERROR_NONE)
-			break ;
-	}
-	printf(">>> Finished building AST tokens\n");
-	if (eof)
-		printf("error: unexpected EOF\n");
-	if (lexer.input)
-		ft_strdel((char **) &lexer.input);
-	return (lexer.tokens);
-}
-
-static void	msh_handle_ast(t_minishell *msh, t_input_result input)
-{
-	t_list		*tokens;
-	t_list		*save;
 	t_ast_token	*token;
-	char		*prompt;
 
-	prompt = msh_env_value(msh, "PS2");
-	if (!prompt || !*prompt)
-		prompt = ENV_DEFAULT_PS2;
-	tokens = msh_build_ast_tokens(msh, input, prompt);
+	printf("\n>>> Token list: \n");
 	if (!tokens)
 		return ;
-	save = tokens;
-	while (tokens && msh->flags.debug_tokenizer)
+	while (tokens)
 	{
-		if (save == tokens)
-			printf("\n>>> Token list: \n");
 		token = (t_ast_token *) tokens->content;
 		if (token)
 			msh_ast_token_print(msh, token);
 		tokens = tokens->next;
 	}
 	printf("\n");
-	ft_lst_free(&save, (t_lst_dealloc) msh_ast_token_free);
+}
+
+static void	msh_handle_ast(t_minishell *msh, t_input_result input)
+{
+	t_list		*tokens;
+	char		*prompt;
+	char		*line;
+
+	line = ft_strdup(input.buffer);
+	if (!line)
+		msh_error(msh, "error while duplicating input\n");
+	if (!line)
+		return ;
+	input.buffer = line;
+	prompt = msh_env_value(msh, "PS2");
+	if (!prompt || !*prompt)
+		prompt = ENV_DEFAULT_PS2;
+	tokens = msh_ast_lex(msh, input, prompt);
+	if (!tokens)
+		return ;
+	if (msh->flags.debug_tokenizer)
+		msh_dump_tokens(msh, tokens);
+	ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
 }
 
 /*
@@ -156,16 +106,19 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 {
+	printf("Handling input: %p\n", input.buffer);
 	if (input.type == INPUT_ERROR)
 	{
 		ft_strdel((char **) &input.buffer);
 		msh->execution_context.exit_code = 1;
 		msh_error(msh, "error while reading input\n");
-		return ;
 	}
-	if (!input.buffer || !*input.buffer)
+	if (input.buffer && !*input.buffer)
+		ft_strdel((char **) &input.buffer);
+	if (!input.buffer)
 		return ;
 	msh_handle_history(input, false);
-	(void) msh_handle_ast;
-	// msh_handle_ast(msh, input);
+	msh_handle_ast(msh, input);
+	printf("Deleting input buffer: %p\n", input.buffer);
+	ft_strdel((char **) &input.buffer);
 }
