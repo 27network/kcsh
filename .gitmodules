@@ -3,4 +3,4 @@
 	url = https://github.com/27network/libft
 [submodule "third-party/libft"]
 	path = third-party/libft
-	url = https://github.com/27network/libft
+	url = git@codeberg.org:27/libft.git
