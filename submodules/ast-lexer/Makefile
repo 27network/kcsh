@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/27 05:39:56 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/30 20:30:05 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,12 @@ SRC			=	token/msh_ast_strtoken.c \
 				token/msh_ast_token_free.c \
 				token/msh_ast_token_new.c \
 				token/msh_ast_token_print.c \
+				token/msh_ast_token_simple.c \
+				token/msh_ast_token_trace.c \
 				types/msh_ast_token_comment.c \
 				types/msh_ast_token_delim.c \
 				types/msh_ast_token_keyword.c \
 				types/msh_ast_token_sep.c \
-				types/msh_ast_token_simple.c \
 				types/msh_ast_token_single_quote.c \
 				types/msh_ast_token_string.c \
 				types/msh_ast_token_word.c \

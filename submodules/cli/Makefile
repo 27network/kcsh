@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/30 18:52:48 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/05/31 17:10:36 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ IS_EXEC		=	1
 include ../common-prelude.mk
 
 SRC			=	history/msh_history_file.c \
+				history/msh_history_free.c \
 				history/msh_history_load.c \
 				history/msh_history_modify_last.c \
 				history/msh_history_print.c \

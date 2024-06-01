@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 06:43:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:06:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,120 @@
 #include <msh/ast/lexer.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-
+#define TKN_ACTUAL TKN_WORD
 #define WORD_END "unexpected end of word"
 #define WORD_ALLOC_FAIL ": failed to allocate word"
+#define ALLOWED_STRING_ESCAPES "$`\"\\\n"
 
-t_ast_error	msh_ast_token_word(t_ast_lexer *s, t_ast_token **tokret,
+static t_ast_error	msh_ast_make_word(t_ast_lexer *state, t_ast_token **tokret,
+						size_t *inc, const char *word)
+{
+	char		*value;
+	t_ast_error	err;
+
+	if (!word)
+	{
+		TRACE(state, TKN_ACTUAL, 2);
+		return (msh_ast_errd(AST_ERROR_ALLOC, WORD_ALLOC_FAIL, false));
+	}
+	value = ft_strdup(word);
+	if (!value)
+	{
+		TRACE(state, TKN_ACTUAL, 2);
+		return (msh_ast_errd(AST_ERROR_ALLOC, WORD_ALLOC_FAIL, false));
+	}
+	err = msh_ast_token_new(TKN_WORD, tokret);
+	if (err.type != AST_ERROR_NONE)
+	{
+		TRACE(state, TKN_ACTUAL, 2);
+		free(value);
+		return (err);
+	}
+	(*tokret)->value.string = value;
+	*inc += ft_strlen(word);
+	TRACE(state, TKN_ACTUAL, (err.type != AST_ERROR_NONE) * 2);
+	return (err);
+}
+
+/**
+ * Escaped words exist in three fashion:
+ * - Escaped regular characters
+ * - "Escaped" null character
+ * - Escaped newlines
+ *
+ * For characters, nothing special is done, a word token is created with the
+ * unique char as a string value.
+ *
+ * For null characters, meaning if the escape is at the end of the input,
+ * don't escape. `bash -c 'echo test \' just appends the backslash as an
+ * individual word.
+ *
+ * For newlines, it depends on the context:
+ * - If the newline is the last character of the input, the backslash is
+ *   considered "escaping the input end", and returns a retry-able error to
+ *   continue prompting. This allows for deliberate multi-line input.
+ * - If the newline is in the middle of the input, its considered as if it
+ *   previously was an "escaped input end", and thus is ignored. We make an
+ *   empty word token to signify this and ignore the newline.
+ *
+ * See: https://www.gnu.org/software/bash/manual/html_node/Escape-Character.html
+ */
+static t_ast_error	msh_escaped_word(t_ast_lexer *state, t_ast_token **tokret,
+						size_t *inc)
+{
+	char		target;
+	char		*word;
+	t_ast_error	err;
+
+	target = state->input[state->cursor + 1];
+	if (target == 0)
+		return (msh_ast_make_word(state, tokret, inc, "\\"));
+	if (target == '\n' && state->input[state->cursor + 2] == 0)
+	{
+		TRACE(state, TKN_ACTUAL, 2);
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED, "newline escape", true));
+	}
+	if (target == '\n')
+	{
+		*inc = 2;
+		return (msh_ast_make_word(state, tokret, inc, ""));
+	}
+	word = ft_ctostr(target);
+	err = msh_ast_make_word(state, tokret, inc, word);
+	if (word)
+		free(word);
+	*inc += 1;
+	return (err);
+}
+
+static bool	msh_should_escape(t_ast_lexer *state)
+{
+	const bool	escaping = (state->input[state->cursor] == '\\');
+	const bool	inside_string = (state->delim == '\"');
+
+	if (!escaping)
+		return (false);
+	if (!state->allow_escape)
+		return (false);
+	if (!inside_string)
+		return (true);
+	return (ft_strchr(ALLOWED_STRING_ESCAPES, state->input[state->cursor + 1]));
+}
+
+t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 				size_t *inc)
 {
-	const bool	escaping = (s->input[s->cursor] == '\\'
-			&& s->allow_escape);
-	t_ast_token	*token;
 	t_ast_error	err;
 	size_t		size;
+	char		*value;
 
-	size = 1;
-	s->cursor += escaping;
-	if (!escaping)
-		size = ft_max(0, ft_strcspn(s->input + s->cursor, DELIM_CHARS));
-	if (escaping && s->input[s->cursor] == '\n' && s->input[s->cursor + 1] == 0)
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED, "newline escape", true));
-	if (size == 0)
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED, WORD_END, true));
-	err = msh_ast_token_new(TKN_WORD, &token);
-	if (err.type != AST_ERROR_NONE)
-		return (err);
-	token->value.string = ft_strndup(s->input + s->cursor, size);
-	if (!token->value.string)
-		free(token);
-	if (!token->value.string)
-		return (msh_ast_errd(AST_ERROR_ALLOC, WORD_ALLOC_FAIL, false));
-	*tokret = token;
-	*inc = size;
+	TRACE(state, TKN_ACTUAL, 1);
+	if (msh_should_escape(state))
+		return (msh_escaped_word(state, tokret, inc));
+	size = ft_strcspn(state->input + state->cursor, DELIM_CHARS);
+	value = ft_strndup(state->input + state->cursor, size);
+	err = msh_ast_make_word(state, tokret, inc, value);
+	if (value)
+		free(value);
 	return (err);
 }

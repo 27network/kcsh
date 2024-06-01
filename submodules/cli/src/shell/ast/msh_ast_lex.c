@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:44:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 19:23:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:15:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
 			ft_strdel((char **) &result.buffer);
 		return (msh_ast_errd(AST_ERROR_INPUT, result.buffer, false));
 	}
-	msh_handle_history(result, true);
 	*eof = (result.type == INPUT_EOF);
 	if (result.buffer)
 	{
@@ -47,6 +46,8 @@ static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
 	}
 	if (!lexer->input)
 		return (msh_ast_errd(AST_ERROR_ALLOC, REINPUT_ALLOC_ERROR, false));
+	msh_handle_history((t_input_result){.buffer = (char *)lexer->input,
+		.type = INPUT_OK}, true);
 	return (msh_ast_ok());
 }
 
@@ -67,18 +68,15 @@ t_list	*msh_ast_lex(t_minishell *msh, t_input_result input,
 			break ;
 		if (!err.retry || eof)
 			break ;
-		msh_ast_lexer_debug(msh, "error type '%s', reprompting...\n",
-			msh_ast_strerror(err.type));
 		msh->execution_context.line++;
 		lexer.cursor = 0;
 		err = msh_reinput(msh, &lexer, prompt, &eof);
-		if (err.type != AST_ERROR_NONE)
+		if (err.type != AST_ERROR_NONE || msh->forked)
 			break ;
 	}
-	printf(">>> Finished building AST tokens\n");
 	if (eof || msh->forked)
 		ft_lst_free(&lexer.tokens, (t_lst_dealloc) msh_ast_token_free);
-	if (eof)
+	if (eof && !msh->forked)
 		printf("error: unexpected EOF\n");
 	if (lexer.input)
 		ft_strdel((char **) &lexer.input);

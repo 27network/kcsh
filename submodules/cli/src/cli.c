@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/05/30 00:14:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:10:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, const char *argv[], const char *envp[])
 	msh_history_load(&minishell);
 	msh_shell_loop(&minishell);
 	msh_history_save(&minishell);
+	msh_history_free();
 	msh_destroy(&minishell);
 	return (minishell.execution_context.exit_code);
 }

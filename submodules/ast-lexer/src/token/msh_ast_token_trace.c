@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_lexer_debug.c                              :+:      :+:    :+:   */
+/*   msh_ast_token_trace.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 01:13:13 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 20:00:57 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/30 20:00:59 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/05/31 16:59:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/lexer.h>
-#define __MSH_LOG_INTERNAL__
 #include <msh/log.h>
-#include <stdarg.h>
 
-void	msh_ast_lexer_debug(t_ast_lexer *lexer, const char *format, ...)
+void	msh_ast_token_trace(t_ast_lexer *lexer, t_ast_token_type type,
+			int state)
 {
-	va_list	args;
+	char	*s;
 
-	va_start(args, format);
-	msh_vlog(lexer->msh, MSG_DEBUG_AST_TOKENIZER, format, args);
-	va_end(args);
+	s = "Finished";
+	if (state == 1)
+		s = "Starting";
+	if (state == 2)
+		s = "Error for";
+	msh_log(lexer->msh, MSG_DEBUG_AST_TOKENIZER,
+		"(%d) %s tokenization for %s\n",
+		lexer->id, s, msh_ast_strtoken(type));
 }

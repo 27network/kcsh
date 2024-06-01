@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/28 23:10:28 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/01 09:52:40 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME			?=	$(NAME) # you know what, redefines your name
 
 DEPTH			?=	0
 DEPTH_FACTOR	?=  4
-SPACING			=	$(shell for i in $(shell seq 1 $(DEPTH)); do printf "%$(DEPTH_FACTOR)s" ""; done)
+SPACING			:=	$(shell for i in $(shell seq 1 $(DEPTH)); do printf "%$(DEPTH_FACTOR)s" ""; done)
 SPACING_TARGET	:=	$(SPACING)
 #TODO: linear connections
 # SPACING			=	$(shell for i in $(shell seq 1 $(DEPTH)); do printf "%$(DEPTH_FACTOR)s│%$(DEPTH_FACTOR)s" "" ""; done)
@@ -27,21 +27,21 @@ CACHE_DIR		?=	.cache
 IS_EXEC			?=	0
 LDFLAGS			?=
 
-LD 				=	$(CC)
+LD 				:=	$(CC)
 LDFLAGS			+=	-lm
 LDFLAGS			+=	-lreadline
 
 ifeq ($(IS_EXEC), 1)
-OUTPUT			=	$(NAME)
+OUTPUT			:=	$(NAME)
 else
-OUTPUT			=	lib$(NAME).so
+OUTPUT			:=	lib$(NAME).so
 endif
 
 MODULE_CACHE	:=	$(CACHE_DIR)/$(NAME)
 OBJ_DIR			?=	$(MODULE_CACHE)/obj
 D_DIR			?=	$(MODULE_CACHE)/deps
 
-SELF_DEP		=	$(D_DIR)/_module.d
+SELF_DEP		:=	$(D_DIR)/_module.d
 
 include ../defaults.mk
 

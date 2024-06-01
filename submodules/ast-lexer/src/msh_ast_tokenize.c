@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 17:28:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:18:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 
 	*inc = 0;
 	*token = NULL;
-	DBG(state->msh, "(%d) lookup at '%s'\n", state->id, input);
+	DBG(state, "(%d) lookup at '%s'\n", state->id, input);
 	if (*input == '\0')
 		return (msh_ast_token_simple(TKN_EOF, token, inc, 0));
 	else if (*input != '\n' && ft_strchr(SEP_CHARS, *input))
@@ -76,9 +76,32 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 	else if (*input == '"')
 		return (msh_ast_token_string(state, token, inc));
 	else if (*input == '#' && (state->cursor == 0
-			|| ft_strchr(SEP_CHARS, state->input[state->cursor - 1])))
+			|| ft_strchr(SEP_CHARS, state->input[state->cursor - 1]))) //TODO: check if \n in sep chars is an issue
 		return (msh_ast_token_comment(state, token, inc));
 	return (msh_ast_next_global_token(state, token, inc, input));
+}
+
+static t_ast_error	msh_ast_lexer_errors(t_ast_lexer *state, t_ast_error err)
+{
+	const size_t	len = ft_strlen(state->input);
+
+	if (err.type != AST_ERROR_NONE)
+	{
+		DBG(state, "[ERROR] %s (%s)\n", msh_ast_strerror(err.type), err.data);
+		return (err);
+	}
+	if (state->cursor > len)
+	{
+		DBG(state, "[WARN] Lexer's cursor was ahead of input (%d)\n", (int)len);
+		state->cursor = len;
+	}
+	if (state->delim != 0 && state->input[state->cursor] != state->delim)
+	{
+		DBG(state, "Delimiter '%c' not found, reprompting...\n", state->delim);
+		return (msh_ast_errd(AST_ERROR_SYNTAX, "missing delimiter end", true));
+	}
+	DBG(state, "Done matching, cursor: %d\n", (int) state->cursor);
+	return (msh_ast_ok());
 }
 
 t_ast_error	msh_ast_tokenize(t_ast_lexer *state)
@@ -96,18 +119,13 @@ t_ast_error	msh_ast_tokenize(t_ast_lexer *state)
 		err = msh_ast_next_token(state, &token, &inc);
 		if (err.type != AST_ERROR_NONE)
 			break ;
-		DBG(state->msh, "(%d) %s\n", state->id, msh_ast_strtoken(token->type));
+		DBG(state, "(%d) %s\n", state->id, msh_ast_strtoken(token->type));
 		if (token && !ft_lst_tadd(&state->tokens, token))
-		{
 			err = msh_ast_errd(AST_ERROR_ALLOC, TOKEN_NODE_ALLOC_ERR, false);
-			msh_ast_token_free(token);
-			break ;
-		}
 		state->cursor += ft_max(inc, 1);
 	}
-	DBG(state->msh, "cursor: %d\n", (int) state->cursor);
-	state->found_matching = state->input[state->cursor] == state->delim;
-	// if (!state->found_matching && state->input[state->cursor] == '\0')
-	// 	err = msh_ast_errd(AST_ERROR_UNEXPECTED, ft_format(EOF, state->delim), true);
+	err = msh_ast_lexer_errors(state, err);
+	if (state->msh->forked || err.type != AST_ERROR_NONE)
+		ft_lst_free(&state->tokens, (t_lst_dealloc) msh_ast_token_free);
 	return (err);
 }

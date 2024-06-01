@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 14:54:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:10:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ void		msh_history_load(t_minishell *msh);
  * @note The history file is found via `msh_history_file`.
  */
 void		msh_history_save(t_minishell *msh);
+
+/**
+ * @brief Free readline's history because apparently it can't do it itself.
+ */
+void		msh_history_free(void);
 
 # endif // __MSH_CLI_HISTORY_H__
 #endif // HISTORY_H

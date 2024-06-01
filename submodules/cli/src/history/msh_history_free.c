@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_history_modify_last.c                          :+:      :+:    :+:   */
+/*   msh_history_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 14:51:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 19:22:53 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/31 17:08:39 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/01 19:33:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
 #include <msh/cli/history.h>
+#include <readline/readline.h>
 #include <stdlib.h>
 
-void	msh_history_modify_last(const char *line)
+void	msh_history_free(void)
 {
 	HIST_ENTRY	***ptr;
 	HIST_ENTRY	**history;
-	HIST_ENTRY	*entry;
-	size_t		i;
 
-	if (!line || !*line)
-		return ;
+	rl_clear_history();
 	ptr = msh_history_raw();
 	if (!ptr || !*ptr)
 		return ;
 	history = *ptr;
-	i = 0;
-	while (history[i])
-		i++;
-	if (i == 0)
-	{
-		msh_history_push(line);
-		return ;
-	}
-	entry = history[i - 1];
-	free(entry->line);
-	entry->line = ft_strdup(line);
+	free(history);
 }

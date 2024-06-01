@@ -6,88 +6,88 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/30 12:27:28 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/01 19:23:05 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CONFIG_DIR		=	config
-CONFIG_MK		=	$(CONFIG_DIR)/config.mk
+CONFIG_DIR			:=	config
+CONFIG_MK			:=	$(CONFIG_DIR)/config.mk
 
 -include $(CONFIG_MK)
 ifeq ($(MAKE_TRACE), 1)
 $(info Included $(CONFIG_MK))
 endif
 
-MAKE			=	make --no-print-directory --debug=none
-NAME			=	minishell
+MAKE				:=	make --no-print-directory --debug=none
+NAME				:=	minishell
 
 ifdef OVERRIDE_NAME
-NAME			:=	$(OVERRIDE_NAME)
+NAME				:=	$(OVERRIDE_NAME)
 endif
 ifdef SUFFIX
-NAME			:=	$(NAME)$(SUFFIX)
+NAME				:=	$(NAME)$(SUFFIX)
 endif
 ifeq ($(MAKE_TRACE), 1)
 $(info NAME: $(NAME))
 endif
 
-COMP_MODE		?=	MANDATORY_MSH
+COMP_MODE			?=	MANDATORY_MSH
 
-CACHE_DIR_NAME	=	.cache
-CACHE_DIR		=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
+CACHE_DIR_NAME		:=	.cache
+CACHE_DIR			:=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
 
-LAST_COMP		=	$(CONFIG_DIR)/.last_comp
-_LAST_COMP_DATA	:=	$(shell cat $(LAST_COMP) 2>/dev/null)
-_LAST_COMP		:=	$(word 1, $(_LAST_COMP_DATA))
+LAST_COMP			:=	$(CONFIG_DIR)/.last_comp
+_LAST_COMP_DATA		:=	$(shell cat $(LAST_COMP) 2>/dev/null)
+_LAST_COMP			:=	$(word 1, $(_LAST_COMP_DATA))
 ifneq ($(_LAST_COMP), $(COMP_MODE))
 ifeq ($(BUILD), 1)
-REBUILD			:=	1
+REBUILD				:=	1
 ifeq ($(_LAST_COMP), )
-REBUILD			:=	0
+REBUILD				:=	0
 endif
 ifeq ($(MAKE_TRACE), 1)
 $(info Setting new compilation mode: $(COMP_MODE))
 endif
-_				:=	$(shell echo "$(COMP_MODE)" > $(LAST_COMP))
-_				:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
+_					:=	$(shell echo "$(COMP_MODE)" > $(LAST_COMP))
+_					:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
 endif
 endif
 
 -include header.mk
 
-POSSIBLE_NAMES	=	minishell minishell_bonus 42sh 42sh_bonus
+POSSIBLE_NAMES		:=	minishell minishell_bonus 42sh 42sh_bonus
 
-CWD				?=	$(shell pwd)
-SUBMODULES		=	submodules
+CWD					?=	$(shell pwd)
+SUBMODULES			:=	submodules
 
-LIBFT_DIR		=	$(CWD)/third-party/libft
-LIBFT			=	$(LIBFT_DIR)/build/output/libft.so
+LIBFT_DIR			:=	$(CWD)/third-party/libft
+LIBFT				:=	$(LIBFT_DIR)/build/output/libft.so
 
-FEATURES_H		=	$(SUBMODULES)/shared/include/msh/features.h
-FEATURES_H_ACTUAL=	$(CONFIG_DIR)/features.h
-FEATURES_H_GEN	=	$(FEATURES_H_ACTUAL).gen.sh
+FEATURES_H			:=	$(SUBMODULES)/shared/include/msh/features.h
+FEATURES_H_ACTUAL	:=	$(CONFIG_DIR)/features.h
+FEATURES_H_GEN		:=	$(FEATURES_H_ACTUAL).gen.sh
 
-MAIN_MODULE		=	cli
+MAIN_MODULE			:=	cli
 ifeq ($(MAKE_TRACE), 1)
 $(info MAIN_MODULE: $(MAIN_MODULE))
 endif
-MAIN_MODULE_OUT	=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) print_OUTPUT)
-CLI_EXEC		=	$(CWD)/$(MAIN_MODULE_OUT)
+MAIN_MODULE_OUT		:=	$(shell $(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) print_OUTPUT)
+CLI_EXEC			:=	$(CWD)/$(MAIN_MODULE_OUT)
 
 ifeq ($(MAKE_TRACE), 1)
 $(info Fetching dependency files...)
 endif
 
-D_FILES			?=	$(shell find $(CACHE_DIR) -name "*.d" 2>/dev/null)
+D_FILES				?=	$(shell find $(CACHE_DIR) -name "*.d" 2>/dev/null)
 
 ifeq ($(MAKE_TRACE), 1)
 $(info Found $(words $(D_FILES)) d-files)
 endif
 
-RM				=	rm -rf
+RM					:=	rm -rf
 
-VG_RUN			?=
-_DISABLE_CLEAN_LOG := 0
+VG_RUN				?=
+_DISABLE_CLEAN_LOG	:= 0
 
 all: _hide_cursor
 	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); ret=$$?; \
@@ -175,8 +175,9 @@ re: _hide_cursor
 
 valgrind:
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
+	@#valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 
 voidgrind:
 	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i ./$(NAME) $(VG_RUN)
 
-.PHONY:			all bonus remake clean oclean fclean re valgrind _fclean_prelude _banner _hide_cursor
+.PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind _fclean_prelude _banner _hide_cursor

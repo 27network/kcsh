@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:52 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 06:18:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:18:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,14 @@ t_ast_lexer	msh_ast_lexer_sub(t_ast_lexer *parent, char match);
 t_ast_error	msh_ast_token_new(t_ast_token_type type, t_ast_token **tknret);
 void		msh_ast_token_free(t_ast_token *token);
 
+void		msh_ast_token_trace(t_ast_lexer *lexer, t_ast_token_type type,
+				int state);
 t_ast_error	msh_ast_tokenize(t_ast_lexer *state);
 
 void		msh_ast_token_print(t_minishell *msh, t_ast_token *token);
-void		msh_ast_lexer_debug(t_minishell *msh, const char *format, ...);
+void		msh_ast_lexer_debug(t_ast_lexer *lexer, const char *format, ...);
+
+#  define TRACE msh_ast_token_trace
 
 # endif // __MSH_AST_LEXER_H__
 #endif // LEXER_H

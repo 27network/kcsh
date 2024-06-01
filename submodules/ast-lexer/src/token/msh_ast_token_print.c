@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:11:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 03:17:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:05:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ static void	msh_ast_token_print0(t_ast_token *token)
 		printf(")");
 	}
 	else if (token->type == TKN_WORD)
-		printf("( %s )", token->value.string);
+	{
+		if (!token->value.string || !*token->value.string)
+			printf("[empty]");
+		else
+			printf("( %s )", token->value.string);
+	}
 }
 
 void	msh_ast_token_print(t_minishell *msh, t_ast_token *token)

@@ -6,12 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 18:37:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/01 21:56:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <ft/io.h>
+#include <ft/mem.h>
 #include <ft/print.h>
 #include <ft/string.h>
 #include <msh/cli/input.h>
@@ -24,6 +25,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#define BUFFER_SIZE 8192
 
 static void	msh_forked_write(t_minishell *msh, const int fds[2],
 				const char *interactive_prompt)
@@ -44,13 +47,37 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 	close(fds[1]);
 }
 
+static char	*msh_forked_read_whole(int fd)
+{
+	char	tmp[BUFFER_SIZE + 1];
+	char	*buffer;
+	ssize_t	n_bytes;
+
+	buffer = NULL;
+	while (1)
+	{
+		ft_bzero(tmp, BUFFER_SIZE + 1);
+		n_bytes = read(fd, tmp, BUFFER_SIZE);
+		if (n_bytes == -1)
+			ft_strdel(&buffer);
+		if (n_bytes <= 0)
+			break ;
+		buffer = ft_strjoins(2, "", 0b10, buffer, tmp);
+		if (!buffer)
+			break ;
+		if (n_bytes < BUFFER_SIZE)
+			break ;
+	}
+	close(fd);
+	return (buffer);
+}
+
 static t_input_result	msh_forked_read(t_minishell *msh, int fd)
 {
 	char	*buffer;
 	size_t	size;
 
-	buffer = get_next_line(fd);
-	close(fd);
+	buffer = msh_forked_read_whole(fd);
 	msh->interactive = true;
 	msh_signal_init(msh, false);
 	(void) msh;

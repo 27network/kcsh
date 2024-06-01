@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 19:21:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/01 19:52:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 {
-	printf("Handling input: %p\n", input.buffer);
 	if (input.type == INPUT_ERROR)
 	{
 		ft_strdel((char **) &input.buffer);
@@ -119,6 +118,5 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		return ;
 	msh_handle_history(input, false);
 	msh_handle_ast(msh, input);
-	printf("Deleting input buffer: %p\n", input.buffer);
 	ft_strdel((char **) &input.buffer);
 }
