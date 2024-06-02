@@ -30,6 +30,7 @@
             readline
             bash
           ] ++ (with pkgs; [
+            aflplusplus
             cloc
             valgrind
             gdb

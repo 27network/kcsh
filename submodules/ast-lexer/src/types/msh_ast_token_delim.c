@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:22:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 20:28:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 01:51:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_ast_error	msh_delim_find_kind(const char *input,
 	else if (*input == '\n')
 		*type = DELIM_NEWLINE;
 	else
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED, "unexpected delimiter",
+		return (msh_ast_errd(AST_ERROR_SYNTAX, "unexpected delimiter",
 				false));
 	return (msh_ast_ok());
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 19:53:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:57:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,20 @@
 
 /**
  * @brief The type of an AST error.
+ *
+ * Special types:
+ * - AST_ERROR_CANCEL	basically acts as a "return" statement, treated as an
+ *						ignored error, cancelling and freeing everything, but
+ *						not logging anything.
+ * - AST_ERROR_WARNING	acts as a non-logging error. Causes a retry if required,
+ *						but without any logging.
  */
 typedef enum e_ast_error_type
 {
 	AST_ERROR_NONE = 0,
+	AST_ERROR_CANCEL,
+	AST_ERROR_WARNING,
 	AST_ERROR_ALLOC,
-	AST_ERROR_GENERIC,
 	AST_ERROR_INPUT,
 	AST_ERROR_SYNTAX,
 	AST_ERROR_UNEXPECTED,

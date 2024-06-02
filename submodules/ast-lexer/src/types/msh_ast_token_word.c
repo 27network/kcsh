@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/31 17:06:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:57:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static t_ast_error	msh_escaped_word(t_ast_lexer *state, t_ast_token **tokret,
 	if (target == '\n' && state->input[state->cursor + 2] == 0)
 	{
 		TRACE(state, TKN_ACTUAL, 2);
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED, "newline escape", true));
+		return (msh_ast_errd(AST_ERROR_WARNING, "newline escape", true));
 	}
 	if (target == '\n')
 	{
@@ -126,6 +126,8 @@ t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 	if (msh_should_escape(state))
 		return (msh_escaped_word(state, tokret, inc));
 	size = ft_strcspn(state->input + state->cursor, DELIM_CHARS);
+	if (size == 0 && state->input[state->cursor + 1] != '\0')
+		size++;
 	value = ft_strndup(state->input + state->cursor, size);
 	err = msh_ast_make_word(state, tokret, inc, value);
 	if (value)

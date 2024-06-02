@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 23:09:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 01:53:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ static void	msh_ast_error_data(
 	void *data
 ) {
 	ft_putstr_fd(data, STDERR_FILENO);
-	free(data);
+	if (type == AST_ERROR_UNEXPECTED)
+		free(data);
 }
 
 void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 {
 	const char	*type_message = msh_ast_strerror(error.type);
 
-	if (error.type == AST_ERROR_NONE)
+	if (error.type == AST_ERROR_NONE || error.type == AST_ERROR_CANCEL
+		|| error.type == AST_ERROR_WARNING)
 		return ;
 	ft_putstr_fd(msh->name, STDERR_FILENO);
 	if (msh->forked)
@@ -38,6 +40,6 @@ void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 	if (error.data)
 		msh_ast_error_data(msh, error.type, error.data);
 	else
-		msh_error(msh, "%s", type_message);
+		ft_putstr_fd(type_message, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
 }

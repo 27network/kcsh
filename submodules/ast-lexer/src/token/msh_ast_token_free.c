@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 22:01:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:24:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ void	msh_ast_token_free(t_ast_token *token)
 	else if (token->value.list && (token->type == TKN_GROUP
 			|| token->type == TKN_STRING))
 		ft_lst_free(&token->value.list, (t_lst_dealloc) msh_ast_token_free);
+	else if (token->type == TKN_DELIM || token->type == TKN_PIPE
+		|| token->type == TKN_SEMISEMI)
+	{
+	}
 	else
-		printf("Unfree'd token contents\n");
+		printf("Unfree'd token contents (type: %s)\n",
+			msh_ast_strtoken(token->type));
 	free(token);
 }

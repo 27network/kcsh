@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 19:20:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:12:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	msh_shell_loop(t_minishell *msh)
 		if (result.type == INPUT_INTERRUPTED)
 			continue ;
 		msh_shell_handle_input(msh, result);
-		if (result.type == INPUT_EOF)
+		if (result.type == INPUT_EOF && msh->interactive)
 			printf("exit\n");
 	}
 }

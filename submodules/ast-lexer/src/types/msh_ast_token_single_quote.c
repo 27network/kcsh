@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 05:35:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 20:36:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 01:53:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define TKN_ACTUAL TKN_WORD
 #define QUOTE_ALLOC_FAIL ": failed to allocate memory for single \
 quote token"
-#define UNEXPECTED_END "unexpected end of input"
+#define UNEXPECTED_EOF "unexpected EOF while looking for matching `''"
 
 static t_ast_error	msh_provide_single_quote(t_ast_lexer *state,
 						t_ast_token **tokret, size_t *size)
@@ -30,7 +30,8 @@ static t_ast_error	msh_provide_single_quote(t_ast_lexer *state,
 	if (next == NULL)
 		TRACE(state, TKN_ACTUAL, 2);
 	if (next == NULL)
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED, UNEXPECTED_END, true));
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED, ft_strdup(UNEXPECTED_EOF),
+				true));
 	*size = next - (state->input + state->cursor) + 1;
 	value = ft_strndup(state->input + state->cursor, *size);
 	if (!value)

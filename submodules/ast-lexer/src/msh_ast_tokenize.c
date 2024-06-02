@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 20:18:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 01:50:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 #include <msh/ast/lexer.h>
 #include <stdlib.h>
 
-#define EOF "unexpected EOF while looking for matching `%c'"
 #define DBG msh_ast_lexer_debug
 
 #define LEXER_INPUT_ALLOC_ERR ": failed to allocate memory for command input"
 #define TOKEN_NODE_ALLOC_ERR ": failed to allocate memory for token node"
+
+#define UNEXPECTED_EOF "unexpected EOF while looking for matching `%c'"
 
 __attribute__((unused))
 static bool	msh_is_string_substitution(t_ast_lexer *state, const char *input)
@@ -98,7 +99,8 @@ static t_ast_error	msh_ast_lexer_errors(t_ast_lexer *state, t_ast_error err)
 	if (state->delim != 0 && state->input[state->cursor] != state->delim)
 	{
 		DBG(state, "Delimiter '%c' not found, reprompting...\n", state->delim);
-		return (msh_ast_errd(AST_ERROR_SYNTAX, "missing delimiter end", true));
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED,
+				ft_format(UNEXPECTED_EOF, state->delim), true));
 	}
 	DBG(state, "Done matching, cursor: %d\n", (int) state->cursor);
 	return (msh_ast_ok());
@@ -119,7 +121,9 @@ t_ast_error	msh_ast_tokenize(t_ast_lexer *state)
 		err = msh_ast_next_token(state, &token, &inc);
 		if (err.type != AST_ERROR_NONE)
 			break ;
-		DBG(state, "(%d) %s\n", state->id, msh_ast_strtoken(token->type));
+		DBG(state, "(%d) Got: ", state->id);
+		if (state->msh->flags.debug_tokenizer)
+			msh_ast_token_print(state->msh, token);
 		if (token && !ft_lst_tadd(&state->tokens, token))
 			err = msh_ast_errd(AST_ERROR_ALLOC, TOKEN_NODE_ALLOC_ERR, false);
 		state->cursor += ft_max(inc, 1);

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # trap.sh - tests the trap command
 # trap command is used to catch signals and execute commands when they are received.
