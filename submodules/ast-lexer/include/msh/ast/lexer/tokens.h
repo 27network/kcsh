@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/02 00:24:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:47:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #  define __MSH_AST_LEXER_TOKENS_H__
 
 #  include <ft/data/list.h>
+#  include <msh/ast/error.h>
 #  include <stdbool.h>
 
 #  ifdef __DUMB_LIBFT_FIX
@@ -59,6 +60,8 @@ typedef struct s_ast_token
 	t_ast_tkn_value		value;
 }	t_ast_token;
 
+t_ast_error	msh_ast_token_simple(t_ast_token_type type, t_ast_token **tknret,
+				size_t *inc, size_t size);
 const char	*msh_ast_strtoken(t_ast_token_type type);
 
 # endif // __MSH_AST_LEXER_TOKENS_H__

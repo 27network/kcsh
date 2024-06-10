@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/02 01:53:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:28:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,20 @@
 #include <msh/log.h>
 #include <unistd.h>
 
+void	msh_ast_error_free(t_ast_error error)
+{
+	if (!error.data)
+		return ;
+	if (error.type == AST_ERROR_UNEXPECTED)
+		free(error.data);
+}
+
 static void	msh_ast_error_data(
 	__attribute__((unused)) t_minishell *msh,
-	__attribute__((unused)) t_ast_error_type type,
-	void *data
+	t_ast_error	error
 ) {
-	ft_putstr_fd(data, STDERR_FILENO);
-	if (type == AST_ERROR_UNEXPECTED)
-		free(data);
+	ft_putstr_fd(error.data, STDERR_FILENO);
+	msh_ast_error_free(error);
 }
 
 void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
@@ -38,7 +44,7 @@ void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 		ft_putstr_fd(" (forked)", STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	if (error.data)
-		msh_ast_error_data(msh, error.type, error.data);
+		msh_ast_error_data(msh, error);
 	else
 		ft_putstr_fd(type_message, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);

@@ -6,13 +6,46 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 03:43:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:59:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/builtin.h>
 #include <msh/env.h>
 #include <stdio.h>
+
+#if FEAT_BUILTIN_EXPORT_FULL
+# define USAGE_EXPORT "export [-fn] [name[=value] ...] or export -p"
+# define HELP_EXPORT "\
+Set export attribute for shell variables.\n\
+\n\
+Marks each NAME for automatic export to the environment of subsequently\n\
+executed commands.  If VALUE is supplied, assign VALUE before exporting.\n\
+\n\
+Options:\n\
+  -f        refer to function names only\n\
+  -n        remove the export property from each NAME\n\
+  -p        display all exported variables\n\
+\n\
+An argument of `--' disables further option processing.\n\
+\n\
+Exit Status:\n\
+Returns success unless an invalid option is given or NAME is invalid.\n\
+"
+#else
+# define USAGE_EXPORT "export [name[=value]]"
+# define HELP_EXPORT "\
+Set export attribute for shell variables.\n\
+\n\
+Marks each NAME for automatic export to the environment of subsequently\n\
+executed commands.  If VALUE is supplied, assign VALUE before exporting.\n\
+\n\
+An argument of `--' disables further option processing.\n\
+\n\
+Exit Status:\n\
+Returns success unless an invalid option is given or NAME is invalid.\n\
+"
+#endif
 
 //TODO: replace with shell flag
 #define POSIX 0
@@ -91,8 +124,8 @@ void	register_export(void)
 {
 	msh_builtin_register((t_builtin){
 		.name = "export",
-		.usage = NULL,
-		.help = NULL,
+		.usage = USAGE_EXPORT,
+		.help = HELP_EXPORT,
 		.func = msh_builtin_export,
 		.needs = NEEDS_MSH,
 		.enabled = true,

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/05/31 17:10:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:49:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,7 @@ int	main(int argc, const char *argv[], const char *envp[])
 	if (!minishell.interactive)
 		rl_prep_term_function = 0;
 	if (argc != 1)
-	{
-		if (FEAT_COMMAND_LINE_INTERFACE)
-			msh_handle_opts(&minishell, argc, argv);
-		else
-		{
-			msh_error(&minishell, "command line options are disabled\n");
-			msh_exit(&minishell, 1);
-		}
-	}
+		msh_handle_opts(&minishell, argc, argv);
 	msh_history_load(&minishell);
 	msh_shell_loop(&minishell);
 	msh_history_save(&minishell);

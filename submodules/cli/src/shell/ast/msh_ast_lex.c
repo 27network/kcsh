@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:44:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/02 02:00:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:29:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
 	return (msh_ast_ok());
 }
 
+void	msh_ast_error_free(t_ast_error error);
+
 static t_list	*msh_lex_handle_errors(t_ast_lexer *state, t_input_result input,
 					t_ast_error err)
 {
@@ -55,6 +57,7 @@ static t_list	*msh_lex_handle_errors(t_ast_lexer *state, t_input_result input,
 	{
 		ft_lst_free(&state->tokens, (t_lst_dealloc) msh_ast_token_free);
 		ft_strdel((char **) &state->input);
+		msh_ast_error_free(err);
 		return (NULL);
 	}
 	if (err.type != AST_ERROR_NONE)
@@ -80,6 +83,7 @@ t_list	*msh_ast_lex(t_minishell *msh, t_input_result input,
 		if (!err.retry || input.type == INPUT_EOF || msh->forked
 			|| err.type == AST_ERROR_NONE)
 			break ;
+		msh_ast_error_free(err);
 		msh->execution_context.line++;
 		lexer.cursor = 0;
 		err = msh_reinput(msh, &lexer, prompt, &input);

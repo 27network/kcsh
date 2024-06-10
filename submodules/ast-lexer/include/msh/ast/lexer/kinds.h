@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:22:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:34:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:41:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e_ast_keyword
 	KW_CLOSE_BRACE,		// End of "function"
 	KW_BANG,
 	KW_OPEN_BRACKET_BRACKET,
+	KW_UNKNOWN,
 }	t_ast_keyword_type;
 
 typedef enum e_ast_delim
@@ -61,13 +62,6 @@ typedef enum e_ast_redir
 	REDIR_HEREDOC,		// <<
 	REDIR_HERESTR,		// <<<
 }	t_ast_redir_type;
-
-typedef enum e_ast_string
-{
-	STR_SINGLE_QUOTE,
-	STR_DOUBLE_QUOTE,
-	STR_NO_QUOTE
-}	t_ast_string_type;
 
 typedef enum e_ast_substitution
 {

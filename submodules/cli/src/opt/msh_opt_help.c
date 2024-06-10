@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 23:54:09 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:50:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	msh_print_help(t_minishell *msh, int fd)
 
 	argv0 = msh->name;
 	ft_dprintf(fd, "Usage:  %s [GNU long option] [option] ...\n", argv0);
-	if (FEAT_SCRIPT_RUNNER)
+	if (FEAT_SCRIPTING)
 		ft_dprintf(fd, "        %s [GNU long option] [option] script-file"
 			" ...\n", argv0);
 	ft_dprintf(fd, "GNU long options:\n");

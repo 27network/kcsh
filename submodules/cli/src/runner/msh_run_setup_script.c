@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 03:06:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 00:06:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:50:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#if FEAT_SCRIPT_RUNNER
+#if FEAT_SCRIPTING
 
 void	msh_run_setup_script(t_minishell *msh, int fd, const char *filename)
 {
@@ -46,4 +46,4 @@ void	msh_run_setup_script(t_minishell *msh, int fd, const char *filename)
 	msh_exit(msh, 121);
 }
 
-#endif // FEAT_SCRIPT_RUNNER
+#endif // FEAT_SCRIPTING

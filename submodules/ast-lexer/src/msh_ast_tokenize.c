@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/02 01:50:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/07 19:43:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <ft/print.h>
 #include <ft/string.h>
 #include <msh/ast/lexer.h>
+#include <msh/features.h>
 #include <stdlib.h>
 
 #define DBG msh_ast_lexer_debug
@@ -23,34 +24,25 @@
 
 #define UNEXPECTED_EOF "unexpected EOF while looking for matching `%c'"
 
-__attribute__((unused))
-static bool	msh_is_string_substitution(t_ast_lexer *state, const char *input)
-{
-	const bool	in_string = state->delim == '\"';
-	const char	next = input[1];
-
-	if (next == 0)
-		return (false);
-	if (next == '(' || next == '{')
-		return (true);
-	if (in_string)
-		return (false);
-	return (next == '\'' || next == '\"');
-}
-
 static t_ast_error	msh_ast_next_global_token(t_ast_lexer *state,
 						t_ast_token **token, size_t *inc, const char *input)
 {
-	if (!ft_strncmp(input, ";;", 2))
+	t_ast_error	err;
+
+	err = msh_ast_token_keyword(state, token, inc);
+	if (err.type != AST_ERROR_CANCEL)
+		return (err);
+	if (FEAT_SCRIPTING && !ft_strncmp(input, ";;", 2))
 		return (msh_ast_token_simple(TKN_SEMISEMI, token, inc, 2));
 	// else if (*input == '$' && !msh_is_string_substitution(state, input))
 	// 	return (msh_ast_token_substitution(state, token, inc));
-	else if (!ft_strncmp(input, "&&", 2) || !ft_strncmp(input, "||", 2)
-		|| *input == ';' || *input == '\n')
+	else if ((FEAT_TOK_AND && !ft_strncmp(input, "&&", 2)) || (FEAT_TOK_OR
+			&& !ft_strncmp(input, "||", 2)) || (FEAT_TOK_SEMICOLON
+			&& *input == ';') || *input == '\n')
 		return (msh_ast_token_delim(state, token, inc));
 	else if (*input == '|')
 		return (msh_ast_token_simple(TKN_PIPE, token, inc, 1));
-	else if (*input == '&')
+	else if (FEAT_JOB_CONTROL && *input == '&')
 		return (msh_ast_token_simple(TKN_AMP, token, inc, 1));
 	return (msh_ast_token_word(state, token, inc));
 }
@@ -63,9 +55,7 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 	*inc = 0;
 	*token = NULL;
 	DBG(state, "(%d) lookup at '%s'\n", state->id, input);
-	if (*input == '\0')
-		return (msh_ast_token_simple(TKN_EOF, token, inc, 0));
-	else if (*input != '\n' && ft_strchr(SEP_CHARS, *input))
+	if (*input != '\n' && ft_strchr(SEP_CHARS, *input))
 		return (msh_ast_token_sep(state, token, inc));
 	// else if (*input == '$' && msh_is_string_substitution(state, input))
 	// 	return (msh_ast_token_substitution(state, token, inc));
@@ -76,7 +66,7 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 		return (msh_ast_token_word(state, token, inc));
 	else if (*input == '"')
 		return (msh_ast_token_string(state, token, inc));
-	else if (*input == '#' && (state->cursor == 0
+	else if (FEAT_SCRIPTING && *input == '#' && (state->cursor == 0
 			|| ft_strchr(SEP_CHARS, state->input[state->cursor - 1]))) //TODO: check if \n in sep chars is an issue
 		return (msh_ast_token_comment(state, token, inc));
 	return (msh_ast_next_global_token(state, token, inc, input));
