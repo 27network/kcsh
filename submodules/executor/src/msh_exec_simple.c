@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 07:38:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:20:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	msh_exec(
 
 	msh->interactive = false;
 	status = -1;
-	pid = fork();
+	pid = msh_fork(msh);
 	if (pid == 0)
 	{
 		msh_signal_setdfl();

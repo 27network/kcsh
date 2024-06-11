@@ -6,15 +6,17 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:32:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 23:57:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:05:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
+#include <msh/features.h>
 #include <msh/cli/history.h>
-#include <msh/log.h>
-#include <fcntl.h>
-#include <unistd.h>
+#if FEAT_HISTORY_FILE 
+# include <fcntl.h>
+# include <ft/print.h>
+# include <msh/log.h>
+# include <unistd.h>
 
 void	msh_history_save(t_minishell *msh)
 {
@@ -44,3 +46,11 @@ void	msh_history_save(t_minishell *msh)
 	if (close(fd) >= 0)
 		msh_log(msh, MSG_DEBUG_GENERIC, "saved history to file successfully\n");
 }
+
+#else
+
+void	msh_history_save(__attribute__((unused)) t_minishell *msh)
+{
+}
+
+#endif // FEAT_HISTORY_FILE

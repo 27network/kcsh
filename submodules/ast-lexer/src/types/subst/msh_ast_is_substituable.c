@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:40:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/07 19:45:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/11 01:25:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,40 @@
 #include <msh/ast/lexer.h>
 #include <msh/features.h>
 
-static bool	msh_is_variable_starter(char c)
+static bool	msh_ast_is_subst_name(const char *input, size_t i)
 {
-	if (ft_isalpha(c) || c == '_')
-		return (true);
-	if (c == '?')
-		return (true);
-	if (FEAT_PARSER_PARAM_EXPANSION)
+	size_t	current;
+	char	*buffer;
+	bool	ret;
+
+	buffer = ft_calloc(1, i + 1);
+	ret = false;
+	current = 1;
+	while (buffer && current < i)
 	{
-		if (c == '#' || c == '$' || c == '!' || c == '@')
-			return (true);
 	}
-	return (false);
+	return (ret);
 }
 
 static bool	msh_ast_is_substituable0(t_ast_lexer *state,
 				t_ast_subst_context context)
 {
-	const bool	in_string = state->delim == '\"';
-	const char	next = input[1];
+	const bool		in_string = state->delim == '\"';
+	const char		next = input[1];
+	const size_t	len = ft_strlen(input);
+	size_t			i;
 
 	if (next == 0)
 		return (false);
 	if (next == '(' || next == '{')
 		return (true);
+	i = 0;
+	while (i < len)
+	{
+		if (msh_ast_is_subst_name(input, i))
+			return (true);
+		i++;
+	}
 	if (in_string)
 		return (false);
 	return (next == '\'' || next == '\"');

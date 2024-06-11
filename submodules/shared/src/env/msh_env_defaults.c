@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/26 20:20:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/10 22:51:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	msh_env_setup_pwd(t_minishell *msh)
 
 	v_pwd = msh_env_get(msh, "PWD", 0);
 	v_home = msh_env_find(msh, "HOME");
+	//TODO: this fucker
 	(void) v_home;
 	v_pwd->flags |= ENV_EXPORTED;
 }
@@ -55,9 +56,8 @@ void	msh_env_defaults(t_minishell *msh)
 	msh_env_set_if_not(msh, "PS4", ENV_DEFAULT_PS4, 0);
 	msh_env_push(msh, "IFS", ENV_DEFAULT_IFS, 0);
 	msh_env_adjust_shlvl(msh, 1);
-}
+} //TODO: THOSE DOWN HERE
 
 // ft_map_put(msh->env, _("PWD"), _("/"), &msh_env_node_free);
 // ft_map_put(msh->env, _("OLDPWD"), _("/"), &msh_env_node_free);
 // ft_map_put(msh->env, _("HOME"), _("/"), &msh_env_node_free);
-// ft_map_put(msh->env, _("PATH"), _("/bin:/usr/bin"), &msh_env_node_free);

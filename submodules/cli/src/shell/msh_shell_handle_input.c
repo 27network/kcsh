@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/02 00:37:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:08:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <msh/cli/history.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
+#include <msh/exec/exec.h>
 #include <msh/env.h>
 #include <msh/log.h>
 #include <stdio.h>
@@ -81,7 +82,6 @@ static void	msh_handle_ast(t_minishell *msh, t_input_result input)
 	ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
 }
 
-/*
 __attribute__((unused))
 static void	msh_debug_exec(t_minishell *msh, char *line)
 {
@@ -102,7 +102,6 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 	}
 	free(array);
 }
-*/
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 {
@@ -118,5 +117,6 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		return ;
 	msh_handle_history(input, false);
 	msh_handle_ast(msh, input);
+	msh_debug_exec(msh, input.buffer);
 	ft_strdel((char **) &input.buffer);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:18:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/07 18:35:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:19:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # ifndef __MSH_AST_SANITIZER_H__
 #  define __MSH_AST_SANITIZER_H__
 
+#  define CACA
 #  include <ft/data/list.h>
 #  include <msh/ast/error.h>
 

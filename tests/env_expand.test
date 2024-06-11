@@ -2,6 +2,8 @@
 echo $HOME
 cd $HOME
 echo $UNKNOWNVARHAHA
+echo $_SALUT
+echo $?SALUT
 
 # Expanding in quoted strings
 echo "$USER"

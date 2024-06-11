@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/25 09:33:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:07:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_variable
 }	t_variable;
 
 int			msh_env_populate(t_minishell *msh, const char **envp);
+
 void		msh_env_defaults(t_minishell *msh);
 
 /**
@@ -124,6 +125,37 @@ char		*msh_env_value(t_minishell *msh, const char *name);
  * @return The array of variables.
  */
 t_variable	*msh_env_sorted(t_minishell *msh);
+
+/**
+ * @brief Whether a variable name is valid.
+ *
+ * @param name The name of the variable.
+ * @param assignment Whether the name is part of an assignment.
+ *					 (Thus disallowing special names like ?, 0, etc.)
+ *
+ * @return Whether the name is valid.
+ */
+bool		msh_env_is_valid_name(const char *name, bool assignment);
+
+/**
+ * @brief Whether a variable name is a special name.
+ *
+ * @param name The name of the variable.
+ * @param assignment Whether the name is part of an assignment.
+ *					 (Thus disallowing special names like ?, 0, etc.)
+ *
+ * @return Whether the name is a special name.
+ */
+bool		msh_env_is_special_name(const char *name, bool assignment);
+
+/**
+ * @brief Whether a character is a valid special name starter.
+ *
+ * @param c The character.
+ *
+ * @return Whether the character is a valid special name starter.
+ */
+bool		msh_env_is_special_name_starter(char c);
 
 /**
  * @brief Frees all variables.

@@ -33,7 +33,6 @@
   - Implement redirections
     - [ ] In
     - [ ] Out
-      - [ ] Clobber flag?
     - [ ] Out-append
     - [ ] Here-docs
   - [ ] Implement pipes
@@ -43,10 +42,10 @@
     - [x] Interactive mode
     - [x] Passed down to subprocesses
   - Builtins
-    - [ ] `echo` with `-n`
+    - [x] `echo` with `-n`
     - [ ] `cd` with a relative or absolute path
-      - [ ] Handle `~`
-      - [ ] Handle `-`
+      - [ ] EXTRA: Handle `~`
+      - [ ] EXTRA: Handle `-`
     - [ ] `pwd` no flags
     - [ ] `export` no flags
     - [ ] `unset` no flags
@@ -56,7 +55,7 @@
 - Bonus
   - [ ] Implement `&&`, `||`, and `()`
   - [ ] Wildcards `*` for the current directory
-    - [ ] Handle `?` and `[]`
+    - [ ] EXTRA: Handle `?` and `[]`
 
 - Extras (outstanding):
   - [ ] Implement `alias`

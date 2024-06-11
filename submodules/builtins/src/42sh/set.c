@@ -6,18 +6,17 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:49:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/06 11:52:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:25:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <msh/builtin.h>
 #include <msh/features.h>
-#if FEAT_BUILTIN_SET
-# include <msh/builtin.h>
-# include <msh/env.h>
+#include <msh/env.h>
 
-# if FEAT_BUILTIN_SET_FULL
-#  define SET_USAGE "set [-abefhkmnptuvxBCHP] [-o option-name] [--] [arg ...]"
-#  define SET_HELP "\
+#if FEAT_BUILTIN_SET_FULL
+# define SET_USAGE "set [-abefhkmnptuvxBCHP] [-o option-name] [--] [arg ...]"
+# define SET_HELP "\
 Set or unset values of shell options and positional parameters.\n\
 \n\
 Change the value of shell attributes and positional parameters, or\n\
@@ -99,15 +98,15 @@ ARGs are given, all shell variables are printed.\n\
 Exit Status:\n\
 Returns success unless an invalid option is given.\n\
 "
-# else
-#  define SET_USAGE "set"
-#  define SET_HELP "\
+#else
+# define SET_USAGE "set"
+# define SET_HELP "\
 Print all shell variables.\n\
 \n\
 Exit Status:\n\
 Returns success.\n\
 "
-# endif
+#endif
 
 static void	msh_print_vars(t_minishell *msh)
 {
@@ -148,7 +147,6 @@ void	register_set(void)
 		.help = SET_HELP,
 		.func = msh_builtin_set,
 		.needs = NEEDS_MSH,
-		.enabled = true,
+		.enabled = FEAT_BUILTIN_SET,
 	});
 }
-#endif // FEAT_BUILTIN_SET
