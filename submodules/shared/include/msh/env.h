@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/11 16:07:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:07:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,15 @@ t_variable	*msh_env_sorted(t_minishell *msh);
 bool		msh_env_is_valid_name(const char *name, bool assignment);
 
 /**
+ * @brief Whether a character is a valid variable name starter.
+ *
+ * @param c The character.
+ *
+ * @return Whether the character is a valid variable name starter.
+ */
+bool		msh_env_is_valid_name_starter(const char c);
+
+/**
  * @brief Whether a variable name is a special name.
  *
  * @param name The name of the variable.
@@ -155,7 +164,7 @@ bool		msh_env_is_special_name(const char *name, bool assignment);
  *
  * @return Whether the character is a valid special name starter.
  */
-bool		msh_env_is_special_name_starter(char c);
+bool		msh_env_is_special_name_starter(const char c);
 
 /**
  * @brief Frees all variables.
