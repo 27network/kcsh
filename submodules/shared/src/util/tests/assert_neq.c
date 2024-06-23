@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_env_is_valid_name_starter.c                    :+:      :+:    :+:   */
+/*   assert_neq.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 12:06:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/15 12:07:02 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/23 02:07:58 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/23 02:08:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
+#include <stdbool.h>
 
-bool	msh_env_is_valid_name_starter(const char c)
+void	assert(bool condition, const char *file_name, const char *problem);
+
+void	assert_neq(int a, int b, const char *file_name, const char *problem)
 {
-	return (ft_isalpha(c) || c == '_');
+	assert(a != b, file_name, problem);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:17:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/04 11:52:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/23 03:53:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_ast_error	msh_ast_token_keyword(t_ast_lexer *state, t_ast_token **token,
 	(void) state;
 	(void) token;
 	(void) inc;
-	return (msh_ast_errd(AST_ERROR_CANCEL, "unexpected keyword",
+	return (msh_ast_errd(AST_ERROR_CANCEL, "keywords are disabled",
 			false));
 }
 

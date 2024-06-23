@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:17:16 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 01:34:23 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/23 02:52:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include <ft/string.h>
 #include <msh/util.h>
 
-/**
- * @brief Quotes a single quote
- */
 static char	*msh_quote_short_circuit(char *result)
 {
 	result[0] = '\\';

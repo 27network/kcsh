@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 20:47:42 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/23 04:00:37 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,22 @@ typedef enum e_ast_tkn_type
 	TKN_EOF,			// end of file
 }	t_ast_token_type;
 
+typedef struct e_ast_tkn_redir_data
+{
+	int		left_fd;
+	int		right_fd;
+	bool	close_right_fd;
+	char	*right_file;
+	char	*heredoc_delim;
+}	t_ast_tkn_redir_data;
+
 typedef union u_ast_tkn_value
 {
-	char	c;
-	char	*string;
-	t_list	*list;
-	void	*data;
+	char					c;
+	char					*string;
+	t_list					*list;
+	void					*data;
+	t_ast_tkn_redir_data	redir;
 }	t_ast_tkn_value;
 
 typedef struct s_ast_token

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/25 15:29:36 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/17 00:56:00 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/23 02:45:23 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,9 @@ ifeq ($(SHOW_BANNER), 1)
 ifeq ($(DISABLE_BANNER), 0)
 $(info $(BANNER))
 $(info ⚙️  Compilation mode: $(COMP_MODE))
+ifeq ($(KCSH_TESTS), 1)
+$(info 🧪 Test runner enabled)
+endif
 ifeq ($(HYPERTHREADING), 1)
 $(info 🚀 Hyperthreading enabled)
 endif

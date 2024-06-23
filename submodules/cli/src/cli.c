@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/06/11 15:54:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/23 02:35:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <msh/signal.h>
 #include <msh/util.h>
 #include <readline/readline.h>
+
+#ifndef KCSH_TESTS
 
 int	main(int argc, const char *argv[], const char *envp[])
 {
@@ -39,3 +41,15 @@ int	main(int argc, const char *argv[], const char *envp[])
 	msh_destroy(&minishell);
 	return (minishell.execution_context.exit_code);
 }
+
+#else
+
+int	main(
+	__attribute__((unused)) int argc,
+	__attribute__((unused)) const char *argv[],
+	__attribute__((unused)) const char *envp[]
+) {
+	return (0);
+}
+
+#endif // !KCSH_TESTS

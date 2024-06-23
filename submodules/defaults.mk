@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    config.mk                                          :+:      :+:    :+:    #
+#    defaults.mk                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/11 16:20:01 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/23 01:55:30 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,13 @@ CC				?= clang
 CFLAGS			+= -Wall -Wextra -Werror -g3 -fno-plt -fPIE
 DFLAGS 			+= -MT $@ -MMD -MP -MF $(D_DIR)/$*.tmp.d
 
+ifeq ($(KCSH_TESTS), 1)
+CFLAGS			+= -DKCSH_TESTS
+endif
+
 MAKE_TRACE		?= 0
 EXTRA_DEBUG		?= 0
-HYPERTHREADING	?= 0
+HYPERTHREADING	?= 1
 
 print_%:
 	@echo $($*)

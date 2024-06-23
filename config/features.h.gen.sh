@@ -16,6 +16,8 @@ FEAT_BONUS_MSH=( \
 )
 
 FEAT_MANDATORY_42SH=( \
+	## Mandatory features
+
 	"TOK_SEMICOLON" 1 \
 	"BUILTIN_ECHO_OPT" 1 \
 	"BUILTIN_CD_OPT" 1 \
@@ -29,7 +31,8 @@ FEAT_MANDATORY_42SH=( \
 	"SIG_ALL" 1 \
 	"BUILTIN_ENV_DISABLE" 1 \
 	
-	# Modular features
+	## Modular features
+
 	"PARSER_INHIBITORS" 1 \
 
 	"PATTERN_MATCHING" 1 \
@@ -66,14 +69,19 @@ FEAT_MANDATORY_42SH=( \
 )
 
 FEAT_BONUS_42SH=( \
-	# Posix shell features
+	## Posix shell features
 	"BUILTIN_COLON" 1 \
 	"BUILTIN_TRUE" 1 \
 	"BUILTIN_FALSE" 1 \
 	"BUILTIN_HELP" 1 \
+	"BUILTIN_SET_FULL" 1 \
+
+	"PARSER_ANSI_QUOTING" 1 \
+	"PARSER_LOCALIZE_QUOTING" 1 \
+
+	## funny things
 	"BUILTIN_ALL_BASH" 1 \
 	"SCRIPTING" 1 \
-	"BUILTIN_SET_FULL" 1 \
 )
 
 # > Category flags

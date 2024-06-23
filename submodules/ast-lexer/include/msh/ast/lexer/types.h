@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 21:53:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 20:48:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/23 03:34:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_ast_error	msh_ast_token_substitution(t_ast_lexer *state, t_ast_token **tknret,
 				size_t *inc);
 t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tknret,
 				size_t *inc);
+
+bool		msh_ast_is_substituable(t_ast_lexer *state);
 
 # endif // __MSH_AST_LEXER_TYPES_H__
 #endif // TYPES_H

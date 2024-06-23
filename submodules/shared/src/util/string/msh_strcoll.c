@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:14:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:39:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/15 19:55:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	msh_strcoll_utf8(char *s1, char *s2)
 	int	i1;
 	int	i2;
 
+	//TODO: Locale . and _ support
 	i1 = msh_get_utf8_collated_index(s1);
 	i2 = msh_get_utf8_collated_index(s2);
 	while (*s1 && *s2)
@@ -59,7 +60,7 @@ int	msh_strcoll(t_minishell *msh, char *s1, char *s2)
 	locale = msh_env_value(msh, "LC_COLLATE");
 	if (!locale || !*locale)
 		locale = "C";
-	if (*locale == 'C' || !ft_strcmp(locale, "POSIX"))
+	if (!ft_strcmp(locale, "C") || !ft_strcmp(locale, "POSIX"))
 		return (ft_strcmp(s1, s2));
 	return (msh_strcoll_utf8(s1, s2));
 }

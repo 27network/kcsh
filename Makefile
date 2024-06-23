@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/01 19:23:05 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/23 03:03:25 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,10 +89,18 @@ RM					:=	rm -rf
 VG_RUN				?=
 _DISABLE_CLEAN_LOG	:= 0
 
+TEST_TARGET ?= 42bonus
+ifeq ($(TEST_TARGET),minishell)
+$(error TEST_TARGET should be one of `all`, `bonus`, `42`, `42bonus`)
+endif
+
 all: _hide_cursor
-	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); ret=$$?; \
-		printf "\033[?25h"; \
-		exit $$ret
+	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); printf "\033[?25h"
+ifeq ($(KCSH_TESTS), 1)
+	./$(NAME)
+	@rm -rf $(NAME)
+	@$(MAKE) oclean
+endif
 
 _hide_cursor:
 	@printf "\033[?25l"
@@ -146,6 +154,9 @@ bonus:
 42bonus:
 	@$(MAKE) COMP_MODE="BONUS_42SH" OVERRIDE_NAME="42sh" SUFFIX="_bonus"
 
+test: oclean
+	@$(MAKE) $(TEST_TARGET) KCSH_TESTS=1
+
 remake: clean all
 
 _fclean_prelude:
@@ -158,7 +169,7 @@ clean:
 	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then $(MAKE) -C $(LIBFT_DIR) clean; fi 
 
 oclean:
-	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object files $(GRAY)(./$(CACHE_DIR))$(RESET)\n"
+	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object files $(GRAY)($(CACHE_DIR))$(RESET)\n"
 	@$(RM) $(CACHE_DIR)
 
 fclean:			_fclean_prelude clean
