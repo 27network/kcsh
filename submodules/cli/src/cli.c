@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/06/23 02:35:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/23 06:46:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,23 @@
 #include <msh/util.h>
 #include <readline/readline.h>
 
+#include <shakespeare.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #ifndef KCSH_TESTS
 
 int	main(int argc, const char *argv[], const char *envp[])
 {
 	t_minishell	minishell;
+
+	while (1) {
+		char *line = shakespeare("> ");
+		if (!line)
+			exit(0);
+		shk_history_push(line);
+		free(line);
+	}
 
 	msh_builtin_registry_sort();
 	(void) msh_history_raw();

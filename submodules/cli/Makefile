@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/31 17:10:36 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/23 06:46:19 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		=	cli
-DEPS		=	executor ast-builder
+DEPS		=	executor ast-builder shakespeare
 IS_EXEC		=	1
 
 include ../common-prelude.mk
