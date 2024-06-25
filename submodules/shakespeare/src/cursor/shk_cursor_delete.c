@@ -6,13 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 06:39:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 07:09:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:21:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shakespeare.h>
-
-#include <stdio.h>
 
 bool	shk_cursor_delete(t_shakespeare_data *shk)
 {

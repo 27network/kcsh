@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 06:08:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 07:08:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:41:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static void	shk_setup_termios(t_shakespeare_data *shk)
 		exit(EXIT_FAILURE);
 	}
 	shk->new_termios = shk->old_termios;
-	shk->new_termios.c_lflag &= ~(ICANON | ECHO | ISIG);
+	shk->new_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+	// shk->new_termios.c_oflag &= ~(OPOST);
+	shk->new_termios.c_lflag &= ~(ICANON | ECHO | ISIG | IEXTEN);
+	shk->new_termios.c_cflag |= (CS8);
 	// shk->new_termios.c_iflag &= ~INPCK;
 	// shk->new_termios.c_iflag &= ~ISTRIP;
 	shk->new_termios.c_cc[VMIN] = 1;
@@ -41,23 +44,10 @@ static void	shk_setup_termios(t_shakespeare_data *shk)
 
 static void	shk_update_window(t_shakespeare_data *shk)
 {
-	char			buf[1024];
-	char			*term;
 	struct winsize	ws;
 
-	term = getenv("TERM");
-	if (term == NULL || !*term)
-		term = "xterm-256color";
 	shk->draw_ctx.tty_cols = -1;
 	shk->draw_ctx.tty_rows = -1;
-	if (tgetent(buf, term) != -1)
-	{
-		shk->draw_ctx.backspace = tgetstr("le", NULL);
-		shk->draw_ctx.tty_cols = tgetnum("co");
-		shk->draw_ctx.tty_rows = tgetnum("li");
-	}
-	if (shk->draw_ctx.tty_cols != -1 && shk->draw_ctx.tty_rows != -1)
-		return ;
 	ft_bzero(&ws, sizeof(ws));
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) == -1)
 		perror("ioctl");
@@ -83,19 +73,20 @@ static void	shk_signal_handler(int signum)
 
 static void	shk_setup_signals(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = shk_signal_handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGWINCH, &sa, NULL);
+	signal(SIGINT, shk_signal_handler);
+	signal(SIGWINCH, shk_signal_handler);
+	// signal(SIGTSTP, SIG_IGN);
+	// signal(SIGCONT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGTERM, SIG_IGN);
+	// signal(SIGSTOP, SIG_IGN);
 }
 
 void	shk_init(t_shakespeare_data *shk)
 {
 	if (shk->initialized)
 		return ;
+	ft_bzero(shk, sizeof(t_shakespeare_data));
 	shk->initialized = true;
 	shk->draw_ctx.output_fd = STDERR_FILENO;
 	shk_setup_termios(shk);

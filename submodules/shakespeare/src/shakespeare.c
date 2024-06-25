@@ -6,10 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:37:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 07:32:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:43:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <ft/mem.h>
 #include <ft/print.h>
 #include <ft/string/parse.h>
@@ -21,19 +22,26 @@
 static bool	shk_append_to_buffer(t_shakespeare_data *shk, char c)
 {
 	size_t	i;
+	bool	redraw;
 
+	redraw = false;
+	if (c == '\r')
+		c = '\n';
 	(void) write(shk->draw_ctx.output_fd, &c, 1);
 	if (shk->buffer[shk->draw_ctx.cursor_pos])
 	{
-		i = shk->draw_ctx.cursor_pos;
+		i = shk->draw_ctx.cursor_pos + 1;
 		while (shk->buffer[i] && i < shk->buffer_size - 2)
 		{
 			shk->buffer[i + 1] = shk->buffer[i + 2];
 			i++;
 		}
+		redraw = true;
 	}
 	shk->buffer[shk->draw_ctx.cursor_pos++] = c;
 	shk->buffer_size++;
+	if (redraw)
+		shk_redraw();
 	if (shk->buffer_size >= shk->next_buffer_size - 2)
 	{
 		shk->next_buffer_size = shk->buffer_size + SHK_BUFFER_BLOCK_SIZE;
@@ -45,15 +53,15 @@ static bool	shk_append_to_buffer(t_shakespeare_data *shk, char c)
 
 static bool	shk_handle_char(t_shakespeare_data *shk, char c)
 {
-	// printf("c: %d (%0x)\n", c, c);
+	printf("c: %d (%0x)\n", c, c);
 	if (c == 27)
 		return (shk_handle_escape(shk));
 	if (c == 4)
 		ft_strdel(&shk->buffer);
 	if (c == 4)
 		return (false);
-	if (c == '\n')
-		return (shk_append_to_buffer(shk, '\n') && !!!true);
+	if (c == '\r')
+		return (shk_append_to_buffer(shk, '\r') && !!!true);
 	if (c == 127)
 		return (shk_cursor_backspace(shk));
 	return (shk_append_to_buffer(shk, c));
@@ -88,6 +96,15 @@ static bool	shk_setup_cursor_base(t_shakespeare_data *shk)
 	return (true);
 }
 
+static void	shk_reset(t_shakespeare_data *shk, const char *prompt)
+{
+	shk->history_cursor = NULL;
+	shk->buffer_size = 0;
+	shk->next_buffer_size = SHK_BUFFER_BLOCK_SIZE;
+	shk->draw_ctx.prompt = prompt;
+	shk->draw_ctx.cursor_pos = 0;
+}
+
 char	*shakespeare(const char *prompt)
 {
 	t_shakespeare_data	*shk;
@@ -99,19 +116,15 @@ char	*shakespeare(const char *prompt)
 	shk->buffer = ft_calloc(SHK_BUFFER_BLOCK_SIZE, sizeof(char));
 	if (!shk->buffer)
 		return (NULL);
-	shk->history_cursor = NULL;
-	shk->buffer_size = 0;
-	shk->next_buffer_size = SHK_BUFFER_BLOCK_SIZE;
-	shk->draw_ctx.prompt = prompt;
+	shk_reset(shk, prompt);
 	shk_prompt_draw(prompt);
-	shk->draw_ctx.cursor_pos = 0;
 	while (1)
 	{
+		ft_bzero(&shk->read_buffer, 2);
 		ret = read(0, &shk->read_buffer, 1);
-		shk->read_buffer[1] = '\0';
-		if (ret == -1)
+		if (ret == -1 && errno != EAGAIN)
 			ft_strdel(&shk->buffer);
-		if (ret == -1)
+		if (ret == -1 && errno != EAGAIN)
 			break ;
 		if (!shk_handle_char(shk, shk->read_buffer[0]))
 			break ;
