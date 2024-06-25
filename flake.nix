@@ -25,6 +25,8 @@
         devShell = (pkgs.mkShell.override { inherit stdenv; }) {
           buildInputs = with pkgs; [
             pkgs42.readline
+            termcap
+            ncurses
           ];
           nativeBuildInputs = with pkgs42; [
             readline

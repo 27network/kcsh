@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_destroy.c                                      :+:      :+:    :+:   */
+/*   shk_cursor_delete.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 06:14:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 04:59:58 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 06:39:51 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/25 07:09:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
 #include <shakespeare.h>
 
-__attribute__((destructor))
-static void	shk_destroy(void)
-{
-	t_shakespeare_data	*shk;
+#include <stdio.h>
 
-	shk = shk_shared();
-	if (!shk->initialized)
-		return ;
-	tcsetattr(0, TCSAFLUSH, &shk->old_termios);
-	if (shk->draw_ctx.backspace)
-		ft_strdel(&shk->draw_ctx.backspace);
-	shk->initialized = false;
-	shk_history_clear();
+bool	shk_cursor_delete(t_shakespeare_data *shk)
+{
+	size_t	i;
+
+	i = shk->draw_ctx.cursor_pos;
+	while (shk->buffer[i])
+	{
+		shk->buffer[i] = shk->buffer[i + 1];
+		i++;
+	}
+	shk->buffer_size--;
+	shk_redraw();
+	return (true);
 }

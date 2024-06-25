@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_destroy.c                                      :+:      :+:    :+:   */
+/*   shk_prompt_draw.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 06:14:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 04:59:58 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 05:35:30 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/25 05:44:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
-#include <shakespeare.h>
+#include <ft/print.h>
 
-__attribute__((destructor))
-static void	shk_destroy(void)
+void	shk_prompt_draw(const char *prompt)
 {
-	t_shakespeare_data	*shk;
+	int	escaped;
 
-	shk = shk_shared();
-	if (!shk->initialized)
-		return ;
-	tcsetattr(0, TCSAFLUSH, &shk->old_termios);
-	if (shk->draw_ctx.backspace)
-		ft_strdel(&shk->draw_ctx.backspace);
-	shk->initialized = false;
-	shk_history_clear();
+	escaped = 0;
+	while (*prompt)
+	{
+		if (*prompt == '\001')
+			escaped++;
+		else if (*prompt == '\002')
+		{
+			if (escaped > 0)
+				escaped--;
+		}
+		else if (escaped == 0)
+			ft_putchar_fd(*prompt, 1);
+		prompt++;
+	}
 }

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_destroy.c                                      :+:      :+:    :+:   */
+/*   shk_redraw.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 06:14:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 04:59:58 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 04:33:46 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/25 07:02:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
+#include <ft/print.h>
 #include <shakespeare.h>
 
-__attribute__((destructor))
-static void	shk_destroy(void)
+void	shk_redraw(void)
 {
 	t_shakespeare_data	*shk;
+	size_t				cursor_x;
+	size_t				cursor_y;
 
 	shk = shk_shared();
-	if (!shk->initialized)
-		return ;
-	tcsetattr(0, TCSAFLUSH, &shk->old_termios);
-	if (shk->draw_ctx.backspace)
-		ft_strdel(&shk->draw_ctx.backspace);
-	shk->initialized = false;
-	shk_history_clear();
+	ft_putstr_fd("\033[2K\r", shk->draw_ctx.output_fd);
+	shk_prompt_draw(shk->draw_ctx.prompt);
+	ft_putstr_fd(shk->buffer, shk->draw_ctx.output_fd);
+	cursor_y = shk->draw_ctx.cursor_base_y;
+	shk_cursor_pos(shk, &cursor_x, NULL);
+	ft_dprintf(shk->draw_ctx.output_fd, "\033[d;dH",
+		(int) cursor_y, (int) cursor_x);
 }

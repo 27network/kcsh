@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/01 09:52:40 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/25 05:20:09 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ LDFLAGS			?=
 LD 				:=	$(CC)
 LDFLAGS			+=	-lm
 LDFLAGS			+=	-lreadline
+LDFLAGS			+=	-ltermcap -lncurses
 
 ifeq ($(IS_EXEC), 1)
 OUTPUT			:=	$(NAME)

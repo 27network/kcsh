@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_destroy.c                                      :+:      :+:    :+:   */
+/*   shk_cursor_jump_start.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 06:14:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 04:59:58 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 07:20:20 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/25 07:33:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
 #include <shakespeare.h>
 
-__attribute__((destructor))
-static void	shk_destroy(void)
+void	shk_cursor_jump_start(t_shakespeare_data *shk)
 {
-	t_shakespeare_data	*shk;
-
-	shk = shk_shared();
-	if (!shk->initialized)
-		return ;
-	tcsetattr(0, TCSAFLUSH, &shk->old_termios);
-	if (shk->draw_ctx.backspace)
-		ft_strdel(&shk->draw_ctx.backspace);
-	shk->initialized = false;
-	shk_history_clear();
+	shk_cursor_jump(shk, shk->draw_ctx.cursor_base_x
+		+ shk_prompt_len(shk->draw_ctx.prompt),
+		shk->draw_ctx.cursor_base_y);
 }

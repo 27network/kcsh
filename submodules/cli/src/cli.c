@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/06/23 06:46:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/25 05:32:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,16 @@ int	main(int argc, const char *argv[], const char *envp[])
 {
 	t_minishell	minishell;
 
-	while (1) {
+	while (1)
+	{
 		char *line = shakespeare("> ");
 		if (!line)
 			exit(0);
 		shk_history_push(line);
+		printf("You entered: %s", line);
+		fflush(stdout);
 		free(line);
 	}
-
 	msh_builtin_registry_sort();
 	(void) msh_history_raw();
 	msh_init(&minishell, argc, argv, envp);

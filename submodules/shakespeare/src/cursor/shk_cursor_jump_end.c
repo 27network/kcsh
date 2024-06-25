@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_destroy.c                                      :+:      :+:    :+:   */
+/*   shk_cursor_jump_end.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 06:14:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 04:59:58 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 07:20:20 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/25 07:31:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
 #include <shakespeare.h>
 
-__attribute__((destructor))
-static void	shk_destroy(void)
-{
-	t_shakespeare_data	*shk;
+#include <ft/print.h>
 
-	shk = shk_shared();
-	if (!shk->initialized)
-		return ;
-	tcsetattr(0, TCSAFLUSH, &shk->old_termios);
-	if (shk->draw_ctx.backspace)
-		ft_strdel(&shk->draw_ctx.backspace);
-	shk->initialized = false;
-	shk_history_clear();
+void	shk_cursor_jump_end(t_shakespeare_data *shk)
+{
+	size_t	x;
+	size_t	y;
+
+	x = shk->draw_ctx.cursor_base_x;
+	y = shk->draw_ctx.cursor_base_y;
+	x += shk_prompt_len(shk->draw_ctx.prompt);
+	x += ft_strlen(shk->buffer);
+	while ((int) x > shk->draw_ctx.tty_cols)
+	{
+		x -= shk->draw_ctx.tty_cols;
+		y++;
+	}
+	shk_cursor_jump(shk, x, y);
 }
