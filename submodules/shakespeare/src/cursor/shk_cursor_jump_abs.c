@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_jump_end.c                              :+:      :+:    :+:   */
+/*   shk_cursor_jump_abs.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 07:20:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 17:21:15 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/26 14:43:54 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/26 14:44:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
+#include <ft/print.h>
 #include <shakespeare.h>
 
-void	shk_cursor_jump_end(t_shakespeare_data *shk)
+void	shk_cursor_jump_abs(size_t x, size_t y)
 {
-	size_t	x;
-	size_t	y;
-
-	x = shk->draw_ctx.cursor_base_x;
-	y = shk->draw_ctx.cursor_base_y;
-	x += shk_prompt_len(shk->draw_ctx.prompt);
-	x += shk->buffer_size;
-	while ((int) x > shk->draw_ctx.tty_cols)
-	{
-		x -= shk->draw_ctx.tty_cols;
-		y++;
-	}
-	shk_cursor_jump(shk, x, y);
+	ft_dprintf(shk_shared()->draw_ctx.output_fd, "\033[%d;%dH", y, x);
 }

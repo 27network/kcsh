@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_backspace.c                             :+:      :+:    :+:   */
+/*   shk_cursor_forward.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 06:39:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 07:09:31 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 04:48:34 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/26 14:45:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/print.h>
 #include <shakespeare.h>
 
-#include <stdio.h>
-
-bool	shk_cursor_backspace(t_shakespeare_data *shk)
+void	shk_cursor_forward(int n)
 {
-	if (shk->draw_ctx.cursor_pos > 0)
-	{
-		shk_cursor_backward(1);
-		return (shk_cursor_delete(shk));
-	}
-	return (true);
+	t_shakespeare_data	*shk;
+	size_t				max_len;
+
+	shk = shk_shared();
+	max_len = shk->buffer_size;
+	if (shk->draw_ctx.cursor_pos + n > (int) max_len)
+		n = max_len - shk->draw_ctx.cursor_pos;
+	if (n <= 0)
+		return ;
+	shk->draw_ctx.cursor_pos += n;
+	ft_dprintf(shk->draw_ctx.output_fd, "\033[%dC", n);
 }

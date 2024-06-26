@@ -6,12 +6,21 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:20:50 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 17:21:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:45:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
 #include <shakespeare.h>
+
+void	shk_cursor_jump_logical(void)
+{
+	size_t	cursor_x;
+	size_t	cursor_y;
+
+	shk_cursor_pos(shk_shared(), &cursor_x, &cursor_y);
+	shk_cursor_jump_abs(cursor_x, cursor_y);
+}
 
 void	shk_cursor_jump(t_shakespeare_data *shk, size_t x, size_t y)
 {
@@ -32,5 +41,5 @@ void	shk_cursor_jump(t_shakespeare_data *shk, size_t x, size_t y)
 	diff_x = cursor_x - x;
 	diff_y = cursor_y - y;
 	shk->draw_ctx.cursor_pos -= diff_y * shk->draw_ctx.tty_cols + diff_x;
-	ft_dprintf(shk->draw_ctx.output_fd, "\033[%d;%dH", y, x);
+	shk_cursor_jump_abs(x, y);
 }

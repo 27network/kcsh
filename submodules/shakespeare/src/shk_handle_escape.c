@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 06:30:15 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 07:25:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:08:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static bool	shk_handle_escape_modifier(
 		(void)shk; // up
 	else if (cmd == 'B')
 		(void)shk; // down
-	else if (cmd == '3' && bufptr[1] == '~')
+	else if (cmd == '~' && modifier == 3)
 		return (shk_cursor_delete(shk));
 	else if (cmd == '~')
 		return (shk_goto_history_end(shk, modifier));
@@ -79,7 +79,6 @@ bool	shk_handle_escape(t_shakespeare_data *shk)
 	if (read(0, buf, 32) == -1)
 		return (false);
 	bufptr = buf;
-	// printf("bufptr: %s\n", bufptr);
 	if (*bufptr == '[')
 	{
 		bufptr++;

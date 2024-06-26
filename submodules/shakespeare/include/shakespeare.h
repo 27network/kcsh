@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:43:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 07:23:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:45:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_drawing_context
 	int				tty_rows;
 	const char		*prompt;
 
-	size_t			cursor_pos;
+	int				cursor_pos;
 	size_t			cursor_base_x;
 	size_t			cursor_base_y;
 	size_t			line_start_x;
@@ -89,13 +89,17 @@ void				shk_redraw(void);
 void				shk_redraw_after(void);
 
 bool				shk_cursor_backspace(t_shakespeare_data *shk);
+bool				shk_cursor_delete(t_shakespeare_data *shk);
+
 void				shk_cursor_backward(int n);
 void				shk_cursor_forward(int n);
-bool				shk_cursor_delete(t_shakespeare_data *shk);
+
 void				shk_cursor_jump(t_shakespeare_data *shk, size_t x,
 						size_t y);
 void				shk_cursor_jump_end(t_shakespeare_data *shk);
 void				shk_cursor_jump_start(t_shakespeare_data *shk);
+
+void				shk_cursor_jump_abs(size_t x, size_t y);
 
 void				shk_prompt_draw(const char *prompt);
 size_t				shk_prompt_len(const char *prompt);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 06:08:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 18:41:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:14:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ static void	shk_setup_signals(void)
 {
 	signal(SIGINT, shk_signal_handler);
 	signal(SIGWINCH, shk_signal_handler);
-	// signal(SIGTSTP, SIG_IGN);
-	// signal(SIGCONT, SIG_IGN);
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGTERM, SIG_IGN);
-	// signal(SIGSTOP, SIG_IGN);
 }
 
 void	shk_init(t_shakespeare_data *shk)

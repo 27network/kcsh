@@ -6,16 +6,21 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 05:35:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 05:44:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:43:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
+#include <shakespeare.h>
 
 void	shk_prompt_draw(const char *prompt)
 {
-	int	escaped;
+	t_shakespeare_data	*shk;
+	int					escaped;
 
+	shk = shk_shared();
+	shk_cursor_jump_abs(shk->draw_ctx.cursor_base_x,
+		shk->draw_ctx.cursor_base_y);
 	escaped = 0;
 	while (*prompt)
 	{

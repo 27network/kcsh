@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 05:37:35 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/25 16:05:02 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/26 14:44:36 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,14 @@ NAME		=	shakespeare
 
 include ../common-prelude.mk
 
-SRC			=	cursor/shk_cursor_backspace.c \
-				cursor/shk_cursor_backward.c \
-				cursor/shk_cursor_delete.c \
-				cursor/shk_cursor_forward.c \
-				cursor/shk_cursor_jump.c \
-				cursor/shk_cursor_jump_end.c \
-				cursor/shk_cursor_jump_start.c \
+SRC			=	cursor/act/shk_cursor_backspace.c \
+				cursor/act/shk_cursor_delete.c \
+				cursor/move/shk_cursor_backward.c \
+				cursor/move/shk_cursor_forward.c \
+				cursor/move/shk_cursor_jump.c \
+				cursor/move/shk_cursor_jump_end.c \
+				cursor/move/shk_cursor_jump_start.c \
+				cursor/shk_cursor_jump_abs.c \
 				draw/shk_cursor_pos.c \
 				draw/shk_redraw.c \
 				draw/shk_redraw_after.c \

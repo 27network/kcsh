@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:37:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 18:43:23 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:43:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	shk_append_to_buffer(t_shakespeare_data *shk, char c)
 	if (c == '\r')
 		c = '\n';
 	(void) write(shk->draw_ctx.output_fd, &c, 1);
-	if (shk->buffer[shk->draw_ctx.cursor_pos])
+	if (c != '\n' && shk->buffer[shk->draw_ctx.cursor_pos])
 	{
 		i = shk->draw_ctx.cursor_pos + 1;
 		while (shk->buffer[i] && i < shk->buffer_size - 2)
@@ -38,7 +38,10 @@ static bool	shk_append_to_buffer(t_shakespeare_data *shk, char c)
 		}
 		redraw = true;
 	}
-	shk->buffer[shk->draw_ctx.cursor_pos++] = c;
+	if (c == '\n')
+		shk->buffer[shk->buffer_size] = c;
+	else
+		shk->buffer[shk->draw_ctx.cursor_pos++] = c;
 	shk->buffer_size++;
 	if (redraw)
 		shk_redraw();
@@ -53,13 +56,15 @@ static bool	shk_append_to_buffer(t_shakespeare_data *shk, char c)
 
 static bool	shk_handle_char(t_shakespeare_data *shk, char c)
 {
-	printf("c: %d (%0x)\n", c, c);
+	// printf("c: %d (%0x)\n", c, c);
 	if (c == 27)
 		return (shk_handle_escape(shk));
 	if (c == 4)
+	{
 		ft_strdel(&shk->buffer);
-	if (c == 4)
+		(void) write(shk->draw_ctx.output_fd, "\r\n", 2);
 		return (false);
+	}
 	if (c == '\r')
 		return (shk_append_to_buffer(shk, '\r') && !!!true);
 	if (c == 127)
@@ -129,5 +134,6 @@ char	*shakespeare(const char *prompt)
 		if (!shk_handle_char(shk, shk->read_buffer[0]))
 			break ;
 	}
+	// shk_end(shk);
 	return (shk->buffer);
 }

@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_backward.c                              :+:      :+:    :+:   */
+/*   shk_cursor_jump_end.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 04:50:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 17:21:35 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 07:20:20 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/26 14:45:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
+#include <ft/string.h>
 #include <shakespeare.h>
 
-void	shk_cursor_backward(int n)
+void	shk_cursor_jump_end(t_shakespeare_data *shk)
 {
-	t_shakespeare_data	*shk;
-	char				*backspace;
+	size_t	x;
+	size_t	y;
 
-	shk = shk_shared();
-	if ((int)shk->draw_ctx.cursor_pos - n < 0)
-		n = shk->draw_ctx.cursor_pos;
-	if (n <= 0)
-		return ;
-	backspace = shk->draw_ctx.backspace;
-	if (!backspace)
-		backspace = "\b";
-	shk->draw_ctx.cursor_pos -= n;
-	while (n-- > 0)
-		ft_putstr_fd(backspace, shk->draw_ctx.output_fd);
+	x = shk->draw_ctx.cursor_base_x;
+	y = shk->draw_ctx.cursor_base_y;
+	x += shk_prompt_len(shk->draw_ctx.prompt);
+	x += shk->buffer_size;
+	while ((int) x > shk->draw_ctx.tty_cols)
+	{
+		x -= shk->draw_ctx.tty_cols;
+		y++;
+	}
+	shk_cursor_jump(shk, x, y);
 }
