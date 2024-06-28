@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 06:30:15 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/26 14:08:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/27 00:06:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 
 #include <stdio.h>
 
-static bool	shk_goto_history_end(t_shakespeare_data *shk, int mod)
+static bool	shk_goto_history_ends(t_shakespeare_data *shk, int mod)
 {
 	(void) shk;
 	(void) mod;
 	return (true);
 }
 
-static bool	shk_cursor_jump_far(t_shakespeare_data *shk, char cmd)
+static bool	shk_cursor_jump_ends(t_shakespeare_data *shk, char cmd)
 {
 	if (cmd == 'F')
 		shk_cursor_jump_end(shk);
@@ -48,19 +48,19 @@ static bool	shk_handle_escape_modifier(
 
 	(void) modifier;
 	if (cmd == 'C')
-		shk_cursor_forward(1);
+		shk_cursor_forward(shk, 1);
 	else if (cmd == 'D')
-		shk_cursor_backward(1);
+		shk_cursor_backward(shk, 1);
 	else if (cmd == 'A')
 		(void)shk; // up
 	else if (cmd == 'B')
 		(void)shk; // down
 	else if (cmd == '~' && modifier == 3)
-		return (shk_cursor_delete(shk));
+		return (shk_cursor_delete(shk, 1));
 	else if (cmd == '~')
-		return (shk_goto_history_end(shk, modifier));
+		return (shk_goto_history_ends(shk, modifier));
 	else if (cmd == 'F' || cmd == 'H')
-		return (shk_cursor_jump_far(shk, cmd));
+		return (shk_cursor_jump_ends(shk, cmd));
 	else
 	{
 		printf("Unknown escape sequence: '%c' %d (%0x)\n", cmd, cmd, cmd);

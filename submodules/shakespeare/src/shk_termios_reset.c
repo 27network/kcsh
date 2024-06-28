@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_backward.c                              :+:      :+:    :+:   */
+/*   shk_termios_reset.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 04:50:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 01:24:48 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/26 23:02:49 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/26 23:02:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/math.h>
-#include <ft/print.h>
 #include <shakespeare.h>
 
-void	shk_cursor_backward(t_shakespeare_data *shk, int n)
+void	shk_termios_reset(t_shakespeare_data *shk)
 {
-	n = ft_min(shk->draw.cursor_pos, n);
-	if (n <= 0)
-		return ;
-	shk->draw.cursor_pos -= n;
-	shk_cursor_jump_logical(shk);
+	tcsetattr(0, TCSAFLUSH, &shk->old_termios);
 }

@@ -6,18 +6,16 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 06:39:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/26 14:44:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/27 01:23:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/math.h>
 #include <shakespeare.h>
 
-bool	shk_cursor_backspace(t_shakespeare_data *shk)
+bool	shk_cursor_backspace(t_shakespeare_data *shk, int n)
 {
-	if (shk->draw_ctx.cursor_pos > 0)
-	{
-		shk_cursor_backward(1);
-		return (shk_cursor_delete(shk));
-	}
-	return (true);
+	n = ft_min(shk->draw.cursor_pos, n);
+	shk_cursor_backward(shk, n);
+	return (shk_cursor_delete(shk, n));
 }

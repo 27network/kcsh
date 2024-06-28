@@ -6,85 +6,84 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 06:08:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/26 14:14:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:35:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/colors.h>
 #include <ft/mem.h>
 #include <ft/print.h>
-#include <ft/string.h>
 #include <shakespeare.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-static void	shk_setup_termios(t_shakespeare_data *shk)
-{
-	if (tcgetattr(STDIN_FILENO, &shk->old_termios) == -1)
-	{
-		perror("tcgetattr");
-		exit(EXIT_FAILURE);
-	}
-	shk->new_termios = shk->old_termios;
-	shk->new_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	// shk->new_termios.c_oflag &= ~(OPOST);
-	shk->new_termios.c_lflag &= ~(ICANON | ECHO | ISIG | IEXTEN);
-	shk->new_termios.c_cflag |= (CS8);
-	// shk->new_termios.c_iflag &= ~INPCK;
-	// shk->new_termios.c_iflag &= ~ISTRIP;
-	shk->new_termios.c_cc[VMIN] = 1;
-	shk->new_termios.c_cc[VTIME] = 0;
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &shk->new_termios) == -1)
-	{
-		perror("tcsetattr");
-		exit(EXIT_FAILURE);
-	}
-}
-
-static void	shk_update_window(t_shakespeare_data *shk)
-{
-	struct winsize	ws;
-
-	shk->draw_ctx.tty_cols = -1;
-	shk->draw_ctx.tty_rows = -1;
-	ft_bzero(&ws, sizeof(ws));
-	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) == -1)
-		perror("ioctl");
-	shk->draw_ctx.tty_cols = ws.ws_col + (!ws.ws_col * 80);
-	shk->draw_ctx.tty_rows = ws.ws_row + (!ws.ws_row * 24);
-}
 
 static void	shk_signal_handler(int signum)
 {
 	t_shakespeare_data	*shk;
 
-	if (signum == SIGINT)
-	{
-		ft_putstr_fd("^C\n", 2);
-	}
-	else if (signum == SIGWINCH)
+	if (signum == SIGWINCH)
 	{
 		shk = shk_shared();
-		shk_update_window(shk);
-		shk_redraw();
+		shk_window_update_size(shk);
+		shk_redraw(shk);
 	}
 }
 
 static void	shk_setup_signals(void)
 {
-	signal(SIGINT, shk_signal_handler);
 	signal(SIGWINCH, shk_signal_handler);
 }
 
-void	shk_init(t_shakespeare_data *shk)
+static bool	shk_input_hook_dev(
+	t_shakespeare_data *shk,
+	const t_shk_hook_type type,
+	const char c,
+	bool *ret
+) {
+	(void) ret;
+	if (type == SHK_HOOK_BEFORE)
+		ft_dprintf(shk->draw.output_fd, "read: %c (%0x)\n", c, c);
+	return (false);
+}
+
+static void	shk_draw_word_hook(
+	t_shakespeare_data *shk,
+	const t_shk_hook_type type,
+	const char *word,
+	const size_t index
+) {
+	char	*s;
+
+	(void) word;
+	if (type == SHK_HOOK_BEFORE)
+	{
+		if (index == 0)
+			s = B_RED;
+		else
+			s = UNDERLINE;
+	}
+	else if (type == SHK_HOOK_AFTER)
+		s = RESET;
+	else
+		return ;
+	ft_putstr_fd(s, shk->draw.output_fd);
+}
+
+bool	shk_init(t_shakespeare_data *shk)
 {
 	if (shk->initialized)
-		return ;
+	{
+		ft_dprintf(STDERR_FILENO, "shk_init: already initialized\n");
+		return (false);
+	}
 	ft_bzero(shk, sizeof(t_shakespeare_data));
 	shk->initialized = true;
-	shk->draw_ctx.output_fd = STDERR_FILENO;
-	shk_setup_termios(shk);
+	shk->draw.output_fd = STDERR_FILENO;
+	if (getenv("SHK_DEBUG"))
+		shk->hooks.input_hook = shk_input_hook_dev;
+	else
+		shk->hooks.draw_word_hook = shk_draw_word_hook;
 	shk_setup_signals();
-	shk_update_window(shk);
+	return (true);
 }

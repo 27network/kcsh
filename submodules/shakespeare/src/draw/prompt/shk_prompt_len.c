@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_backward.c                              :+:      :+:    :+:   */
+/*   shk_prompt_len.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 04:50:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 01:24:48 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/25 05:35:16 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/26 18:20:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/math.h>
-#include <ft/print.h>
-#include <shakespeare.h>
+#include <stddef.h>
 
-void	shk_cursor_backward(t_shakespeare_data *shk, int n)
+size_t	shk_prompt_len(const char *prompt)
 {
-	n = ft_min(shk->draw.cursor_pos, n);
-	if (n <= 0)
-		return ;
-	shk->draw.cursor_pos -= n;
-	shk_cursor_jump_logical(shk);
+	size_t	len;
+	size_t	i;
+	size_t	escaped;
+
+	len = 0;
+	i = 0;
+	escaped = 0;
+	while (prompt[i])
+	{
+		if (prompt[1] == '\001')
+			escaped++;
+		else if (prompt[1] == '\002')
+		{
+			if (escaped > 0)
+				escaped--;
+		}
+		else if (escaped == 0)
+			len++;
+		i++;
+	}
+	return (len);
 }

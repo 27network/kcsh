@@ -6,24 +6,19 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 04:48:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/26 14:45:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/27 01:25:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/math.h>
 #include <ft/print.h>
 #include <shakespeare.h>
 
-void	shk_cursor_forward(int n)
+void	shk_cursor_forward(t_shakespeare_data *shk, int n)
 {
-	t_shakespeare_data	*shk;
-	size_t				max_len;
-
-	shk = shk_shared();
-	max_len = shk->buffer_size;
-	if (shk->draw_ctx.cursor_pos + n > (int) max_len)
-		n = max_len - shk->draw_ctx.cursor_pos;
+	n = ft_min(n, shk->buffer_size);
 	if (n <= 0)
 		return ;
-	shk->draw_ctx.cursor_pos += n;
-	ft_dprintf(shk->draw_ctx.output_fd, "\033[%dC", n);
+	shk->draw.cursor_pos += n;
+	shk_cursor_jump_logical(shk);
 }

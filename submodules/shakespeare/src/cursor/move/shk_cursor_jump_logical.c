@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_prompt_len.c                                   :+:      :+:    :+:   */
+/*   shk_cursor_jump_logical.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 05:35:16 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/25 05:44:52 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/26 17:19:59 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/27 15:36:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <shakespeare.h>
 
-size_t	shk_prompt_len(const char *prompt)
+#include <stdio.h>
+
+void	shk_cursor_jump_logical(t_shakespeare_data *shk)
 {
-	size_t	len;
-	size_t	i;
-	size_t	escaped;
+	size_t	cursor_x;
+	size_t	cursor_y;
 
-	len = 0;
-	i = 0;
-	escaped = 0;
-	while (prompt[i])
-	{
-		if (prompt[1] == '\001')
-			escaped++;
-		else if (prompt[1] == '\002')
-		{
-			if (escaped > 0)
-				escaped--;
-		}
-		else if (escaped == 0)
-			len++;
-		i++;
-	}
-	return (len);
+	shk_cursor_pos(shk, &cursor_x, &cursor_y);
+	// printf("jumping to %zu, %zu\n", cursor_x, cursor_y);
+	shk_cursor_jump_abs(shk, cursor_x, cursor_y);
 }

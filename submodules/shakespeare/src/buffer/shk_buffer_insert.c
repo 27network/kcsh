@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_backward.c                              :+:      :+:    :+:   */
+/*   shk_buffer_insert.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 04:50:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 01:24:48 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/06/26 23:16:56 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/06/27 00:03:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/math.h>
-#include <ft/print.h>
 #include <shakespeare.h>
 
-void	shk_cursor_backward(t_shakespeare_data *shk, int n)
+bool	shk_buffer_insert(t_shakespeare_data *shk, char c, size_t pos)
 {
-	n = ft_min(shk->draw.cursor_pos, n);
-	if (n <= 0)
-		return ;
-	shk->draw.cursor_pos -= n;
-	shk_cursor_jump_logical(shk);
+	const int	old_pos = shk->draw.cursor_pos;
+	bool		ret;
+
+	shk->draw.cursor_pos = pos;
+	ret = shk_buffer_append(shk, c);
+	shk->draw.cursor_pos = old_pos;
+	return (ret);
 }
