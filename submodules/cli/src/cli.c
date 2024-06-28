@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/06/27 14:15:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:44:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 
 #ifndef KCSH_TESTS
 
-int	main(int argc, const char *argv[], const char *envp[])
+static void	run_shakespeare(void)
 {
-	t_minishell	minishell;
+	char	*line;
 
 	while (1)
 	{
-		char *line = shakespeare("> ");
+		line = shakespeare("> ");
 		if (!line)
 			exit(0);
 		shk_history_push(line);
@@ -39,6 +39,14 @@ int	main(int argc, const char *argv[], const char *envp[])
 		fflush(stdout);
 		free(line);
 	}
+}
+
+int	main(int argc, const char *argv[], const char *envp[])
+{
+	t_minishell	minishell;
+
+	if (getenv("SHAKESPEARE_RUNTIME"))
+		run_shakespeare();
 	msh_builtin_registry_sort();
 	(void) msh_history_raw();
 	msh_init(&minishell, argc, argv, envp);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 22:13:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/23 02:58:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:47:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	msh_env_is_valid_name_test(void)
 	assert(!TARGET("?", true), __FILE__, "? is a valid name (assign)");
 	assert(!TARGET("1", true), __FILE__, "1 is a valid name (assign)");
 	assert(TARGET("_", true), __FILE__, "_ isn't a valid name (assign)");
+	assert(TARGET("_", true), __FILE__, "_ it a valid name (assign)");
 	assert(!TARGET("=", false), __FILE__, "= is a valid name");
 	assert(!TARGET("1SALUT", false), __FILE__, "1SALUT is a valid name");
 	assert(!TARGET("1SALUT", true), __FILE__,

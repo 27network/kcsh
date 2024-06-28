@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/29 23:30:48 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/28 17:10:07 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC			=	42sh/jobs/bg.c \
 				core/msh_builtin_registry_sort.c \
 				bash/_wip.c \
 				bash/help.c \
+				minishell/export/msh_print_exports.c \
 				minishell/cd.c \
 				minishell/echo.c \
 				minishell/env.c \
