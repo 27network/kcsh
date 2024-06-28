@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:32:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/10 17:05:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 20:09:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,59 @@
 # include <msh/log.h>
 # include <unistd.h>
 
-void	msh_history_save(t_minishell *msh)
+# if FEAT_NO_READLINE
+#  define LINELOG_SAVE msh_save_shakespeare
+
+static bool	msh_save_shakespeare(int fd)
+{
+	ft_dprintf(2, "shakespeare history saving not implemented\n");
+	(void) fd;
+	return (true);
+}
+
+# else
+#  define LINELOG_SAVE msh_save_readline
+
+static bool	msh_save_readline(int fd)
 {
 	HIST_ENTRY	***history_ptr;
 	HIST_ENTRY	**history;
+	bool		error;
 	int			i;
-	int			fd;
 
-	if (!msh->interactive || msh->forked)
-		return ;
 	history_ptr = msh_history_raw();
 	if (!history_ptr || !*history_ptr)
 		return ;
+	error = false;
 	history = *history_ptr;
-	fd = msh_history_file(msh, O_CREAT | O_TRUNC | O_WRONLY);
-	if (fd < 0)
-		return ;
 	i = -1;
 	while (history[++i])
 	{
 		if (history[i]->line && *history[i]->line)
 		{
 			if (ft_dprintf(fd, "%s\n", history[i]->line) <= 0)
+			{
+				error = true;
 				break ;
+			}
 		}
 	}
+	return (error);
+}
+
+# endif // FEAT_NO_READLINE
+
+void	msh_history_save(t_minishell *msh)
+{
+	int			fd;
+
+	if (!msh->interactive || msh->forked)
+		return ;
+	fd = msh_history_file(msh, O_CREAT | O_TRUNC | O_WRONLY);
+	if (fd < 0)
+		return ;
+	if (LINELOG_SAVE(fd))
+		msh_error(msh, "failed to save history properly to file\n");
 	if (close(fd) >= 0)
 		msh_log(msh, MSG_DEBUG_GENERIC, "saved history to file successfully\n");
 }

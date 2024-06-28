@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/25 15:55:42 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/28 23:38:52 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,12 @@ IS_EXEC			?=	0
 LDFLAGS			?=
 
 LD 				:=	$(CC)
-LDFLAGS			+=	-rdynamic
-LDFLAGS			+=	-lm
+ifeq ($(USES_READLINE), 1)
 LDFLAGS			+=	-lreadline
+else
+LDFLAGS			+=	-lreadline #TODO: remove this fuck GNU make
 LDFLAGS			+=	-lncurses
+endif
 
 ifeq ($(IS_EXEC), 1)
 OUTPUT			:=	$(NAME)

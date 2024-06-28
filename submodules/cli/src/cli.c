@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/06/28 17:44:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 23:34:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,41 @@
 #include <msh/features.h>
 #include <msh/signal.h>
 #include <msh/util.h>
-#include <readline/readline.h>
 
-#include <shakespeare.h>
-#include <stdio.h>
-#include <stdlib.h>
+#if FEAT_NO_READLINE
+# include <shakespeare.h>
+#else
+# include <readline/readline.h>
+#endif
 
 #ifndef KCSH_TESTS
+# if !FEAT_NO_READLINE
 
-static void	run_shakespeare(void)
+static void	msh_setup_linelib(t_minishell *msh)
 {
-	char	*line;
-
-	while (1)
-	{
-		line = shakespeare("> ");
-		if (!line)
-			exit(0);
-		shk_history_push(line);
-		printf("You entered: %s", line);
-		fflush(stdout);
-		free(line);
-	}
+	(void) msh_history_raw();
+	rl_outstream = stderr;
+	if (!msh->interactive)
+		rl_prep_term_function = 0;
 }
+
+# else
+
+static void	msh_setup_linelib(
+	__attribute__((unused)) t_minishell *msh
+) {
+}
+
+# endif // !FEAT_NO_READLINE
 
 int	main(int argc, const char *argv[], const char *envp[])
 {
 	t_minishell	minishell;
 
-	if (getenv("SHAKESPEARE_RUNTIME"))
-		run_shakespeare();
 	msh_builtin_registry_sort();
-	(void) msh_history_raw();
 	msh_init(&minishell, argc, argv, envp);
 	msh_signal_init(&minishell, false);
-	rl_outstream = stderr;
-	if (!minishell.interactive)
-		rl_prep_term_function = 0;
+	msh_setup_linelib(&minishell);
 	if (argc != 1)
 		msh_handle_opts(&minishell, argc, argv);
 	msh_history_load(&minishell);

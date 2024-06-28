@@ -6,20 +6,21 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 16:22:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 20:17:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/mem.h>
-#include <ft/print.h>
-#include <msh/cli/history.h>
-#include <readline/readline.h>
-#include <stdint.h>
-#include <unistd.h>
+#include <msh/features.h>
+#if !FEAT_NO_READLINE
+# include <msh/cli/history.h>
+# include <ft/mem.h>
+# include <ft/print.h>
+# include <stdint.h>
+# include <unistd.h>
 
-#define HISTACCESS_WARNING "msh: warning: unable to access internal history, \
+# define HISTACCESS_WARNING "msh: warning: unable to access internal history, \
 some features will be disabled\n"
-#define ENDBR64_OPCODE 243
+# define ENDBR64_OPCODE 243
 
 /**
  * @brief Fetches the pointer to readline's `the_history`.
@@ -68,3 +69,5 @@ HIST_ENTRY	***msh_history_raw(void)
 	}
 	return (history_ptr);
 }
+
+#endif // !FEAT_NO_READLINE

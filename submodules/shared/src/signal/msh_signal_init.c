@@ -6,10 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/23 04:16:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 23:12:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <msh/features.h>
 #include <msh/signal.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -28,7 +29,8 @@ void	msh_signal_init(t_minishell *msh, bool close_stdin)
 	t_signal_handler_fn	*sighandler;
 
 	msh_signal_setdfl();
-	rl_catch_signals = msh->interactive;
+	if (!FEAT_NO_READLINE)
+		rl_catch_signals = msh->interactive;
 	if (msh->interactive && close_stdin)
 		sighandler = &msh_signal_handler_close;
 	else if (msh->interactive)

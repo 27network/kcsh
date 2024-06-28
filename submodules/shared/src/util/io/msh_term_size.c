@@ -6,12 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 03:08:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/15 19:09:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 23:14:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string/parse.h>
 #include <msh/env.h>
+#include <msh/features.h>
 #include <msh/util.h>
 #include <readline/readline.h>
 
@@ -23,7 +24,7 @@ static void	ioctl_tiocgwinsz(size_t *lines, size_t *col)
 	struct winsize	win;
 
 	tty = STDIN_FILENO;
-	if (rl_instream)
+	if (!FEAT_NO_READLINE && rl_instream)
 		tty = msh_fileno(rl_instream);
 	if (tty >= 0 && ioctl(tty, TIOCGWINSZ, &win) == 0)
 	{

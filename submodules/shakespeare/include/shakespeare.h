@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:43:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 16:22:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 20:26:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #  define __SHAKESPEARE_H__
 
 #  include <termios.h>
-#  include <term.h>
 #  include <stdbool.h>
 #  include <stddef.h>
 
@@ -194,6 +193,7 @@ size_t				shk_prompt_len(const char *prompt);
 void				shk_history_clear(void);
 t_history_entry		*shk_history_pop(void);
 void				shk_history_push(const char *line);
+void				shk_history_modify_last(const char *line);
 
 // Input
 

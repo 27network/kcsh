@@ -6,13 +6,15 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:51:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 19:22:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 22:18:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/string.h>
+#include <msh/features.h>
 #include <msh/cli/history.h>
-#include <stdlib.h>
+#if !FEAT_NO_READLINE
+# include <ft/string.h>
+# include <stdlib.h>
 
 void	msh_history_modify_last(const char *line)
 {
@@ -39,3 +41,16 @@ void	msh_history_modify_last(const char *line)
 	free(entry->line);
 	entry->line = ft_strdup(line);
 }
+
+#else
+
+/**
+ * Wow. Such code. Much history. So empty. Wow.
+ *
+ * You know you have a good codebase when you can pull stuff like this and it
+ * makes perfect logical sense.
+ *
+ * And yes, i'm proud of this.
+ */
+
+#endif // !FEAT_NO_READLINE

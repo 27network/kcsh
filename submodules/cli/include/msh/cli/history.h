@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/31 17:10:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 20:17:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@
 #  define __MSH_CLI_HISTORY_H__
 
 #  include <msh/minishell.h>
-#  include <stdio.h>
-#  include <readline/history.h>
+#  if FEAT_NO_READLINE
+#   include <shakespeare.h>
+#  else
+#   include <stdio.h>
+#   include <readline/readline.h>
+#   include <readline/history.h>
 
 /**
  * @brief Access readline's internal history entry list.
@@ -31,6 +35,8 @@
  * @return HIST_ENTRY*** Pointer to the history entry list, or NULL.
  */
 HIST_ENTRY	***msh_history_raw(void);
+
+#  endif // !FEAT_NO_READLINE
 
 /**
  * @brief Print a debug message with the history entry list.
@@ -84,7 +90,10 @@ void		msh_history_load(t_minishell *msh);
 void		msh_history_save(t_minishell *msh);
 
 /**
- * @brief Free readline's history because apparently it can't do it itself.
+ * @brief Free the history list.
+ *
+ * @note This also frees readline's internal history buffer because apparently
+ *		 it can't do it itself. 
  */
 void		msh_history_free(void);
 

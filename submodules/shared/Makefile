@@ -6,11 +6,14 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/23 02:19:09 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/28 23:10:25 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	shared
+ifeq ($(USES_READLINE), 0)
+DEPS		=	shakespeare
+endif
 
 include ../common-prelude.mk
 

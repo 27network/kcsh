@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 21:56:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 23:06:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,23 @@
 #include <ft/print.h>
 #include <ft/string.h>
 #include <msh/cli/input.h>
+#include <msh/features.h>
 #include <msh/log.h>
 #include <msh/signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <readline/readline.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#include <readline/readline.h>
+#if FEAT_NO_READLINE
+# include <shakespeare.h>
+# define LINEREADER shakespeare
+#else
+# define LINEREADER readline
+#endif // FEAT_NO_READLINE
 
 #define BUFFER_SIZE 8192
 
@@ -33,11 +41,12 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 {
 	char	*line;
 
-	rl_catch_signals = 1;
+	if (!FEAT_NO_READLINE)
+		rl_catch_signals = 1;
 	close(fds[0]);
 	msh->interactive = true;
 	msh_signal_init(msh, true);
-	line = readline(interactive_prompt);
+	line = LINEREADER(interactive_prompt);
 	if (line)
 	{
 		ft_putstr_fd(line, fds[1]);

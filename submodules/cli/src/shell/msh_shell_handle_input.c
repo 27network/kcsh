@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/11 16:08:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 23:17:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		return ;
 	msh_handle_history(input, false);
 	msh_handle_ast(msh, input);
-	msh_debug_exec(msh, input.buffer);
+	if (!msh->forked)
+		msh_debug_exec(msh, input.buffer);
 	ft_strdel((char **) &input.buffer);
 }

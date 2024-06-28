@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:13:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 03:40:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 23:11:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ void	msh_signal_handler_close(int signo)
 	if (signo == SIGINT)
 	{
 		ft_putstr("\n");
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
 		close(0);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:14:16 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/01 09:48:51 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/06/28 23:00:32 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,9 +73,9 @@ $(LIBS):
 	$(eval CURRENT_LIB := $(shell echo $@ | cut -d'/' -f$(NUMBER_OF_SLASHES)))
 	@printf "$(SPACING_TARGET)📑 Making '$(CURRENT_LIB)'\n"
 ifeq ($(EXTRA_DEBUG), 1)
-	make -C ../$(CURRENT_LIB) CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"
+	$(MAKE) -C ../$(CURRENT_LIB) CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"
 else
-	@make -C ../$(CURRENT_LIB) CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"
+	@$(MAKE) -C ../$(CURRENT_LIB) CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"
 endif
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
@@ -100,7 +100,7 @@ clean_deps:
 	@if [ "$(DISABLE_CLEAN)" = "0" ]; then \
 		printf "$(SPACING)Cleaning dependencies\n"; \
 		for dep in $(DEPS); do \
-			make -C "../$$dep" clean CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"; \
+			$(MAKE) -C "../$$dep" clean CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"; \
 		done; \
 	fi
 
@@ -111,7 +111,7 @@ clean: clean_deps
 fclean_deps:
 	@printf "$(SPACING)(F)Cleaning dependencies\n"
 	@for dep in $(DEPS); do \
-		make -C "../$$dep" fclean CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"; \
+		$(MAKE) -C "../$$dep" fclean CACHE_DIR="$(CACHE_DIR)" DEPTH="$(shell expr $(DEPTH) + 1)"; \
 	done
 
 __disable_clean:

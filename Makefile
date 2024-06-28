@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/28 18:46:41 by ebouchet         ###   ########.fr        #
+#    Updated: 2024/06/28 23:36:00 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ ifeq ($(MAKE_TRACE), 1)
 $(info Included $(CONFIG_MK))
 endif
 
-MAKE				:=	make --no-print-directory --debug=none
 NAME				:=	minishell
 
 ifdef OVERRIDE_NAME
@@ -32,6 +31,14 @@ $(info NAME: $(NAME))
 endif
 
 COMP_MODE			?=	MANDATORY_MSH
+USES_READLINE		:=	$(shell echo "$(COMP_MODE)" | grep "42SH" >/dev/null && echo 1 || echo 0)
+
+ifeq ($(USES_READLINE), 1)
+VSUPP_ARG			:=	--suppressions=config/valgrind.vsupp
+endif
+
+MAKE				:=	make --no-print-directory --debug=none USES_READLINE=$(USES_READLINE)
+
 
 CACHE_DIR_NAME		:=	.cache
 CACHE_DIR			:=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
@@ -120,7 +127,7 @@ endif
 
 $(CLI_EXEC):
 	@printf "\33[2K\r🛠️  Making $(BOLD_WHITE)$(NAME)$(RESET)\n"
-	@$(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) DEPTH="1" CACHE_DIR="$(CACHE_DIR)" LIBFT_DIR="$(LIBFT_DIR)" # 3>/dev/null 2>&3
+	@$(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) DEPTH="1" CACHE_DIR="$(CACHE_DIR)" LIBFT_DIR="$(LIBFT_DIR)"
 
 $(NAME): $(LIBFT) $(CONFIG_MK) $(FEATURES_H_ACTUAL) $(FEATURES_H) $(CLI_EXEC)
 	@printf "⛓  Linking $(CLI_EXEC) -> $(NAME)"
@@ -185,10 +192,10 @@ re: _hide_cursor
 		exit $$ret
 
 valgrind:
-	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
+	valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 	@#valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 
 voidgrind:
-	valgrind --suppressions=config/valgrind.vsupp -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i ./$(NAME) $(VG_RUN)
+	valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i ./$(NAME) $(VG_RUN)
 
 .PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind _fclean_prelude _banner _hide_cursor
