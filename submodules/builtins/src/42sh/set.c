@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:49:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/15 12:35:09 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:15:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ Options:\n\
 		  notify       same as -b\n\
 		  nounset      same as -u\n\
 		  onecmd       same as -t\n\
-		  physical     same as -P\n\
 		  pipefail     the return value of a pipeline is the status of\n\
 					   the last command to exit with a non-zero status,\n\
 					   or zero if no command exited with a non-zero status\n\
@@ -80,8 +79,6 @@ Options:\n\
   -E  If set, the ERR trap is inherited by shell functions.\n\
   -H  Enable ! style history substitution.  This flag is on\n\
 	  by default when the shell is interactive.\n\
-  -P  If set, do not follow symbolic links when executing commands\n\
-	  such as cd which change the current directory.\n\
   -T  If set, the DEBUG and RETURN traps are inherited by shell functions.\n\
   --  Assign any remaining arguments to the positional parameters.\n\
       If there are no remaining arguments, the positional parameters\n\
