@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 17:18:59 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:57:55 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 		msh_print_exports(msh, argv[0]);
 	else
 	{
-		// export [name[[+]=value]]
+		// export name[[+]=value]
+		//		  name name=value name+=value
 		// export PTDR -> PTDR=null
 		// export PTDR= -> PTDR=""
 		// export PTDR=A -> PTDR="A"

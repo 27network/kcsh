@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/15 19:04:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/06/28 19:02:58 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ t_variable	*msh_env_get(t_minishell *msh, const char *name, int flags);
  *
  * @param msh The minishell instance.
  * @param key The name of the variable.
- * @param name The value of the variable.
+ * @param value The value of the variable.
  * @param flags The flags of the variable.
  *
  * @return The variable that was pushed, or NULL if something failed.
  */
-t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *name,
+t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *value,
 				int flags);
 
 /**
