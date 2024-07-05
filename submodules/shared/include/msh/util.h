@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 11:59:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:57:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 #  define __MSH_UTIL_H__
 
 #  include <msh/minishell.h>
+#  include <pwd.h>
 #  include <stdio.h>
 #  include <sys/stat.h>
+#  include <sys/types.h>
 
 /**
  * @brief Resolve the path of a file or script
@@ -34,14 +36,14 @@
  * @return			The resolved path of the file or script, or `filename` 
  *					if not found. NULL is returned if a memory error happens.
  */
-char	*msh_resolve_path(t_minishell *msh, const char *filename);
+char			*msh_resolve_path(t_minishell *msh, const char *filename);
 
 /**
  * This function checks if the given path is to a directory.
  *
  * @param path The path to check.
  */
-bool	msh_is_directory(const char *path);
+bool			msh_is_directory(const char *path);
 
 /**
  * @brief Get the current machine's hostname.
@@ -59,7 +61,7 @@ bool	msh_is_directory(const char *path);
  *
  * @return The hostname of the machine.
  */
-char	*msh_get_hostname(t_minishell *msh);
+char			*msh_get_hostname(t_minishell *msh);
 
 /**
  * @brief Get the file descriptor assosiated with the given stream, basically
@@ -73,7 +75,7 @@ char	*msh_get_hostname(t_minishell *msh);
  *
  * @return The file descriptor of the stream.
  */
-int		msh_fileno(FILE	*stream);
+int				msh_fileno(FILE	*stream);
 
 /**
  * @note You **shouldn't** call this, as this value is only used for 
@@ -82,7 +84,7 @@ int		msh_fileno(FILE	*stream);
  *
  * @return `true` if the shell is running in interactive mode, `false` otherwise.
  */
-bool	msh_is_interactive(void);
+bool			msh_is_interactive(void);
 
 /**
  * @brief Provides the number of lines and columns of the running terminal.
@@ -91,7 +93,7 @@ bool	msh_is_interactive(void);
  * @param lines A pointer to store the number of lines.
  * @param columns A pointer to store the number of columns.
  */
-void	msh_term_size(t_minishell *msh, size_t *lines, size_t *columns);
+void			msh_term_size(t_minishell *msh, size_t *lines, size_t *columns);
 
 /**
  * @brief Compares two strings using the current locale.
@@ -108,7 +110,7 @@ void	msh_term_size(t_minishell *msh, size_t *lines, size_t *columns);
  * 		 seen it's not exposed, or at least not easily so, in the library.
  * @rant 42 subjects let us use useful functions (challenge) [impossible]
  */
-int		msh_strcoll(t_minishell *msh, char *s1, char *s2);
+int				msh_strcoll(t_minishell *msh, char *s1, char *s2);
 
 /**
  * @brief Gets the current user's effective ID.
@@ -117,7 +119,7 @@ int		msh_strcoll(t_minishell *msh, char *s1, char *s2);
  *
  * @return The effective user ID.
  */
-int		msh_geteuid(t_minishell *msh);
+int				msh_geteuid(t_minishell *msh);
 
 /**
  * @brief Interprets the ANSI escape codes in the given string.
@@ -127,7 +129,7 @@ int		msh_geteuid(t_minishell *msh);
  *
  * @return The interpreted string.
  */
-char	*msh_ansicstr(char *input, size_t *retlen);
+char			*msh_ansicstr(char *input, size_t *retlen);
 
 /**
  * @brief Checks if the given paths are the same file.
@@ -139,8 +141,8 @@ char	*msh_ansicstr(char *input, size_t *retlen);
  *
  * @return `true` if the paths are the same file, `false` otherwise.
  */
-bool	msh_same_file(const char *path1, const char *path2,
-			struct stat *stat1, struct stat *stat2);
+bool			msh_same_file(const char *path1, const char *path2,
+					struct stat *stat1, struct stat *stat2);
 
 /**
  * @brief Checks if the given string contains shell metacharacters.
@@ -149,7 +151,7 @@ bool	msh_same_file(const char *path1, const char *path2,
  *
  * @return `true` if the string contains shell metacharacters, `false` otherwise.
  */
-bool	msh_contains_shell_metas(const char *str);
+bool			msh_contains_shell_metas(const char *str);
 
 /**
  * @brief Quotes the given string.
@@ -158,7 +160,50 @@ bool	msh_contains_shell_metas(const char *str);
  *
  * @return The quoted string.
  */
-char	*msh_quote(const char *str);
+char			*msh_quote(const char *str);
+
+/**
+ * @brief Performs tilde expansion on the given string.
+ *
+ * @implementation This function will expand the tilde to the home directory
+ *				   of the user. If the tilde is followed by a username, it will
+ *				   expand to that user's home directory. If the tilde is not
+ *				   followed by a username, it will expand to the home directory
+ *				   of the current user.
+ *
+ * @param msh The minishell instance.
+ * @param str The string to expand.
+ *
+ * @return The expanded string.
+ */
+char			*msh_expand_tilde(t_minishell *msh, const char *str);
+
+/**
+ * @brief Gets the user information from the given user ID.
+ *
+ * @param msh The minishell instance.
+ * @param uid The user ID to get the information from.
+ *
+ * @return The user information.
+ */
+struct passwd	msh_getpwuid(t_minishell *msh, uid_t uid);
+
+/**
+ * @brief Gets the user information from the given username.
+ *
+ * @param msh The minishell instance.
+ * @param username The username to get the information from.
+ *
+ * @return The user information.
+ */
+struct passwd	msh_getpwnam(t_minishell *msh, const char *name);
+
+/**
+ * @brief Frees the user information.
+ *
+ * @param pwd The user information to free.
+ */
+void			msh_passwd_free(struct passwd *pwd);
 
 # endif // __MSH_UTIL_H__
 #endif // UTIL_H

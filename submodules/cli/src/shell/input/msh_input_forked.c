@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 23:06:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:03:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include <readline/readline.h>
 #if FEAT_NO_READLINE
 # include <shakespeare.h>
 # define LINEREADER shakespeare
 #else
+# include <readline/readline.h>
 # define LINEREADER readline
 #endif // FEAT_NO_READLINE
 
@@ -41,8 +41,6 @@ static void	msh_forked_write(t_minishell *msh, const int fds[2],
 {
 	char	*line;
 
-	if (!FEAT_NO_READLINE)
-		rl_catch_signals = 1;
 	close(fds[0]);
 	msh->interactive = true;
 	msh_signal_init(msh, true);

@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 19:02:58 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:19:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@
 #  define ENV_DEFAULT_PS2 "> "
 #  define ENV_DEFAULT_PS3 "# "
 #  define ENV_DEFAULT_PS4 "+ "
+#  define ENV_DEFAULT_HISTFILE "~/.kcsh_history"
+#  define ENV_DEFAULT_HISTFILESIZE 500
+#  define ENV_DEFAULT_HISTSIZE 500
 
-#  define ENV_DEFAULT_PATH ""
+#  define ENV_DEFAULT_PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:\
+/usr/bin:/sbin:/bin"
 #  define ENV_DEFAULT_IFS " \t\n"
+#  define ENV_DEFAULT_TERM "dumb"
 
 #  define ENV_EXPORTED		0x0000001	
 #  define ENV_READONLY		0x0000002

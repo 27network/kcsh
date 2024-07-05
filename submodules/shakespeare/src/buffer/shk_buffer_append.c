@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:02:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 15:47:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:55:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ static bool	shk_buffer_grow(t_shakespeare_data *shk)
 	return (shk->buffer != NULL);
 }
 
-__attribute__((unused))
 static void	shk_edge_cursor(t_shakespeare_data *shk)
 {
 	size_t	cursor_x;
 
 	shk_cursor_pos(shk, &cursor_x, NULL);
-	if ((int)cursor_x == shk->draw.tty_cols)
-	{
-		(void) write(shk->draw.output_fd, " ", 1);
-	}
+	if ((int)cursor_x == 1)
+		shk_cursor_jump_logical(shk);
 }
 
 bool	shk_buffer_append(t_shakespeare_data *shk, char c)
@@ -80,8 +77,7 @@ bool	shk_buffer_append(t_shakespeare_data *shk, char c)
 	}
 	else
 		(void) write(shk->draw.output_fd, &c, 1);
-	// shk_redraw(shk);
-	// if (!insert)
-	// 	shk_edge_cursor(shk);
+	if (!insert)
+		shk_edge_cursor(shk);
 	return (shk_buffer_grow(shk));
 }

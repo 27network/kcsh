@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 05:37:35 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/28 20:24:51 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/02 15:45:16 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ SRC			=	buffer/shk_buffer_append.c \
 				history/shk_history_modify_last.c \
 				history/shk_history_pop.c \
 				history/shk_history_push.c \
+				input/readline/shk_terminal_clear.c \
 				input/shk_handle_escape.c \
+				input/shk_handle_char.c \
 				shakespeare.c \
 				shk_cleanup.c \
 				shk_init.c \

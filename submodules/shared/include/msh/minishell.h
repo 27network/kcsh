@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 23:16:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:54:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
  * 		  many widely-useful function prototypes.
  */
 
-#  include <msh/features.h>
 #  include <msh/flags.h>
-#  include <ft/data/list.h>
 #  include <stdbool.h>
+#  include <stddef.h>
 #  include <stdint.h>
+#  include <termios.h>
 
 #  ifndef MSH_DEFAULT_NAME
 #   define MSH_DEFAULT_NAME "minishell"
@@ -39,12 +39,6 @@
 #  ifndef MSH_HOMEPAGE
 #   define MSH_HOMEPAGE "https://codeberg.org/27/kcsh"
 #  endif // MSH_HOMEPAGE
-
-#  ifndef MSH_HISTORY_FILE
-//  We include the leading slash to make it easier to append to a HOME
-//  variable that has a trailing slash.
-#   define MSH_HISTORY_FILE "/.kcsh_history"
-#  endif // MSH_HISTORY_FILE
 
 typedef struct s_variable	t_variable;
 
@@ -107,8 +101,6 @@ typedef struct s_execution_context
  * @param env				Environment variables map, see `t_map`.
  * @param interactive		Whether the shell is running in interactive mode.
  * @param forked			Whether the running process is a fork.
- *
- * @param free_buffer		List of pointers to free when the shell is destroyed.
  */
 typedef struct s_minishell
 {
@@ -117,11 +109,10 @@ typedef struct s_minishell
 	t_execution_context		execution_context;
 	t_msh_flags				flags;
 
+	struct termios			term;
 	t_variable				*variables;
 	bool					interactive;
 	bool					forked;
-
-	t_list					*free_buffer;
 }	t_minishell;
 
 /**

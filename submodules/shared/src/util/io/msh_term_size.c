@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 03:08:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 23:14:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:02:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <readline/readline.h>
 
 #ifdef TIOCGWINSZ
+# define SIZE_FETCHER ioctl_tiocgwinsz
 
 static void	ioctl_tiocgwinsz(size_t *lines, size_t *col)
 {
@@ -36,11 +37,64 @@ static void	ioctl_tiocgwinsz(size_t *lines, size_t *col)
 }
 
 #else
+# define SIZE_FETCHER fallback_overjump
 
-static void	ioctl_tiocgwinsz(
-	__attribute__((unused)) size_t *lines,
-	__attribute__((unused)) size_t *col
+static bool	msh_cursor_read_escape(char *buf, size_t *x, size_t *y)
+{
+	char	*first;
+
+	first = ft_strdup_range(buf, 1, ft_strchr(buf, ';') - buf);
+	if (!first)
+	{
+		perror("strdup_range");
+		return (false);
+	}
+	if (y)
+		*y = ft_atoi(first);
+	free(first);
+	while (*buf && *buf != ';')
+		buf++;
+	if (*buf)
+		buf++;
+	else
+		return (false);
+	if (x)
+		*x = ft_atoi(buf);
+	return (true);
+}
+
+bool	msh_get_cursor_pos(size_t *x, size_t *y)
+{
+	char	buf_write[33];
+	char	*buf;
+
+	if (!x && !y)
+		return (true);
+	if (write(1, "\033[6n", 4) != 4)
+		return (false);
+	buf = buf_write;
+	ft_bzero(buf_write, 33);
+	if (read(0, buf_write, 32) <= 0)
+		return (false);
+	while (*buf && *buf != '[')
+		buf++;
+	return (msh_cursor_read_escape(buf, x, y));
+}
+
+static void	fallback_overjump(
+	size_t *lines,
+	size_t *col
 ) {
+	size_t	old_x;
+	size_t	old_y;
+
+	if (!msh_get_cursor_pos(&old_x, &old_y))
+		return ;
+	write(1, "\033[999;999H", 9);
+	if (msh_get_cursor_pos(col, lines))
+		return ;
+	*lines = 24;
+	*col = 80;
 }
 
 #endif // TIOCGWINSZ

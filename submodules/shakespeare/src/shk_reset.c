@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 22:48:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 16:57:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:56:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	shk_reset(t_shakespeare_data *shk, const char *prompt)
 		return (false);
 	}
 	shk_window_update_size(shk);
-	shk->history_cursor = NULL;
+	shk->history_current = NULL;
 	shk->buffer_size = 0;
 	shk->next_buffer_size = SHK_BUFFER_BLOCK_SIZE;
 	shk->draw.prompt = prompt;

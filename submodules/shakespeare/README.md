@@ -114,3 +114,9 @@ typedef bool    t_shk_hook_input(
                     const char c,
                     bool *should_ret);
 ```
+
+## developer todo
+
+- [ ] Registry for termcap strings (cl, bp, dl, etc)
+- [ ] Turn everything into binds/motions
+- [ ] Documentation

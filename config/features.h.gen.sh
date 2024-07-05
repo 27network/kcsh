@@ -16,6 +16,9 @@ FEAT_BONUS_MSH=( \
 )
 
 FEAT_MANDATORY_42SH=( \
+	## Allowed functions (from `man(2)`)
+	"FEAT_SYSCALLS" 1 \
+
 	## Mandatory features
 
 	"TOK_SEMICOLON" 1 \

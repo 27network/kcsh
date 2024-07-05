@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_destroy.c                                      :+:      :+:    :+:   */
+/*   msh_passwd_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 20:55:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 20:31:04 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/05 15:56:02 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/05 15:56:09 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
-#include <msh/minishell.h>
-#include <msh/env.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include <ft/string.h>
+#include <msh/util.h>
 
-void	msh_destroy(t_minishell *msh)
+void	msh_passwd_free(struct passwd *pwd)
 {
-	if (!msh)
-	{
-		ft_putendl_fd("msh_destroy: msh is NULL", STDERR_FILENO);
-		exit(-1);
-	}
-	if (msh->execution_context.file != 0)
-	{
-		close(msh->execution_context.file);
-		free((char *) msh->name);
-	}
-	msh_env_free_all(msh);
+	if (!pwd)
+		return ;
+	ft_strdel(&pwd->pw_name);
+	ft_strdel(&pwd->pw_passwd);
+	ft_strdel(&pwd->pw_gecos);
+	ft_strdel(&pwd->pw_dir);
+	ft_strdel(&pwd->pw_shell);
 }

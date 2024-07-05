@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 23:12:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:14:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ static void	msh_handle_continue(int sig)
 	rl_redisplay();
 }
 
-void	msh_signal_init(t_minishell *msh, bool close_stdin)
+__attribute__((unused))
+static void	msh_setup_echoctl(t_minishell *msh, bool close_stdin)
+{
+	(void) msh;
+	(void) close_stdin;
+}
+
+static void	msh_setup_regular(t_minishell *msh, bool close_stdin)
 {
 	t_signal_handler_fn	*sighandler;
 
-	msh_signal_setdfl();
-	if (!FEAT_NO_READLINE)
-		rl_catch_signals = msh->interactive;
 	if (msh->interactive && close_stdin)
 		sighandler = &msh_signal_handler_close;
 	else if (msh->interactive)
@@ -39,9 +43,17 @@ void	msh_signal_init(t_minishell *msh, bool close_stdin)
 		sighandler = msh_signal_handler_catch;
 	signal(SIGINT, sighandler);
 	if (msh->interactive)
-		signal(SIGQUIT, SIG_IGN);
-	else
-		signal(SIGQUIT, sighandler);
+		sighandler = SIG_IGN;
+	signal(SIGQUIT, sighandler);
+}
+
+void	msh_signal_init(t_minishell *msh, bool close_stdin)
+{
+	msh_signal_setdfl();
+	// if (msh->term.flags & ECHOCTL && msh->interactive)
+	// 	msh_setup_echoctl(msh, close_stdin);
+	// else
+		msh_setup_regular(msh, close_stdin);
 	if (FEAT_JOB_CONTROL)
 	{
 		signal(SIGTSTP, SIG_IGN);

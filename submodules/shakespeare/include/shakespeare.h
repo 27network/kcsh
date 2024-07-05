@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:43:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 20:26:42 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:13:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #  include <termios.h>
 #  include <stdbool.h>
 #  include <stddef.h>
+#  include <wchar.h>
 
 #  define SHK_BUFFER_BLOCK_SIZE 32
 
@@ -117,6 +118,32 @@ typedef struct s_shk_draw_ctx
 	size_t			old_draw_size;
 }	t_shk_draw_ctx;
 
+// Input
+
+typedef void						t_shk_input_action(
+										t_shakespeare_data *shk,
+										int n);
+
+#  define BIND_READLINE_ONLY 1
+#  define BIND_VIM_ONLY 2
+#  define BIND_BOTH 3
+
+typedef struct s_shk_input_bind
+{
+	char				key[256];
+	size_t				combo_size;
+	int					mode_target;
+	t_shk_input_action	*action_fn;
+}	t_shk_input_bind;
+
+typedef struct s_shk_input_mgr
+{
+	t_shk_input_bind	*binds;
+	size_t				binds_size;
+	size_t				binds_capacity;
+	int					current_mode;
+}	t_shk_input_mgr;
+
 // Main data structure
 
 typedef struct s_shakespeare_data
@@ -124,15 +151,17 @@ typedef struct s_shakespeare_data
 	bool			initialized;
 
 	char			*buffer;
+	char			*buffer_save;
 	size_t			buffer_size;
 	size_t			next_buffer_size;
 	char			read_buffer[2];
 
 	t_history_entry	*history_stack;
-	t_history_entry	*history_cursor;
+	t_history_entry	*history_current;
 
 	t_shk_hooks		hooks;
 	t_shk_draw_ctx	draw;
+	t_shk_input_mgr	input;
 
 	struct termios	old_termios;
 	struct termios	new_termios;
@@ -150,6 +179,8 @@ bool				shk_reset(t_shakespeare_data *shk, const char *prompt);
 bool				shk_termios_setup(t_shakespeare_data *shk);
 void				shk_termios_reset(t_shakespeare_data *shk);
 void				shk_window_update_size(t_shakespeare_data *shk);
+
+bool				shk_handle_char(t_shakespeare_data *shk, char c);
 
 // Buffer interaction
 
