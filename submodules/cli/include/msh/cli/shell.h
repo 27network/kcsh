@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:19:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 18:52:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:37:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # ifndef __MSH_SHELL_H__
 #  define __MSH_SHELL_H__
 
-#  include <msh/minishell.h>
+#  include <ft/data/list.h>
 #  include <msh/cli/input.h>
 
 void	msh_shell_loop(t_minishell *msh);

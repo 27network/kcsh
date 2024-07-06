@@ -6,21 +6,23 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/05 21:03:09 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:31:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
 #include <ft/string.h>
 #include <msh/env.h>
 #include <msh/util.h>
 
-static char	*msh_current_home(t_minishell *msh)
+static char	*msh_current_home(t_minishell *msh, size_t *repl_len)
 {
 	char	*home;
 
 	home = msh_env_value(msh, "HOME");
 	if (!home || !*home)
-		return ("/tmp");
+		home = "/tmp";
+	*repl_len = 1;
 	return (home);
 }
 
@@ -40,6 +42,7 @@ static char	*msh_find_user_home(t_minishell *msh, const char *str,
 	ft_bzero(buffer, sizeof(buffer));
 	ft_strlcat(buffer, pwd.pw_dir, sizeof(buffer));
 	msh_passwd_free(&pwd);
+	*repl_len = ft_strlen(username);
 	return (buffer);
 }
 
@@ -52,7 +55,7 @@ char	*msh_expand_tilde(t_minishell *msh, const char *str)
 	size_t	e_len;
 
 	if (!str || *str != '~')
-		return (str);
+		return ((char *) str);
 	if (str[1] == '/' || !str[1])
 		home = msh_current_home(msh, &repl_len);
 	else
@@ -60,15 +63,13 @@ char	*msh_expand_tilde(t_minishell *msh, const char *str)
 	if (!home)
 		return (ft_strdup(str));
 	h_len = ft_strlen(home);
-	if (home[len - 1] == '/')
-		len--;
-	e_len = ft_strlen(src) - 1 + len;
-	if (!e_len)
-		return (NULL);
+	if (home[h_len - 1] == '/')
+		h_len--;
+	e_len = ft_strlen(str) - repl_len + h_len;
 	expanded = ft_strnew(e_len);
 	if (!expanded)
 		return (NULL);
-	ft_strlcat(expanded, home, e_len);
-	ft_strlcat(expanded, src + 1, e_len);
+	ft_strlcpy(expanded, home, h_len);
+	ft_strlcat(expanded, str + repl_len, e_len);
 	return (expanded);
 }

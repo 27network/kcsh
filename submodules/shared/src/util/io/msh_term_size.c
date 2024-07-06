@@ -6,15 +6,39 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 03:08:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/05 16:02:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:58:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
+#include <ft/print.h>
+#include <ft/string.h>
 #include <ft/string/parse.h>
 #include <msh/env.h>
 #include <msh/features.h>
 #include <msh/util.h>
 #include <readline/readline.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+
+#if FEAT_NO_READLINE
+# include <shakespeare.h>
+# define FALLBACK shk_cursor_pos_abs_wrapper
+
+static void	shk_cursor_pos_abs_wrapper(size_t *lines, size_t *cols)
+{
+	shk_cursor_pos_abs(NULL, lines, cols);
+}
+
+#else
+# define FALLBACK no_op
+
+static void	no_op(size_t *lines, size_t *cols)
+{
+	(void)lines;
+	(void)cols;
+}
+#endif // FEAT_NO_READLINE
 
 #ifdef TIOCGWINSZ
 # define SIZE_FETCHER ioctl_tiocgwinsz
@@ -34,69 +58,16 @@ static void	ioctl_tiocgwinsz(size_t *lines, size_t *col)
 		if (col)
 			*col = win.ws_col;
 	}
+	else
+		FALLBACK(lines, col);
 }
 
 #else
-# define SIZE_FETCHER fallback_overjump
-
-static bool	msh_cursor_read_escape(char *buf, size_t *x, size_t *y)
-{
-	char	*first;
-
-	first = ft_strdup_range(buf, 1, ft_strchr(buf, ';') - buf);
-	if (!first)
-	{
-		perror("strdup_range");
-		return (false);
-	}
-	if (y)
-		*y = ft_atoi(first);
-	free(first);
-	while (*buf && *buf != ';')
-		buf++;
-	if (*buf)
-		buf++;
-	else
-		return (false);
-	if (x)
-		*x = ft_atoi(buf);
-	return (true);
-}
-
-bool	msh_get_cursor_pos(size_t *x, size_t *y)
-{
-	char	buf_write[33];
-	char	*buf;
-
-	if (!x && !y)
-		return (true);
-	if (write(1, "\033[6n", 4) != 4)
-		return (false);
-	buf = buf_write;
-	ft_bzero(buf_write, 33);
-	if (read(0, buf_write, 32) <= 0)
-		return (false);
-	while (*buf && *buf != '[')
-		buf++;
-	return (msh_cursor_read_escape(buf, x, y));
-}
-
-static void	fallback_overjump(
-	size_t *lines,
-	size_t *col
-) {
-	size_t	old_x;
-	size_t	old_y;
-
-	if (!msh_get_cursor_pos(&old_x, &old_y))
-		return ;
-	write(1, "\033[999;999H", 9);
-	if (msh_get_cursor_pos(col, lines))
-		return ;
-	*lines = 24;
-	*col = 80;
-}
-
+# if FEAT_NO_READLINE
+#  define SIZE_FETCHER shk_cursor_pos_abs_wrapper
+# else
+#  define SIZE_FETCHER no_op
+# endif // FEAT_NO_READLINE
 #endif // TIOCGWINSZ
 
 void	msh_term_size(t_minishell *msh, size_t *lines, size_t *cols)
@@ -104,7 +75,7 @@ void	msh_term_size(t_minishell *msh, size_t *lines, size_t *cols)
 	const char	*columns_env = msh_env_value(msh, "COLUMNS");
 	const char	*lines_env = msh_env_value(msh, "LINES");
 
-	ioctl_tiocgwinsz(lines, cols);
+	SIZE_FETCHER(lines, cols);
 	if (lines && *lines == 0 && lines_env && *lines_env)
 		*lines = ft_atoi(lines_env);
 	if (cols && *cols == 0 && columns_env && *columns_env)

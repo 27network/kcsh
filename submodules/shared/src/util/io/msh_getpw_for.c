@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:49:47 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/05 22:27:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:23:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <ft/io.h>
 #include <ft/mem.h>
+#include <ft/string/parse.h>
 #include <ft/string.h>
 #include <msh/util.h>
 #include <unistd.h>
@@ -26,13 +27,8 @@ static bool	msh_is_pw_correct(struct passwd *pwd, uid_t uid, const char *name)
 	return (true);
 }
 
-typedef int		t_int_provider(const char *str);
-typedef char	*t_str_provider(const char *str);
-
-static bool	msh_parse_field(struct passwd *pwd, size_t i, const char *between)
+static bool	msh_parse_field(struct passwd *pwd, size_t i, char *between)
 {
-	if (!between)
-		return (false);
 	if (i == 0)
 		pwd->pw_name = between;
 	else if (i == 1)
@@ -47,8 +43,10 @@ static bool	msh_parse_field(struct passwd *pwd, size_t i, const char *between)
 		pwd->pw_dir = between;
 	else if (i == 6)
 		pwd->pw_shell = between;
-	if (i == 2 || i == 3)
+	if ((i == 2 || i == 3) && between)
 		free((void *)between);
+	if (!between)
+		return (false);
 	return (true);
 }
 
