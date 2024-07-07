@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 00:31:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 04:18:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,26 @@ static char	*msh_find_user_home(t_minishell *msh, const char *str,
 {
 	static char		buffer[1024] = {0};
 	struct passwd	pwd;
-	char			*username;
+	char			username[1024];
+	size_t			u_len;
 
-	username = ft_strndup(str, ft_strcspn(str, "/"));
-	if (!username)
+	if (!str || !*str || !ft_strchr(str, '/'))
 		return (NULL);
+	ft_bzero(username, sizeof(username));
+	u_len = ft_strcspn(str, "/");
+	if (u_len >= sizeof(username) || u_len == 0)
+		return (NULL);
+	ft_strlcpy(username, str, u_len + 1);
 	pwd = msh_getpwnam(msh, username);
 	if (!pwd.pw_name)
+	{
+		msh_passwd_free(&pwd);
 		return (NULL);
+	}
 	ft_bzero(buffer, sizeof(buffer));
 	ft_strlcat(buffer, pwd.pw_dir, sizeof(buffer));
 	msh_passwd_free(&pwd);
-	*repl_len = ft_strlen(username);
+	*repl_len = ft_strlen(username) + 1;
 	return (buffer);
 }
 
@@ -66,10 +74,10 @@ char	*msh_expand_tilde(t_minishell *msh, const char *str)
 	if (home[h_len - 1] == '/')
 		h_len--;
 	e_len = ft_strlen(str) - repl_len + h_len;
-	expanded = ft_strnew(e_len);
+	expanded = ft_calloc(e_len + 1, sizeof(char));
 	if (!expanded)
 		return (NULL);
-	ft_strlcpy(expanded, home, h_len);
-	ft_strlcat(expanded, str + repl_len, e_len);
+	ft_strlcpy(expanded, home, h_len + 1);
+	ft_strlcat(expanded, str + repl_len, e_len + 1);
 	return (expanded);
 }

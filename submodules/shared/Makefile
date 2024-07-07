@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/07 02:27:01 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/07 04:04:15 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRC			=	env/default/msh_env_defaults.c \
 				util/io/msh_getpwnam.c \
 				util/io/msh_getpwuid.c \
 				util/io/msh_is_directory.c \
+				util/io/msh_passwd_find.c \
 				util/io/msh_passwd_free.c \
 				util/io/msh_same_file.c \
 				util/io/msh_term_size.c \
