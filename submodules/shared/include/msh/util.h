@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/05 15:57:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 02:17:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,20 @@ bool			msh_is_directory(const char *path);
 /**
  * @brief Get the current machine's hostname.
  *
- * @implementation This function reads /etc/hostname to get the hostname,
- * 				   if it fails, it will try and read the $HOSTNAME environment
- * 				   variable. If none work, it will return "localhost".
- * 				   The returned string is malloc'd and is registered to 
- * 				   minishell's free-list, so it will be freed when the 
- * 				   minishell instance gets destroyed.
- *
- * @rant I wish uname wasn't a syscall bruh.
- *
  * @param msh The minishell instance.
  *
  * @return The hostname of the machine.
  */
 char			*msh_get_hostname(t_minishell *msh);
+
+/**
+ * @brief Get the current machine's host type.
+ *
+ * @param msh The minishell instance.
+ *
+ * @return The hosttype of the machine.
+ */
+char			*msh_get_hosttype(t_minishell *msh);
 
 /**
  * @brief Get the file descriptor assosiated with the given stream, basically
@@ -111,6 +111,15 @@ void			msh_term_size(t_minishell *msh, size_t *lines, size_t *columns);
  * @rant 42 subjects let us use useful functions (challenge) [impossible]
  */
 int				msh_strcoll(t_minishell *msh, char *s1, char *s2);
+
+/**
+ * @brief Gets the current user's ID.
+ *
+ * @param msh The minishell instance.
+ *
+ * @return The user ID.
+ */
+int				msh_getuid(t_minishell *msh);
 
 /**
  * @brief Gets the current user's effective ID.

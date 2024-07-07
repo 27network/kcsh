@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:20:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 01:07:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 01:17:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include <ft/print.h>
 #include <ft/string.h>
 #include <msh/env.h>
-
-// char *newshlvl = itoa(shlvl + 1)
-// push("SHLVL", newshlvl, ENV_ALLOC_VALUE | ENV_EXPORTED);
 
 static void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
 			const char *value, int flags)

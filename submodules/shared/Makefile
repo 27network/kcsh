@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/05 21:03:17 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/07 02:27:01 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRC			=	env/default/msh_env_defaults.c \
 				signal/msh_strsignal.c \
 				util/io/msh_fileno.c \
 				util/io/msh_get_hostname.c \
+				util/io/msh_get_hosttype.c \
 				util/io/msh_getpw_for.c \
 				util/io/msh_getpwnam.c \
 				util/io/msh_getpwuid.c \
@@ -58,6 +59,7 @@ SRC			=	env/default/msh_env_defaults.c \
 				util/string/msh_quote.c \
 				util/string/msh_strcoll.c \
 				util/msh_geteuid.c \
+				util/msh_getuid.c \
 				util/msh_is_interactive.c \
 				util/msh_resolve_path.c \
 				msh_destroy.c \

@@ -6,20 +6,19 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:16:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/05 21:32:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 02:10:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
+#include <ft/io.h>
 #include <ft/string.h>
 #include <msh/env.h>
 #include <msh/features.h>
+#include <unistd.h>
 
 #if FEAT_SYSCALLS
 # include <sys/utsname.h>
-#else
-# include <fcntl.h>
-# include <ft/io.h>
-# include <unistd.h>
 #endif // FEAT_SYSCALLS
 
 static char	*msh_read_hostname_file(void)

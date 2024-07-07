@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/05 21:32:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 02:27:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	msh_env_defaults(t_minishell *msh)
 	msh_env_set_if_not(msh, "HISTSIZE", ft_itoa(ENV_DEFAULT_HISTSIZE),
 		ENV_ALLOC_VALUE);
 	msh_env_push(msh, "IFS", ENV_DEFAULT_IFS, 0);
+	msh_env_set_if_not(msh, "UID", ft_itoa(msh_getuid(msh)), ENV_ALLOC_VALUE);
+	msh_env_set_if_not(msh, "EUID", ft_itoa(msh_geteuid(msh)), ENV_ALLOC_VALUE);
+	msh_env_set_if_not(msh, "HOSTTYPE", msh_get_hosttype(msh), ENV_ALLOC_VALUE);
 	msh_env_adjust_shlvl(msh, 1);
 }
 

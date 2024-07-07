@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/06/28 23:36:00 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/07 02:31:41 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,9 @@ endif
 COMP_MODE			?=	MANDATORY_MSH
 USES_READLINE		:=	$(shell echo "$(COMP_MODE)" | grep "42SH" >/dev/null && echo 1 || echo 0)
 
-ifeq ($(USES_READLINE), 1)
+# ifeq ($(USES_READLINE), 1)
 VSUPP_ARG			:=	--suppressions=config/valgrind.vsupp
-endif
+# endif
 
 MAKE				:=	make --no-print-directory --debug=none USES_READLINE=$(USES_READLINE)
 
