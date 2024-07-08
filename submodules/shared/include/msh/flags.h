@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/15 12:31:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 05:23:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ typedef struct s_msh_flags
 	bool	args_to_assignment;			// -k keyword
 	bool	just_once;					// -t onecmd
 	// Bash
+	bool	login;						// -l --login login
 	bool	force_interactive;			// -i interactive
 	bool	priviledged;				// -p privileged
 	bool	restricted;
+	bool	posix;
 }	t_msh_flags;
 
 # endif // __MSH_FLAGS_H__

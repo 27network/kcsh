@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 06:30:15 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 18:51:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:55:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include <ft/string.h>
 #include <shakespeare.h>
 #include <unistd.h>
-
-#include <stdio.h>
 
 static bool	shk_goto_history_ends(t_shakespeare_data *shk, int mod)
 {

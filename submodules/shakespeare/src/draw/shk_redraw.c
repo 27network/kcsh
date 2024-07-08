@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 04:33:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 15:34:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:56:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ static void	shk_redraw_words(t_shakespeare_data *shk)
 
 void	shk_redraw(t_shakespeare_data *shk)
 {
-	// const size_t	prompt_len = shk_prompt_len(shk->draw.prompt);
-
 	ft_putstr_fd("\033[?25l", shk->draw.output_fd);
 	if (shk->hooks.draw_hook && shk->hooks.draw_hook(shk, SHK_HOOK_BEFORE))
 	{
@@ -65,8 +63,6 @@ void	shk_redraw(t_shakespeare_data *shk)
 	}
 	shk_prompt_draw(shk, shk->draw.prompt);
 	ft_putstr_fd("\033[J", shk->draw.output_fd);
-	// shk_cursor_jump_abs(shk, shk->draw.cursor_base_x + prompt_len,
-		// shk->draw.cursor_base_y);
 	if (!shk->hooks.draw_word_hook && false)
 		ft_putstr_fd(shk->buffer, shk->draw.output_fd);
 	else

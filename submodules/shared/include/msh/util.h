@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 02:17:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:47:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ bool			msh_same_file(const char *path1, const char *path2,
  */
 bool			msh_contains_shell_metas(const char *str);
 
+#  define QUOTING_ANSI_C 0
+#  define QUOTING_ESCAPE_QUOTES 1
+
 /**
  * @brief Quotes the given string.
  *
@@ -186,6 +189,22 @@ char			*msh_quote(const char *str);
  * @return The expanded string.
  */
 char			*msh_expand_tilde(t_minishell *msh, const char *str);
+
+/**
+ * @brief Canonicalizes the given path.
+ *
+ * The new path differs in that:
+ * - Multiple `/'s are collapsed to a single `/'.
+ * - Leading `./'s and trailing `/.'s are removed.
+ * - Trailing `/'s are removed.
+ * - Non-leading `../'s and trailing `..'s are handled by removing portions
+ *   of the path.
+ *
+ * @param path The path to canonicalize.
+ *
+ * @return The canonicalized path.
+ */
+char			*msh_canonicalize(const char *path);
 
 /**
  * @brief Gets the user information from the given user ID.

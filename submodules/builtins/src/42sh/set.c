@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:49:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 01:35:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:43:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/builtin.h>
 #include <msh/features.h>
 #include <msh/env.h>
+#include <stdio.h>
 
 #if FEAT_BUILTIN_SET_FULL
 # define SET_USAGE "set [-abefhkmnptuvxBCHP] [-o option-name] [--] [arg ...]"
@@ -118,7 +119,10 @@ static void	msh_print_vars(t_minishell *msh)
 	while (root)
 	{
 		if (root->value && !(root->flags & ENV_INVISIBLE))
+		{
 			msh_env_print_assignment(msh, root, 0);
+			printf("\n");
+		}
 		tmp = root;
 		root = root->next;
 		msh_env_free(tmp);

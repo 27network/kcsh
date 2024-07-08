@@ -6,13 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 06:59:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 16:58:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:55:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shakespeare.h>
-
-#include <stdio.h>
 
 void	shk_cursor_pos(t_shakespeare_data *shk, size_t *x, size_t *y)
 {
@@ -27,13 +25,11 @@ void	shk_cursor_pos(t_shakespeare_data *shk, size_t *x, size_t *y)
 	base_y = shk->draw.cursor_base_y;
 	base_x += prompt_len;
 	base_x += cursor;
-	// printf("cols: %d, base_x: %d, cursor: %d\n", shk->draw.tty_cols, base_x, cursor);
 	while (shk->draw.tty_cols && base_x > shk->draw.tty_cols)
 	{
 		base_x -= shk->draw.tty_cols;
 		base_y++;
 	}
-	// printf("x,y: %d, %d\n", base_x, base_y);
 	if (x)
 		*x = base_x;
 	if (y)

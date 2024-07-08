@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:54:44 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 03:36:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:47:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static void	msh_env_print_value(t_minishell *msh, t_variable *var, int quote)
 
 	if (!var->value)
 		return ;
-	if (quote == 0 && msh_contains_shell_metas(var->value))
+	printf("=");
+	if (quote == QUOTING_ANSI_C && msh_contains_shell_metas(var->value))
 	{
 		tmp = msh_quote(var->value);
 		if (!tmp)
@@ -33,7 +34,7 @@ static void	msh_env_print_value(t_minishell *msh, t_variable *var, int quote)
 		printf("%s", tmp);
 		free(tmp);
 	}
-	else if (quote == 1)
+	else if (quote == QUOTING_ESCAPE_QUOTES)
 		printf("\"%s\"", var->value);
 	else
 		printf("%s", var->value);
@@ -42,16 +43,15 @@ static void	msh_env_print_value(t_minishell *msh, t_variable *var, int quote)
 void	msh_env_print_assignment(t_minishell *msh, t_variable *var,
 			int quote_type)
 {
+	printf("%s", var->name);
 	if (!var->value)
 		return ;
-	printf("%s=", var->name);
 	if (var->flags & ENV_FUNCTION)
-		printf("unimplemented");
+		printf(" ()\n{\n    unimplemented\n}");
 	else if (var->flags & ENV_ARRAY)
 		printf("unimplemented");
 	else if (var->flags & ENV_ASSOC)
 		printf("unimplemented");
 	else
 		msh_env_print_value(msh, var, quote_type);
-	printf("\n");
 }

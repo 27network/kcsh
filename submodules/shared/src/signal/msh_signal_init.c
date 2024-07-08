@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 20:14:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 23:46:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static void	msh_handle_continue(int sig)
 	rl_redisplay();
 }
 
-__attribute__((unused))
 static void	msh_setup_echoctl(t_minishell *msh, bool close_stdin)
 {
 	(void) msh;
 	(void) close_stdin;
+	printf("we're missing a setup here\n");
 }
 
 static void	msh_setup_regular(t_minishell *msh, bool close_stdin)
@@ -50,9 +50,9 @@ static void	msh_setup_regular(t_minishell *msh, bool close_stdin)
 void	msh_signal_init(t_minishell *msh, bool close_stdin)
 {
 	msh_signal_setdfl();
-	// if (msh->term.flags & ECHOCTL && msh->interactive)
-	// 	msh_setup_echoctl(msh, close_stdin);
-	// else
+	if (msh->term.c_lflag & ECHOCTL && msh->interactive)
+		msh_setup_echoctl(msh, close_stdin);
+	else
 		msh_setup_regular(msh, close_stdin);
 	if (FEAT_JOB_CONTROL)
 	{

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/07 04:04:15 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/07 08:28:00 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRC			=	env/default/msh_env_defaults.c \
 				util/io/msh_same_file.c \
 				util/io/msh_term_size.c \
 				util/string/msh_ansicstr.c \
+				util/string/msh_canonicalize.c \
 				util/string/msh_contains_shell_metas.c \
 				util/string/msh_expand_tilde.c \
 				util/string/msh_quote.c \

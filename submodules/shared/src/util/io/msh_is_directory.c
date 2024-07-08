@@ -6,22 +6,18 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:57:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/06 20:50:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 05:10:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <fcntl.h>
 #include <stdbool.h>
-#include <unistd.h>
+#include <sys/stat.h>
 
 bool	msh_is_directory(const char *path)
 {
-	int	fd;
+	struct stat		st;
 
-	fd = open(path, O_RDWR);
-	if (fd < 0)
-		return (errno == EISDIR);
-	(void) close(fd);
-	return (false);
+	if (stat(path, &st) == -1)
+		return (false);
+	return (S_ISDIR(st.st_mode));
 }

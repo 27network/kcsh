@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 00:32:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:21:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,13 @@ static int	msh_echo(
 	int		display_return;
 	int		do_v9;
 	int		i;
-	char	*posix;
 
-	posix = msh_env_value(msh, "POSIXLY_CORRECT");
-	do_v9 = FEAT_BUILTIN_ECHO_OPT && posix;
-	i = msh_echo_handle_opts(argc, argv, &display_return, &do_v9);
+	display_return = 1;
+	do_v9 = FEAT_BUILTIN_ECHO_OPT && msh->flags.posix;
+	if (msh->flags.posix)
+		i = 1;
+	else
+		i = msh_echo_handle_opts(argc, argv, &display_return, &do_v9);
 	while (i < argc)
 	{
 		msh_echo_write(argv[i], do_v9);
