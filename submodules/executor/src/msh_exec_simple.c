@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/11 15:20:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:26:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ int	msh_exec_builtin(t_minishell *msh, char **args, char **env)
 	int				argc;
 	int				status;
 
-	if (builtin && builtin->enabled)
+	if (builtin && !(builtin->flags & BUILTIN_DISABLED))
 	{
 		argc = 0;
 		while (args[argc])
 			argc++;
-		n_env = (builtin->needs & NEEDS_ENV) == NEEDS_ENV;
-		n_msh = (builtin->needs & NEEDS_MSH) == NEEDS_MSH;
+		n_env = (builtin->flags & BUILTIN_NEEDS_ENV);
+		n_msh = (builtin->flags & BUILTIN_NEEDS_MSH);
 		if (n_env && n_msh)
 			status = ((t_builtin_fboth)builtin->func)(argc, args, env, msh);
 		else if (n_env)

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 08:33:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:46:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,14 @@ void	msh_env_defaults(t_minishell *msh)
 {
 	const int	uid = msh_getuid(msh);
 
+	msh_env_set_if_not(msh, "PATH", ENV_DEFAULT_PATH, 0);
 	msh_env_setup_userdata(msh, uid);
 	msh_env_setup_pwd(msh);
-	msh_env_set_if_not(msh, "PATH", ENV_DEFAULT_PATH, 0);
 	msh_env_set_if_not(msh, "TERM", ENV_DEFAULT_TERM, 0);
-	msh_env_set_if_not(msh, "PS1", ENV_DEFAULT_PS1, 0);
-	msh_env_set_if_not(msh, "PS2", ENV_DEFAULT_PS2, 0);
+	if (msh->interactive)
+		msh_env_set_if_not(msh, "PS1", ENV_DEFAULT_PS1, 0);
+	if (msh->interactive)
+		msh_env_set_if_not(msh, "PS2", ENV_DEFAULT_PS2, 0);
 	msh_env_set_if_not(msh, "PS3", ENV_DEFAULT_PS3, 0);
 	msh_env_set_if_not(msh, "PS4", ENV_DEFAULT_PS4, 0);
 	msh_env_set_if_not(msh, "HISTFILE", msh_expand_tilde(msh,

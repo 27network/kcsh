@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/22 00:52:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:12:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ void	register_env(void)
 		.usage = "none",
 		.help = "none",
 		.func = msh_builtin_env,
-		.needs = NEEDS_ENV,
-		.enabled = true,
-		.hidden = true,
+		.flags = BUILTIN_NEEDS_ENV | BUILTIN_HIDDEN,
 	});
 }
 #endif // !FEAT_BUILTIN_ENV_DISABLE

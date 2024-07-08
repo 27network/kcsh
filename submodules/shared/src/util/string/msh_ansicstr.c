@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 02:00:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:09:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:01:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ static char	msh_get_escaped_char(char *input)
 	const char	c = *input;
 
 	if (c == 'c')
+	{
 		*(input + 1) = '\0';
-	if (c == 'c')
 		return ('\0');
+	}
 	if (c == 'a')
 		return ('\a');
 	if (c == 'b')

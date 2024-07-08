@@ -36,6 +36,8 @@
             cloc
             valgrind
             gdb
+            gcc
+            cppcheck
           ]);
         };
       }

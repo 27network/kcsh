@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:49:47 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 04:13:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:41:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ struct passwd	msh_getpw_for(t_minishell *msh, uid_t uid, const char *name)
 	if (fd != -1 && msh_passwd_find(&pwd, fd, uid, name))
 		return (pwd);
 	ft_bzero(&pwd, sizeof(pwd));
+	if (msh_is_valgrind())
+		return (pwd);
 	if (msh_getent_passwd(msh, &pwd, uid, name))
 		return (pwd);
 	ft_bzero(&pwd, sizeof(pwd));

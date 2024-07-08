@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 15:21:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:21:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static void	msh_echo_write(char *arg, int do_v9)
 			ft_putstr(arg);
 		else
 		{
-			(void) write(1, tmp, len);
+			(void) !write(1, tmp, len);
 			ft_strdel(&tmp);
 		}
 	}
@@ -160,7 +160,6 @@ void	register_echo(void)
 		.usage = ECHO_USAGE,
 		.help = ECHO_HELP,
 		.func = msh_echo,
-		.needs = NEEDS_MSH,
-		.enabled = true,
+		.flags = BUILTIN_NEEDS_MSH,
 	});
 }

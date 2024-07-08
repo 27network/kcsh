@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:14:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 15:56:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:24:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ sStT\001\002\003\004\005\006\a\b\016\017\020\021\022\023\024\025\026\027\030\
 \031\032\033\034\035\036\037\t\n\v\r\f !\"#%&'()*+,-:;<=>?@[\\]^_`{|}~uUvVwW\
 xXyYzZ"
 
-static int	msh_get_utf8_collated_index(char *s)
+static int	msh_get_utf8_collated_index(const char *s)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ static int	msh_get_utf8_collated_index(char *s)
 	return (i);
 }
 
-static int	msh_strcoll_utf8(char *s1, char *s2)
+static int	msh_strcoll_utf8(const char *s1, const char *s2)
 {
 	int	i1;
 	int	i2;
@@ -52,7 +52,7 @@ static int	msh_strcoll_utf8(char *s1, char *s2)
 	return (i1 - i2);
 }
 
-int	msh_strcoll(t_minishell *msh, char *s1, char *s2)
+int	msh_strcoll(t_minishell *msh, const char *s1, const char *s2)
 {
 	char	*locale;
 

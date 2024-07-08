@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 12:41:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/10 18:07:20 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:36:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,16 @@ Options:\n\
 
 void	msh_print_version(int fd);
 
-static void	display_col(size_t i, char *buffer, size_t width, size_t height)
+static void	msh_help_spacing(size_t width, char *buffer)
+{
+	size_t	i;
+
+	i = ft_strlen(buffer);
+	width -= i;
+	printf("%*s", (int)width, "");
+}
+
+static void	msh_display_col(size_t i, char *buffer, size_t width, size_t height)
 {
 	const size_t	count = msh_builtin_count(false);
 	t_builtin		*builtin;
@@ -46,19 +55,20 @@ static void	display_col(size_t i, char *buffer, size_t width, size_t height)
 	ft_memset(buffer, ' ', DISPLAY_BUFFER_SIZE);
 	builtin = msh_builtin_registry() + i;
 	buffer[0] = ' ';
-	if (!builtin->enabled)
+	if (builtin->flags & BUILTIN_DISABLED)
 		buffer[0] = '*';
 	ft_strncpy(buffer + 1, builtin->usage, width - 2);
 	ft_strncpy(buffer + width - 2, ">", 2);
 	printf("%s", buffer);
 	if ((i << 1) >= count || (i + height) >= count)
 		return ;
+	msh_help_spacing(width, buffer);
 	ft_memset(buffer, ' ', DISPLAY_BUFFER_SIZE);
 	builtin = msh_builtin_registry() + (i + height);
 	buffer[0] = ' ';
-	if (!builtin->enabled)
+	if (builtin->flags & BUILTIN_DISABLED)
 		buffer[0] = '*';
-	ft_strncpy(buffer + 1, builtin->usage, width - 2);
+	ft_strncpy(buffer + 1, builtin->usage, width - 3);
 	ft_strncpy(buffer + width - 3, ">", 2);
 	printf("%s", buffer);
 }
@@ -73,13 +83,13 @@ static void	msh_help_command_wall(t_minishell *msh)
 
 	msh_term_size(msh, NULL, &cols);
 	width = ft_min(DISPLAY_BUFFER_SIZE, cols / 2);
-	if (width <= 3)
+	if (width <= 3 || !msh->interactive)
 		width = 40;
 	height = (msh_builtin_count(false) + 1) / 2;
 	i = 0;
 	while (i < height)
 	{
-		display_col(i, buffer, width, height);
+		msh_display_col(i, buffer, width, height);
 		printf("\n");
 		i++;
 	}
@@ -103,6 +113,8 @@ static int	msh_help(
 	}
 	else
 	{
+		msh_error(msh, "help: options not implemented\n");
+		return (1);
 	}
 	return (0);
 }
@@ -115,7 +127,6 @@ void	register_help(void)
 		.usage = HELP_USAGE,
 		.help = HELP_HELP,
 		.func = msh_help,
-		.needs = NEEDS_MSH,
-		.enabled = FEAT_BUILTIN_HELP,
+		.flags = BUILTIN_NEEDS_MSH | !FEAT_BUILTIN_HELP << 2,
 	});
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 04:33:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 15:56:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:37:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	shk_draw_word(t_shakespeare_data *shk, const char *word,
 {
 	if (shk->hooks.draw_word_hook)
 		shk->hooks.draw_word_hook(shk, SHK_HOOK_BEFORE, word, count);
-	(void) write(shk->draw.output_fd, word, len);
+	(void) !write(shk->draw.output_fd, word, len);
 	if (shk->hooks.draw_word_hook)
 		shk->hooks.draw_word_hook(shk, SHK_HOOK_AFTER, word, count);
 }

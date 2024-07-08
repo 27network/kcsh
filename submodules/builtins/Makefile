@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/07 23:45:25 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/08 20:03:47 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC			=	42sh/jobs/bg.c \
 				minishell/pwd.c \
 				minishell/unset.c \
 				posix/no-op.c \
+				posix/shift.c \
 				posix/times.c
 
 include ../common.mk

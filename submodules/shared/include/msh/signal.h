@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:09:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 12:10:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:24:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void		msh_signal_init(t_minishell *msh, bool close_stdin);
  * @param signum The signal number.
  */
 void		msh_signal_handler_interactive(int signum);
+void		msh_signal_handler_interactive_echo(int signum);
 
 /**
  * @brief Minishell's signal handler function, non-interative edition:tm:
@@ -58,6 +59,7 @@ void		msh_signal_handler_interactive(int signum);
  * @param signum The signal number.
  */
 void		msh_signal_handler_catch(int signum);
+void		msh_signal_handler_catch_echo(int signum);
 
 /**
  * @brief Minishell's signal handler function, non-interative, stdin closing
@@ -66,6 +68,7 @@ void		msh_signal_handler_catch(int signum);
  * @param signum The signal number.
  */
 void		msh_signal_handler_close(int signum);
+void		msh_signal_handler_close_echo(int signum);
 
 /**
  * @brief Forces the signal handler for all signals to be reset to the default

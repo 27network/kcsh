@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 22:51:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 14:30:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:27:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	shk_termios_setup(t_shakespeare_data *shk)
 		return (false);
 	shk->new_termios = shk->old_termios;
 	shk->new_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	shk->new_termios.c_lflag &= ~(ICANON | ECHO | ISIG | IEXTEN);
+	shk->new_termios.c_lflag &= ~(ICANON | ECHO | IEXTEN);
 	shk->new_termios.c_cflag |= (CS8);
 	shk->new_termios.c_cc[VERASE] = 127;
 	shk->new_termios.c_cc[VMIN] = 1;

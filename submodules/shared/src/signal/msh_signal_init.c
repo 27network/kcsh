@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 23:46:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:26:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,18 @@ static void	msh_handle_continue(int sig)
 
 static void	msh_setup_echoctl(t_minishell *msh, bool close_stdin)
 {
-	(void) msh;
-	(void) close_stdin;
-	printf("we're missing a setup here\n");
+	t_signal_handler_fn	*sighandler;
+
+	if (msh->interactive && close_stdin)
+		sighandler = &msh_signal_handler_close_echo;
+	else if (msh->interactive)
+		sighandler = &msh_signal_handler_interactive_echo;
+	else
+		sighandler = &msh_signal_handler_catch_echo;
+	signal(SIGINT, sighandler);
+	if (msh->interactive)
+		sighandler = SIG_IGN;
+	signal(SIGQUIT, sighandler);
 }
 
 static void	msh_setup_regular(t_minishell *msh, bool close_stdin)
@@ -38,9 +47,9 @@ static void	msh_setup_regular(t_minishell *msh, bool close_stdin)
 	if (msh->interactive && close_stdin)
 		sighandler = &msh_signal_handler_close;
 	else if (msh->interactive)
-		sighandler = msh_signal_handler_interactive;
+		sighandler = &msh_signal_handler_interactive;
 	else
-		sighandler = msh_signal_handler_catch;
+		sighandler = &msh_signal_handler_catch;
 	signal(SIGINT, sighandler);
 	if (msh->interactive)
 		sighandler = SIG_IGN;

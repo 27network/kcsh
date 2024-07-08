@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:38:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 02:38:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:47:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	msh_uid(t_minishell *msh, bool real)
 	if (real)
 		flags = "-ru";
 	path = msh_resolve_path(msh, "id");
+	if (!path)
+		return (-1);
 	ft_bzero(result, 1024);
 	if (path && !msh_geteuid_exec(msh, (char *[]){path, flags, NULL},
 		fds, result))

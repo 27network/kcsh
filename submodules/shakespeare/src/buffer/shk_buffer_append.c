@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:02:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 16:55:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:31:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ bool	shk_buffer_append(t_shakespeare_data *shk, char c)
 	{
 		ft_memcpy(insert_str, "\033[1@ ", 5);
 		insert_str[4] = c;
-		(void) write(shk->draw.output_fd, insert_str, 5);
+		(void) !write(shk->draw.output_fd, insert_str, 5);
 	}
 	else
-		(void) write(shk->draw.output_fd, &c, 1);
+		(void) !write(shk->draw.output_fd, &c, 1);
 	if (!insert)
 		shk_edge_cursor(shk);
 	return (shk_buffer_grow(shk));

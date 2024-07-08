@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_builtin_count.c                                :+:      :+:    :+:   */
+/*   msh_signal_handler_interactive_echo.c              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 03:02:21 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:25:09 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/05/28 12:04:43 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/08 23:48:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/builtin.h>
+#include <msh/signal.h>
 
-size_t	msh_builtin_count(bool include_hidden)
+void	msh_signal_echoctl(int signo);
+
+void	msh_signal_handler_interactive_echo(int signo)
 {
-	size_t		i;
-	size_t		count;
-	t_builtin	*g_builtin;
-
-	i = 0;
-	count = 0;
-	g_builtin = msh_builtin_registry();
-	while (i < BUILTIN_REGISTRY_SIZE && g_builtin[i].name)
-	{
-		if (include_hidden || !(g_builtin[i].flags & BUILTIN_HIDDEN))
-			count++;
-		i++;
-	}
-	return (count);
+	msh_signal_echoctl(signo);
+	msh_signal_handler_interactive(signo);
 }

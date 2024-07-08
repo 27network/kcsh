@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:23:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 15:38:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:52:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,20 @@ void	register_no_op(void)
 		.usage = ":",
 		.help = COLON_HELP,
 		.func = msh_builtin_no_op,
-		.enabled = FEAT_BUILTIN_COLON,
+		.flags = !FEAT_BUILTIN_COLON << 2 | BUILTIN_SPECIAL,
 	});
 	msh_builtin_register((t_builtin){
 		.name = "true",
 		.usage = "true",
 		.help = TRUE_HELP,
 		.func = msh_builtin_no_op,
-		.enabled = FEAT_BUILTIN_TRUE,
+		.flags = !FEAT_BUILTIN_TRUE << 2,
 	});
 	msh_builtin_register((t_builtin){
 		.name = "false",
 		.usage = "false",
 		.help = FALSE_HELP,
 		.func = msh_builtin_no_op,
-		.enabled = FEAT_BUILTIN_FALSE,
+		.flags = !FEAT_BUILTIN_FALSE << 2,
 	});
 }

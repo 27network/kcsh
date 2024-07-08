@@ -57,9 +57,6 @@ FEAT_MANDATORY_42SH=( \
 	"HISTORY_SEARCH" 1 \
 
 	"SMART_COMPLETION" 1 \
-
-	# "VI_SHORTCUTS" 1 \
-	# "READLINE_SHORTCUTS" 1 \
 	"NO_READLINE" 1 \
 
 	"ALIAS_MANAGEMENT" 1 \
@@ -74,19 +71,29 @@ FEAT_MANDATORY_42SH=( \
 
 FEAT_BONUS_42SH=( \
 	## Posix shell features
+	# Posix special built-ins
+	"BUILTIN_DOT" 1 \
 	"BUILTIN_COLON" 1 \
+	"BUILTIN_EVAL" 1 \
+	"BUILTIN_EXEC" 1 \
+	"BUILTIN_READONLY" 1 \
+	"BUILTIN_SET_FULL" 1 \
+	"BUILTIN_SHIFT" 1 \
+	"BUILTIN_TIMES" 1 \
+	"BUILTIN_TRAP" 1 \
+
+	# Scripting + related special built-ins
+	"SCRIPTING" 1 \
+	"BUILTIN_BREAK" 1 \
+	"BUILTIN_CONTINUE" 1 \
+	"BUILTIN_RETURN" 1 \
+
+	## funny things
 	"BUILTIN_TRUE" 1 \
 	"BUILTIN_FALSE" 1 \
 	"BUILTIN_HELP" 1 \
-	"BUILTIN_SET_FULL" 1 \
-	"BUILTIN_TIMES" 1 \
-
 	"PARSER_ANSI_QUOTING" 1 \
 	"PARSER_LOCALIZE_QUOTING" 1 \
-
-	## funny things
-	"BUILTIN_ALL_BASH" 1 \
-	"SCRIPTING" 1 \
 )
 
 # > Category flags

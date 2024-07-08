@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/07 08:28:00 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/08 17:43:58 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,18 +38,24 @@ SRC			=	env/default/msh_env_defaults.c \
 				log/msh_vlog.c \
 				log/msh_warn.c \
 				signal/handlers/msh_signal_handler_catch.c \
+				signal/handlers/msh_signal_handler_catch_echo.c \
 				signal/handlers/msh_signal_handler_close.c \
+				signal/handlers/msh_signal_handler_close_echo.c \
 				signal/handlers/msh_signal_handler_interactive.c \
+				signal/handlers/msh_signal_handler_interactive_echo.c \
 				signal/msh_signal_init.c \
 				signal/msh_signal_setdfl.c \
 				signal/msh_strsignal.c \
 				util/io/msh_fileno.c \
 				util/io/msh_get_hostname.c \
 				util/io/msh_get_hosttype.c \
+				util/io/msh_geteuid.c \
 				util/io/msh_getpw_for.c \
 				util/io/msh_getpwnam.c \
 				util/io/msh_getpwuid.c \
+				util/io/msh_getuid.c \
 				util/io/msh_is_directory.c \
+				util/io/msh_is_valgrind.c \
 				util/io/msh_passwd_find.c \
 				util/io/msh_passwd_free.c \
 				util/io/msh_same_file.c \
@@ -60,8 +66,6 @@ SRC			=	env/default/msh_env_defaults.c \
 				util/string/msh_expand_tilde.c \
 				util/string/msh_quote.c \
 				util/string/msh_strcoll.c \
-				util/msh_geteuid.c \
-				util/msh_getuid.c \
 				util/msh_is_interactive.c \
 				util/msh_resolve_path.c \
 				msh_destroy.c \

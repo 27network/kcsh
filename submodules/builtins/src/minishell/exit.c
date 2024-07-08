@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/19 04:20:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:12:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	register_exit(void)
 		.usage = EXIT_USAGE,
 		.help = EXIT_HELP,
 		.func = msh_builtin_exit,
-		.needs = NEEDS_MSH,
-		.enabled = true,
+		.flags = BUILTIN_NEEDS_MSH | BUILTIN_SPECIAL,
 	});
 }

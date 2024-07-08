@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 15:37:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 15:17:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:25:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	register_times(void)
 		.usage = TIMES_USAGE,
 		.help = TIMES_HELP,
 		.func = msh_builtin_times,
-		.needs = NEEDS_MSH,
-		.enabled = FEAT_BUILTIN_TIMES,
+		.flags = BUILTIN_NEEDS_MSH | !FEAT_BUILTIN_TIMES << 2,
 	});
 }

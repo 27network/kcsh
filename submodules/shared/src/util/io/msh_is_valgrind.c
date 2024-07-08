@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_destroy.c                                      :+:      :+:    :+:   */
+/*   msh_is_valgrind.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 20:55:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 21:21:14 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/08 17:43:14 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/08 17:47:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/print.h>
-#include <msh/minishell.h>
-#include <msh/env.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
-void	msh_destroy(t_minishell *msh)
+bool	msh_is_valgrind(void)
 {
-	if (!msh)
+	static bool	is_valgrind = false;
+	static bool	is_valgrind_initialized = false;
+
+	if (!is_valgrind_initialized)
 	{
-		ft_putendl_fd("msh_destroy: msh is NULL", STDERR_FILENO);
-		exit(-1);
+		is_valgrind = (getenv("MSH_VALGRIND") != NULL);
+		is_valgrind_initialized = true;
+		if (is_valgrind)
+			printf("[KCSH DEBUG] Running under valgrind, disabling some "
+				"well-known **unfixable** leak points\n");
 	}
-	if (msh->execution_context.file != 0)
-	{
-		close(msh->execution_context.file);
-		free((char *) msh->name);
-	}
-	if (msh->execution_context.cwd)
-		free((char *) msh->execution_context.cwd);
-	msh_env_free_all(msh);
+	return (is_valgrind);
 }

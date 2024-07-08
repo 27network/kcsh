@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 14:47:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:24:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,23 @@
 char			*msh_resolve_path(t_minishell *msh, const char *filename);
 
 /**
- * This function checks if the given path is to a directory.
+ * @brief Checks if the given path is to a directory.
  *
  * @param path The path to check.
+ *
+ * @return `true` if the path is to a directory, `false` otherwise.
  */
 bool			msh_is_directory(const char *path);
+
+/**
+ * @brief Checks if we're running under valgrind.
+ *
+ * @note This is NOT used to bypass memory checks, but to give a cleaner output
+ * during development; this always returns false when not in debug mode.
+ *
+ * @return `true` if we're running under valgrind, `false` otherwise.
+ */
+bool			msh_is_valgrind(void);
 
 /**
  * @brief Get the current machine's hostname.
@@ -110,7 +122,7 @@ void			msh_term_size(t_minishell *msh, size_t *lines, size_t *columns);
  * 		 seen it's not exposed, or at least not easily so, in the library.
  * @rant 42 subjects let us use useful functions (challenge) [impossible]
  */
-int				msh_strcoll(t_minishell *msh, char *s1, char *s2);
+int				msh_strcoll(t_minishell *msh, const char *s1, const char *s2);
 
 /**
  * @brief Gets the current user's ID.

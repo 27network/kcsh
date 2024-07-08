@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 18:57:55 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:12:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	register_export(void)
 		.usage = USAGE_EXPORT,
 		.help = HELP_EXPORT,
 		.func = msh_builtin_export,
-		.needs = NEEDS_MSH,
-		.enabled = true,
+		.flags = BUILTIN_NEEDS_MSH,
 	});
 }

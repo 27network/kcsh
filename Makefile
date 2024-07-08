@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/07 02:31:41 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/08 17:46:20 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -192,10 +192,10 @@ re: _hide_cursor
 		exit $$ret
 
 valgrind:
-	valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
+	MSH_VALGRIND=1 valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 	@#valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
 
 voidgrind:
-	valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i ./$(NAME) $(VG_RUN)
+	valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
 
 .PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind _fclean_prelude _banner _hide_cursor

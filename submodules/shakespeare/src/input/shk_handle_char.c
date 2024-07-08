@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:23:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 16:42:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:37:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	shk_handle_ctrl_char(t_shakespeare_data *shk, char c)
 	if (c == 4 && !shk->buffer[0])
 	{
 		ft_strdel(&shk->buffer);
-		(void) write(shk->draw.output_fd, "\r\n", 2);
+		(void) !write(shk->draw.output_fd, "\r\n", 2);
 		return (false);
 	}
 	if (c == '\r')

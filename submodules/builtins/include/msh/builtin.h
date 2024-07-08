@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/29 23:18:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:49:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@
 #  include <ft/print.h>
 #  include <ft/string.h>
 
-#  define NEEDS_ENV 0b01
-#  define NEEDS_MSH 0b10
+#  define BUILTIN_NEEDS_ENV 0x001
+#  define BUILTIN_NEEDS_MSH 0x002
+#  define BUILTIN_DISABLED 0x004
+#  define BUILTIN_HIDDEN 0x008
+#  define BUILTIN_SPECIAL 0x010
 
 #  define ATTR __attribute__
 
@@ -34,13 +37,8 @@
  * @param help		Builtin help, used to print help from the `help` command
  *
  * @param func		Builtin function to call
- * @param needs		Flags to specify what the builtin function requires as
- *					its arguments
- * 
- * @param enabled	Flag to specify if the builtin is enabled or not (can change
- * 					during runtime via the `enable` command)
- * @param hidden	Flag to specify if the builtin should be hidden from the
- *					`help` command (used for `env`)
+ *
+ * @param flags		Flags to specify the builtin behavior
  */
 typedef struct s_builtin
 {
@@ -49,10 +47,8 @@ typedef struct s_builtin
 	const char	*help;
 
 	int			(*func)();
-	int			needs;
 
-	bool		enabled;
-	bool		hidden;
+	int			flags;
 }	t_builtin;
 
 void		msh_builtin_help_page(char *name, int fd);

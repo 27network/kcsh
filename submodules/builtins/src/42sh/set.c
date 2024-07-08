@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:49:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 14:43:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:52:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/builtin.h>
 #include <msh/features.h>
 #include <msh/env.h>
+#include <msh/util.h>
 #include <stdio.h>
 
 #if FEAT_BUILTIN_SET_FULL
@@ -120,7 +121,7 @@ static void	msh_print_vars(t_minishell *msh)
 	{
 		if (root->value && !(root->flags & ENV_INVISIBLE))
 		{
-			msh_env_print_assignment(msh, root, 0);
+			msh_env_print_assignment(msh, root, QUOTING_ANSI_C);
 			printf("\n");
 		}
 		tmp = root;
@@ -147,7 +148,6 @@ void	register_set(void)
 		.usage = SET_USAGE,
 		.help = SET_HELP,
 		.func = msh_builtin_set,
-		.needs = NEEDS_MSH,
-		.enabled = FEAT_BUILTIN_SET,
+		.flags = !FEAT_BUILTIN_SET << 2 | BUILTIN_SPECIAL | BUILTIN_NEEDS_MSH,
 	});
 }

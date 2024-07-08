@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 08:31:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:23:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_program_args
 }	t_program_args;
 
 /**
- * @brief A stripped-down view of the execution context.
+ * @brief A shell execution context.
  *
  * @param shell_args Arguments passed to the shell. Note that these are
  *					 not the arguments passed to the shell program itself,
@@ -65,6 +65,8 @@ typedef struct s_program_args
  * @param running	 Whether the shell is running or not. This is used to
  * 					 break out of the main loop in non-interactive mode, or
  * 					 when special builtins want to exit the shell.
+ * @param cwd		 Current working directory of the shell.
+ *
  * @param show_line	 Whether to show the line number in error messages.
  * @param exit_code  The last exit code of the shell.
  *
@@ -79,6 +81,8 @@ typedef struct s_execution_context
 	t_program_args	shell_args;
 
 	bool			running;
+	const char		*cwd;
+
 	bool			show_line;
 	int				exit_code;
 
