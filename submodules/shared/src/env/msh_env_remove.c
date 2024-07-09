@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shk_cursor_delete.c                                :+:      :+:    :+:   */
+/*   msh_env_remove.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 06:39:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:05:27 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/09 12:57:32 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/09 13:03:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft/math.h>
-#include <shakespeare.h>
+#include <ft/string.h>
+#include <msh/env.h>
 
-bool	shk_cursor_delete(t_shakespeare_data *shk, int n)
+void	msh_env_remove(t_minishell *msh, const char *name)
 {
-	size_t	i;
+	t_variable	*root;
+	t_variable	*prev;
 
-	n = ft_min(shk->buffer_size, n);
-	if (n <= 0)
-		return (true);
-	while (n-- > 0)
+	root = msh->env;
+	prev = NULL;
+	while (root)
 	{
-		i = shk->draw.cursor_pos;
-		while (i < shk->buffer_size && shk->buffer[i])
+		if (!ft_strcmp(root->name, name))
 		{
-			shk->buffer[i] = shk->buffer[i + 1];
-			i++;
+			if (prev)
+				prev->next = root->next;
+			else
+				msh->variable = root->next;
+			msh_env_free(root);
+			return ;
 		}
-		shk->buffer[i] = '\0';
-		shk->buffer_size--;
+		prev = root;
+		root = root->next;
 	}
-	shk_redraw(shk);
-	return (true);
 }

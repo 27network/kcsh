@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 11:30:27 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:03:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,16 @@ t_variable	*msh_env_get(t_minishell *msh, const char *name, int flags);
  */
 t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *value,
 				int flags);
+
+/**
+ * @brief Removes a variable from the environment.
+ *
+ * @note If the variable named by `key` doesn't exist, do nothing.
+ *
+ * @param msh The minishell instance.
+ * @param name The name of the variable.
+ */
+void		msh_env_remove(t_minishell *msh, const char *name);
 
 /**
  * @brief Sets the value of a variable by name, only if it doesn't exist.
