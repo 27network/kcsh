@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env_remove.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:57:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:03:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:09:04 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	msh_env_remove(t_minishell *msh, const char *name)
 	t_variable	*root;
 	t_variable	*prev;
 
-	root = msh->env;
+	root = msh->variables;
 	prev = NULL;
 	while (root)
 	{
@@ -27,7 +27,7 @@ void	msh_env_remove(t_minishell *msh, const char *name)
 			if (prev)
 				prev->next = root->next;
 			else
-				msh->variable = root->next;
+				msh->variables = root->next;
 			msh_env_free(root);
 			return ;
 		}

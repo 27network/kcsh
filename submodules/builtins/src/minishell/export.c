@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 12:53:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:22:55 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include <ft/mem.h>
 
 #if FEAT_BUILTIN_EXPORT_FULL
-# define USAGE_EXPORT "export [-fn] [name[=value] ...] or export -p"
-# define HELP_EXPORT "\
+# define EXPORT_USAGE "export [-fn] [name[=value] ...] or export -p"
+# define EXPORT_HELP "\
 Set export attribute for shell variables.\n\
 \n\
 Marks each NAME for automatic export to the environment of subsequently\n\
@@ -34,8 +34,8 @@ Exit Status:\n\
 Returns success unless an invalid option is given or NAME is invalid.\n\
 "
 #else
-# define USAGE_EXPORT "export [name[=value]]"
-# define HELP_EXPORT "\
+# define EXPORT_USAGE "export [name[=value] ...]"
+# define EXPORT_HELP "\
 Set export attribute for shell variables.\n\
 \n\
 Marks each NAME for automatic export to the environment of subsequently\n\
@@ -167,8 +167,8 @@ void	register_export(void)
 {
 	msh_builtin_register((t_builtin){
 		.name = "export",
-		.usage = USAGE_EXPORT,
-		.help = HELP_EXPORT,
+		.usage = EXPORT_USAGE,
+		.help = EXPORT_HELP,
 		.func = msh_builtin_export,
 		.flags = BUILTIN_NEEDS_MSH | BUILTIN_SPECIAL,
 	});
