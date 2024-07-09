@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 05:35:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/26 18:20:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:01:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,14 @@ void	shk_prompt_draw(t_shakespeare_data *shk, const char *prompt)
 
 	shk_cursor_jump_abs(shk, shk->draw.cursor_base_x,
 		shk->draw.cursor_base_y);
-	escaped = 0;
+	escaped = false;
 	while (*prompt)
 	{
 		if (*prompt == '\001')
-			escaped++;
-		else if (*prompt == '\002')
-		{
-			if (escaped > 0)
-				escaped--;
-		}
-		else if (escaped == 0)
+			escaped = true;
+		else if (*prompt == '\002' && escaped)
+			escaped = false;
+		else if (!escaped)
 			ft_putchar_fd(*prompt, 1);
 		prompt++;
 	}

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:23:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 18:37:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:35:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 #include <shakespeare.h>
 #include <unistd.h>
 
-static void	shk_display_newlines(t_shakespeare_data *shk)
+void	shk_display_newlines(t_shakespeare_data *shk)
 {
 	size_t	size;
-	size_t	cursor_y;
+	size_t	diff_y;
 
-	shk_cursor_pos(shk, NULL, &cursor_y);
-	cursor_y = cursor_y - shk->draw.cursor_base_y;
+	shk_cursor_pos(shk, NULL, &diff_y);
+	diff_y -= shk->draw.cursor_base_y;
 	size = shk_buffer_height(shk);
-	while (size-- > cursor_y)
-		ft_putstr_fd("\n", 1);
+	size -= diff_y;
+	while (size--)
+		(void) !write(shk->draw.output_fd, "\n", 1);
 }
 
 static bool	shk_handle_ctrl_char(t_shakespeare_data *shk, char c)

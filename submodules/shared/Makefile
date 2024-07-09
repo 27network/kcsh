@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/09 12:57:49 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/09 14:18:02 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	shared
-ifeq ($(USES_READLINE), 0)
+ifeq ($(NO_READLINE), 1)
 DEPS		=	shakespeare
 endif
 

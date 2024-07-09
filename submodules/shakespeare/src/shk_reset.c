@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 22:48:42 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 19:56:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:25:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ bool	shk_setup_cursor_base(t_shakespeare_data *shk)
 			&shk->draw.cursor_base_y));
 }
 
-bool	shk_reset(t_shakespeare_data *shk, const char *prompt)
+bool	shk_reset(t_shakespeare_data *shk, const char *prompt, bool setup_term)
 {
-	if (!shk_termios_setup(shk))
+	if (setup_term && !shk_termios_setup(shk))
 	{
 		perror("shk_termios_setup");
 		return (false);
 	}
+	if (shk->buffer)
+		ft_strdel(&shk->buffer);
 	shk->buffer = ft_calloc(SHK_BUFFER_BLOCK_SIZE, sizeof(char));
 	if (!shk->buffer)
 		return (false);

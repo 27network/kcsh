@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 05:37:35 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/02 15:45:16 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/09 15:03:52 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ SRC			=	buffer/shk_buffer_append.c \
 				draw/prompt/shk_prompt_draw.c \
 				draw/prompt/shk_prompt_len.c \
 				draw/shk_redraw.c \
-				draw/shk_redraw_after.c \
 				history/shk_history_clear.c \
 				history/shk_history_modify_last.c \
 				history/shk_history_pop.c \

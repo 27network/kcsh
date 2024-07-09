@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 04:33:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 18:37:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:49:21 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <ft/string.h>
 #include <shakespeare.h>
 #include <unistd.h>
-
-#if 1
 
 static void	shk_draw_word(t_shakespeare_data *shk, const char *word,
 				size_t len, size_t count)
@@ -53,9 +51,29 @@ static void	shk_redraw_words(t_shakespeare_data *shk)
 	}
 }
 
+static void	shk_update_cursor_base(t_shakespeare_data *shk)
+{
+	// const int	cursor_pos = shk->draw.cursor_pos;
+	size_t		height;
+
+	height = shk_buffer_height(shk);
+	if (!height || height == 1)
+		return ;
+	height--;
+	if (height && shk->draw.cursor_base_y + height
+		> (size_t)shk->draw.tty_rows)
+	{
+		shk_cursor_jump_abs(shk, 1, 99999);
+		(void) !write(shk->draw.output_fd, "\n", 1);
+		shk_cursor_jump_logical(shk);
+		shk->draw.cursor_base_y--;
+	}
+}
+
 void	shk_redraw(t_shakespeare_data *shk)
 {
 	ft_putstr_fd("\033[?25l", shk->draw.output_fd);
+	shk_update_cursor_base(shk);
 	if (shk->hooks.draw_hook && shk->hooks.draw_hook(shk, SHK_HOOK_BEFORE))
 	{
 		ft_putstr_fd("\033[?25h", shk->draw.output_fd);
@@ -63,7 +81,7 @@ void	shk_redraw(t_shakespeare_data *shk)
 	}
 	shk_prompt_draw(shk, shk->draw.prompt);
 	ft_putstr_fd("\033[J", shk->draw.output_fd);
-	if (!shk->hooks.draw_word_hook && false)
+	if (!shk->hooks.draw_word_hook)
 		ft_putstr_fd(shk->buffer, shk->draw.output_fd);
 	else
 		shk_redraw_words(shk);
@@ -72,23 +90,3 @@ void	shk_redraw(t_shakespeare_data *shk)
 	ft_putstr_fd("\033[?25h", shk->draw.output_fd);
 	shk_cursor_jump_logical(shk);
 }
-
-#else
-
-void	shk_redraw(t_shakespeare_data *shk)
-{
-	size_t	cx;
-	size_t	cy;
-
-	if (shk->hooks.draw_hook && shk->hooks.draw_hook(shk, SHK_HOOK_BEFORE))
-		return ;
-	shk_cursor_pos(shk, &cx, &cy);
-	shk_prompt_draw(shk, shk->draw.prompt);
-	if (shk->draw.cursor_pos)
-		ft_dprintf(shk->draw.output_fd, "%s%s",
-			"\033[J", shk->buffer + shk->draw.cursor_pos - 1);
-	if (shk->hooks.draw_hook)
-		shk->hooks.draw_hook(shk, SHK_HOOK_AFTER);
-}
-
-#endif

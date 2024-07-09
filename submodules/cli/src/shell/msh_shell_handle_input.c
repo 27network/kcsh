@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:30:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:40:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,13 @@ static void	msh_handle_ast(t_minishell *msh, t_input_result input)
 	ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
 }
 
-__attribute__((unused))
 static void	msh_debug_exec(t_minishell *msh, char *line)
 {
 	char	**array;
 	size_t	i;
 	int		ret;
 
-	array = ft_splits(line, " \t\n");
+	array = ft_splits(line, ENV_DEFAULT_IFS);
 	if (!array || !*array)
 		return ;
 	ret = msh_exec_simple(msh, array);

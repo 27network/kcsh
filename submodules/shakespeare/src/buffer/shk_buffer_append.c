@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:02:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 18:31:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:02:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
+#include <ft/print.h>
 #include <shakespeare.h>
 #include <unistd.h>
 
@@ -53,7 +54,7 @@ static void	shk_edge_cursor(t_shakespeare_data *shk)
 
 	shk_cursor_pos(shk, &cursor_x, NULL);
 	if ((int)cursor_x == 1)
-		shk_cursor_jump_logical(shk);
+		ft_printf("\n");
 }
 
 bool	shk_buffer_append(t_shakespeare_data *shk, char c)
@@ -79,5 +80,7 @@ bool	shk_buffer_append(t_shakespeare_data *shk, char c)
 		(void) !write(shk->draw.output_fd, &c, 1);
 	if (!insert)
 		shk_edge_cursor(shk);
+	else
+		shk_redraw(shk);
 	return (shk_buffer_grow(shk));
 }

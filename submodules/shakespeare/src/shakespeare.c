@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:37:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 15:40:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:26:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*shakespeare(const char *prompt)
 	bool				running;
 
 	shk = shk_shared();
-	if (!shk_reset(shk, prompt))
+	if (!shk_reset(shk, prompt, true))
 		return (NULL);
 	shk_redraw(shk);
 	running = true;

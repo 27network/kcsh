@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 05:43:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/02 19:13:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:09:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@
 #  include <wchar.h>
 
 #  define SHK_BUFFER_BLOCK_SIZE 32
-
-// #  define CTL(x)          ((x) & 0x1F)
-// #  define ISCTL(x)        ((x) && (x) < ' ')
-// #  define UNCTL(x)        ((x) + 64)
-// #  define META(x)         ((x) | 0x80)
-// #  define ISMETA(x)       ((x) & 0x80)
-// #  define UNMETA(x)       ((x) & 0x7F)
 
 typedef struct s_shakespeare_data	t_shakespeare_data;
 
@@ -175,7 +168,8 @@ char				*shakespeare(const char *prompt);
 
 t_shakespeare_data	*shk_shared(void);
 bool				shk_init(t_shakespeare_data *shk);
-bool				shk_reset(t_shakespeare_data *shk, const char *prompt);
+bool				shk_reset(t_shakespeare_data *shk, const char *prompt,
+						bool setup_term);
 bool				shk_termios_setup(t_shakespeare_data *shk);
 void				shk_termios_reset(t_shakespeare_data *shk);
 void				shk_window_update_size(t_shakespeare_data *shk);

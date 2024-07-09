@@ -17,6 +17,7 @@ void    do_loop()
         if (!line)
             break ;
         printf("echo: %s", line); // Note: no \n
+        fflush(stdout); // to prevent printf buffering, just in case
         free(line);
     }
 }

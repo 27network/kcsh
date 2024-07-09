@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/09 11:57:51 by ebouchet         ###   ########.fr        #
+#    Updated: 2024/07/09 14:22:24 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,14 +30,12 @@ ifeq ($(MAKE_TRACE), 1)
 $(info NAME: $(NAME))
 endif
 
-COMP_MODE			?=	MANDATORY_MSH
-USES_READLINE		:=	$(shell echo "$(COMP_MODE)" | grep "42SH" >/dev/null && echo 1 || echo 0)
-
-# ifeq ($(USES_READLINE), 1)
+NO_READLINE			?=	0
+ifeq ($(NO_READLINE), 0)
 VSUPP_ARG			:=	--suppressions=config/valgrind.vsupp
-# endif
+endif
 
-MAKE				:=	make --no-print-directory --debug=none USES_READLINE=$(USES_READLINE)
+MAKE				:=	make --no-print-directory --debug=none
 
 
 CACHE_DIR_NAME		:=	.cache
@@ -156,10 +154,10 @@ bonus:
 	@$(MAKE) COMP_MODE="BONUS_MSH" SUFFIX="_bonus"
 
 42:
-	@$(MAKE) COMP_MODE="MANDATORY_42SH" OVERRIDE_NAME="42sh"
+	@$(MAKE) COMP_MODE="MANDATORY_42SH" OVERRIDE_NAME="42sh" NO_READLINE=1
 
 42bonus:
-	@$(MAKE) COMP_MODE="BONUS_42SH" OVERRIDE_NAME="42sh" SUFFIX="_bonus"
+	@$(MAKE) COMP_MODE="BONUS_42SH" OVERRIDE_NAME="42sh" SUFFIX="_bonus" NO_READLINE=1
 
 test: oclean
 	@$(MAKE) $(TEST_TARGET) KCSH_TESTS=1

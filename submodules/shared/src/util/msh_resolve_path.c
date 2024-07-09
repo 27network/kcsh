@@ -6,10 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:44:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 22:52:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:01:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
 #include <ft/print.h>
 #include <ft/string.h>
 #include <msh/minishell.h>
@@ -32,7 +33,8 @@ static bool	msh_validate(const char *filename)
 	return (true);
 }
 
-static char	*msh_resolve_executable(const char *filename, char **dirs)
+static char	*msh_resolve_executable(t_minishell *msh, const char *filename,
+				char **dirs)
 {
 	size_t	i;
 	char	*found;
@@ -42,9 +44,13 @@ static char	*msh_resolve_executable(const char *filename, char **dirs)
 	found = NULL;
 	while (dirs[i])
 	{
-		if (!found && dirs[i] && *dirs[i])
+		if (!found && *dirs[i])
 		{
-			current = ft_format("%s/%s", dirs[i], filename);
+			if (!ft_strcmp(dirs[i], "."))
+				current = ft_format("%s/%s", msh->execution_context.cwd,
+						filename);
+			else
+				current = ft_format("%s/%s", dirs[i], filename);
 			if (current && msh_validate(current))
 				found = current;
 			else if (current)
@@ -69,12 +75,12 @@ char	*msh_resolve_path(t_minishell *msh, const char *filename)
 	dirs = ft_split(path, ':');
 	if (!dirs)
 		return (NULL);
-	path = msh_resolve_executable(filename, dirs);
+	path = msh_resolve_executable(msh, filename, dirs);
 	i = 0;
 	while (dirs[i])
 		free(dirs[i++]);
 	free(dirs);
 	if (path && path[0] == '.' && path[1] == '/')
-		path += 2;
+		ft_memmove(path, path + 2, ft_strlen(path + 2) + 1);
 	return (path);
 }

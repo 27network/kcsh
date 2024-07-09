@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 21:06:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:58:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	msh_ast_token_free(t_ast_token *token)
 	if (token->value.string && (token->type == TKN_WORD
 			|| token->type == TKN_SEP || token->type == TKN_COMMENT))
 		free(token->value.string);
-	else if (token->value.list && (token->type == TKN_GROUP
-			|| token->type == TKN_STRING))
+	else if (token->type == TKN_GROUP || token->type == TKN_STRING)
 		ft_lst_free(&token->value.list, (t_lst_dealloc) msh_ast_token_free);
 	else if (token->type == TKN_DELIM || token->type == TKN_PIPE
 		|| token->type == TKN_SEMISEMI || token->type == TKN_KEYWORD)

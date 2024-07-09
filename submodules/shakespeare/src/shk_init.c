@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 06:08:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/27 14:35:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:05:09 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static bool	shk_input_hook_dev(
 	return (false);
 }
 
+__attribute__((unused))
 static void	shk_draw_word_hook(
 	t_shakespeare_data *shk,
 	const t_shk_hook_type type,
@@ -82,8 +83,6 @@ bool	shk_init(t_shakespeare_data *shk)
 	shk->draw.output_fd = STDERR_FILENO;
 	if (getenv("SHK_DEBUG"))
 		shk->hooks.input_hook = shk_input_hook_dev;
-	else
-		shk->hooks.draw_word_hook = shk_draw_word_hook;
 	shk_setup_signals();
 	return (true);
 }
