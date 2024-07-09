@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_print_exports.c                                :+:      :+:    :+:   */
+/*   msh_export_print.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:07:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 23:47:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:12:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ static void	msh_print_export_declaration(t_minishell *msh, char *argv0,
 	printf("\n");
 }
 
-void	msh_print_exports(t_minishell *msh, char *argv0)
+void	msh_export_print(t_minishell *msh, char *argv0)
 {
 	t_variable	*root;
 	t_variable	*tmp;
 
 	root = msh_env_sorted(msh);
 	if (!root)
-		msh_error(msh, "msh_print_exports: msh_env_sorted failed\n");
+		msh_error(msh, "msh_export_print: msh_env_sorted failed\n");
 	if (!root)
 		return ;
 	while (root)

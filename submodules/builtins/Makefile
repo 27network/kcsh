@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/09 14:50:41 by ebouchet         ###   ########.fr        #
+#    Updated: 2024/07/09 18:13:37 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,8 @@ SRC			=	42sh/jobs/bg.c \
 				core/msh_builtin_registry.c \
 				core/msh_builtin_registry_sort.c \
 				bash/help.c \
+				minishell/export/msh_export_print.c \
 				minishell/export/msh_export_assign.c \
-				minishell/export/msh_print_exports.c \
 				minishell/cd.c \
 				minishell/echo.c \
 				minishell/env.c \
