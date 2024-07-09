@@ -6,13 +6,12 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:22:55 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:41:32 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/builtin.h>
 #include <msh/env.h>
-#include <stdio.h>
 #include <ft/mem.h>
 
 #if FEAT_BUILTIN_EXPORT_FULL
@@ -64,29 +63,8 @@ static int	msh_export_error(t_minishell *msh, const char *data, int errtype)
 		msh_error(msh, "export: unknown error\n");
 	return (1);
 }
-/*
-static void	msh_env_get_name2(char *argv, char *sep, char *name, t_minishell *msh)
-{
-	bool	plus;
 
-	plus = (*sep == '+');
-	if (plus)
-		sep++;			// sep="=jweoifjw"
-	if (*sep != '=')
-		msh_export_error();
-	else
-		sep++;			// sep="jweoifjw"
-	if (!plus)
-		msh_env_push(msh, name, ft_strdup(sep), ENV_EXPORTED | ENV_VALUE_ALLOC);
-	else
-	{
-		char *value = msh_env_value(msh, name);
-		value = ft_strcat(value, sep);
-		msh_env_push(msh, name, value, ENV_EXPORTED)
-	}
-}*/
-
-static int	msh_env_get_name(t_minishell *msh, const char *argv) // name=value name+=value name
+static int	msh_env_get_name(t_minishell *msh, const char *argv)
 {
 	char	*name;
 	char	*sep;
@@ -95,7 +73,7 @@ static int	msh_env_get_name(t_minishell *msh, const char *argv) // name=value na
 	char	*value;
 	t_variable	*new;
 
-	sep = ft_strpbrk(argv, "+="); // sep="+=jweoifjw"
+	sep = ft_strpbrk(argv, "+=");
 	if (!sep)
 	{
 		if (!msh_env_is_valid_name(argv, true))
@@ -111,13 +89,13 @@ static int	msh_env_get_name(t_minishell *msh, const char *argv) // name=value na
 	if (!name)
 		return (msh_export_error(msh, NULL, 2));
 	if (!msh_env_is_valid_name(name, true))
-		return (msh_export_error(msh, argv, 1)); //faire error
+		return (msh_export_error(msh, argv, 1));
 	plus = (*sep == '+');
 	if (plus)
-		sep++;			// sep="=jweoifjw"
+		sep++;
 	if (*sep != '=')
 		return (msh_export_error(msh, argv, 1));
-	sep++;			// sep="jweoifjw"
+	sep++;
 	if (!plus)
 		msh_env_push(msh, name, ft_strdup(sep), ENV_EXPORTED | ENV_ALLOC_NAME | ENV_ALLOC_VALUE);
 	else
@@ -146,18 +124,10 @@ static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 	{
 		while (argv[i])
 		{
-			printf("test '%s'\n", argv[1]);
 			if (msh_env_get_name(msh, argv[i]))
 				ret = 1;
 			i++;
 		}
-		// export name[[+]=value]
-		// export name=value name+=value
-		// export PTDR -> PTDR=null
-		// export PTDR= -> PTDR=""
-		// export PTDR=A -> PTDR="A"
-		// export PTDR+=B -> PTDR="AB"
-		// export VALID=A 0INVALID=B VALID2=C -> VALID="A" VALID2="C"
 	}
 	return (ret);
 }
