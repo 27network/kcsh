@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:21:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:33:46 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,14 @@ static int	msh_echo_handle_opts(
 	return (i);
 }
 
-static void	msh_echo_write(char *arg, int do_v9)
+static void	msh_echo_write(t_minishell *msh, char *arg, int do_v9)
 {
 	char	*tmp;
 	size_t	len;
 
-	if (do_v9)
+	if (!ft_strcmp(arg, "$?")) //TODO: REMOVE
+		ft_printf("%d", msh->execution_context.exit_code);
+	else if (do_v9)
 	{
 		tmp = msh_ansicstr(arg, &len);
 		if (!tmp)
@@ -142,7 +144,7 @@ static int	msh_echo(
 		i = msh_echo_handle_opts(argc, argv, &display_return, &do_v9);
 	while (i < argc)
 	{
-		msh_echo_write(argv[i], do_v9);
+		msh_echo_write(msh, argv[i], do_v9);
 		i++;
 		if (i < argc)
 			ft_putchar(' ');

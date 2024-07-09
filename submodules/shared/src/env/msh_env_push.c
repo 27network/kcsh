@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env_push.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:20:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 01:17:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:59:10 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,12 @@ t_variable	*msh_env_push(t_minishell *msh, const char *key, const char *value,
 		return (NULL);
 	variable = msh_env_find(msh, key);
 	if (variable)
+	{
+		if (flags & ENV_ALLOC_NAME)
+			free((void *) key);
+		flags &= ~(ENV_ALLOC_NAME);
 		msh_env_update_existing(msh, variable, value, flags);
+	}
 	else
 	{
 		variable = msh_env_create(msh, key, value, flags);

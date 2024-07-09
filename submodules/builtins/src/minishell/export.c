@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 11:30:19 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:58:32 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	msh_export_error(t_minishell *msh, const char *data, int errtype)
 		msh_error(msh, "export: name allocation error\n");
 	else if (errtype == 3)
 		msh_error(msh, "export: value allocation error\n");
+	else if (errtype == 4)
+		msh_error(msh, "export: env allocation error\n");
 	else
 		msh_error(msh, "export: unknown error\n");
 	return (1);
@@ -84,27 +86,31 @@ static void	msh_env_get_name2(char *argv, char *sep, char *name, t_minishell *ms
 	}
 }*/
 
-static int	msh_env_get_name(char *argv, t_minishell *msh) // name=value name+=value name
+static int	msh_env_get_name(t_minishell *msh, const char *argv) // name=value name+=value name
 {
 	char	*name;
 	char	*sep;
 	size_t	name_size;
 	bool	plus;
 	char	*value;
+	t_variable	*new;
 
 	sep = ft_strpbrk(argv, "+="); // sep="+=jweoifjw"
 	if (!sep)
 	{
-		if (!msh_env_is_valid_name(argv))
+		if (!msh_env_is_valid_name(argv, true))
 			return (msh_export_error(msh, argv, 1));
-		msh_env_get(msh, argv, ENV_EXPORTED);
+		new = msh_env_get(msh, argv, 0);
+		if (!new)
+			return (msh_export_error(msh, NULL, 4));
+		new->flags |= ENV_EXPORTED;
 		return (0);
 	}
 	name_size = sep - argv;
 	name = ft_strndup(argv, name_size);
 	if (!name)
 		return (msh_export_error(msh, NULL, 2));
-	if (!msh_env_is_valid_name(name))
+	if (!msh_env_is_valid_name(name, true))
 		return (msh_export_error(msh, argv, 1)); //faire error
 	plus = (*sep == '+');
 	if (plus)
@@ -113,15 +119,16 @@ static int	msh_env_get_name(char *argv, t_minishell *msh) // name=value name+=va
 		return (msh_export_error(msh, argv, 1));
 	sep++;			// sep="jweoifjw"
 	if (!plus)
-		msh_env_push(msh, name, ft_strdup(sep), ENV_EXPORTED | ENV_ALLOC_VALUE);
+		msh_env_push(msh, name, ft_strdup(sep), ENV_EXPORTED | ENV_ALLOC_NAME | ENV_ALLOC_VALUE);
 	else
 	{
 		value = msh_env_value(msh, name);
-		value = ft_realloc(value, ft_strlen(value), ft_strlen(value) + ft_strlen(sep));
+		value = ft_calloc(ft_strlen(value) + ft_strlen(sep) + 1, 1);
 		if (!value)
-			return (msh_export_error(msh, NULL, 3))
+			return (msh_export_error(msh, NULL, 3));
+		ft_strcat(value, name);
 		ft_strcat(value, sep);
-		msh_env_push(msh, name, value, ENV_EXPORTED)
+		msh_env_push(msh, name, value, ENV_EXPORTED | ENV_ALLOC_NAME | ENV_ALLOC_VALUE);
 	}
 	return (0);
 }
@@ -130,7 +137,6 @@ static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 {
 	int			i;
 	int			ret;
-	const char	*name;
 	
 	i = 1;
 	ret = 0;
@@ -141,7 +147,7 @@ static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 		while (argv[i])
 		{
 			printf("test '%s'\n", argv[1]);
-			if (msh_env_get_name(argv[i]))
+			if (msh_env_get_name(msh, argv[i]))
 				ret = 1;
 			i++;
 		}

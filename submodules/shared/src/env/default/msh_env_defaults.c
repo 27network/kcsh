@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env_defaults.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 22:46:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:47:04 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	msh_env_setup_pwd(t_minishell *msh)
 	char		*pwd;
 	char		*home;
 	char		*oldpwd;
+	t_variable	*v_oldpwd;
 
 	v_pwd = msh_env_find(msh, "PWD");
 	pwd = msh_env_value(msh, "PWD");
@@ -79,7 +80,12 @@ static void	msh_env_setup_pwd(t_minishell *msh)
 	msh_handle_pwd_import(msh, v_pwd, pwd, home);
 	oldpwd = msh_env_value(msh, "OLDPWD");
 	if (!oldpwd || !*oldpwd || !msh_is_directory(oldpwd))
+	{
 		msh_env_push(msh, "OLDPWD", NULL, ENV_INVISIBLE | ENV_EXPORTED);
+		v_oldpwd = msh_env_find(msh, "OLDPWD");
+		if (v_oldpwd)
+			v_oldpwd->flags &= ~(ENV_ALLOC_VALUE);
+	}
 }
 
 static void	msh_env_adjust_shlvl(t_minishell *msh, int change)
