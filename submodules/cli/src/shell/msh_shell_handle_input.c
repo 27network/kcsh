@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 23:17:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:30:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	msh_debug_exec(t_minishell *msh, char *line)
 	int		ret;
 
 	array = ft_splits(line, " \t\n");
-	if (!array)
+	if (!array || !*array)
 		return ;
 	ret = msh_exec_simple(msh, array);
 	msh->execution_context.exit_code = ret;

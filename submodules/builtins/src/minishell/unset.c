@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:11:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:25:50 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:27:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@
 #define UNSET_USAGE ""
 #define UNSET_HELP ""
 
-static int	msh_builtin_unset(int argc, char **argv, t_minishell *msh)
-{
+static int	msh_builtin_unset(
+	__attribute__((unused)) int argc,
+	char **argv,
+	t_minishell *msh
+) {
 	int			i;
 	t_variable	*value;
 

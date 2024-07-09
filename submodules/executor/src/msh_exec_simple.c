@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:26:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:35:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int	msh_exec(
 		if (execve(binary_path, av, envp) == -1)
 			status = msh_exec_error(msh, errno, av[0]);
 		msh->execution_context.running = false;
+		free(binary_path);
 		return (status);
 	}
 	else if (pid < 0)
@@ -77,6 +78,7 @@ static int	msh_exec(
 		if (waitpid(pid, &status, 0) < 0)
 			msh_error(msh, "%s: %m\n", binary_path);
 	}
+	free(binary_path);
 	return (msh_exec_status(status));
 }
 
@@ -116,8 +118,6 @@ int	msh_exec_simple(t_minishell *msh, char **args)
 	char	*path;
 	bool	old_interactive;
 
-	if (!args[0])
-		return (0);
 	env = msh_env_tab(msh, ENV_EXPORTED);
 	status = msh_exec_builtin(msh, args, env);
 	if (status != BUILTIN_NOT_FOUND)
@@ -129,8 +129,11 @@ int	msh_exec_simple(t_minishell *msh, char **args)
 	old_interactive = msh->interactive;
 	if (path)
 		status = msh_exec(msh, path, args, env);
-	if (path)
-		free(path);
+	else
+	{
+		msh_error(msh, "%s: command not found\n", args[0]);
+		status = 127;
+	}
 	msh->interactive = old_interactive;
 	msh_signal_init(msh, false);
 	msh_env_tab_free(env);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 01:35:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:38:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	msh_update_env(t_minishell *msh, bool update_lineno)
 
 	lines = 80;
 	cols = 80;
-	msh->execution_context.exit_code = 0;
 	g_signal = -1;
 	msh_term_size(msh, &lines, &cols);
 	if (update_lineno)
