@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:20:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 11:59:10 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/10 09:51:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <ft/string.h>
 #include <msh/env.h>
 
-static void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
+void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
 			const char *value, int flags)
 {
 	if (!value && (flags & ENV_ALLOC_VALUE))
