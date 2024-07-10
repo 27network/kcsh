@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    defaults.mk                                        :+:      :+:    :+:    #
+#    config.mk                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/07 00:37:21 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/10 21:56:50 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ ifeq ($(KCSH_TESTS), 1)
 CFLAGS			+= -DKCSH_TESTS
 endif
 
+FREEZE_LOGS		?= 0
 MAKE_TRACE		?= 0
 EXTRA_DEBUG		?= 0
 HYPERTHREADING	?= 1

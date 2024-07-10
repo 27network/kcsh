@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:51:14 by ebouchet          #+#    #+#             */
-/*   Updated: 2024/07/10 14:56:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:01:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,34 @@
 #include <msh/log.h>
 #include <stdlib.h>
 
+#define UNKNOWN_ERROR -1
 #define INVALID_IDENTIFIER_ERROR 1
 #define NAME_ALLOC_ERROR 2
 #define VALUE_ALLOC_ERROR 3
 #define ENV_ALLOC_ERROR 4
 #define NOT_FUNCTION_ERROR 5
-#define UNKNOWN_ERROR -1
+#define READONLY_ERROR 6
 
 void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
 			const char *value, int flags);
 
 static int	msh_export_error(t_minishell *msh, const char *data, int errtype)
 {
-	if (errtype == INVALID_IDENTIFIER_ERROR)
-		msh_error(msh, "export: `%s': not a valid identifier\n", data);
-	else if (errtype == NAME_ALLOC_ERROR)
-		msh_error(msh, "export: name allocation error\n");
-	else if (errtype == VALUE_ALLOC_ERROR)
-		msh_error(msh, "export: value allocation error\n");
-	else if (errtype == ENV_ALLOC_ERROR)
-		msh_error(msh, "export: env allocation error\n");
-	else if (errtype == NOT_FUNCTION_ERROR)
-		msh_error(msh, "export: `%s': not a function\n", data);
+	static const char	*error_messages[] = {
+		"export: `%s': not a valid identifier\n",
+		"export: name allocation error\n",
+		"export: value allocation error\n",
+		"export: env allocation error\n",
+		"export: `%s': not a function\n",
+		"%s: readonly variable\n",
+	};
+	const char			*message;
+
+	if (errtype == UNKNOWN_ERROR)
+		message = "export: unknown error\n";
 	else
-		msh_error(msh, "export: unknown error\n");
+		message = error_messages[errtype - 1];
+	msh_error(msh, message, data);
 	return (1);
 }
 
@@ -104,6 +108,12 @@ static int	msh_export_update(t_minishell *msh, t_variable *variable,
 	return (0);
 }
 
+__attribute__((always_inline))
+static inline int	flags(bool plus, bool negate)
+{
+	return (plus * FLAG_PLUS | negate * FLAG_NEGATE);
+}
+
 int	msh_export_assign(t_minishell *msh, const char *argv,
 		bool func, bool negate)
 {
@@ -122,14 +132,14 @@ int	msh_export_assign(t_minishell *msh, const char *argv,
 	}
 	variable = msh_env_get(msh, name, ENV_ALLOC_NAME);
 	ft_strdel(&name);
-	if (!variable)
+	if (!variable || (func && !(variable->flags & ENV_FUNCTION))
+		|| (variable->flags & ENV_READONLY))
 		ft_strdel(&value);
 	if (!variable)
 		return (msh_export_error(msh, argv, ENV_ALLOC_ERROR));
 	if (func && !(variable->flags & ENV_FUNCTION))
-		ft_strdel(&value);
-	if (func && !(variable->flags & ENV_FUNCTION))
 		return (msh_export_error(msh, argv, NOT_FUNCTION_ERROR));
-	return (msh_export_update(msh, variable, value,
-			plus * FLAG_PLUS | negate * FLAG_NEGATE));
+	if (variable->flags & ENV_READONLY)
+		return (msh_export_error(msh, argv, READONLY_ERROR));
+	return (msh_export_update(msh, variable, value, flags(plus, negate)));
 }

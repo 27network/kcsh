@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/10 06:57:48 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:49:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ static int	msh_export_assignments(t_minishell *msh, char **argv,
 	int		i;
 	int		ret;
 
-	if (function)
-		msh_warn(msh, "export: -f: not implemented\n");
 	i = 1;
 	ret = 0;
 	while (argv[i])
@@ -146,7 +144,7 @@ static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 	{
 		while (argv[i])
 		{
-			if (msh_export_assign(msh, argv[i]))
+			if (msh_export_assign(msh, argv[i], false, false))
 				ret = 1;
 			i++;
 		}

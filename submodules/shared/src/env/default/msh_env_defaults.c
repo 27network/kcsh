@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/10 14:06:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:52:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,95 +14,18 @@
 #include <ft/string.h>
 #include <msh/env.h>
 #include <msh/util.h>
-#include <pwd.h>
-#include <sys/stat.h>
 #include <unistd.h>
 
-static void	msh_env_setup_userdata(t_minishell *msh, int uid)
+void	msh_env_setup_pwd(t_minishell *msh);
+void	msh_env_adjust_shlvl(t_minishell *msh, int change);
+void	msh_env_setup_userdata(t_minishell *msh, int uid);
+
+static void	msh_env_setup_readonly(t_minishell *msh, int uid)
 {
-	struct passwd	pwd;
-
-	pwd = msh_getpwuid(msh, uid);
-	if (pwd.pw_name)
-	{
-		msh_env_set_if_not(msh, "HOME", ft_strdup(pwd.pw_dir),
-			ENV_ALLOC_VALUE);
-		msh_env_set_if_not(msh, "SHELL", ft_strdup(pwd.pw_shell),
-			ENV_ALLOC_VALUE);
-		msh_passwd_free(&pwd);
-	}
-	else
-	{
-		msh_env_set_if_not(msh, "HOME", "/", 0);
-		msh_env_set_if_not(msh, "SHELL", "/bin/sh", 0);
-	}
-}
-
-static void	msh_handle_pwd_import(t_minishell *msh, t_variable *v_pwd,
-				char *pwd, char *home)
-{
-	char	*curr;
-
-	if (v_pwd && v_pwd->flags & ENV_IMPORTED && pwd && *pwd == '/'
-		&& msh_same_file(pwd, ".", NULL, NULL))
-	{
-		curr = msh_canonicalize(pwd);
-		if (!curr)
-			curr = getcwd(NULL, 0);
-		else if (chdir(curr) < 0)
-			curr = getcwd(NULL, 0);
-		msh_env_push(msh, "PWD", curr, ENV_ALLOC_VALUE | ENV_EXPORTED);
-	}
-	else if (home && msh->interactive && msh->flags.login
-		&& msh_same_file(home, ".", NULL, NULL))
-	{
-		if (chdir(home) < 0)
-			home = getcwd(NULL, 0);
-		msh_env_push(msh, "PWD", ft_strdup(home), ENV_ALLOC_VALUE
-			| ENV_EXPORTED);
-	}
-	else
-		msh_env_push(msh, "PWD", getcwd(NULL, 0), ENV_ALLOC_VALUE
-			| ENV_EXPORTED);
-}
-
-static void	msh_env_setup_pwd(t_minishell *msh)
-{
-	t_variable	*v_pwd;
-	char		*pwd;
-	char		*home;
-	char		*oldpwd;
-	t_variable	*v_oldpwd;
-
-	v_pwd = msh_env_find(msh, "PWD");
-	pwd = msh_env_value(msh, "PWD");
-	home = msh_env_value(msh, "HOME");
-	msh_handle_pwd_import(msh, v_pwd, pwd, home);
-	oldpwd = msh_env_value(msh, "OLDPWD");
-	if (!oldpwd || !*oldpwd || !msh_is_directory(oldpwd))
-	{
-		msh_env_push(msh, "OLDPWD", NULL, ENV_EXPORTED);
-		v_oldpwd = msh_env_find(msh, "OLDPWD");
-		if (v_oldpwd)
-			v_oldpwd->flags &= ~(ENV_ALLOC_VALUE);
-	}
-}
-
-static void	msh_env_adjust_shlvl(t_minishell *msh, int change)
-{
-	char		*old_shlvl;
-	int			shlvl;
-
-	old_shlvl = msh_env_value(msh, "SHLVL");
-	if (!old_shlvl || !*old_shlvl)
-		old_shlvl = "0";
-	shlvl = ft_atoi(old_shlvl);
-	shlvl += change;
-	if (shlvl < 0)
-		shlvl = 0;
-	else if (shlvl >= 1000)
-		shlvl = 1;
-	msh_env_push(msh, "SHLVL", ft_itoa(shlvl), ENV_EXPORTED | ENV_ALLOC_VALUE);
+	msh_env_set_if_not(msh, "UID", ft_itoa(uid), ENV_ALLOC_VALUE
+		| ENV_READONLY);
+	msh_env_set_if_not(msh, "EUID", ft_itoa(msh_geteuid(msh)), ENV_ALLOC_VALUE
+		| ENV_READONLY);
 }
 
 void	msh_env_defaults(t_minishell *msh)
@@ -126,10 +49,9 @@ void	msh_env_defaults(t_minishell *msh)
 	msh_env_set_if_not(msh, "HISTSIZE", ft_itoa(ENV_DEFAULT_HISTSIZE),
 		ENV_ALLOC_VALUE);
 	msh_env_push(msh, "IFS", ENV_DEFAULT_IFS, 0);
-	msh_env_set_if_not(msh, "UID", ft_itoa(uid), ENV_ALLOC_VALUE);
-	msh_env_set_if_not(msh, "EUID", ft_itoa(msh_geteuid(msh)), ENV_ALLOC_VALUE);
 	msh_env_set_if_not(msh, "HOSTTYPE", msh_get_hosttype(msh), ENV_ALLOC_VALUE);
 	msh_env_adjust_shlvl(msh, 1);
 	msh_env_set_if_not(msh, "_", msh->binary_name, ENV_EXPORTED
 		| ENV_INVISIBLE);
+	msh_env_setup_readonly(msh, uid);
 }

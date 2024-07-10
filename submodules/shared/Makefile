@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/09 14:18:02 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/10 17:50:44 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,10 @@ endif
 
 include ../common-prelude.mk
 
-SRC			=	env/default/msh_env_defaults.c \
+SRC			=	env/default/msh_env_default_pwd.c \
+				env/default/msh_env_default_shlvl.c \
+				env/default/msh_env_default_userdata.c \
+				env/default/msh_env_defaults.c \
 				env/default/msh_env_populate.c \
 				env/name/msh_env_is_special_name_starter.c \
 				env/name/msh_env_is_valid_name.c \

@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/10 14:37:23 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/10 21:55:15 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,13 @@ _					:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
 endif
 endif
 
+PRINTF				?=	printf
+ifeq ($(FREEZE_LOGS), 1)
+PRINTF				:=	:
+else
 -include header.mk
+endif
+
 
 POSSIBLE_NAMES		:=	minishell minishell_bonus 42sh 42sh_bonus
 
@@ -100,7 +106,7 @@ $(error TEST_TARGET should be one of `all`, `bonus`, `42`, `42bonus`)
 endif
 
 all: _hide_cursor
-	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); printf "\033[?25h"
+	@$(MAKE) SHOW_BANNER=1 BUILD=1 $(NAME); $(PRINTF) "\033[?25h"
 ifeq ($(KCSH_TESTS), 1)
 	./$(NAME)
 	@rm -rf $(NAME)
@@ -108,7 +114,7 @@ ifeq ($(KCSH_TESTS), 1)
 endif
 
 _hide_cursor:
-	@printf "\033[?25l"
+	@$(PRINTF) "\033[?25l"
 
 build: clean all
 
@@ -117,37 +123,37 @@ build: clean all
 # invalidation mechanism
 $(CACHE_DIR)/%:
 ifeq ($(EXTRA_DEBUG), 1)
-	@printf "Invalidate: $* $< $@\n"
+	@$(PRINTF) "Invalidate: $* $< $@\n"
 endif
 	@if [ $(findstring .c, $<) ]; then \
 		rm -rf $@; \
 	fi
 
 $(CLI_EXEC):
-	@printf "\33[2K\r🛠️  Making $(BOLD_WHITE)$(NAME)$(RESET)\n"
+	@$(PRINTF) "\33[2K\r🛠️  Making $(BOLD_WHITE)$(NAME)$(RESET)\n"
 	@$(MAKE) -C $(SUBMODULES)/$(MAIN_MODULE) DEPTH="1" CACHE_DIR="$(CACHE_DIR)" LIBFT_DIR="$(LIBFT_DIR)"
 
 $(NAME): $(LIBFT) $(CONFIG_MK) $(FEATURES_H_ACTUAL) $(FEATURES_H) $(CLI_EXEC)
-	@printf "⛓  Linking $(CLI_EXEC) -> $(NAME)"
+	@$(PRINTF) "⛓  Linking $(CLI_EXEC) -> $(NAME)"
 	@cp -f "$(CLI_EXEC)" "$(NAME)" # 🤓 erm acshually its not a link but a copy 🤓
-	@printf "\33[2K\r✅ Linked $(BOLD_WHITE)$(NAME)$(RESET), enjoy this dumb madness.\n"
+	@$(PRINTF) "\33[2K\r✅ Linked $(BOLD_WHITE)$(NAME)$(RESET), enjoy this dumb madness.\n"
 
 $(LIBFT): $(LIBFT_DIR)/Makefile $(LIBFT_DIR)/version
-	@printf "🛠️  Making $(BOLD_WHITE)libft$(RESET)\n"
+	@$(PRINTF) "🛠️  Making $(BOLD_WHITE)libft$(RESET)\n"
 ifeq ($(HYPERTHREADING), 1)
-	@$(MAKE) -C $(LIBFT_DIR) DEBUG=1 -j CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
+	@$(MAKE) -C $(LIBFT_DIR) DEBUG=1 NO_LOG="$(FREEZE_LOGS)" -j CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
 else
-	@$(MAKE) -C $(LIBFT_DIR) DEBUG=1 CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
+	@$(MAKE) -C $(LIBFT_DIR) DEBUG=1 NO_LOG="$(FREEZE_LOGS)" CFLAGS="-Wall -Werror -Wextra -DGNL_BUFFER_SIZE=1" 
 endif
 
 $(LAST_COMP):
 
 $(FEATURES_H_ACTUAL): $(FEATURES_H_GEN) $(LAST_COMP)
-	@printf "✍  Generating $(BOLD_WHITE)$(FEATURES_H_ACTUAL)$(RESET)\n"
+	@$(PRINTF) "✍  Generating $(BOLD_WHITE)$(FEATURES_H_ACTUAL)$(RESET)\n"
 	@$(MAKE) -C config -f features.mk gen COMP_MODE="$(COMP_MODE)"
 
 $(FEATURES_H):
-	@printf "⛓  Linking $(BOLD_WHITE)$(FEATURES_H)$(RESET)\n"
+	@$(PRINTF) "⛓  Linking $(BOLD_WHITE)$(FEATURES_H)$(RESET)\n"
 	@$(MAKE) -C config -f features.mk genlink COMP_MODE="$(COMP_MODE)"
 
 bonus:
@@ -165,16 +171,16 @@ test: oclean
 remake: clean all
 
 _fclean_prelude:
-	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) binaries $(GRAY)(./$(NAME))$(RESET)\n"
+	@$(PRINTF) "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) binaries $(GRAY)(./$(NAME))$(RESET)\n"
 	$(eval _DISABLE_CLEAN_LOG := 1)
 
 clean:
 	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) $(GRAY)(./$(CACHE_DIR_NAME))$(RESET)\n"; fi
 	@$(RM) $(CACHE_DIR)
-	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then $(MAKE) -C $(LIBFT_DIR) clean; fi 
+	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then $(MAKE) -C $(LIBFT_DIR) NO_LOG="$(FREEZE_LOGS)" clean; fi 
 
 oclean:
-	@printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object files $(GRAY)($(CACHE_DIR))$(RESET)\n"
+	@$(PRINTF) "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object files $(GRAY)($(CACHE_DIR))$(RESET)\n"
 	@$(RM) $(CACHE_DIR)
 
 fclean:			_fclean_prelude clean
@@ -182,11 +188,11 @@ fclean:			_fclean_prelude clean
 	@$(RM) $(FEATURES_H)
 
 	@$(RM) $(POSSIBLE_NAMES)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(LIBFT_DIR) NO_LOG="$(FREEZE_LOGS)" fclean
 
 re: _hide_cursor
 	@$(MAKE) BUILD=1 SHOW_BANNER=1 fclean $(NAME); ret=$$?; \
-		printf "\033[?25h"; \
+		$(PRINTF) "\033[?25h"; \
 		exit $$ret
 
 valgrind:
