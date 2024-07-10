@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 11:47:04 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:06:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	msh_env_setup_pwd(t_minishell *msh)
 	oldpwd = msh_env_value(msh, "OLDPWD");
 	if (!oldpwd || !*oldpwd || !msh_is_directory(oldpwd))
 	{
-		msh_env_push(msh, "OLDPWD", NULL, ENV_INVISIBLE | ENV_EXPORTED);
+		msh_env_push(msh, "OLDPWD", NULL, ENV_EXPORTED);
 		v_oldpwd = msh_env_find(msh, "OLDPWD");
 		if (v_oldpwd)
 			v_oldpwd->flags &= ~(ENV_ALLOC_VALUE);

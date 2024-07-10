@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:07:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 18:12:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:41:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static void	msh_print_export_declaration(t_minishell *msh, char *argv0,
 		printf("declare -%s ", flags);
 	else if (nflags)
 		printf("%s -%s ", argv0, flags);
+	else if (!ft_strcmp(argv0, "declare"))
+		printf("%s -- ", argv0);
 	else
 		printf("%s ", argv0);
 	msh_env_print_assignment(msh, var, QUOTING_ESCAPE_QUOTES);
@@ -62,18 +64,22 @@ void	msh_export_print(t_minishell *msh, char *argv0)
 {
 	t_variable	*root;
 	t_variable	*tmp;
+	bool		dealloc;
 
 	root = msh_env_sorted(msh);
 	if (!root)
-		msh_error(msh, "msh_export_print: msh_env_sorted failed\n");
+		msh_error(msh, "msh_export_print: msh_env_sorted failed, "
+			"printing unsorted\n");
+	dealloc = !!root;
 	if (!root)
-		return ;
+		root = msh->variables;
 	while (root)
 	{
-		if ((root->flags & ENV_EXPORTED))
+		if ((root->flags & ENV_EXPORTED) && !(root->flags & ENV_INVISIBLE))
 			msh_print_export_declaration(msh, argv0, root);
 		tmp = root;
 		root = root->next;
-		msh_env_free(tmp);
+		if (dealloc)
+			msh_env_free(tmp);
 	}
 }
