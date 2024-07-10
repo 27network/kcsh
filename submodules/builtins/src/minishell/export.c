@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:07:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 18:35:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/10 06:57:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,29 @@ Returns success unless NAME is invalid.\n\
 "
 #endif // FEAT_BUILTIN_EXPORT_OPT
 
-int		msh_export_assign(t_minishell *msh, const char *arg);
+int		msh_export_assign(t_minishell *msh, const char *arg, bool func,
+			bool negate);
 void	msh_export_print(t_minishell *msh, const char *name);
 
 #if FEAT_BUILTIN_EXPORT_OPT
 
-#include <stdio.h>
 static int	msh_export_assignments(t_minishell *msh, char **argv,
 				bool function, bool negate)
 {
-	(void)msh;
-	(void)argv;
-	(void)function;
-	(void)negate;
-	// int		i;
-	// int		ret;
-	//
-	// i = 0;
-	// ret = 0;
-	// while (i < args->argc)
-	// {
-	// 	if (msh_export_assign(msh, args->argv[i]))
-	// 		ret = 1;
-	// 	i++;
-	// }
-	printf("export assignments\n");
-	// return (ret);
-	return (0);
+	int		i;
+	int		ret;
+
+	if (function)
+		msh_warn(msh, "export: -f: not implemented\n");
+	i = 1;
+	ret = 0;
+	while (argv[i])
+	{
+		if (msh_export_assign(msh, argv[i], function, negate))
+			ret = 1;
+		i++;
+	}
+	return (ret);
 }
 
 # define FLAG_PRINT 1
@@ -99,30 +95,39 @@ static int	msh_export_arguments(t_minishell *msh, t_opt_args *args, int *flags)
 		if (c == 'n')
 			*flags |= FLAG_NEG;
 		if (c == '?')
-			msh_error(msh, "export: -%c: invalid option\n", globals.optopt);
-		// if (c == HELP_OPT)
-			// msh_builtin_print_help(msh, "export");
+			msh_error(msh, "export: -%c: invalid option\nexport: usage: %s\n",
+				globals.optopt, EXPORT_USAGE);
+		if (c == HELP_OPT)
+			msh_builtin_help_page("export", 1);
 		if (c == HELP_OPT || c == '?')
-			return (c == '?');
+			return (-(c == '?') - 1);
 	}
-	return (0);
+	return (globals.optind - 1);
 }
 
 static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 {
 	int			flags;
 	t_opt_args	args;
+	int			parse_results;
 
 	flags = 0;
-	args = ft_opt_args(argc, argv, OPT_POSIX | OPT_BASH_LIKE, VALID_OPTIONS);
 	if (argc == 1)
 		flags |= FLAG_PRINT;
-	else if (msh_export_arguments(msh, &args, &flags))
-		return (1);
-	if (flags & FLAG_PRINT)
-		msh_export_print(msh, NULL);
 	else
-		return (msh_export_assignments(msh, argv, flags & FLAG_FUNC, flags & FLAG_NEG));
+	{
+		args = ft_opt_args(argc, argv, OPT_POSIX | OPT_BASH_LIKE,
+				VALID_OPTIONS);
+		parse_results = msh_export_arguments(msh, &args, &flags);
+		if (parse_results < 0)
+			return (-parse_results);
+		argv += parse_results;
+	}
+	if (flags & FLAG_PRINT)
+		msh_export_print(msh, "export");
+	else
+		return (msh_export_assignments(msh, argv,
+				flags & FLAG_FUNC, flags & FLAG_NEG));
 	return (0);
 }
 

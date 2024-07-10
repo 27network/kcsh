@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:51:14 by ebouchet          #+#    #+#             */
-/*   Updated: 2024/07/09 14:53:11 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/10 06:50:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,16 @@ static int	msh_env_handle_separator(t_minishell *msh, char *name, char *sep,
 	return (0);
 }
 
-int	msh_export_assign(t_minishell *msh, const char *argv)
+int	msh_export_assign(t_minishell *msh, const char *argv,
+		bool func, bool negate)
 {
 	char	*name;
 	char	*sep;
 	size_t	name_size;
 	bool	plus;
 
+	(void) func;
+	(void) negate;
 	sep = ft_strpbrk(argv, "+=");
 	if (!sep)
 		return (msh_env_handle_no_separator(msh, argv));
