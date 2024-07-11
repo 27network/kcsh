@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_expand_tilde.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 04:18:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:40:41 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,24 @@
 
 static char	*msh_current_home(t_minishell *msh, size_t *repl_len)
 {
-	char	*home;
+	static char		buffer[1024] = {0};
+	int				uid;
+	struct passwd	pwd;
 
-	home = msh_env_value(msh, "HOME");
-	if (!home || !*home)
-		home = "/tmp";
+	uid = msh_getuid(msh);
+	if (uid < 0)
+		return (NULL);
+	pwd = msh_getpwuid(msh, uid);
+	if (!pwd.pw_name)
+	{
+		msh_passwd_free(&pwd);
+		return (NULL);
+	}
+	ft_bzero(buffer, sizeof(buffer));
+	ft_strlcat(buffer, pwd.pw_dir, sizeof(buffer));
+	msh_passwd_free(&pwd);
 	*repl_len = 1;
-	return (home);
+	return (buffer);
 }
 
 static char	*msh_find_user_home(t_minishell *msh, const char *str,

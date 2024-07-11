@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:24:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:52:49 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,17 @@ char			*msh_expand_tilde(t_minishell *msh, const char *str);
  * @return The canonicalized path.
  */
 char			*msh_canonicalize(const char *path);
+
+/**
+ * @brief Sets the current working directory to the provided path.
+ * 
+ * @note This also sets the PWD environment variable and auto-exports it,
+ * 		 but does NOT call `chdir`.
+ * 
+ * @param msh The minishell instance.
+ * @param path The working directory path.
+ */
+void			msh_set_cwd(t_minishell *msh, const char *path);
 
 /**
  * @brief Gets the user information from the given user ID.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:49:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 22:52:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:27:27 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static void	msh_print_vars(t_minishell *msh)
 		}
 		tmp = root;
 		root = root->next;
-		msh_env_free(tmp);
+		msh_env_free(msh, tmp);
 	}
 }
 

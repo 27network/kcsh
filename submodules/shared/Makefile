@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
+#    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/10 17:50:44 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/11 17:08:24 by ebouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ SRC			=	env/default/msh_env_default_pwd.c \
 				util/string/msh_strcoll.c \
 				util/msh_is_interactive.c \
 				util/msh_resolve_path.c \
+				util/msh_set_cwd.c \
 				msh_destroy.c \
 				msh_exit.c \
 				msh_fork.c \

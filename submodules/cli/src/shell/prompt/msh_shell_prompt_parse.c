@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_shell_prompt_parse.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:10:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/28 11:58:59 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:50:34 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,14 @@ char	*msh_shell_prompt_parse(t_minishell *msh)
 	sep = '$';
 	if (msh_geteuid(msh) == 0)
 		sep = '#';
-	cwd = getcwd(NULL, 0);
+	cwd = (char *) msh->execution_context.cwd;
 	if (!cwd)
-		cwd = ft_strdup("?");
+		cwd = "?";
 	if (ft_strchr(cwd, '/'))
 		format = ft_format("[%s@%s %s]%c ", user, msh_get_hostname(msh),
 				ft_strrchr(cwd, '/') + 1, sep);
 	else
 		format = ft_format("[%s@%s %s]%c ", user, msh_get_hostname(msh),
 				cwd, sep);
-	free(cwd);
 	return (format);
 }

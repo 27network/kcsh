@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_export_print.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:07:41 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/10 14:41:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:07:19 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ void	msh_export_print(t_minishell *msh, char *argv0)
 		tmp = root;
 		root = root->next;
 		if (dealloc)
-			msh_env_free(tmp);
+			msh_env_free(msh, tmp);
 	}
 }

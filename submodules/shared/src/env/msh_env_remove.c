@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:57:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:09:04 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:27:54 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	msh_env_remove(t_minishell *msh, const char *name)
 				prev->next = root->next;
 			else
 				msh->variables = root->next;
-			msh_env_free(root);
+			msh_env_free(msh, root);
 			return ;
 		}
 		prev = root;

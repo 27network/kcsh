@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 22:38:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:03:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:27:14 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,10 @@ void		msh_env_free_all(t_minishell *msh);
 /**
  * @brief Frees a variable.
  *
+ * @param minishell The minishell instance.
  * @param variable The variable to free.
  */
-void		msh_env_free(t_variable *variable);
+void		msh_env_free(t_minishell *msh, t_variable *variable);
 
 /**
  * @brief Builds a new array of name-sorted variables.

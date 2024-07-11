@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env_free_all.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
+/*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:45:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 23:50:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:27:43 by ebouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	msh_env_free_all(t_minishell *msh)
 	while (tmp)
 	{
 		next = tmp->next;
-		msh_env_free(tmp);
+		msh_env_free(msh, tmp);
 		tmp = next;
 	}
 }
