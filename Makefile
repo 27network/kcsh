@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/11 17:08:08 by ebouchet         ###   ########.fr        #
+#    Updated: 2024/07/15 18:39:49 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ ifeq ($(MAKE_TRACE), 1)
 $(info Included $(CONFIG_MK))
 endif
 
+CWD					?=	$(shell pwd)
 NAME				:=	minishell
 
 ifdef OVERRIDE_NAME
@@ -32,7 +33,7 @@ endif
 
 NO_READLINE			?=	0
 ifeq ($(NO_READLINE), 0)
-VSUPP_ARG			:=	--suppressions=config/valgrind.vsupp
+VSUPP_ARG			:=	--suppressions=$(CWD)/config/valgrind.vsupp
 endif
 
 MAKE				:=	make --no-print-directory --debug=none
@@ -68,7 +69,6 @@ endif
 
 POSSIBLE_NAMES		:=	minishell minishell_bonus 42sh 42sh_bonus
 
-CWD					?=	$(shell pwd)
 SUBMODULES			:=	submodules
 
 LIBFT_DIR			:=	$(CWD)/third-party/libft
@@ -197,10 +197,10 @@ re: _hide_cursor
 
 valgrind:
 	@clear
-	@MSH_VALGRIND=1 valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q ./$(NAME) $(VG_RUN)
+	@MSH_VALGRIND=1 valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./$(NAME) $(VG_RUN)
 
 voidgrind:
 	@clear
-	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
+	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
 
 .PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind _fclean_prelude _banner _hide_cursor

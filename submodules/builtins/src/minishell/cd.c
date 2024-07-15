@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:04:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/11 17:05:01 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:21:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	msh_cd_oldpwd(t_minishell *msh)
 {
 	const char	*target;
 	int			ret;
-	
+
 	target = msh_env_value(msh, "OLDPWD");
 	if (!target)
 		msh_error(msh, "cd: OLDPWD not set\n");
@@ -56,7 +56,7 @@ int	msh_cd_relative(t_minishell *msh, const char *arg)
 {
 	(void) msh;
 	(void) arg;
-	return (0);	
+	return (0);
 }
 
 int	msh_cd_absolute(t_minishell *msh, const char *target)

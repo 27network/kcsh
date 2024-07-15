@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:32:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/10 17:54:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:32:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,20 @@ static void	msh_handle_pwd_import(t_minishell *msh, t_variable *v_pwd,
 		&& msh_same_file(pwd, ".", NULL, NULL))
 	{
 		curr = msh_canonicalize(pwd);
-		if (!curr)
-			curr = getcwd(NULL, 0);
-		else if (chdir(curr) < 0)
-			curr = getcwd(NULL, 0);
-		msh_env_push(msh, "PWD", curr, ENV_ALLOC_VALUE | ENV_EXPORTED);
+		if (!curr || chdir(curr) < 0)
+			curr = NULL;
+		msh_set_cwd(msh, curr);
 	}
 	else if (home && msh->interactive && msh->flags.login
 		&& msh_same_file(home, ".", NULL, NULL))
 	{
-		if (chdir(home) < 0)
-			home = getcwd(NULL, 0);
-		msh_env_push(msh, "PWD", ft_strdup(home), ENV_ALLOC_VALUE
-			| ENV_EXPORTED);
+		home = ft_strdup(home);
+		if (!home || chdir(home) < 0)
+			home = NULL;
+		msh_set_cwd(msh, home);
 	}
 	else
-		msh_env_push(msh, "PWD", getcwd(NULL, 0), ENV_ALLOC_VALUE
-			| ENV_EXPORTED);
+		msh_set_cwd(msh, NULL);
 }
 
 void	msh_env_setup_pwd(t_minishell *msh)
