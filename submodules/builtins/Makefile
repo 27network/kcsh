@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/09 18:13:37 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/15 19:30:14 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,10 @@ SRC			=	42sh/jobs/bg.c \
 				core/msh_builtin_registry.c \
 				core/msh_builtin_registry_sort.c \
 				bash/help.c \
+				minishell/cd/msh_cd_absolute.c \
+				minishell/cd/msh_cd_home.c \
+				minishell/cd/msh_cd_oldpwd.c \
+				minishell/cd/msh_cd_relative.c \
 				minishell/export/msh_export_print.c \
 				minishell/export/msh_export_assign.c \
 				minishell/cd.c \
