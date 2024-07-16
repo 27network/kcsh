@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:11:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 21:05:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:08:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static void	msh_ast_token_print0(t_ast_token *token)
 			(t_list_foreach_fn *) msh_ast_token_print_list);
 		printf(")");
 	}
-	else if (token->type == TKN_WORD)
+	else if (token->type == TKN_WORD || (token->type == TKN_SUBST
+			&& (token->kind == SUBST_VAR || token->kind == SUBST_VAR_RICH)))
 	{
 		if (!token->value.string || !*token->value.string)
 			printf("[empty]");

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:49:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 20:06:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:16:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	msh_shift(t_minishell *msh, int by)
 	const char		*argv0;
 
 	args = &msh->execution_context.shell_args;
-	if (!args)
+	if (!args->argv || !args->argc)
 	{
 		msh_error(msh, "shift: msh->execution_context.shell_args is NULL\n");
 		return (1);
@@ -80,6 +80,6 @@ void	register_shift(void)
 		.usage = SHIFT_USAGE,
 		.help = SHIFT_HELP,
 		.func = msh_builtin_shift,
-		.flags = !FEAT_BUILTIN_SHIFT << 2,
+		.flags = BUILTIN_DISABLED,
 	});
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:41:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 19:18:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:15:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	msh_run_file(
 	int		ret;
 
 	ret = 0;
-	msh->execution_context.shell_args.argc = argc;
-	msh->execution_context.shell_args.argv = argv;
+	msh->execution_context.shell_args.argc = argc - 1;
+	msh->execution_context.shell_args.argv = argv + 1;
 	resolved = NULL;
 	fd = msh_resolve_fd(msh, file, &resolved);
 	if (fd < 0)

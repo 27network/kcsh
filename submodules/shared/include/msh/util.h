@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 15:52:49 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:52:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@
 #  include <stdio.h>
 #  include <sys/stat.h>
 #  include <sys/types.h>
+
+/**
+ * @brief Gets the string representation of the given boolean value.
+ *
+ * @param value The boolean value.
+ *
+ * @return "true" if the value is `true`, "false" otherwise.
+ */
+const char		*msh_strbool(bool value);
 
 /**
  * @brief Resolve the path of a file or script

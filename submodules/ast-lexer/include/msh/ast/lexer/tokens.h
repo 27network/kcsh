@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/23 04:00:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:20:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum e_ast_tkn_type
 	TKN_COMMENT,		// #*
 	TKN_STRING,			// collection of words or substituables
 	TKN_WORD,			// single word
-	TKN_SUBSTI,			// $var, ${var}, $(...), `...`, $((...))
+	TKN_SUBST,			// $var, ${var}, $(...), `...`, $((...))
 	TKN_EOF,			// end of file
 }	t_ast_token_type;
 

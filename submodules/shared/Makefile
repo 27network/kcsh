@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/11 17:08:24 by ebouchet         ###   ########.fr        #
+#    Updated: 2024/07/16 12:52:38 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ SRC			=	env/default/msh_env_default_pwd.c \
 				util/string/msh_contains_shell_metas.c \
 				util/string/msh_expand_tilde.c \
 				util/string/msh_quote.c \
+				util/string/msh_strbool.c \
 				util/string/msh_strcoll.c \
 				util/msh_is_interactive.c \
 				util/msh_resolve_path.c \

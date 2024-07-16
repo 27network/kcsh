@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/23 03:50:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:17:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 	DBG(state, "(%d) lookup at '%s'\n", state->id, input);
 	if (*input != '\n' && ft_strchr(SEP_CHARS, *input))
 		return (msh_ast_token_sep(state, token, inc));
-	// else if (msh_ast_is_substituable(state))
-	// 	return (msh_ast_token_substitution(state, token, inc));
-	else if (*input == '\'')
-		return (msh_ast_token_single_quote(state, token, inc));
+	else if (msh_ast_is_substituable(state))
+		return (msh_ast_token_substitution(state, token, inc));
 	//TODO: every token inside string
 	if (state->delim == '\"')
 		return (msh_ast_token_word(state, token, inc));
+	else if (*input == '\'')
+		return (msh_ast_token_single_quote(state, token, inc));
 	else if (*input == '"')
 		return (msh_ast_token_string(state, token, inc));
 	else if (FEAT_SCRIPTING && *input == '#' && (state->cursor == 0

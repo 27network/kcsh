@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:02:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 15:02:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:27:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #include <ft/print.h>
 #include <shakespeare.h>
 #include <unistd.h>
-
-static void	shk_buffer_endline(t_shakespeare_data *shk)
-{
-	shk->buffer[shk->buffer_size++] = '\n';
-}
 
 static bool	shk_handle_insertion(t_shakespeare_data *shk)
 {
@@ -62,8 +57,6 @@ bool	shk_buffer_append(t_shakespeare_data *shk, char c)
 	char	insert_str[5];
 	bool	insert;
 
-	if (c == '\r')
-		shk_buffer_endline(shk);
 	if (c == '\0' || c == '\r')
 		return (false);
 	insert = shk_handle_insertion(shk);

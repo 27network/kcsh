@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:53:13 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:19:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:20:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ const char	*msh_ast_strtoken(t_ast_token_type type)
 	[TKN_SEP] = "separator", [TKN_SPACE] = "space", [TKN_KEYWORD] = "keyword",
 	[TKN_PIPE] = "pipe", [TKN_DELIM] = "delimiter", [TKN_REDIR] = "redirection",
 	[TKN_SEMISEMI] = "dsemi", [TKN_GROUP] = "group", [TKN_COMMENT] = "comment",
-	[TKN_STRING] = "string", [TKN_WORD] = "word", [TKN_SUBSTI] = "substitution",
+	[TKN_STRING] = "string", [TKN_WORD] = "word", [TKN_SUBST] = "substitution",
 	[TKN_EOF] = "eof"
 	};
 
