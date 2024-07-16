@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:40:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:31:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:52:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ bool	msh_ast_is_substituable_var(const char *input)
 	return (ret);
 }
 
+#define TODO42SH false
+
 static bool	msh_ast_is_substituable_dollar(t_ast_lexer *state, const char *line)
 {
 	const char	first = line[0];
@@ -49,15 +51,15 @@ static bool	msh_ast_is_substituable_dollar(t_ast_lexer *state, const char *line)
 	if (first != '$')
 		return (false);
 	if (second == '{' && FEAT_PARSER_PARAM_EXPANSION)
-		return (false); //TODO(42sh)
+		return (TODO42SH);
 	if (second == '(' && third == '(' && FEAT_PARSER_ARITHMETIC)
-		return (false); //TODO(42sh)
+		return (TODO42SH);
 	if (second == '(' && FEAT_PARSER_CONTROL_SUBST)
-		return (false); //TODO(42sh)
+		return (TODO42SH);
 	if (second == '\'' && FEAT_PARSER_ANSI_QUOTING)
-		return (false); //TODO(42sh)
+		return (TODO42SH);
 	if (second == '\"' && FEAT_PARSER_LOCALIZE_QUOTING)
-		return (false); //TODO(42sh)
+		return (TODO42SH);
 	if (msh_env_is_special_name_starter(second))
 		return (true);
 	return (msh_ast_is_substituable_var(line + 1));

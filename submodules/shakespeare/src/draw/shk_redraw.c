@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 04:33:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 17:49:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:53:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void	shk_redraw_words(t_shakespeare_data *shk)
 
 static void	shk_update_cursor_base(t_shakespeare_data *shk)
 {
-	// const int	cursor_pos = shk->draw.cursor_pos;
 	size_t		height;
 
 	height = shk_buffer_height(shk);

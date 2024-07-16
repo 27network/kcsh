@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 11:33:46 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:53:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,7 @@ static void	msh_echo_write(t_minishell *msh, char *arg, int do_v9)
 	char	*tmp;
 	size_t	len;
 
-	if (!ft_strcmp(arg, "$?")) //TODO: REMOVE
-		ft_printf("%d", msh->execution_context.exit_code);
-	else if (do_v9)
+	if (do_v9)
 	{
 		tmp = msh_ansicstr(arg, &len);
 		if (!tmp)
