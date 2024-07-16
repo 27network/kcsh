@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/10 14:54:20 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:42:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static void	msh_dump_tokens(t_minishell *msh, t_list *tokens)
 
 static void	msh_handle_ast(t_minishell *msh, t_input_result input)
 {
-	t_list		*tokens;
-	char		*prompt;
-	char		*line;
+	t_list	*tokens;
+	char	*prompt;
+	char	*line;
 
 	line = ft_strdup(input.buffer);
 	if (!line)
@@ -119,7 +119,7 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		return ;
 	msh_handle_history(input, false);
 	msh_handle_ast(msh, input);
-	if (!msh->forked)
+	if (!msh->forked && !msh->flags.debug_tokenizer)
 		msh_debug_exec(msh, input.buffer);
 	ft_strdel((char **) &input.buffer);
 }

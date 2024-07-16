@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:40:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 14:59:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:31:37 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 #include <msh/util.h>
 #include <stdlib.h>
 
-static bool	msh_ast_is_substituable_var(const char *input)
+bool	msh_ast_is_substituable_var(const char *input);
+
+//TODO: Move this out to a var/ subfolder
+bool	msh_ast_is_substituable_var(const char *input)
 {
 	char	*until_sep;
 	size_t	length;
