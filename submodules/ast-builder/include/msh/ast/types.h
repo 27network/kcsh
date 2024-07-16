@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sanitizer.h                                        :+:      :+:    :+:   */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 13:18:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 17:54:01 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/16 16:02:28 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/16 16:03:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SANITIZER_H
-# define SANITIZER_H
-# undef SANITIZER_H
-# ifndef __MSH_AST_SANITIZER_H__
-#  define __MSH_AST_SANITIZER_H__
+#ifndef TYPES_H
+# define TYPES_H
+# undef TYPES_H
+# ifndef __MSH_AST_TYPES_H__
+#  define __MSH_AST_TYPES_H__
 
-#  include <ft/data/list.h>
-#  include <msh/ast/error.h>
+#  include <msh/ast/types.h>
 
-typedef t_ast_error	t_ast_sanitizer_fn(t_list **tokens);
+typedef struct s_ast_node
+{
+	t_ast_node	*parent;
+	t_ast_node	*left;
+	t_ast_node	*right;
+	t_ast_token	*token;
+}	t_ast_node;
 
-t_ast_error	msh_ast_sanitize(t_list **tokens);
-
-# endif // __MSH_AST_SANITIZER_H__
-#endif // SANITIZER_H
+# endif // __MSH_AST_TYPES_H__
+#endif // TYPES_H

@@ -6,10 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/21 13:17:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:00:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * TODO: rework ast builder
- */
+#include <msh/ast/builder.h>
+
+t_ast_error	msh_ast_build(t_list *tokens, t_ast_node **result)
+{
+}
