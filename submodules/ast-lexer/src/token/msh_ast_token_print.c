@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:11:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:48:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 23:52:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	msh_ast_token_print_list(t_ast_token *token)
 	printf(" ");
 }
 
-static const char	*msh_ast_strkeyword(t_ast_keyword_type type)
+const char	*msh_ast_strkeyword(t_ast_keyword_type type)
 {
 	static const char	*keyword_map[] = {
 	[KW_IF] = "if", [KW_THEN] = "then", [KW_ELSE] = "else", [KW_ELIF] = "elif",
@@ -41,7 +41,7 @@ static const char	*msh_ast_strkeyword(t_ast_keyword_type type)
 	return (keyword_map[type]);
 }
 
-static const char	*msh_ast_strdelim(t_ast_delim_type type)
+const char	*msh_ast_strdelim(t_ast_delim_type type)
 {
 	static const char	*delim_map[] = {
 	[DELIM_SEMICOLON] = ";", [DELIM_AND] = "&&", [DELIM_OR] = "||",

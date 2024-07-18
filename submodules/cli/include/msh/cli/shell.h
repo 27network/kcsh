@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:19:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 00:37:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:10:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input);
 
 char	*msh_shell_prompt_parse(t_minishell *msh);
 
-t_list	*msh_ast_lex(t_minishell *msh, t_input_result input, char *prompt);
+bool	msh_ast_lex(t_minishell *msh, t_input_result input, char *prompt,
+			t_list **result);
 
 # endif // __MSH_SHELL_H__
 #endif // SHELL_H

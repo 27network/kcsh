@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:38:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 22:47:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 03:01:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	msh_geteuid_exec(t_minishell *msh, char **args, int fds[2],
 	pid_t	pid;
 	int		status;
 
+	ft_bzero(result, 1024);
 	pid = msh_fork(msh);
 	if (pid == -1)
 		return (0);
@@ -52,15 +53,17 @@ int	msh_uid(t_minishell *msh, bool real)
 	char	result[1024];
 	char	*flags;
 
-	if (pipe(fds) == -1)
-		return (-1);
 	flags = "-u";
 	if (real)
 		flags = "-ru";
 	path = msh_resolve_path(msh, "id");
 	if (!path)
 		return (-1);
-	ft_bzero(result, 1024);
+	if (pipe(fds) == -1)
+	{
+		free(path);
+		return (-1);
+	}
 	if (path && !msh_geteuid_exec(msh, (char *[]){path, flags, NULL},
 		fds, result))
 		ft_strcpy(result, "-1");

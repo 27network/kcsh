@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:44:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 21:29:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:40:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
 #include <ft/print.h>
 #include <msh/ast/lexer.h>
+#include <msh/ast/sanitizer.h>
 #include <msh/cli/history.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
@@ -48,30 +49,43 @@ static t_ast_error	msh_reinput(t_minishell *msh, t_ast_lexer *lexer,
 	return (msh_ast_ok());
 }
 
+// Just free it when forked since we don't want the double output
 void	msh_ast_error_free(t_ast_error error);
 
-static t_list	*msh_lex_handle_errors(t_ast_lexer *state, t_input_result input,
-					t_ast_error err)
+// We have lines available, let's make the most of it ;)
+void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
+
+static bool	msh_lex_handle_errors(t_ast_lexer *state, t_input_result input,
+					t_ast_error err, t_list **result)
 {
+	ft_strdel((char **) &state->input);
+	*result = NULL;
 	if (state->msh->forked)
 	{
 		ft_lst_free(&state->tokens, (t_lst_dealloc) msh_ast_token_free);
-		ft_strdel((char **) &state->input);
 		msh_ast_error_free(err);
-		return (NULL);
+		return (false);
 	}
 	if (err.type != AST_ERROR_NONE)
 	{
 		msh_ast_error_print(state->msh, err);
 		if (input.type == INPUT_EOF)
 			msh_error(state->msh, "syntax error: unexpected end of file\n");
+		return (false);
 	}
-	ft_strdel((char **) &state->input);
-	return (state->tokens);
+	msh_dump_tokens(state->msh, state->tokens);
+	err = msh_ast_sanitize(&state->tokens);
+	if (err.type == AST_ERROR_NONE)
+		*result = state->tokens;
+	else
+		msh_ast_error_print(state->msh, err);
+	if (err.type != AST_ERROR_NONE)
+		ft_lst_free(&state->tokens, (t_lst_dealloc) msh_ast_token_free);
+	return (err.type == AST_ERROR_NONE);
 }
 
-t_list	*msh_ast_lex(t_minishell *msh, t_input_result input,
-				char *prompt)
+bool	msh_ast_lex(t_minishell *msh, t_input_result input,
+				char *prompt, t_list **result)
 {
 	t_ast_lexer	lexer;
 	t_ast_error	err;
@@ -90,5 +104,5 @@ t_list	*msh_ast_lex(t_minishell *msh, t_input_result input,
 		if (err.type != AST_ERROR_NONE || msh->forked)
 			break ;
 	}
-	return (msh_lex_handle_errors(&lexer, input, err));
+	return (msh_lex_handle_errors(&lexer, input, err, result));
 }

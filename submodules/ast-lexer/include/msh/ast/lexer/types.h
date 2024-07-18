@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 21:53:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/23 03:34:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:11:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_ast_error	msh_ast_token_comment(t_ast_lexer *state, t_ast_token **tknret,
 t_ast_error	msh_ast_token_delim(t_ast_lexer *state, t_ast_token **tknret,
 				size_t *inc);
 t_ast_error	msh_ast_token_keyword(t_ast_lexer *state, t_ast_token **token,
+				size_t *inc);
+t_ast_error	msh_ast_token_group(t_ast_lexer *state, t_ast_token **token,
 				size_t *inc);
 t_ast_error	msh_ast_token_sep(t_ast_lexer *state, t_ast_token **tknret,
 				size_t *inc);

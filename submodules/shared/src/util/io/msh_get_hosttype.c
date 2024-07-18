@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 02:17:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 22:47:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 03:02:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,11 +192,14 @@ char	*msh_gethosttype(t_minishell *msh)
 	int		fds[2];
 	char	result[1024];
 
-	if (pipe(fds) == -1)
-		return (ft_strdup(DEFAULT_ARCH));
 	path = msh_resolve_path(msh, "uname");
 	if (!path)
 		return (ft_strdup(DEFAULT_ARCH));
+	if (pipe(fds) == -1)
+	{
+		free(path);
+		return (ft_strdup(DEFAULT_ARCH));
+	}
 	ft_bzero(result, 1024);
 	if (path && !msh_get_hosttype_exec(msh, (char *[]){path, "-m", NULL},
 		fds, result))

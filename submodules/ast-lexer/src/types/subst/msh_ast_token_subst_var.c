@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:53:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:09:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:01:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_ast_error	msh_ast_token_subst_var(t_ast_lexer *state, t_ast_token **tknret,
 	size_t		len;
 
 	if (!input || *input != '$')
-		return (msh_ast_errd(AST_ERROR_SYNTAX, "unexpected substitution",
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED, "unexpected substitution",
 				false));
 	value = msh_find_variable(input + 1, &len);
 	if (!value)

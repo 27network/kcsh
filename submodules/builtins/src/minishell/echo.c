@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:53:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:46:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,11 @@ static int	msh_echo_handle_opts(
 	return (i);
 }
 
-static void	msh_echo_write(t_minishell *msh, char *arg, int do_v9)
-{
+static void	msh_echo_write(
+	__attribute__((unused)) t_minishell *msh,
+	char *arg,
+	int do_v9
+) {
 	char	*tmp;
 	size_t	len;
 

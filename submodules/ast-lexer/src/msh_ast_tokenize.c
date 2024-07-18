@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:51:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:38:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <ft/string.h>
 #include <msh/ast/lexer.h>
 #include <msh/features.h>
+#include <msh/util.h>
 #include <stdlib.h>
 
 #define DBG msh_ast_lexer_debug
@@ -59,6 +60,9 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 		return (msh_ast_token_substitution(state, token, inc));
 	if (state->delim == '\"')
 		return (msh_ast_token_word(state, token, inc));
+	else if ((*input == '(' && FEAT_TOK_PARAN) || (*input == '{'
+			&& FEAT_TOK_GROUP))
+		return (msh_ast_token_group(state, token, inc));
 	else if (*input == '\'')
 		return (msh_ast_token_single_quote(state, token, inc));
 	else if (*input == '"')
@@ -69,13 +73,20 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 	return (msh_ast_next_global_token(state, token, inc, input));
 }
 
+#define ERROR_MSG_STR "[ERROR] %s (%s), recoverable: %s\n"
+#define ERROR_MSG_CHR "[ERROR] %s (%c), recoverable: %s\n"
+
 static t_ast_error	msh_ast_lexer_errors(t_ast_lexer *state, t_ast_error err)
 {
 	const size_t	len = ft_strlen(state->input);
+	const char		*fmt = ERROR_MSG_STR;
 
 	if (err.type != AST_ERROR_NONE)
 	{
-		DBG(state, "[ERROR] %s (%s)\n", msh_ast_strerror(err.type), err.data);
+		if (err.type == AST_ERROR_UNEXPECTED_EOF)
+			fmt = ERROR_MSG_CHR;
+		DBG(state, fmt, msh_ast_strerror(err.type), err.data,
+			msh_strbool(err.retry));
 		return (err);
 	}
 	if (state->cursor > len)
@@ -86,8 +97,8 @@ static t_ast_error	msh_ast_lexer_errors(t_ast_lexer *state, t_ast_error err)
 	if (state->delim != 0 && state->input[state->cursor] != state->delim)
 	{
 		DBG(state, "Delimiter '%c' not found, reprompting...\n", state->delim);
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED,
-				ft_format(UNEXPECTED_EOF, state->delim), true));
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED_EOF,
+				(void *)(unsigned long long) state->delim, true));
 	}
 	DBG(state, "Done matching, cursor: %d\n", (int) state->cursor);
 	return (msh_ast_ok());

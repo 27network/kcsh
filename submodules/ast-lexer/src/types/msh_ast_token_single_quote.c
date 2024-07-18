@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 05:35:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/02 01:53:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:36:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static t_ast_error	msh_provide_single_quote(t_ast_lexer *state,
 	if (next == NULL)
 		TRACE(state, TKN_ACTUAL, 2);
 	if (next == NULL)
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED, ft_strdup(UNEXPECTED_EOF),
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED, UNEXPECTED_EOF,
 				true));
 	*size = next - (state->input + state->cursor) + 1;
-	value = ft_strndup(state->input + state->cursor, *size);
+	value = ft_strndup(state->input + state->cursor + 1, *size - 2);
 	if (!value)
 		TRACE(state, TKN_ACTUAL, 2);
 	if (!value)

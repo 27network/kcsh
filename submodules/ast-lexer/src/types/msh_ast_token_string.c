@@ -6,12 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:45:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 19:40:09 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:15:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/lexer.h>
-#include <stdlib.h>
 
 /**
  * @brief Tokenizes a string (double quoted) via a local sublexer
@@ -21,7 +20,7 @@
  * If the sublexer succeeds, create a new token with the string type
  * and with a token list as a value.
  *
- * TODO: The sublexer should only be able to tokenize a few types that can
+ * NOTE: The sublexer should only be able to tokenize a few types that can
  * actually be found in a string, such as words, separators, substitutions
  */
 t_ast_error	msh_ast_token_string(t_ast_lexer *state, t_ast_token **token,
@@ -40,7 +39,8 @@ t_ast_error	msh_ast_token_string(t_ast_lexer *state, t_ast_token **token,
 	if (err.type != AST_ERROR_NONE)
 	{
 		if (local.tokens)
-			ft_lst_free(&local.tokens, &free);
+			ft_lst_free(&local.tokens,
+				(t_lst_dealloc) msh_ast_token_free);
 		return (err);
 	}
 	string_tkn->value.list = local.tokens;

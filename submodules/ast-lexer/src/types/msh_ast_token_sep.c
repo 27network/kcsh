@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 01:25:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 20:18:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:35:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 #define TKN_ACTUAL TKN_SEP
 #define SEP_CHARS_ACTUAL " \t"
 #define SEPARATOR_ALLOC_FAIL ": failed to allocate memory for separator token"
+
+static int	msh_token_type(t_ast_lexer *state)
+{
+	if (state->delim == '\'' || state->delim == '"')
+		return (TKN_WORD);
+	return (TKN_SEP);
+}
 
 static size_t	msh_find_sep_string(const char *input)
 {
@@ -44,7 +51,7 @@ t_ast_error	msh_ast_token_sep(t_ast_lexer *state, t_ast_token **token,
 		TRACE(state, TKN_ACTUAL, 2);
 		return (msh_ast_errd(AST_ERROR_ALLOC, SEPARATOR_ALLOC_FAIL, false));
 	}
-	err = msh_ast_token_new(TKN_SEP, &tok);
+	err = msh_ast_token_new(msh_token_type(state), &tok);
 	if (err.type != AST_ERROR_NONE)
 	{
 		TRACE(state, TKN_ACTUAL, 2);

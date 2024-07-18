@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:18:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 17:54:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 23:45:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #  define __MSH_AST_SANITIZER_H__
 
 #  include <ft/data/list.h>
-#  include <msh/ast/error.h>
+#  include <msh/ast/lexer.h>
 
 typedef t_ast_error	t_ast_sanitizer_fn(t_list **tokens);
 

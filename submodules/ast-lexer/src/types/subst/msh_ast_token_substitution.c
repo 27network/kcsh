@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 03:44:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 14:23:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:01:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_ast_error	msh_ast_token_substitution(t_ast_lexer *state, t_ast_token **tokret,
 	t_ast_error	err;
 
 	if (!input || !*input)
-		return (msh_ast_errd(AST_ERROR_SYNTAX, "unexpected substitution",
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED, "unexpected substitution",
 				false));
 	TRACE(state, TKN_ACTUAL, 1);
 	err = msh_ast_token_substitution_underlying(input, state, tokret, inc);

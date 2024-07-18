@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 00:05:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:53:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static void	msh_message_handler(t_minishell *msh, t_log_type type,
 		ft_putnbr_fd(msh->execution_context.line, target_fd);
 		ft_putstr_fd(": ", target_fd);
 	}
-	ft_putstr_fd(msg, target_fd);
+	if (msg)
+		ft_putstr_fd(msg, target_fd);
 }
 
 void	msh_vlog(t_minishell *msh, t_log_type type, const char *format,
@@ -85,9 +86,8 @@ void	msh_vlog(t_minishell *msh, t_log_type type, const char *format,
 	if (!msh_should_print_type(msh, type))
 		return ;
 	msg = NULL;
-	ft_vasprintf(&msg, format, args);
-	if (!msg)
-		return ;
+	if (format && *format)
+		ft_vasprintf(&msg, format, args);
 	msh_message_handler(msh, type, msg);
 	free(msg);
 }

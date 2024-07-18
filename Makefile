@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/15 19:53:44 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/18 00:09:49 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ MAKE				:=	make --no-print-directory --debug=none
 
 CACHE_DIR_NAME		:=	.cache
 CACHE_DIR			:=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
+
+COMP_MODE			?=	MANDATORY_MSH
 
 LAST_COMP			:=	$(CONFIG_DIR)/.last_comp
 _LAST_COMP_DATA		:=	$(shell cat $(LAST_COMP) 2>/dev/null)

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 01:55:52 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/23 02:08:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:34:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #  ifndef __MSH_TESTS_H__
 #   define __MSH_TESTS_H__
 
+#   include <msh/features.h>
 #   include <stdbool.h>
 
 void	assert(bool condition,

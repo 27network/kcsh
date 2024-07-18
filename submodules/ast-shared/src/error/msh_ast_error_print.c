@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 21:28:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:45:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,43 @@
 #include <msh/log.h>
 #include <unistd.h>
 
+static char	msh_reverse_match(const char c)
+{
+	if (c == ')')
+		return ('(');
+	if (c == '}')
+		return ('{');
+	if (c == ']')
+		return ('[');
+	return (c);
+}
+
 void	msh_ast_error_free(t_ast_error error)
 {
 	if (!error.data)
 		return ;
-	if (error.type == AST_ERROR_UNEXPECTED)
+	if (error.type == AST_ERROR_SYNTAX)
 		free(error.data);
 }
 
 static void	msh_ast_error_data(
 	__attribute__((unused)) t_minishell *msh,
+	const char *type_message,
 	t_ast_error	error
 ) {
-	ft_putstr_fd(error.data, STDERR_FILENO);
+	char	c;
+
+	if (error.type != AST_ERROR_UNEXPECTED)
+		ft_putstr_fd(type_message, STDERR_FILENO);
+	if (error.type == AST_ERROR_UNEXPECTED_EOF)
+	{
+		c = (char)(unsigned long long) error.data;
+		ft_putstr_fd(" while looking for matching `", STDERR_FILENO);
+		ft_putchar_fd(msh_reverse_match(c), STDERR_FILENO);
+		ft_putchar_fd('\'', STDERR_FILENO);
+	}
+	else
+		ft_putstr_fd(error.data, STDERR_FILENO);
 	msh_ast_error_free(error);
 }
 
@@ -39,12 +63,9 @@ void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 	if (error.type == AST_ERROR_NONE || error.type == AST_ERROR_CANCEL
 		|| error.type == AST_ERROR_WARNING)
 		return ;
-	ft_putstr_fd(msh->name, STDERR_FILENO);
-	if (msh->forked)
-		ft_putstr_fd(" (forked)", STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
+	msh_error(msh, "");
 	if (error.data)
-		msh_ast_error_data(msh, error);
+		msh_ast_error_data(msh, type_message, error);
 	else
 		ft_putstr_fd(type_message, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);

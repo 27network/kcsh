@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:43:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 20:29:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:48:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ t_ast_error	msh_ast_token_comment(t_ast_lexer *state, t_ast_token **token,
 
 	TRACE(state, TKN_ACTUAL, 1);
 	len = ft_strcspn(state->input + state->cursor, "\n");
-	err = msh_ast_token_new(TKN_COMMENT, &tok);
+	err = msh_ast_token_new(TKN_WORD, &tok);
 	if (err.type != AST_ERROR_NONE)
 	{
 		TRACE(state, TKN_ACTUAL, 2);
 		return (err);
 	}
-	tok->value.string = ft_strndup(state->input + state->cursor, len);
+	tok->value.string = ft_strdup("");
 	if (!tok->value.string)
 	{
 		free(tok);

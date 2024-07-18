@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/03 01:37:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:35:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/math.h>
 #include <ft/string.h>
 #include <msh/ast/lexer.h>
+#include <msh/features.h>
 #include <stdlib.h>
 
 #define TKN_ACTUAL TKN_WORD
@@ -115,6 +116,8 @@ static bool	msh_should_escape(t_ast_lexer *state)
 	return (ft_strchr(ALLOWED_STRING_ESCAPES, state->input[state->cursor + 1]));
 }
 
+#include <stdio.h>
+
 t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 				size_t *inc)
 {
@@ -123,7 +126,7 @@ t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 	char		*value;
 
 	TRACE(state, TKN_ACTUAL, 1);
-	if (msh_should_escape(state))
+	if (FEAT_PARSER_INHIBITORS && msh_should_escape(state))
 		return (msh_escaped_word(state, tokret, inc));
 	size = ft_strcspn(state->input + state->cursor, DELIM_CHARS);
 	if (size == 0 && state->input[state->cursor + 1] != '\0')

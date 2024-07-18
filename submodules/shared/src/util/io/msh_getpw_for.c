@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:49:47 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 22:41:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 03:03:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,14 @@ static bool	msh_getent_passwd(t_minishell *msh, struct passwd *pwd,
 	int		fds[2];
 	bool	ret;
 
-	if (pipe(fds) == -1)
-		return (false);
 	path = msh_resolve_path(msh, "getent");
 	if (!path)
 		return (false);
+	if (pipe(fds) == -1)
+	{
+		free(path);
+		return (false);
+	}
 	if (!msh_getent_passwd_exec(msh, (char *[]){path, "passwd", NULL},
 		fds, name))
 	{
