@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 01:38:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:24:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ t_ast_error	msh_ast_tokenize(t_ast_lexer *state)
 		if (err.type != AST_ERROR_NONE)
 			break ;
 		DBG(state, "(%d) Got: ", state->id);
-		if (state->msh->flags.debug_tokenizer)
+		if (token && state->msh->flags.debug_tokenizer)
 			msh_ast_token_print(state->msh, token);
 		if (token && !ft_lst_tadd(&state->tokens, token))
 			err = msh_ast_errd(AST_ERROR_ALLOC, TOKEN_NODE_ALLOC_ERR, false);

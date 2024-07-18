@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 14:05:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:30:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	msh_setup_regular(t_minishell *msh, bool close_stdin)
 void	msh_signal_init(t_minishell *msh, bool close_stdin)
 {
 	msh_signal_setdfl();
-	if (msh->term.c_lflag & ECHOCTL && msh->interactive
+	if (msh->interactive && msh->term.c_lflag & ECHOCTL
 		&& (FEAT_NO_READLINE || !rl_catch_signals))
 		msh_setup_echoctl(msh, close_stdin);
 	else

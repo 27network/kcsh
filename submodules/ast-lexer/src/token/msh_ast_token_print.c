@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:11:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/17 23:52:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:24:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ const char	*msh_ast_strdelim(t_ast_delim_type type)
 
 static void	msh_ast_token_print0(t_ast_token *token)
 {
-	const char	*type = msh_ast_strtoken(token->type);
+	const char	*type;
 
+	if (!token)
+		return ;
+	type = msh_ast_strtoken(token->type);
 	printf("%s", type);
 	if (token->type == TKN_KEYWORD)
 		printf("[%s]", msh_ast_strkeyword(token->kind));

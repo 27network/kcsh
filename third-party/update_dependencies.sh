@@ -1,6 +1,7 @@
-#!../42sh_bonus
+#!../42sh_bonus --debug-tokens
 
-pushd libft
+cd libft
+pwd
 git pull origin main
 echo Updated libft!
-popd
+cd ..

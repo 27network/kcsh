@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 14:20:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:08:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum e_ast_tkn_type
 	TKN_REDIR,			// >, >>, <, <<, ...
 	TKN_SEMISEMI,		// ;; (end of switch case)
 	TKN_GROUP,			// {, }, (, ) -- a collection of tokens
-	TKN_COMMENT,		// #*
+	TKN_COMMENT,		// #* -- this is not outputted by the tokenizer
 	TKN_STRING,			// collection of words or substituables
 	TKN_WORD,			// single word
 	TKN_SUBST,			// $var, ${var}, $(...), `...`, $((...))

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:38:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:36:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ static void	msh_update_env(t_minishell *msh, bool update_lineno)
 	size_t	lines;
 	size_t	cols;
 
-	lines = 80;
-	cols = 80;
 	g_signal = -1;
-	msh_term_size(msh, &lines, &cols);
 	if (update_lineno)
 		msh_env_push(msh, "LINENO", ft_itoa(msh->execution_context.line),
 			ENV_ALLOC_VALUE | ENV_INVISIBLE | ENV_INTEGER);
+	if (!msh->interactive)
+		return ;
+	lines = 80;
+	cols = 80;
+	msh_term_size(msh, &lines, &cols);
 	msh_env_push(msh, "COLUMNS", ft_itoa(cols), ENV_ALLOC_VALUE | ENV_INTEGER);
 	msh_env_push(msh, "LINES", ft_itoa(lines), ENV_ALLOC_VALUE | ENV_INTEGER);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 08:32:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:29:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	msh_init(
 	msh->name = argv[0];
 	msh->interactive = msh_is_interactive();
 	msh->forked = false;
-	if (!msh_fetch_term(msh))
+	if (msh->interactive && !msh_fetch_term(msh))
 	{
 		msh_error(msh, "failed to fetch termios\n");
 		msh_exit(msh, -1);
