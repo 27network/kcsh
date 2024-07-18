@@ -13,6 +13,10 @@ FEAT_BONUS_MSH=( \
 	"TOK_OR" 1 \
 	"TOK_AND" 1 \
 	"TOK_PARAN" 1 \
+
+	# Should be in modular42sh, but the current shakespeare implementation doesn't support history yet
+#   # so i'll put it here to impress the crowd
+	"HISTORY_FILE" 1 \
 )
 
 FEAT_MANDATORY_42SH=( \
@@ -54,7 +58,6 @@ FEAT_MANDATORY_42SH=( \
 
 	"HISTORY_MANAGEMENT" 1 \
 	"PARSER_HISTORY_EXPANSION" 1 \
-	"HISTORY_FILE" 1 \
 	"BUILTIN_FC" 1 \
 	"HISTORY_SEARCH" 1 \
 

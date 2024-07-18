@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:32:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 20:09:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:21:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,18 @@ static bool	msh_save_readline(int fd)
 
 	history_ptr = msh_history_raw();
 	if (!history_ptr || !*history_ptr)
-		return ;
+		return (false);
 	error = false;
 	history = *history_ptr;
-	i = -1;
-	while (history[++i])
+	i = 0;
+	while (!error && history[i])
 	{
 		if (history[i]->line && *history[i]->line)
 		{
 			if (ft_dprintf(fd, "%s\n", history[i]->line) <= 0)
-			{
 				error = true;
-				break ;
-			}
 		}
+		i++;
 	}
 	return (error);
 }

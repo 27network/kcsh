@@ -21,3 +21,6 @@ export X
 Tests:
 - `echo <<EOF |||`
 	- error then heredoc. what the fuck.
+
+- `(echo abc && echo xyz) | (echo aaa && rev)`
+- `(echo abc && echo xyz) | (rev && cat)`

@@ -6,11 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:37:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 02:47:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:12:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/sanitizer.h>
+
+t_ast_error	msh_ast_sanitize_standardize(t_list **tokens);
 
 static t_ast_error	msh_ast_sanitize_wrap(t_list *token, t_ast_token *tok)
 {
@@ -45,6 +47,8 @@ static t_ast_error	msh_ast_sanitize_try_standardize(t_list *token)
 	{
 		if (tok->type == to_wrap[i])
 			err = msh_ast_sanitize_wrap(token, tok);
+		else if (tok->type == TKN_GROUP && tok->value.data)
+			err = msh_ast_sanitize_standardize(&tok->value.list);
 		i++;
 	}
 	return (err);

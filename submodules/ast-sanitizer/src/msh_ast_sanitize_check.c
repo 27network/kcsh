@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 02:20:25 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:14:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static const char	*msh_ast_strtoken_preemptive(t_ast_token *token)
 	return (msh_ast_strtoken(token->type));
 }
 
-static const char	*msh_msg(t_ast_token *token)
+const char	*msh_syntax_error(t_ast_token *token)
 {
 	char		*msg;
 	size_t		len;
@@ -78,8 +78,8 @@ static t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
 	while (i < sizeof(no_dupes) / sizeof(no_dupes[0]))
 	{
 		if (token->type == no_dupes[i])
-			return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_msg(token),
-					false));
+			return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_syntax_error(
+						token), false));
 		i++;
 	}
 	return (msh_ast_ok());

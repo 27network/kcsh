@@ -32,6 +32,7 @@
             readline
             bash
           ] ++ (with pkgs; [
+            graphviz
             aflplusplus
             cloc
             valgrind
