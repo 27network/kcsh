@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:02:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 17:52:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:19:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ typedef enum e_ast_node_type
 
 /**
  * @param args A list of TKN_STRING tokens.
+ * @param redirs A list of TKN_REDIR tokens.
  */
 typedef struct s_ast_node_command
 {
 	t_list		*args;
+	t_list		*redirs;
 }	t_ast_node_command;
 
 typedef struct s_ast_node

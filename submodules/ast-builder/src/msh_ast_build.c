@@ -6,10 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 17:52:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 23:08:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
 #include <msh/ast/builder.h>
 
 const char	*msh_syntax_error(t_ast_token *token);
@@ -57,9 +58,6 @@ static t_ast_error	msh_ast_command_node(t_list *tokens, t_ast_node **result)
 	if (!*result)
 		return (msh_ast_errd(AST_ERROR_ALLOC, "msh_ast_command_node", true));
 	(*result)->type = NODE_COMMAND;
-	(*result)->left = NULL;
-	(*result)->right = NULL;
-	(*result)->data = NULL;
 	return (msh_ast_ok());
 }
 
@@ -80,14 +78,12 @@ static t_ast_error	msh_ast_root_node(t_list *tokens, t_list *sep,
 	if (!*result)
 		return (msh_ast_errd(AST_ERROR_ALLOC, "msh_ast_root_node", true));
 	(*result)->type = NODE_DELIM;
-	(*result)->left = NULL;
-	(*result)->right = NULL;
 	err = msh_ast_build(msh_list_cutoff(tokens, sep), &(*result)->left);
-	if (err.code != AST_ERROR_OK)
+	if (err.type != AST_ERROR_NONE)
 		msh_ast_node_free(*result);
 	else
 		err = msh_ast_build(sep->next, &(*result)->right);
-	if (err.code != AST_ERROR_OK)
+	if (err.type != AST_ERROR_NONE)
 		msh_ast_node_free(*result);
 	return (err);
 }
