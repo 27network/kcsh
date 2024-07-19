@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 14:08:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:40:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,17 @@ typedef enum e_ast_tkn_type
 typedef struct e_ast_tkn_redir_data
 {
 	int		left_fd;
-	int		right_fd;
-	bool	close_right_fd;
-	char	*right_file;
-	char	*heredoc_delim;
+
+	union
+	{
+		int		right_fd;
+		char	*right_file;
+	};
+	union
+	{
+		char	*heredoc_delim;
+		char	*herestring;
+	};
 }	t_ast_tkn_redir_data;
 
 typedef union u_ast_tkn_value

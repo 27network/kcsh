@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 13:24:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:33:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 		return (msh_ast_token_single_quote(state, token, inc));
 	else if (*input == '"')
 		return (msh_ast_token_string(state, token, inc));
+	else if (*input == '<' || *input == '>')
+		return (msh_ast_token_redirection(state, token, inc));
 	else if (FEAT_SCRIPTING && *input == '#' && (state->cursor == 0
 			|| ft_strchr(SEP_CHARS, state->input[state->cursor - 1])))
 		return (msh_ast_token_comment(state, token, inc));

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:15:48 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 16:33:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:00:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@
 #  include <msh/minishell.h>
 
 t_ast_error	msh_ast_build(t_list *tokens, t_ast_node **result);
-void		msh_ast_print(t_minishell *msh, t_ast_node *node, int depth);
-const char	*msh_ast_strtype(t_ast_node_type type);
+
+t_ast_error	msh_ast_node_command(t_list *tokens, t_ast_node **result);
+t_ast_error	msh_ast_node_sep(t_list *tokens, t_list *sep, t_ast_node **result);
+
+void		msh_ast_node_free(t_ast_node *node);
+void		msh_ast_node_print(t_minishell *msh, t_ast_node *node, int depth);
+const char	*msh_ast_node_strtype(t_ast_node_type type);
 
 # endif // __MSH_AST_BUILDER_H__
 #endif // BUILDER_H

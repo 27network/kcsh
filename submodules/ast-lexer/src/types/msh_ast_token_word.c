@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 00:35:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:55:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ static bool	msh_should_escape(t_ast_lexer *state)
 		return (true);
 	return (ft_strchr(ALLOWED_STRING_ESCAPES, state->input[state->cursor + 1]));
 }
-
-#include <stdio.h>
 
 t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 				size_t *inc)

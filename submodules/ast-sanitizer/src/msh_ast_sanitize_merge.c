@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 02:37:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:54:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,28 @@ static t_ast_error	msh_ast_sanitize_try_merge_others(
 	return (msh_ast_ok());
 }
 
+static bool	msh_ast_sanitize_try_merge_known(
+	t_list *token,
+	t_ast_token *current,
+	t_ast_token *next,
+	t_ast_token **new
+) {
+	*new = NULL;
+	if (next && current->type == TKN_STRING && (next->type == TKN_WORD
+			|| next->type == TKN_SUBST))
+		*new = msh_ast_merge_strtow(token, current, next);
+	else if (next && current->type == TKN_WORD && next->type == TKN_WORD)
+		*new = msh_ast_merge_wtow(token, current, next);
+	else if (next && (current->type == TKN_WORD || current->type == TKN_SUBST)
+		&& next->type == TKN_STRING)
+		*new = msh_ast_merge_wtostr(token, current, next);
+	else if (next && current->type == TKN_STRING && next->type == TKN_STRING)
+		*new = msh_ast_merge_strtostr(token, current, next);
+	else
+		return (true);
+	return (false);
+}
+
 /**
  * Basically we want to merge two tokens (list nodes) into one.
  *
@@ -55,15 +77,7 @@ static t_ast_error	msh_ast_sanitize_try_merge(t_list *token, bool *work)
 	if (token->next && token->next->content)
 		next = token->next->content;
 	*work = false;
-	if (next && current->type == TKN_STRING && (next->type == TKN_WORD || next->type == TKN_SUBST))
-		new = msh_ast_merge_strtow(token, current, next);
-	else if (next && current->type == TKN_WORD && next->type == TKN_WORD)
-		new = msh_ast_merge_wtow(token, current, next);
-	else if (next && (current->type == TKN_WORD || current->type == TKN_SUBST) && next->type == TKN_STRING)
-		new = msh_ast_merge_wtostr(token, current, next);
-	else if (next && current->type == TKN_STRING && next->type == TKN_STRING)
-		new = msh_ast_merge_strtostr(token, current, next);
-	else
+	if (!msh_ast_sanitize_try_merge_known(token, current, next, &new))
 		return (msh_ast_sanitize_try_merge_others(token, current, next, work));
 	*work = true;
 	if (!new)

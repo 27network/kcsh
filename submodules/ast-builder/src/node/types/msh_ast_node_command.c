@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_strtype.c                                  :+:      :+:    :+:   */
+/*   msh_ast_node_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 16:13:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 16:17:52 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/19 13:31:21 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/19 13:57:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
 #include <msh/ast/builder.h>
 
-const char	*msh_ast_strtype(t_ast_token_type type)
+t_ast_error	msh_ast_node_command(t_list *tokens, t_ast_node **result)
 {
-	static const char	*types[] = {
-	[NODE_COMMAND] = "NODE_COMMAND",
-	[NODE_PIPE] = "NODE_PIPE",
-	[NODE_REDIRECT] = "NODE_REDIRECT",
-	[NODE_DELIM] = "NODE_DELIM",
-	};
-
-	if (type < 0 || type >= sizeof(types) / sizeof(*types))
-		return ("NODE_UNKNOWN");
-	return (types[type]);
+	(void) tokens;
+	*result = NULL;
+	return (msh_ast_ok());
 }

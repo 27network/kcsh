@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:02:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 13:19:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:53:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_ast_node
 	t_ast_node_type		type;
 	union
 	{
-		t_ast_delim_kind	delim;
+		t_ast_delim_type	delim;
 		t_ast_node_command	command;
 	};
 }	t_ast_node;

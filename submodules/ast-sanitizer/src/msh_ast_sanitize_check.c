@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 17:14:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:10:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static t_ast_error	msh_ast_sanitize_check_word_before(
 				break ;
 			if (prev_tkn->type != TKN_WORD && prev_tkn->type != TKN_STRING
 				&& prev_tkn->type != TKN_GROUP && prev_tkn->type != TKN_SEP)
-				return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_msg(
+				return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_syntax_error(
 							(t_ast_token *) prev->content), false));
 		}
 	}
