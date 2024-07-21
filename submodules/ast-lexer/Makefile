@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/19 15:50:09 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/21 18:55:37 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,15 @@ DEPS		=	ast-shared
 
 include ../common-prelude.mk
 
-SRC			=	token/msh_ast_strtoken.c \
+SRC			=	token/print/msh_ast_print_delim.c \
+				token/print/msh_ast_print_group.c \
+				token/print/msh_ast_print_keyword.c \
+				token/print/msh_ast_print_redir.c \
+				token/print/msh_ast_print_string.c \
+				token/msh_ast_strtoken.c \
 				token/msh_ast_token_free.c \
 				token/msh_ast_token_new.c \
 				token/msh_ast_token_print.c \
-				token/msh_ast_token_simple.c \
 				token/msh_ast_token_trace.c \
 				types/subst/msh_ast_is_substituable.c \
 				types/subst/msh_ast_token_subst_var.c \
@@ -28,8 +32,10 @@ SRC			=	token/msh_ast_strtoken.c \
 				types/msh_ast_token_delim.c \
 				types/msh_ast_token_group.c \
 				types/msh_ast_token_keyword.c \
+				types/msh_ast_token_number.c \
 				types/msh_ast_token_redirection.c \
 				types/msh_ast_token_sep.c \
+				types/msh_ast_token_simple.c \
 				types/msh_ast_token_single_quote.c \
 				types/msh_ast_token_string.c \
 				types/msh_ast_token_word.c \

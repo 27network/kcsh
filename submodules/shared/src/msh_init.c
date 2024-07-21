@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 13:29:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:53:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,21 @@ static void	msh_init_flags(t_minishell *msh)
 		posix = msh_env_value(msh, "POSIX_PEDANTIC");
 	if (posix != NULL)
 		msh->flags.posix = true;
+	if (msh->flags.posix)
+		msh_env_push(msh, "POSIXLY_CORRECT", "y", ENV_EXPORTED);
 	if (msh->binary_name[0] == '-')
+	{
+		msh->binary_name++;
 		msh->flags.login = true;
+		if (msh->binary_name[0] == 0)
+			msh->binary_name = MSH_DEFAULT_NAME;
+	}
+	if (!msh->interactive || !ft_strchr(msh->binary_name, '/'))
+		msh->name = msh->binary_name;
+	else
+		msh->name = ft_strrchr(msh->binary_name, '/') + 1;
+	if (!msh->name)
+		msh->name = MSH_DEFAULT_NAME;
 }
 
 void	msh_init(
@@ -47,9 +60,7 @@ void	msh_init(
 ) {
 	ft_bzero(msh, sizeof(t_minishell));
 	msh->binary_name = argv[0];
-	msh->name = argv[0];
-	msh->interactive = msh_is_interactive();
-	msh->forked = false;
+	msh->interactive = msh_is_interactive(msh);
 	if (msh->interactive && !msh_fetch_term(msh))
 	{
 		msh_error(msh, "failed to fetch termios\n");

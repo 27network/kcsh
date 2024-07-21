@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_signal_handler_close_echo.c                    :+:      :+:    :+:   */
+/*   msh_ast_print_string.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 05:13:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 01:23:21 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/21 12:23:40 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/21 12:25:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/signal.h>
+#include <msh/ast/lexer.h>
+#include <stdio.h>
 
-void	msh_signal_echoctl(int signo);
-
-void	msh_signal_handler_close_echo(int signo)
+void	msh_ast_print_string(t_ast_token *token)
 {
-	signal(signo, SIG_IGN);
-	msh_signal_echoctl(signo);
-	msh_signal_handler_close(signo);
+	if (!token)
+		return ;
+	if (!token->value.string)
+		printf("[empty]");
+	else
+		printf("(%s)", token->value.string);
 }

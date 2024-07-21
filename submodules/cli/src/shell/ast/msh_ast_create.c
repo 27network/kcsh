@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_signal_handler_close_echo.c                    :+:      :+:    :+:   */
+/*   msh_ast_create.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 05:13:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 01:23:21 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/21 22:35:02 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/21 23:58:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/signal.h>
+#include <msh/ast/builder.h>
 
-void	msh_signal_echoctl(int signo);
-
-void	msh_signal_handler_close_echo(int signo)
+bool	msh_ast_create(t_minishell *msh, t_list *tokens, t_ast_node **result)
 {
-	signal(signo, SIG_IGN);
-	msh_signal_echoctl(signo);
-	msh_signal_handler_close(signo);
+	t_ast_error	err;
+
+	err = msh_ast_build(tokens, result);
+	if (err.code != AST_ERROR_OK)
+	{
+		msh_ast_err_print(err);
+		*result = NULL;
+		return (false);
+	}
+	return (true);
 }

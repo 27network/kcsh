@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 10:10:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/15 18:37:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 01:22:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,16 @@
 //This is equivalent to [\u@\h \W]\$
 char	*msh_shell_prompt_parse(t_minishell *msh)
 {
+	char	*uid;
 	char	*user;
-	char	*home;
 	char	*cwd;
 	char	*format;
 	char	sep;
 
+	uid = msh_env_value(msh, "UID");
 	user = msh_env_value(msh, "USER");
-	home = msh_env_value(msh, "HOME");
-	if (!user || !home)
-		return (ft_strdup(MSH_DEFAULT_NAME"-"MSH_VERSION"$ "));
 	sep = '$';
-	if (msh_geteuid(msh) == 0)
+	if (uid && !ft_strcmp(uid, "0"))
 		sep = '#';
 	cwd = (char *) msh->execution_context.cwd;
 	if (!cwd)

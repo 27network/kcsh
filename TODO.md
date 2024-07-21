@@ -9,9 +9,12 @@
   - [ ] Prompt picker builtin?
 - [x] Execution structure
 - [x] Tokenizer (part 1), environment manager, `execve`
-- [ ] Tokenizer (part 2): Separate environment variables, 
-- [ ] Lexer & Parser
-- [ ] AST Builder (part 1)
+- [x] Tokenizer (part 2): Separate environment variables, 
+- [x] Lexer & Parser
+- [x] AST Builder (part 1)
+  - [ ] Make a simple separation system where only `TKN_DELIM` & `TKN_PIPE` are used as separators
+    - This will allow for expansion at execution time
+  - [ ] Maybe cleanup `TKN_SEP`???
 - [x] Builtins (part 1), manager, dynamic registration
 - [ ] Pipeline builder
 - [ ] Execution (part 1)

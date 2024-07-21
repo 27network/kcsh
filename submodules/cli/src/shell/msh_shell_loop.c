@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 13:36:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:17:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void	msh_update_execution_context(t_minishell *msh,
 	msh_update_env(msh, false);
 }
 
+void	msh_exit_dialog(t_minishell *msh, const char *program);
+
 void	msh_shell_loop(t_minishell *msh)
 {
 	t_input_result	result;
@@ -81,6 +83,6 @@ void	msh_shell_loop(t_minishell *msh)
 			continue ;
 		msh_shell_handle_input(msh, result);
 		if (result.type == INPUT_EOF && msh->interactive)
-			printf("exit\n");
+			msh_exit_dialog(msh, "exit");
 	}
 }

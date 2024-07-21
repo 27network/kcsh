@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:13:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 23:11:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 01:19:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 void	msh_signal_handler_close(int signo)
 {
+	signal(signo, SIG_IGN);
 	g_signal = signo;
 	if (signo == SIGINT)
 	{

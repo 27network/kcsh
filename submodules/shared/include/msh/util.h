@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 12:52:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:46:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,11 @@ int				msh_fileno(FILE	*stream);
  *		 initialization. You should use the stored value in 
  *		 minishell's instance (msh->interactive).
  *
+ * @param msh The minishell instance.
+ *
  * @return `true` if the shell is running in interactive mode, `false` otherwise.
  */
-bool			msh_is_interactive(void);
+bool			msh_is_interactive(t_minishell *msh);
 
 /**
  * @brief Provides the number of lines and columns of the running terminal.

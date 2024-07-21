@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:49:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/17 14:24:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:38:14 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 const char	*msh_ast_strerror(t_ast_error_type type)
 {
 	static const char	*types[] = {
-	[AST_ERROR_NONE] = "no error, why was this printed????",
+	[AST_ERROR_NONE] = "no error",
 	[AST_ERROR_CANCEL] = "cancelled (non-logging)",
 	[AST_ERROR_WARNING] = "warning (non-logging)",
 	[AST_ERROR_ALLOC] = "allocation error",

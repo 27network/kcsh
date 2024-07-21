@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:23:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:22:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 #  include <termios.h>
 
 #  ifndef MSH_DEFAULT_NAME
-#   define MSH_DEFAULT_NAME "minishell"
+#   define MSH_DEFAULT_NAME "kcsh"
 #  endif // MSH_DEFAULT_NAME
 
 #  ifndef MSH_VERSION
-#   define MSH_VERSION "0.0.0-unknown"
+#   define MSH_VERSION "0.5.0"
 #  endif // MSH_VERSION
 
 #  ifndef MSH_HOMEPAGE

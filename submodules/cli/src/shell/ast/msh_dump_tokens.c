@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_signal_handler_close_echo.c                    :+:      :+:    :+:   */
+/*   msh_dump_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 05:13:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 01:23:21 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/21 22:33:55 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/07/21 22:34:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/signal.h>
+#include <msh/ast/lexer.h>
 
-void	msh_signal_echoctl(int signo);
-
-void	msh_signal_handler_close_echo(int signo)
+void	msh_dump_tokens(t_minishell *msh, t_list *tokens)
 {
-	signal(signo, SIG_IGN);
-	msh_signal_echoctl(signo);
-	msh_signal_handler_close(signo);
+	t_ast_token	*token;
+
+	if (msh && !msh->flags.debug_tokenizer && !msh->flags.debug_generic)
+		return ;
+	printf("\n>>> Token list: \n");
+	if (!tokens)
+		return ;
+	while (tokens)
+	{
+		token = (t_ast_token *) tokens->content;
+		if (token)
+			msh_ast_token_print(msh, token);
+		tokens = tokens->next;
+	}
+	printf("\n");
 }

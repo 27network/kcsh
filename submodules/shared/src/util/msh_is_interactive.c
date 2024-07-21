@@ -6,21 +6,46 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:02:54 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 23:13:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:50:18 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/features.h>
 #include <msh/util.h>
-#include <readline/readline.h>
 #include <unistd.h>
 
-bool	msh_is_interactive(void)
-{
-	int	tty;
+#if !FEAT_NO_READLINE
+# include <readline/readline.h>
 
-	tty = STDIN_FILENO;
-	if (!FEAT_NO_READLINE && rl_instream)
-		tty = msh_fileno(rl_instream);
-	return (isatty(tty));
+static void	fdprovider(int *in, int *err)
+{
+	*in = STDIN_FILENO;
+	*err = STDERR_FILENO;
+	if (rl_instream)
+		*in = msh_fileno(rl_instream);
+	if (rl_outstream)
+		*err = msh_fileno(rl_outstream);
+}
+
+#else
+
+static void	fdprovider(int *in, int *err)
+{
+	*in = msh_fileno(stdin);
+	*err = msh_fileno(stderr);
+}
+
+#endif // !FEAT_NO_READLINE
+
+bool	msh_is_interactive(t_minishell *msh)
+{
+	int	in;
+	int	err;
+
+	if (msh->flags.force_interactive)
+		return (true);
+	if (msh->execution_context.show_line)
+		return (false);
+	fdprovider(&in, &err);
+	return (isatty(in) && isatty(err));
 }

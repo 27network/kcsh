@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 15:33:28 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:55:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,42 @@
 
 #define UNEXPECTED_EOF "unexpected EOF while looking for matching `%c'"
 
+static bool	msh_ast_is_redirection(t_ast_lexer *state)
+{
+	const char	*input = &state->input[state->cursor];
+	const char	current = *input;
+	char		next;
+
+	if (!current)
+		return (false);
+	if (current == '<' || current == '>')
+		return (true);
+	next = input[1];
+	if (current == '&' && (next == '>' || next == '<'))
+		return (true);
+	return (false);
+}
+
+// What I would give to have proper macros
+// Like this could've been 2 times shorter if we had the SIMPLEST of
+//
+// #define TRY(fn) do { \
+//	err = fn(state, token, inc); \
+//	if (err.type != AST_ERROR_CANCEL) \
+//		return (err); \
+//	} while (0);
+//
+// But no. Lenghty and verbose code it is.
+
 static t_ast_error	msh_ast_next_global_token(t_ast_lexer *state,
 						t_ast_token **token, size_t *inc, const char *input)
 {
 	t_ast_error	err;
 
 	err = msh_ast_token_keyword(state, token, inc);
+	if (err.type != AST_ERROR_CANCEL)
+		return (err);
+	err = msh_ast_token_number(state, token, inc);
 	if (err.type != AST_ERROR_CANCEL)
 		return (err);
 	if (FEAT_SCRIPTING && !ft_strncmp(input, ";;", 2))
@@ -67,7 +97,7 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 		return (msh_ast_token_single_quote(state, token, inc));
 	else if (*input == '"')
 		return (msh_ast_token_string(state, token, inc));
-	else if (*input == '<' || *input == '>')
+	else if (msh_ast_is_redirection(state))
 		return (msh_ast_token_redirection(state, token, inc));
 	else if (FEAT_SCRIPTING && *input == '#' && (state->cursor == 0
 			|| ft_strchr(SEP_CHARS, state->input[state->cursor - 1])))

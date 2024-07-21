@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/19 14:10:53 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/21 22:34:44 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRC			=	history/msh_history_file.c \
 				runner/msh_run_setup_script.c \
 				runner/msh_runner_check.c \
 				shell/ast/msh_ast_lex.c \
+				shell/ast/msh_ast_parse.c \
+				shell/ast/msh_dump_tokens.c \
 				shell/input/msh_input.c \
 				shell/input/msh_input_forked.c \
 				shell/input/msh_input_type.c \

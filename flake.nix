@@ -32,6 +32,7 @@
             readline
             bash
           ] ++ (with pkgs; [
+            shellspec
             graphviz
             aflplusplus
             cloc

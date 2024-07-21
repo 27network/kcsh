@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 14:10:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:49:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static const char	*msh_ast_strtoken_preemptive(t_ast_token *token)
 		return (";;");
 	if (token->type == TKN_KEYWORD)
 		return (msh_ast_strkeyword(token->kind));
+	if (token->type == TKN_REDIR)
+		return ("my guy i forgot about this"); //TODO
 	return (msh_ast_strtoken(token->type));
 }
 
@@ -115,8 +117,10 @@ static t_ast_error	msh_ast_sanitize_check_word_before(
 	return (msh_ast_ok());
 }
 
-t_ast_error	msh_ast_sanitize_check(t_list **tokens)
-{
+t_ast_error	msh_ast_sanitize_check(
+	__attribute__((unused)) t_minishell *msh,
+	t_list **tokens
+) {
 	t_list		*current;
 	t_list		*prev;
 	t_ast_token	*currt;

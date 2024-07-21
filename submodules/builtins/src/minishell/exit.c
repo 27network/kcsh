@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:12:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:17:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <ft/string.h>
 #include <ft/string/parse.h>
 #include <msh/builtin.h>
+#include <msh/features.h>
 #include <stdio.h>
 
 #define EXIT_NAME "exit"
@@ -22,6 +23,12 @@
 \n\
 Exits the shell with a status of N.  If N is omitted, the exit status\n\
 is that of the last command executed."
+#define LOGOUT_NAME "logout"
+#define LOGOUT_USAGE "logout [n]"
+#define LOGOUT_HELP "Exit the shell.\n\
+\n\
+Exits the shell with a status of N.  Returns an error if not executed\n\
+in a login shell."
 
 static bool	msh_parse_numeric(const char *str, int *res)
 {
@@ -34,19 +41,34 @@ static bool	msh_parse_numeric(const char *str, int *res)
 	return (true);
 }
 
-static int	msh_exit_opts(int argc, char **argv)
+static int	msh_exit_opts(t_minishell *msh, int argc, char **argv)
 {
+	if (!msh->flags.login && !ft_strcmp(argv[0], "logout"))
+	{
+		msh_error(msh, "logout: not login shell: use `exit'\n");
+		return (1 + 1);
+	}
 	if (argc > 1)
 	{
 		if (!ft_strcmp(argv[1], "--"))
-			return (2);
+			return (0);
 		if (!ft_strcmp(argv[1], "--help"))
 		{
 			msh_builtin_help_page(EXIT_NAME, 1);
-			return (0);
+			return (0 + 1);
 		}
 	}
-	return (1);
+	return (0);
+}
+
+void	msh_exit_dialog(t_minishell *msh, const char *program)
+{
+	if (!ft_strcmp(program, "logout"))
+		return ;
+	if (msh->flags.login)
+		printf("logout\n");
+	else
+		printf("exit\n");
 }
 
 static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
@@ -54,11 +76,11 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 	int	ret;
 	int	opt;
 
-	opt = msh_exit_opts(argc, argv);
-	if (opt == 0)
-		return (0);
+	opt = msh_exit_opts(msh, argc, argv);
+	if (opt != 0)
+		return (opt - 1);
 	if (msh->interactive)
-		printf("exit\n");
+		msh_exit_dialog(msh, argv[0]);
 	if (argc == 1 || opt == 2)
 		msh->execution_context.running = false;
 	if (argc == 1 || opt == 2)
@@ -87,5 +109,12 @@ void	register_exit(void)
 		.help = EXIT_HELP,
 		.func = msh_builtin_exit,
 		.flags = BUILTIN_NEEDS_MSH | BUILTIN_SPECIAL,
+	});
+	msh_builtin_register((t_builtin){
+		.name = LOGOUT_NAME,
+		.usage = LOGOUT_USAGE,
+		.help = LOGOUT_HELP,
+		.func = msh_builtin_exit,
+		.flags = BUILTIN_NEEDS_MSH | !FEAT_BUILTIN_LOGOUT << 2,
 	});
 }

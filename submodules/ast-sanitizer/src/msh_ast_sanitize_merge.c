@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 15:54:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:37:09 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,18 @@
 
 static t_ast_error	msh_ast_sanitize_merge_loop(t_list **tokens, bool *workret);
 
-t_ast_token			*msh_ast_merge_wtostr(t_list *token, t_ast_token *current,
-						t_ast_token *next);
-t_ast_token			*msh_ast_merge_strtow(t_list *token, t_ast_token *current,
-						t_ast_token *next);
-t_ast_token			*msh_ast_merge_wtow(t_list *token, t_ast_token *current,
-						t_ast_token *next);
-t_ast_token			*msh_ast_merge_strtostr(t_list *token, t_ast_token *current,
-						t_ast_token *next);
+t_ast_token			*msh_ast_merge_wtostr(t_list *token,
+						t_ast_token *current, t_ast_token *next);
+t_ast_token			*msh_ast_merge_strtow(t_list *token,
+						t_ast_token *current, t_ast_token *next);
+t_ast_token			*msh_ast_merge_wtow(t_list *token,
+						t_ast_token *current, t_ast_token *next);
+t_ast_token			*msh_ast_merge_strtostr(t_list *token,
+						t_ast_token *current, t_ast_token *next);
+t_ast_token			*msh_ast_merge_septoredir(t_list *token,
+						t_ast_token *current, t_ast_token *next);
+t_ast_token			*msh_ast_merge_fdtoredir(t_list *token,
+						t_ast_token *current, t_ast_token *next);
 
 static t_ast_error	msh_ast_sanitize_try_merge_others(
 	__attribute__((unused)) t_list *token,
@@ -52,9 +56,11 @@ static bool	msh_ast_sanitize_try_merge_known(
 		*new = msh_ast_merge_wtostr(token, current, next);
 	else if (next && current->type == TKN_STRING && next->type == TKN_STRING)
 		*new = msh_ast_merge_strtostr(token, current, next);
-	else
-		return (true);
-	return (false);
+	else if (next && current->type == TKN_NUMBER && next->type == TKN_REDIR)
+		*new = msh_ast_merge_fdtoredir(token, current, next);
+	else if (next && current->type == TKN_SEP && next->type == TKN_REDIR)
+		*new = msh_ast_merge_septoredir(token, current, next);
+	return (*new == NULL);
 }
 
 /**
@@ -77,7 +83,7 @@ static t_ast_error	msh_ast_sanitize_try_merge(t_list *token, bool *work)
 	if (token->next && token->next->content)
 		next = token->next->content;
 	*work = false;
-	if (!msh_ast_sanitize_try_merge_known(token, current, next, &new))
+	if (msh_ast_sanitize_try_merge_known(token, current, next, &new))
 		return (msh_ast_sanitize_try_merge_others(token, current, next, work));
 	*work = true;
 	if (!new)
@@ -106,8 +112,10 @@ static t_ast_error	msh_ast_sanitize_merge_loop(t_list **tokens, bool *workret)
 	return (err);
 }
 
-t_ast_error	msh_ast_sanitize_merge(t_list **tokens)
-{
+t_ast_error	msh_ast_sanitize_merge(
+	__attribute__((unused)) t_minishell *msh,
+	t_list **tokens
+) {
 	t_ast_error	err;
 	bool		work;
 

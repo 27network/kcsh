@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:32:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 15:21:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:07:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,21 @@
 # if FEAT_NO_READLINE
 #  define LINELOG_SAVE msh_save_shakespeare
 
-static bool	msh_save_shakespeare(int fd)
-{
-	ft_dprintf(2, "shakespeare history saving not implemented\n");
-	(void) fd;
+static bool	msh_save_shakespeare(
+	t_minishell *msh,
+	__attribute__((unused)) int fd
+) {
+	msh_error(msh, "shakespeare history saving not implemented\n");
 	return (true);
 }
 
 # else
 #  define LINELOG_SAVE msh_save_readline
 
-static bool	msh_save_readline(int fd)
-{
+static bool	msh_save_readline(
+	__attribute__((unused)) t_minishell *msh,
+	int fd
+) {
 	HIST_ENTRY	***history_ptr;
 	HIST_ENTRY	**history;
 	bool		error;
@@ -67,7 +70,7 @@ void	msh_history_save(t_minishell *msh)
 	fd = msh_history_file(msh, O_CREAT | O_TRUNC | O_WRONLY);
 	if (fd < 0)
 		return ;
-	if (LINELOG_SAVE(fd))
+	if (LINELOG_SAVE(msh, fd))
 		msh_error(msh, "failed to save history properly to file\n");
 	if (close(fd) >= 0)
 		msh_log(msh, MSG_DEBUG_GENERIC, "saved history to file successfully\n");

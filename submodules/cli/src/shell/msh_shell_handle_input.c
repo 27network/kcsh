@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 00:39:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:58:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,8 @@ void	msh_handle_history(t_input_result input, bool should_pop)
 		input.buffer[size - 1] = '\n';
 }
 
-void	msh_dump_tokens(t_minishell *msh, t_list *tokens)
-{
-	t_ast_token	*token;
-
-	if (!msh->flags.debug_tokenizer && !msh->flags.debug_generic)
-		return ;
-	printf("\n>>> Token list: \n");
-	if (!tokens)
-		return ;
-	while (tokens)
-	{
-		token = (t_ast_token *) tokens->content;
-		if (token)
-			msh_ast_token_print(msh, token);
-		tokens = tokens->next;
-	}
-	printf("\n");
-}
-
 static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
-				__attribute__((unused)) t_ast_node **result)
+				t_ast_node **result)
 {
 	t_list	*tokens;
 	char	*prompt;
@@ -79,11 +60,13 @@ static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
 	prompt = msh_env_value(msh, "PS2");
 	if (!prompt || !*prompt)
 		prompt = ENV_DEFAULT_PS2;
-	if (!msh_ast_lex(msh, input, prompt, &tokens) || !tokens)
+	*result = NULL;
+	if (!msh_ast_lex(msh, input, prompt, &tokens))
 		return (false);
 	msh_dump_tokens(msh, tokens);
-	ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free); //TODO: remove
-	return (true);
+	if (!msh_ast_create(msh, tokens, &result))
+		ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
+	return (*result != NULL);
 }
 
 static void	msh_debug_exec(t_minishell *msh, char *line)
@@ -122,13 +105,15 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 	if (input.buffer && !*input.buffer)
 		ft_strdel((char **) &input.buffer);
 	if (!input.buffer)
+		msh->execution_context.exit_code = 0;
+	if (!input.buffer)
 		return ;
 	ast = NULL;
 	msh_handle_history(input, false);
-	if (msh_handle_ast(msh, input, &ast))
-	{
-		if (!msh->forked && !msh->flags.debug_tokenizer)
-			msh_debug_exec(msh, input.buffer);
-	}
+	if (msh_handle_ast(msh, input, &ast) && !msh->forked
+		&& !msh->flags.debug_tokenizer)
+		msh_debug_exec(msh, &ast);
+	else
+		msh->execution_context.exit_code = 0;
 	ft_strdel((char **) &input.buffer);
 }

@@ -15,7 +15,7 @@ FEAT_BONUS_MSH=( \
 	"TOK_PARAN" 1 \
 
 	# Should be in modular42sh, but the current shakespeare implementation doesn't support history yet
-#   # so i'll put it here to impress the crowd
+	# so i'll put it here to impress the crowd
 	"HISTORY_FILE" 1 \
 )
 
@@ -25,6 +25,7 @@ FEAT_MANDATORY_42SH=( \
 
 	## Mandatory features
 
+	"PARSER_42SH_REDIRS" 1 \
 	"TOK_SEMICOLON" 1 \
 	"BUILTIN_CD_OPT" 1 \
 	"BUILTIN_ECHO_OPT" 1 \
@@ -38,7 +39,7 @@ FEAT_MANDATORY_42SH=( \
 	"PARSER_PARAM_EXPANSION" 1 \
 	"JOB_CONTROL" 1 \
 	"SIG_ALL" 1 \
-	
+
 	## Modular features
 
 	"PARSER_INHIBITORS" 1 \
@@ -97,8 +98,11 @@ FEAT_BONUS_42SH=( \
 	"BUILTIN_TRUE" 1 \
 	"BUILTIN_FALSE" 1 \
 	"BUILTIN_HELP" 1 \
+	"BUILTIN_LOGOUT" 1 \
 	"PARSER_ANSI_QUOTING" 1 \
 	"PARSER_LOCALIZE_QUOTING" 1 \
+	"PARSER_BASH_REDIRS" 1 \
+	"POSIX_COMPLIANT" 1 \
 )
 
 # > Category flags

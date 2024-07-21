@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 16:40:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:59:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ typedef enum e_ast_tkn_type
 	TKN_REDIR,			// >, >>, <, <<, ...
 	TKN_SEMISEMI,		// ;; (end of switch case)
 	TKN_GROUP,			// {, }, (, ) -- a collection of tokens
-	TKN_COMMENT,		// #* -- this is not outputted by the tokenizer
 	TKN_STRING,			// collection of words or substituables
-	TKN_WORD,			// single word
+	TKN_COMMENT,		// #* -- this is not outputted by the tokenizer
+	TKN_WORD,			// singular word
+	TKN_BANG,			// singular unquoted !
+	TKN_NUMBER,			// singular unquoted number
 	TKN_SUBST,			// $var, ${var}, $(...), `...`, $((...))
 	TKN_EOF,			// end of file
 }	t_ast_token_type;
@@ -48,16 +50,10 @@ typedef enum e_ast_tkn_type
 typedef struct e_ast_tkn_redir_data
 {
 	int		left_fd;
-
 	union
 	{
 		int		right_fd;
 		char	*right_file;
-	};
-	union
-	{
-		char	*heredoc_delim;
-		char	*herestring;
 	};
 }	t_ast_tkn_redir_data;
 

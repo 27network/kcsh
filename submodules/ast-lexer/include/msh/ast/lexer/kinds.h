@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:22:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 16:48:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:28:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,19 @@ typedef enum e_ast_delim
 
 typedef enum e_ast_redir
 {
-	REDIR_FILE_IN = 0,	// <
-	REDIR_FILE_OUT,		// >
-	REDIR_FILE_CLOBBER, // >|
-	REDIR_FILE_INOUT,	// <>
-	REDIR_FILE_APPEND,	// >>
-	REDIR_FD_IN,		// <&[n]
-	REDIR_FD_OUT,		// >&[n]
-	//					// note that if n == 0, redirect both stdout & stderr
-	REDIR_HEREDOC,		// <<
-	REDIR_HEREDOC_STRIP,// <<- (heredoc without leading tabs)
-	REDIR_HERESTR,		// <<<
+	REDIR_HERESTRING = 0,	// <<<
+	REDIR_HEREDOC_STRIP,	// <<- (heredoc without leading tabs)
+	REDIR_FILE_CLOBBER_A,	// &>| (clobber stdout & stderr)
+	REDIR_FILE_CLOBBER,		// >|
+	REDIR_HEREDOC,			// <<
+	REDIR_FILE_APPEND,		// >>
+	REDIR_FILE_INOUT,		// <>
+	REDIR_FD_IN,			// <&
+	REDIR_FD_OUT,			// >&
+	//						// note that if n == 0, redirect both stdout/err
+	REDIR_FILE_OUT_A,		// &> (redirect stdout to stderr)
+	REDIR_FILE_IN,			// <
+	REDIR_FILE_OUT,			// >
 }	t_ast_redir_type;
 
 typedef enum e_ast_substitution

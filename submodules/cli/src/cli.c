@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/07/18 13:33:05 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:51:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	msh_setup_linelib(
 int	main(int argc, const char *argv[], const char *envp[])
 {
 	t_minishell	minishell;
-
+	
 	msh_builtin_registry_sort();
 	msh_init(&minishell, argc, argv, envp);
 	msh_signal_init(&minishell, false);
