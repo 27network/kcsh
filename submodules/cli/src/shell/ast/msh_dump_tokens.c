@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:33:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 22:34:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:22:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/lexer.h>
+#include <stdio.h>
 
 void	msh_dump_tokens(t_minishell *msh, t_list *tokens)
 {

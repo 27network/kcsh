@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 16:49:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:02:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,7 @@
 #include <ft/string.h>
 #include <msh/ast/sanitizer.h>
 
-#define ERROR_MSG " near unexpected token"
-
-const char	*msh_ast_strdelim(t_ast_delim_type type);
-const char	*msh_ast_strkeyword(t_ast_keyword_type type);
-
-static const char	*msh_ast_strtoken_preemptive(t_ast_token *token)
-{
-	if (token->type == TKN_WORD)
-		return (token->value.data);
-	if (token->type == TKN_PIPE)
-		return ("|");
-	if (token->type == TKN_AMP)
-		return ("&");
-	if (token->type == TKN_DELIM)
-		return (msh_ast_strdelim(token->kind));
-	if (token->type == TKN_SEMISEMI)
-		return (";;");
-	if (token->type == TKN_KEYWORD)
-		return (msh_ast_strkeyword(token->kind));
-	if (token->type == TKN_REDIR)
-		return ("my guy i forgot about this"); //TODO
-	return (msh_ast_strtoken(token->type));
-}
-
-const char	*msh_syntax_error(t_ast_token *token)
-{
-	char		*msg;
-	size_t		len;
-	const char	*preemptive;
-
-	preemptive = msh_ast_strtoken_preemptive(token);
-	if (!preemptive)
-		return (ft_strdup(ERROR_MSG));
-	len = ft_strlen(ERROR_MSG) + 3 + ft_strlen(preemptive) + 1;
-	msg = ft_calloc(len, sizeof(char));
-	if (!msg)
-		return (NULL);
-	ft_strlcpy(msg, ERROR_MSG, len);
-	ft_strlcat(msg, " `", len);
-	ft_strlcat(msg, preemptive, len);
-	ft_strlcat(msg, "'", len);
-	return (msg);
-}
+const char	*msh_syntax_error(t_ast_token *token);
 
 static t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
 {
@@ -87,6 +45,21 @@ static t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
 	return (msh_ast_ok());
 }
 
+#  include <stdio.h>
+
+static t_ast_error	msh_ast_sanitize_check_first(
+	t_list *current,
+	t_ast_token *token
+) {
+	if (!current || !token)
+		return (msh_ast_ok());
+	if (token->type == TKN_PIPE || token->type == TKN_AMP || token->type
+		== TKN_DELIM || token->type == TKN_SEMISEMI)
+		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_syntax_error(
+					token), false));
+	return (msh_ast_ok());
+}
+
 static t_ast_error	msh_ast_sanitize_check_word_before(
 	t_list *current,
 	t_list *prev,
@@ -98,8 +71,10 @@ static t_ast_error	msh_ast_sanitize_check_word_before(
 	};
 	int								i;
 
-	if (!prev || !current || !prev->content || !current->content)
+	if (!current || !prev->content || !current->content)
 		return (msh_ast_ok());
+	if (!prev)
+		return (msh_ast_sanitize_check_first(current, curr_tkn));
 	i = -1;
 	while (++i < (int)(sizeof(no_first) / sizeof(no_first[0])))
 	{

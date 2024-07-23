@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 23:58:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:08:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,9 @@ static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
 	if (!msh_ast_lex(msh, input, prompt, &tokens))
 		return (false);
 	msh_dump_tokens(msh, tokens);
-	if (!msh_ast_create(msh, tokens, &result))
+	if (!msh_ast_create(msh, tokens, result))
 		ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
 	return (*result != NULL);
-}
-
-static void	msh_debug_exec(t_minishell *msh, char *line)
-{
-	char	**array;
-	size_t	i;
-	int		ret;
-
-	array = ft_splits(line, ENV_DEFAULT_IFS);
-	if (!array)
-		return ;
-	if (*array)
-	{
-		ret = msh_exec_simple(msh, array);
-		msh->execution_context.exit_code = ret;
-	}
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
@@ -108,12 +85,15 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		msh->execution_context.exit_code = 0;
 	if (!input.buffer)
 		return ;
-	ast = NULL;
 	msh_handle_history(input, false);
-	if (msh_handle_ast(msh, input, &ast) && !msh->forked
-		&& !msh->flags.debug_tokenizer)
-		msh_debug_exec(msh, &ast);
+	if (msh_handle_ast(msh, input, &ast) && !msh->forked && !msh->flags
+		.debug_tokenizer && !msh->flags.debug_sanitizer
+		&& !msh->flags.debug_ast)
+	{
+		if (!msh_exec_wrap(msh, ast))
+			msh->execution_context.exit_code = 1;
+	}
 	else
-		msh->execution_context.exit_code = 0;
+		msh->execution_context.exit_code = 1;
 	ft_strdel((char **) &input.buffer);
 }

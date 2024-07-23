@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/21 19:39:17 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/22 17:58:46 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC			=	merge/redir/msh_ast_merge_fdtoredir.c \
 				msh_ast_sanitize_check.c \
 				msh_ast_sanitize_merge.c \
 				msh_ast_sanitize_standardize.c \
-				msh_ast_sanitize_wordify.c
+				msh_ast_sanitize_wordify.c \
+				msh_ast_sanitize_simple.c
 
 include ../common.mk
