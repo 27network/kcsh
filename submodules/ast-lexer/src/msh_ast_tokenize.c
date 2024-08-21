@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 11:55:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:21:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,18 @@ static bool	msh_ast_is_redirection(t_ast_lexer *state)
 	return (false);
 }
 
-// What I would give to have proper macros
-// Like this could've been 2 times shorter if we had the SIMPLEST of
-//
-// #define TRY(fn) do { \
-//	err = fn(state, token, inc); \
-//	if (err.type != AST_ERROR_CANCEL) \
-//		return (err); \
-//	} while (0);
-//
-// But no. Lenghty and verbose code it is.
+/*
+ What I would give to have proper macros
+ Like this could've been 2 times shorter if we had the SIMPLEST of
+
+ #define TRY(fn) do { \
+	err = fn(state, token, inc); \
+	if (err.type != AST_ERROR_CANCEL) \
+		return (err); \
+	} while (0);
+
+ But no. Lenghty and verbose code it is.
+*/
 
 static t_ast_error	msh_ast_next_global_token(t_ast_lexer *state,
 						t_ast_token **token, size_t *inc, const char *input)
