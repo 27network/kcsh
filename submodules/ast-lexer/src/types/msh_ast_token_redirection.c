@@ -6,10 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:36:16 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 19:33:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:38:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
+#include <ft/string/parse.h>
 #include <ft/string.h>
 #include <msh/ast/lexer.h>
 #include <msh/features.h>
@@ -62,6 +64,28 @@ static t_ast_redir_type	msh_ast_token_redirection_type(t_ast_lexer *state)
 	return (-1);
 }
 
+static long long	msh_redir_try_yoink_fd(t_ast_lexer *state, size_t *inc)
+{
+	const char		*line = &state->input[state->cursor + *inc];
+	char			*newstr;
+	size_t			size;
+	long long		n;
+	t_str_parseerr	err;
+
+	if (!line || !*line)
+		return (-1);
+	size = ft_strcspn(line, DELIM_CHARS);
+	newstr = ft_strndup(line, size);
+	if (!newstr)
+		return (-1);
+	err = ft_strtoll(newstr, &n);
+	free(newstr);
+	if (err || n < 0)
+		return (-1);
+	*inc += size;
+	return (n);
+}
+
 t_ast_error	msh_ast_token_redirection(t_ast_lexer *state, t_ast_token **tokret,
 				size_t *inc)
 {
@@ -79,8 +103,14 @@ t_ast_error	msh_ast_token_redirection(t_ast_lexer *state, t_ast_token **tokret,
 		token->kind = type;
 		token->value.redir.left_fd = -1;
 		token->value.redir.right_fd = -1;
-		*tokret = token;
 		*inc = msh_ast_redir_len(type);
+		if (type == REDIR_FD_IN || type == REDIR_FD_OUT)
+		{
+			token->value.redir.right_fd = msh_redir_try_yoink_fd(state, inc);
+			if (token->value.redir.right_fd != -1)
+				token->value.redir.state = REDIR_STATE_FD;
+		}
+		*tokret = token;
 	}
 	return (err);
 }

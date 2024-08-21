@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:58:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/22 17:58:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:17:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ const char	*msh_ast_strtoken_simple(t_ast_token *token)
 	if (token->type == TKN_KEYWORD)
 		return (msh_ast_strkeyword(token->kind));
 	if (token->type == TKN_REDIR)
-		return (msh_ast_strredir(token->type));
+		return (msh_ast_strredir(token->kind));
 	return (msh_ast_strtoken(token->type));
 }

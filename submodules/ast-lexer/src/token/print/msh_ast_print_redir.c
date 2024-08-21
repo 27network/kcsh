@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:53:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 19:30:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:43:21 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ const char	*msh_ast_strredir(t_ast_redir_type type)
 	[REDIR_FILE_OUT_A] = "&>"
 	};
 
-	if (type < 0 || type >= REDIR_FILE_OUT)
+	if (type < 0 || type > REDIR_FILE_OUT)
 		return ("unknown");
 	return (redir_strs[type]);
 }
+
+void	msh_ast_token_print0(t_ast_token *token);
 
 void	msh_ast_print_redir(t_ast_token *token)
 {
@@ -38,7 +40,7 @@ void	msh_ast_print_redir(t_ast_token *token)
 	if (token->kind == REDIR_FD_IN || token->kind == REDIR_FD_OUT)
 		printf("%d", token->value.redir.right_fd);
 	else if (token->value.redir.right_fd != -1)
-		printf("'%s'", token->value.redir.right_file);
+		msh_ast_token_print0(token->value.redir.right_word);
 	else
 		printf("[missing]");
 	printf(" )");

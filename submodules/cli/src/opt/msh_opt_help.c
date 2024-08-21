@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/04 11:50:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:46:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <msh/minishell.h>
 #include <msh/features.h>
 #include <msh/cli/opt.h>
-
-#define KCSH_SPECIFIC "(kcsh-specific)"
 
 void	msh_print_version(int fd);
 
@@ -36,7 +34,8 @@ void	msh_print_help(t_minishell *msh, int fd)
 	ft_dprintf(fd, "        --debug-executor\n");
 	ft_dprintf(fd, "        --debug-pipelines\n");
 	ft_dprintf(fd, "        --debug-sanitizer\n");
-	ft_dprintf(fd, "        --debug-tokens\n");
+	ft_dprintf(fd, "        --debug-tokenizer\n");
+	ft_dprintf(fd, "        --debug-transformer\n");
 	ft_dprintf(fd, "        --version\n");
 	ft_dprintf(fd, "Shell options:\n");
 	ft_dprintf(fd, "        -c command         (invocation only)\n");

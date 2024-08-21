@@ -1,17 +1,17 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    config.mk                                          :+:      :+:    :+:    #
+#    defaults.mk                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/10 21:56:50 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/24 15:32:57 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROJECT_NAME	?= kcsh
-PROJECT_VERSION	?= 0.4.0-indev
+PROJECT_VERSION	?= 0.5.0
 
 SRC_DIR			?= src
 INCLUDE_DIR		?= include

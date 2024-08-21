@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 18:59:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:37:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 #  ifdef __DUMB_LIBFT_FIX
 
-typedef void	t_list_foreach_fn(void *);
+typedef void				t_list_foreach_fn(void *);
 
 #  endif // __DUMB_LIBFT_FIX
 
@@ -47,14 +47,24 @@ typedef enum e_ast_tkn_type
 	TKN_EOF,			// end of file
 }	t_ast_token_type;
 
-typedef struct e_ast_tkn_redir_data
+typedef struct s_ast_token	t_ast_token;
+
+typedef enum e_ast_tkn_redir_state
 {
-	int		left_fd;
+	REDIR_STATE_UNSET = 0,
+	REDIR_STATE_FD,
+	REDIR_STATE_WORD,
+}	t_ast_tkn_redir_state;
+
+typedef struct s_ast_tkn_redir_data
+{
+	int						left_fd;
 	union
 	{
-		int		right_fd;
-		char	*right_file;
+		int						right_fd;
+		t_ast_token				*right_word;
 	};
+	t_ast_tkn_redir_state	state;
 }	t_ast_tkn_redir_data;
 
 typedef union u_ast_tkn_value

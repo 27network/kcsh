@@ -6,20 +6,17 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/29 13:57:47 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/08/21 13:38:58 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	ast-builder
+NAME		=	ast-lexer-sanitizer
 DEPS		=	ast-lexer
 
 include ../common-prelude.mk
 
-SRC			=	node/types/msh_ast_node_command.c \
-				node/types/msh_ast_node_sep.c \
-				node/msh_ast_node_free.c \
-				node/msh_ast_node_print.c \
-				node/msh_ast_node_strtype.c \
-				msh_ast_build.c
+SRC			=	msh_ast_sanitize.c \
+				msh_ast_strtoken_simple.c \
+				msh_ast_syntax_error.c
 
 include ../common.mk

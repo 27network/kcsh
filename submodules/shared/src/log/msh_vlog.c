@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/17 12:53:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:21:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ static bool	msh_should_print_type(t_minishell *msh, t_log_type type)
 		return (true);
 	if (type == MSG_DEBUG_AST_TOKENIZER)
 		return (msh->flags.debug_tokenizer);
+	if (type == MSG_DEBUG_AST_TRANSFORMER)
+		return (msh->flags.debug_transformer);
 	if (type == MSG_DEBUG_AST_SANITIZER)
 		return (msh->flags.debug_sanitizer);
 	if (type == MSG_DEBUG_AST_BUILDER)
-		return (msh->flags.debug_sanitizer);
+		return (msh->flags.debug_ast);
 	if (type == MSG_DEBUG_EXECUTOR_BUILDER)
 		return (msh->flags.debug_pipelines);
 	if (type == MSG_DEBUG_EXECUTOR)
@@ -44,6 +46,8 @@ static const char	*msh_debug_log_prefix(t_log_type type)
 		return ("[DEBUG] ");
 	if (type == MSG_DEBUG_AST_TOKENIZER)
 		return ("[AST/TOKENIZER] ");
+	if (type == MSG_DEBUG_AST_TRANSFORMER)
+		return ("[AST/TRANSFORMER] ");
 	if (type == MSG_DEBUG_AST_SANITIZER)
 		return ("[AST/SANITIZER] ");
 	if (type == MSG_DEBUG_AST_BUILDER)

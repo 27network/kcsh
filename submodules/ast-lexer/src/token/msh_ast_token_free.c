@@ -6,18 +6,20 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:06:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:37:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
 #include <ft/mem.h>
+#include <limits.h>
 #include <msh/ast/lexer/tokens.h>
 #include <stdio.h>
 
 void	msh_ast_token_free(t_ast_token *token)
 {
-	if (!token)
+	if (!token || (unsigned long long) token <= 10 || (unsigned long long) token
+		>= ULLONG_MAX - 10)
 		return ;
 	if (token->value.string && (token->type == TKN_SUBST || token->type
 			== TKN_WORD || token->type == TKN_SEP || token->type
@@ -27,6 +29,8 @@ void	msh_ast_token_free(t_ast_token *token)
 		ft_lst_free(&token->value.list, (t_lst_dealloc) msh_ast_token_free);
 	else if (token->type == TKN_REDIR)
 	{
+		if (token->value.redir.state == REDIR_STATE_WORD)
+			msh_ast_token_free(token->value.redir.right_word);
 	}
 	else if (token->type == TKN_DELIM || token->type == TKN_PIPE
 		|| token->type == TKN_SEMISEMI || token->type == TKN_KEYWORD)

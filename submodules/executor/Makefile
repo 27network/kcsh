@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/05/15 22:57:32 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/29 14:45:33 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	executor
-DEPS		=	builtins
+DEPS		=	ast-builder ast-lexer-transformer builtins
 
 include ../common-prelude.mk
 

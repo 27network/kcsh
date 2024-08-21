@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:06:42 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/09 14:21:30 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/07/29 14:47:02 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,8 @@ endif
 LIBS :=
 BUILD_NEW_ARRAY = $(eval LIBS += $(CACHE_DIR)/$(shell echo "$(1)" | xargs)/lib$(shell echo "$(1)" | xargs).so)
 _ := $(foreach item, $(DEPS), $(call BUILD_NEW_ARRAY, $(item)))
+# unique only
+LIBS := $(shell echo $(LIBS) | sed 's/ /\n/g' | sort -r | uniq)
 ifdef DEPS
 LDFLAGS			+=	$(LIBS)
 endif
