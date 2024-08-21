@@ -1,43 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_merge_strtow.c                             :+:      :+:    :+:   */
+/*   msh_ast_merge_fdtoredir.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 21:52:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 12:19:25 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/21 13:35:40 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/08/21 17:44:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/sanitizer.h>
+#include <ft/string/parse.h>
+#include <msh/ast/transformer.h>
 
 /**
  * Current token list:
- * - TKN_STRING(...)
- * - TKN_WORD("Hi")
+ * - TKN_NUMBER(2)
+ * - TKN_REDIR[1, >>, ?]
  *
  * Target:
- * - TKN_STRING(... TKN_WORD("Hi"))
+ * - TKN_REDIR(2, >>, ?) 
  *
  * Free strategy:
  * - Current token (no)
- * - Next token (no)
+ * - Next token (yes)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_strtow(t_list *token, t_ast_token *string,
-				t_ast_token *word)
+t_ast_token	*msh_ast_merge_fdtoredir(t_list *current, t_ast_token *fd,
+			t_ast_token *redir)
 {
-	t_list	*next;
+	long long	number;
+	t_list		*next;
 
-	if (!token || !word)
+	if (!current || !fd || !redir || redir->value.redir.left_fd != -1
+		|| ft_strtoll(fd->value.string, &number))
 		return (NULL);
-	next = token->next;
+	next = current->next;
 	if (!next)
 		return (NULL);
-	if (!ft_lst_tadd(&string->value.list, word))
-		return (NULL);
-	token->next = next->next;
+	redir->value.redir.left_fd = number;
+	current->content = redir;
+	current->next = next->next;
 	ft_lst_delete(next, NULL);
-	return (string);
+	msh_ast_token_free(fd);
+	return (redir);
 }

@@ -6,31 +6,31 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/29 18:03:18 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:43:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/sanitizer.h>
+#include <msh/ast/transformer.h>
 #include <msh/log.h>
 #include <msh/util.h>
 
-static t_ast_error	msh_ast_sanitize_merge_loop(t_minishell *msh,
+static t_ast_error	msh_ast_transform_merge_loop(t_minishell *msh,
 						t_list **tokens, bool *workret);
 
 t_ast_token			*msh_ast_merge_late_redirtostring(t_list *current,
 						t_ast_token *redir, t_ast_token *string);
 
-static t_ast_error	msh_ast_sanitize_try_merge_others(
+static t_ast_error	msh_ast_transform_try_merge_others(
 	t_minishell *msh,
 	t_ast_token *current,
 	bool *work
 ) {
 	if (current->type == TKN_STRING && current->value.list)
-		return (msh_ast_sanitize_merge_loop(msh, &current->value.list, work));
+		return (msh_ast_transform_merge_loop(msh, &current->value.list, work));
 	return (msh_ast_ok());
 }
 
-static bool	msh_ast_sanitize_try_merge_known(
+static bool	msh_ast_transform_try_merge_known(
 	t_list *token,
 	t_ast_token *current,
 	t_ast_token *next,
@@ -51,7 +51,7 @@ static bool	msh_ast_sanitize_try_merge_known(
  * This means that we delegate the freeing logic to the merging function
  * entirely, including the list node.
  */
-static t_ast_error	msh_ast_sanitize_try_merge(t_minishell *msh, t_list *token,
+static t_ast_error	msh_ast_transform_try_merge(t_minishell *msh, t_list *token,
 						bool *work)
 {
 	t_ast_token	*current;
@@ -64,10 +64,10 @@ static t_ast_error	msh_ast_sanitize_try_merge(t_minishell *msh, t_list *token,
 	next = NULL;
 	if (token->next && token->next->content)
 		next = token->next->content;
-	if (msh_ast_sanitize_try_merge_known(token, current, next, &new))
-		return (msh_ast_sanitize_try_merge_others(msh, current, work));
-	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_mergel: ");
-	if (msh->flags.debug_sanitizer)
+	if (msh_ast_transform_try_merge_known(token, current, next, &new))
+		return (msh_ast_transform_try_merge_others(msh, current, work));
+	msh_log(msh, MSG_DEBUG_AST_TRANSFORMER, "transform_mergel: ");
+	if (msh->flags.debug_transformer)
 	{
 		msh_ast_token_print(msh, new);
 		msh_ast_token_print(msh, current);
@@ -81,7 +81,7 @@ static t_ast_error	msh_ast_sanitize_try_merge(t_minishell *msh, t_list *token,
 	return (msh_ast_ok());
 }
 
-static t_ast_error	msh_ast_sanitize_merge_loop(t_minishell *msh,
+static t_ast_error	msh_ast_transform_merge_loop(t_minishell *msh,
 						t_list **tokens, bool *workret)
 {
 	t_list		*current;
@@ -93,7 +93,7 @@ static t_ast_error	msh_ast_sanitize_merge_loop(t_minishell *msh,
 	while (current && err.type == AST_ERROR_NONE)
 	{
 		work = false;
-		err = msh_ast_sanitize_try_merge(msh, current, &work);
+		err = msh_ast_transform_try_merge(msh, current, &work);
 		if (work)
 			*workret = true;
 		if (err.type != AST_ERROR_NONE)
@@ -103,7 +103,7 @@ static t_ast_error	msh_ast_sanitize_merge_loop(t_minishell *msh,
 	return (err);
 }
 
-t_ast_error	msh_ast_sanitize_merge_late(
+t_ast_error	msh_ast_transform_merge_late(
 	t_minishell *msh,
 	t_list **tokens
 ) {
@@ -116,7 +116,7 @@ t_ast_error	msh_ast_sanitize_merge_late(
 	while (err.type == AST_ERROR_NONE)
 	{
 		work = false;
-		err = msh_ast_sanitize_merge_loop(msh, tokens, &work);
+		err = msh_ast_transform_merge_loop(msh, tokens, &work);
 		if (err.type != AST_ERROR_NONE)
 			break ;
 		if (!work)

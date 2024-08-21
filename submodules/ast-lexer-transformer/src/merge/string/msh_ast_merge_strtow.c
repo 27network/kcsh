@@ -1,43 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_merge_wtostr.c                             :+:      :+:    :+:   */
+/*   msh_ast_merge_strtow.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 22:00:01 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 12:19:25 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/07/17 21:52:00 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/08/21 17:45:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/sanitizer.h>
+#include <msh/ast/transformer.h>
 
 /**
  * Current token list:
- * - TKN_WORD("Hi")
  * - TKN_STRING(...)
+ * - TKN_WORD("Hi")
  *
  * Target:
- * - TKN_STRING(TKN_WORD("Hi") ...)
+ * - TKN_STRING(... TKN_WORD("Hi"))
  *
  * Free strategy:
  * - Current token (no)
  * - Next token (no)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_wtostr(t_list *token, t_ast_token *word,
-				t_ast_token *string)
+t_ast_token	*msh_ast_merge_strtow(t_list *token, t_ast_token *string,
+				t_ast_token *word)
 {
 	t_list	*next;
 
-	if (!token || !word || !string)
+	if (!token || !word)
 		return (NULL);
 	next = token->next;
 	if (!next)
 		return (NULL);
-	if (!ft_lst_tinsert(&string->value.list, word))
+	if (!ft_lst_tadd(&string->value.list, word))
 		return (NULL);
-	token->content = next->content;
 	token->next = next->next;
 	ft_lst_delete(next, NULL);
 	return (string);
