@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 01:45:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:19:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	msh_ast_error_print(t_minishell *msh, t_ast_error error)
 	if (error.type == AST_ERROR_NONE || error.type == AST_ERROR_CANCEL
 		|| error.type == AST_ERROR_WARNING)
 		return ;
-	msh_error(msh, "");
+	msh_error(msh, NULL);
 	if (error.data)
 		msh_ast_error_data(msh, type_message, error);
 	else
