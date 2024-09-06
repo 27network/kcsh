@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 16:32:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:34:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ static t_ast_error	msh_ast_sanitize_check(
 	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check: ");
 	if (msh->flags.debug_sanitizer)
 		msh_ast_token_print(msh, curr);
-	if (!prev)
-		msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check_first\n");
 	if (!prev)
 		err = msh_ast_sanitize_check_first(msh, current, curr);
 	if (err.type != AST_ERROR_NONE)

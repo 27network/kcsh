@@ -6,13 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/22 16:08:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/03 20:40:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
-#include <msh/ast/lexer.h>
-#include <msh/ast/types.h>
+#include <msh/ast/builder.h>
 #include <msh/cli/history.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
@@ -66,13 +65,29 @@ static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
 	msh_dump_tokens(msh, tokens);
 	if (!msh_ast_create(msh, tokens, result))
 		ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
+	if (*result && msh->flags.debug_ast)
+		msh_ast_node_print(msh, *result);
 	return (*result != NULL);
+}
+
+static void	msh_takeoff(t_minishell *msh, t_input_result input)
+{
+	t_ast_node	*ast;
+
+	if (msh_handle_ast(msh, input, &ast) && !msh->forked && !msh->flags
+		.debug_tokenizer && !msh->flags.debug_sanitizer
+		&& !msh->flags.debug_ast)
+	{
+		if (!msh_exec_wrap(msh, ast))
+			msh->execution_context.exit_code = 1;
+	}
+	else
+		msh->execution_context.exit_code = 1;
+	msh_ast_node_free(ast);
 }
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 {
-	t_ast_node	*ast;
-
 	if (input.type == INPUT_ERROR)
 	{
 		ft_strdel((char **) &input.buffer);
@@ -86,14 +101,6 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 	if (!input.buffer)
 		return ;
 	msh_handle_history(input, false);
-	if (msh_handle_ast(msh, input, &ast) && !msh->forked && !msh->flags
-		.debug_tokenizer && !msh->flags.debug_sanitizer
-		&& !msh->flags.debug_ast)
-	{
-		if (!msh_exec_wrap(msh, ast))
-			msh->execution_context.exit_code = 1;
-	}
-	else
-		msh->execution_context.exit_code = 1;
+	msh_takeoff(msh, input);
 	ft_strdel((char **) &input.buffer);
 }

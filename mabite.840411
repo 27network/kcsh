@@ -1,0 +1,309 @@
+execve("/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", ["sh", "-c", "ps al | grep -E \"ps|grep\""], 0x7ffe80c9ee78 /* 165 vars */) = 0
+brk(NULL)                               = 0x967c000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffea43e1a30) = -1 EINVAL (Invalid argument)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7939b4f54000
+access("/etc/ld-nix.so.preload", R_OK)  = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/glibc-hwcaps/x86-64-v3", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/glibc-hwcaps/x86-64-v2", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/x86_64/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/x86_64/x86_64", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/x86_64", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/x86_64", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/tls", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/x86_64/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/x86_64/x86_64", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/x86_64", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/x86_64", 0x7ffea43e0c30, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/libdl.so.2", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=15616, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 16400, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7939b4f4f000
+mmap(0x7939b4f50000, 4096, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0x7939b4f50000
+mmap(0x7939b4f51000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7939b4f51000
+mmap(0x7939b4f52000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7939b4f52000
+close(3)                                = 0
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\20\224\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\200\0\300\4\0\0\0\1\0\0\0\0\0\0\0", 32, 848) = 32
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\276\227s\234K\257\36\332\236\200q\tr\374s`"..., 68, 880) = 68
+newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=2400152, ...}, AT_EMPTY_PATH) = 0
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+mmap(NULL, 2133456, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7939b4c00000
+mmap(0x7939b4c28000, 1531904, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7939b4c28000
+mmap(0x7939b4d9e000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19e000) = 0x7939b4d9e000
+mmap(0x7939b4df6000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1f6000) = 0x7939b4df6000
+mmap(0x7939b4dfc000, 52688, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7939b4dfc000
+close(3)                                = 0
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7939b4f4c000
+arch_prctl(ARCH_SET_FS, 0x7939b4f4c740) = 0
+set_tid_address(0x7939b4f4ca10)         = 840411
+set_robust_list(0x7939b4f4ca20, 24)     = 0
+rseq(0x7939b4f4d0e0, 0x20, 0, 0x53053053) = 0
+mprotect(0x7939b4df6000, 16384, PROT_READ) = 0
+mprotect(0x7939b4f52000, 4096, PROT_READ) = 0
+mprotect(0x4d4000, 8192, PROT_READ)     = 0
+mprotect(0x7939b4f91000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = 3
+close(3)                                = 0
+brk(NULL)                               = 0x967c000
+brk(0x967d000)                          = 0x967d000
+openat(AT_FDCWD, "/nix/store/bkrvzlabph1fpyaby14habc8ybzi44lb-glibc-locales-2.39-52/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0444, st_size=229726112, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 229726112, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7939a7000000
+close(3)                                = 0
+brk(0x967e000)                          = 0x967e000
+brk(0x967f000)                          = 0x967f000
+brk(0x9680000)                          = 0x9680000
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/gconv/gconv-modules.cache", O_RDONLY) = -1 ENOENT (No such file or directory)
+brk(0x9681000)                          = 0x9681000
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/gconv/gconv-modules", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0444, st_size=3808, ...}, AT_EMPTY_PATH) = 0
+brk(0x9683000)                          = 0x9683000
+read(3, "# GNU libc iconv configuration.\n"..., 4096) = 3808
+brk(0x9684000)                          = 0x9684000
+brk(0x9685000)                          = 0x9685000
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/gconv/gconv-modules.d", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+newfstatat(3, "", {st_mode=S_IFDIR|0555, st_size=4096, ...}, AT_EMPTY_PATH) = 0
+brk(0x9695000)                          = 0x9695000
+getdents64(3, 0x9685040 /* 3 entries */, 32768) = 96
+openat(AT_FDCWD, "/nix/store/hsk71z8admvgykn7vzjy11dfnar9f4r1-glibc-2.35-163/lib/gconv/gconv-modules.d/gconv-modules-extra.conf", O_RDONLY|O_CLOEXEC) = 4
+newfstatat(4, "", {st_mode=S_IFREG|0444, st_size=53974, ...}, AT_EMPTY_PATH) = 0
+read(4, "# GNU libc iconv configuration.\n"..., 4096) = 4096
+brk(0x9696000)                          = 0x9696000
+brk(0x9697000)                          = 0x9697000
+brk(0x9698000)                          = 0x9698000
+read(4, "B1002//\tJUS_I.B1.002//\nmodule\tJU"..., 4096) = 4096
+brk(0x9699000)                          = 0x9699000
+brk(0x969a000)                          = 0x969a000
+brk(0x969b000)                          = 0x969b000
+brk(0x969c000)                          = 0x969c000
+brk(0x969d000)                          = 0x969d000
+brk(0x969e000)                          = 0x969e000
+read(4, "59-5//\nalias\tISO_8859-5//\t\tISO-8"..., 4096) = 4096
+brk(0x969f000)                          = 0x969f000
+brk(0x96a0000)                          = 0x96a0000
+brk(0x96a1000)                          = 0x96a1000
+brk(0x96a2000)                          = 0x96a2000
+read(4, "59-16//\t\tINTERNAL\t\tISO8859-16\t1\n"..., 4096) = 4096
+brk(0x96a3000)                          = 0x96a3000
+brk(0x96a4000)                          = 0x96a4000
+brk(0x96a5000)                          = 0x96a5000
+read(4, "-SE-A\t1\nmodule\tINTERNAL\t\tEBCDIC-"..., 4096) = 4096
+brk(0x96a6000)                          = 0x96a6000
+brk(0x96a7000)                          = 0x96a7000
+brk(0x96a8000)                          = 0x96a8000
+brk(0x96a9000)                          = 0x96a9000
+brk(0x96aa000)                          = 0x96aa000
+brk(0x96ab000)                          = 0x96ab000
+read(4, "97\t\t1\n\n#\tfrom\t\t\tto\t\t\tmodule\t\tcos"..., 4096) = 4096
+brk(0x96ac000)                          = 0x96ac000
+brk(0x96ad000)                          = 0x96ad000
+brk(0x96ae000)                          = 0x96ae000
+brk(0x96af000)                          = 0x96af000
+read(4, "1\n\n#\tfrom\t\t\tto\t\t\tmodule\t\tcost\nal"..., 4096) = 4096
+brk(0x96b0000)                          = 0x96b0000
+brk(0x96b1000)                          = 0x96b1000
+brk(0x96b2000)                          = 0x96b2000
+brk(0x96b3000)                          = 0x96b3000
+brk(0x96b4000)                          = 0x96b4000
+read(4, "6//\t\tIBM1046//\nalias\tCP1046//\t\tI"..., 4096) = 4096
+brk(0x96b5000)                          = 0x96b5000
+brk(0x96b6000)                          = 0x96b6000
+brk(0x96b7000)                          = 0x96b7000
+brk(0x96b8000)                          = 0x96b8000
+brk(0x96b9000)                          = 0x96b9000
+read(4, "\tto\t\t\tmodule\t\tcost\nalias\tRUSCII/"..., 4096) = 4096
+brk(0x96ba000)                          = 0x96ba000
+brk(0x96bb000)                          = 0x96bb000
+brk(0x96bc000)                          = 0x96bc000
+brk(0x96bd000)                          = 0x96bd000
+brk(0x96be000)                          = 0x96be000
+read(4, "03//\nmodule\tCSN_369103//\t\tINTERN"..., 4096) = 4096
+brk(0x96bf000)                          = 0x96bf000
+brk(0x96c0000)                          = 0x96c0000
+brk(0x96c1000)                          = 0x96c1000
+brk(0x96c2000)                          = 0x96c2000
+brk(0x96c3000)                          = 0x96c3000
+read(4, "\tmodule\t\tcost\nalias\tISO-IR-8-1//"..., 4096) = 4096
+brk(0x96c4000)                          = 0x96c4000
+brk(0x96c5000)                          = 0x96c5000
+brk(0x96c6000)                          = 0x96c6000
+brk(0x96c7000)                          = 0x96c7000
+brk(0x96c8000)                          = 0x96c8000
+read(4, "IBM1156\t\t1\n\n#\tfrom\t\t\tto\t\t\tmodule"..., 4096) = 4096
+brk(0x96c9000)                          = 0x96c9000
+brk(0x96ca000)                          = 0x96ca000
+brk(0x96cb000)                          = 0x96cb000
+brk(0x96cc000)                          = 0x96cc000
+read(4, "\t\tIBM1166//\nalias\tCP1166//\t\tIBM1"..., 4096) = 4096
+brk(0x96cd000)                          = 0x96cd000
+brk(0x96ce000)                          = 0x96ce000
+brk(0x96cf000)                          = 0x96cf000
+brk(0x96d0000)                          = 0x96d0000
+brk(0x96d1000)                          = 0x96d1000
+read(4, "alias\tROMAN9//\t\tHP-ROMAN9//\nalia"..., 4096) = 726
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+getdents64(3, 0x9685040 /* 0 entries */, 32768) = 0
+close(3)                                = 0
+futex(0x7939b4dfb88c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+getuid()                                = 1000
+getgid()                                = 100
+geteuid()                               = 1000
+getegid()                               = 100
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+gettimeofday({tv_sec=1725635246, tv_usec=732787}, NULL) = 0
+ioctl(-1, TIOCGPGRP, 0x7ffea43e18d4)    = -1 EBADF (Bad file descriptor)
+sysinfo({uptime=519399, loads=[41728, 84320, 90080], totalram=14511820800, freeram=4140924928, sharedram=162459648, bufferram=161652736, totalswap=15974576128, freeswap=13389119488, procs=2012, totalhigh=0, freehigh=0, mem_unit=1}) = 0
+rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+uname({sysname="Linux", nodename="komet", ...}) = 0
+brk(0x96d5000)                          = 0x96d5000
+brk(0x96d7000)                          = 0x96d7000
+brk(0x96d9000)                          = 0x96d9000
+brk(0x96db000)                          = 0x96db000
+brk(0x96dd000)                          = 0x96dd000
+brk(0x96de000)                          = 0x96de000
+brk(0x96df000)                          = 0x96df000
+brk(0x96e0000)                          = 0x96e0000
+brk(0x96e1000)                          = 0x96e1000
+brk(0x96e2000)                          = 0x96e2000
+brk(0x96e3000)                          = 0x96e3000
+brk(0x96e4000)                          = 0x96e4000
+brk(0x96e5000)                          = 0x96e5000
+brk(0x96e6000)                          = 0x96e6000
+brk(0x96e7000)                          = 0x96e7000
+brk(0x96e8000)                          = 0x96e8000
+brk(0x96e9000)                          = 0x96e9000
+brk(0x96ea000)                          = 0x96ea000
+brk(0x96eb000)                          = 0x96eb000
+brk(0x96ec000)                          = 0x96ec000
+brk(0x96ed000)                          = 0x96ed000
+brk(0x96ee000)                          = 0x96ee000
+newfstatat(AT_FDCWD, "/home/x/Work/42/common-core/kcsh", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/x", {st_mode=S_IFDIR|0700, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/x/Work", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/x/Work/42", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/x/Work/42/common-core", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/x/Work/42/common-core/kcsh", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/x/Work/42/common-core/kcsh", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+getpid()                                = 840411
+getppid()                               = 840408
+newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/i031v1m39dw38s4gr1g8j4n76n4apxkg-ncurses-6.3-p20220507-dev/bin/sh", 0x7ffea43e1540, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/rngsf0rl2dcdzmyf6j4nxdw3a0i82i6k-ncurses-6.3-p20220507/bin/sh", 0x7ffea43e1540, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/li2r7q4qzmpvgzjiw94899w1zmbh4xl7-readline-6.3p08/bin/sh", 0x7ffea43e1540, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", {st_mode=S_IFREG|0555, st_size=987864, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", {st_mode=S_IFREG|0555, st_size=987864, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", X_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", {st_mode=S_IFREG|0555, st_size=987864, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", R_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", {st_mode=S_IFREG|0555, st_size=987864, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", {st_mode=S_IFREG|0555, st_size=987864, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", X_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", {st_mode=S_IFREG|0555, st_size=987864, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/sh", R_OK) = 0
+brk(0x96ef000)                          = 0x96ef000
+brk(0x96f0000)                          = 0x96f0000
+gettimeofday({tv_sec=1725635246, tv_usec=738225}, NULL) = 0
+getpid()                                = 840411
+getppid()                               = 840408
+gettimeofday({tv_sec=1725635246, tv_usec=738393}, NULL) = 0
+getpid()                                = 840411
+getppid()                               = 840408
+brk(0x96f1000)                          = 0x96f1000
+brk(0x96f5000)                          = 0x96f5000
+brk(0x96f9000)                          = 0x96f9000
+getpgrp()                               = 840408
+ioctl(2, TIOCGPGRP, [840408])           = 0
+rt_sigaction(SIGCHLD, {sa_handler=0x44a480, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+prlimit64(0, RLIMIT_NPROC, NULL, {rlim_cur=55187, rlim_max=55187}) = 0
+brk(0x96fa000)                          = 0x96fa000
+brk(0x96fb000)                          = 0x96fb000
+brk(0x96fc000)                          = 0x96fc000
+brk(0x96fd000)                          = 0x96fd000
+brk(0x96fe000)                          = 0x96fe000
+brk(0x96ff000)                          = 0x96ff000
+brk(0x9700000)                          = 0x9700000
+brk(0x9702000)                          = 0x9702000
+brk(0x9703000)                          = 0x9703000
+brk(0x9704000)                          = 0x9704000
+brk(0x9705000)                          = 0x9705000
+brk(0x9706000)                          = 0x9706000
+brk(0x9707000)                          = 0x9707000
+brk(0x9708000)                          = 0x9708000
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+brk(0x9709000)                          = 0x9709000
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
+pipe2([3, 4], 0)                        = 0
+rt_sigprocmask(SIG_BLOCK, NULL, [CHLD], 8) = 0
+rt_sigprocmask(SIG_BLOCK, [INT TERM CHLD], [CHLD], 8) = 0
+clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x7939b4f4ca10) = 840412
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) = 0
+close(4)                                = 0
+close(4)                                = -1 EBADF (Bad file descriptor)
+rt_sigprocmask(SIG_BLOCK, NULL, [CHLD], 8) = 0
+rt_sigprocmask(SIG_BLOCK, [INT TERM CHLD], [CHLD], 8) = 0
+clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x7939b4f4ca10) = 840413
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) = 0
+close(3)                                = 0
+rt_sigprocmask(SIG_BLOCK, [CHLD], [CHLD], 8) = 0
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) = 0
+rt_sigprocmask(SIG_BLOCK, [CHLD], [CHLD], 8) = 0
+rt_sigaction(SIGINT, {sa_handler=0x4476b0, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 840412
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 840413
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=0x4476b0, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+ioctl(2, TIOCGWINSZ, {ws_row=57, ws_col=212, ws_xpixel=0, ws_ypixel=0}) = 0
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) = 0
+close(3)                                = -1 EBADF (Bad file descriptor)
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=840412, si_uid=1000, si_status=0, si_utime=0, si_stime=7 /* 0.07 s */} ---
+wait4(-1, 0x7ffea43e0e50, WNOHANG, NULL) = -1 ECHILD (No child processes)
+rt_sigreturn({mask=[]})                 = 0
+rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

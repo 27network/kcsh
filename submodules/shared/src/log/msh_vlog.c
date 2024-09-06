@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/17 14:21:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/03 20:31:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static const char	*msh_debug_log_prefix(t_log_type type)
 static void	msh_message_handler(t_minishell *msh, t_log_type type,
 	char *msg)
 {
-	const int	target_fd = STDERR_FILENO;
+	const int	target_fd = STDOUT_FILENO;
 	const char	*prefix = msh_debug_log_prefix(type);
 
 	if (msh && (type == MSG_ERROR || msh->execution_context.show_line))

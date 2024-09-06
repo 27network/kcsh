@@ -6,35 +6,57 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:08:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 14:07:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/03 22:30:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/print.h>
 #include <msh/ast/builder.h>
 #include <msh/log.h>
 
 #define PRE "DOT|	"
 #define LOGTYPE MSG_DEBUG_AST_BUILDER
 
-static void	msh_ast_print_decls(t_minishell *msh, t_ast_node *node, int depth,
+const char	*msh_ast_strdelim(t_ast_delim_type type);
+
+static const char	*msh_ast_stringify(t_ast_node *node)
+{
+	const t_ast_node_type	type = node->type;
+	t_ast_token				*first_word;
+	t_list					*tmp;
+
+	if (type == NODE_COMMAND)
+	{
+		tmp = node->command.tokens;
+		if (!tmp)
+			return ("empty");
+		while (tmp->next && ((t_ast_token *) tmp->content)->type == TKN_SEP)
+			tmp = tmp->next;
+		first_word = (t_ast_token *) tmp->content;
+		if (first_word->type == TKN_WORD)
+			return (first_word->value.string);
+		return (msh_ast_strtoken(first_word->type));
+	}
+	if (type == NODE_DELIM)
+		return (msh_ast_strdelim(node->delim));
+	return (msh_ast_node_strtype(type));
+}
+
+static void	msh_ast_print_decls(t_minishell *msh, t_ast_node *node,
 				int id)
 {
 	if (!node)
 		return ;
-	if (depth == 0)
-		return ;
-	msh_log(msh, LOGTYPE, PRE"node%d[label=\"<f0> |<f1> %s (%s)\n |<f2>\"];\n",
-		id, msh_ast_node_strtype(node->type), "");
-	msh_ast_print_decls(msh, node->left, depth - 1, id * 2 + 1);
-	msh_ast_print_decls(msh, node->right, depth - 1, id * 2 + 2);
+	msh_log(msh, LOGTYPE, PRE"node%d[label=\"<f0> |<f1> %s |<f2>\"];\n",
+		id, msh_ast_stringify(node));
+	msh_ast_print_decls(msh, node->left, id * 2 + 1);
+	msh_ast_print_decls(msh, node->right, id * 2 + 2);
 }
 
 static void	msh_ast_print_connects(t_minishell *msh, t_ast_node *node,
-				int depth, int id)
+				int id)
 {
 	if (!node)
-		return ;
-	if (depth == 0)
 		return ;
 	if (node->left)
 		msh_log(msh, LOGTYPE, PRE"\"node%d\":f0 -> \"node%d\":f1;\n",
@@ -42,18 +64,21 @@ static void	msh_ast_print_connects(t_minishell *msh, t_ast_node *node,
 	if (node->right)
 		msh_log(msh, LOGTYPE, PRE"\"node%d\":f2 -> \"node%d\":f1;\n",
 			id, id * 2 + 2);
-	msh_ast_print_connects(msh, node->left, depth - 1, id * 2 + 1);
-	msh_ast_print_connects(msh, node->right, depth - 1, id * 2 + 2);
+	msh_ast_print_connects(msh, node->left, id * 2 + 1);
+	msh_ast_print_connects(msh, node->right, id * 2 + 2);
 }
 
 #undef PRE
 #define PRE "DOT|"
 
-void	msh_ast_node_print(t_minishell *msh, t_ast_node *node, int depth)
+void	msh_ast_node_print(t_minishell *msh, t_ast_node *node)
 {
+	if (!msh->flags.debug_ast)
+		return ;
+	ft_printf("\n");
 	msh_log(msh, LOGTYPE, PRE"digraph AST {\n");
 	msh_log(msh, LOGTYPE, PRE"	node [shape=record,height=.2];\n");
-	msh_ast_print_decls(msh, node, depth, 0);
-	msh_ast_print_connects(msh, node, depth, 0);
+	msh_ast_print_decls(msh, node, 0);
+	msh_ast_print_connects(msh, node, 0);
 	msh_log(msh, LOGTYPE, PRE"}\n");
 }

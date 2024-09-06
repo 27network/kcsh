@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_node_strtype.c                             :+:      :+:    :+:   */
+/*   msh_exec_entry.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 16:13:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/03 20:39:05 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/09/06 00:30:53 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/09/06 00:31:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/builder.h>
+#include <msh/exec/exec.h>
 
-const char	*msh_ast_node_strtype(t_ast_node_type type)
+int	msh_exec_entry(t_minishell *msh, t_ast_node *node)
 {
-	static const char	*types[] = {
-		// [NODE_GROUP] = "NODE_GROUP",
-	[NODE_COMMAND] = "COMMAND",
-	[NODE_PIPE] = "PIPE",
-	[NODE_DELIM] = "DELIM",
-	};
-
-	if (type < 0 || type >= (sizeof(types) / sizeof(*types)))
-		return ("NODE_UNKNOWN");
-	return (types[type]);
+	(void)msh;
+	(void)node;
+	return (0);
 }

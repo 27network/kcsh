@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/18 00:09:49 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/04 18:07:58 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -201,8 +201,23 @@ valgrind:
 	@clear
 	@MSH_VALGRIND=1 valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./$(NAME) $(VG_RUN)
 
+revalgrind: bonus valgrind
+
 voidgrind:
 	@clear
 	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
 
-.PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind _fclean_prelude _banner _hide_cursor
+revoidgrind: bonus voidgrind
+
+flex:
+	nix-shell -p cloc --command 'cloc . --include-lang="C/C++ Header,C,D,make,Nix,Bourne Again Shell,Python,Bourne Shell"'
+
+debug_ast: 42bonus
+ifeq ($(DEBUG_AST_CMD), )
+	@echo "No command defined, run \`make debug_ast DEBUG_AST_CMD=\"your | commands\"\`"
+else
+	@echo "Printing ast for command: \"${DEBUG_AST_CMD}\""
+	@./$(NAME)_bonus --debug-ast -c "${DEBUG_AST_CMD}" 2>/dev/null | grep "DOT|" | sed 's/.*DOT|//' | dot -Tpng > ast.png && xdg-open ast.png
+endif
+
+.PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind flex _fclean_prelude _banner _hide_cursor

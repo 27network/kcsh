@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:24:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 01:25:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/06 00:32:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
  */
 
 #  include <msh/minishell.h>
+#  include <msh/ast/types.h>
 
 int	msh_exec_simple(t_minishell *msh, char **line);
 int	msh_exec_status(int wait_status);
+
+int	msh_exec_entry(t_minishell *msh, t_ast_node *node);
 
 # endif // __MSH_EXEC_EXEC_H__
 #endif // EXEC_H

@@ -1,0 +1,81 @@
+set_robust_list(0x7939b4f4ca20, 24)     = 0
+getpid()                                = 840413
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+dup2(3, 0)                              = 0
+close(3)                                = 0
+newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/i031v1m39dw38s4gr1g8j4n76n4apxkg-ncurses-6.3-p20220507-dev/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/rngsf0rl2dcdzmyf6j4nxdw3a0i82i6k-ncurses-6.3-p20220507/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/li2r7q4qzmpvgzjiw94899w1zmbh4xl7-readline-6.3p08/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/nfgpn9av331q7zi1dl6d5qpir60y513s-bash-5.1-p16/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/m3745cl71mf6xnydpj9ywdkav1z23vas-shellspec-0.28.1/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/jv3461r4jfpqc206jc4gfhxnzwmpxr4z-graphviz-10.0.1/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/0wjra0llqg6lk7b0f5i2d83psj52h6js-aflplusplus-4.21c/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/ix912x7rrcaiqrrgsw9097r8vn8vfa92-cloc-2.02/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/bzxq1gyr6qrr0xy3gjybg1larh0a6qi5-valgrind-3.23.0/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/zl72hr4km35n9szq62jd027dz3cs85wc-gdb-15.1/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/lbk30k56awz9vz9qpid93fkjns0xwlhd-gcc-wrapper-13.3.0/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/wl7xs26116sswgw18pnc3yw9r5gxr6hx-gcc-13.3.0/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/mg27y4zq8j0m8dn83azqmq02xvfmsd9i-glibc-2.39-52-bin/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/w1iq3315z63558j04gnlzdd2yk1v1hfz-coreutils-9.5/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/qrw9mznq4p1135k53aa5g9saz229srf4-binutils-wrapper-2.42/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/x7yyxvwy1f9hlx72rzrgx069jyf7hxwr-binutils-2.42/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/gmq9x954qm3b42gyinp1221k5jdrfn3z-cppcheck-2.14.2/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/ywz6s6bzap4x6yhg2lrx3ibqcnv051c7-patchelf-0.15.0/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/nh47g2rbw3bld756bb3lyl3pcd9s53df-clang-wrapper-18.1.8/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/8cw3113rgdyalw43s87aajh56p604k3j-clang-18.1.8/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/h4g6z8mr0y16ks8h6hc5h0s4rgr5qxvv-binutils-wrapper-2.42/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/k8pxlbqls9lca60f91rq1hfn8v19kra1-compiler-rt-libc-18.1.8/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/7cbbqq3q5a4p6bg51pq8ynjqnhhxqjgl-ncurses-6.4.20221231-dev/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/i5afycwh0kw99g4ba0nqrwn9g8nfcf6l-ncurses-6.4.20221231/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/ajymwgc23snyw48wvkapw4qjggsi2vbw-findutils-4.10.0/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/frx30r9405q0d4jfxnf969mgq4q8rjk2-diffutils-3.10/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/d58flzaagmfb5pyvmknly4cnws45nc80-gnused-4.9/bin/grep", 0x7ffea43e1110, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", X_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", R_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", X_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", R_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", X_OK) = 0
+newfstatat(AT_FDCWD, "/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", {st_mode=S_IFREG|0555, st_size=200688, ...}, 0) = 0
+geteuid()                               = 1000
+getegid()                               = 100
+getuid()                                = 1000
+getgid()                                = 100
+access("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", R_OK) = 0
+brk(0x970a000)                          = 0x970a000
+brk(0x970b000)                          = 0x970b000
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, {sa_handler=0x44a480, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7939b4c3dbf0}, 8) = 0
+execve("/nix/store/7adzfq6lz76h928gmws5sn6nkli14ml6-gnugrep-3.11/bin/grep", ["grep", "-E", "ps|grep"], 0x96f9010 /* 165 vars */) = 0
