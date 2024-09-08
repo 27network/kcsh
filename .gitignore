@@ -19,6 +19,8 @@ dummyshell
 *.*swp*
 .*.swp*
 
+/*-ast.png
+
 config/.last_comp
 minishell-tester
 minishell_tester

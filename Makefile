@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/04 18:07:58 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/08 16:00:27 by emfriez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -217,7 +217,8 @@ ifeq ($(DEBUG_AST_CMD), )
 	@echo "No command defined, run \`make debug_ast DEBUG_AST_CMD=\"your | commands\"\`"
 else
 	@echo "Printing ast for command: \"${DEBUG_AST_CMD}\""
-	@./$(NAME)_bonus --debug-ast -c "${DEBUG_AST_CMD}" 2>/dev/null | grep "DOT|" | sed 's/.*DOT|//' | dot -Tpng > ast.png && xdg-open ast.png
+	@echo ""
+	RANDOM_NAME="/tmp/$(shell cat /proc/sys/kernel/random/uuid)-ast.png"; ./$(NAME)_bonus --debug-ast -c "${DEBUG_AST_CMD}" 2>/dev/null | grep "DOT|" | sed 's/.*DOT|//' | dot -Tpng > $$RANDOM_NAME && xdg-open $$RANDOM_NAME
 endif
 
 .PHONY:			all bonus 42 42bonus remake clean oclean fclean re valgrind voidgrind flex _fclean_prelude _banner _hide_cursor
