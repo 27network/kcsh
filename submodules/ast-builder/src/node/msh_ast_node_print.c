@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:08:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/03 22:30:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:54:41 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static const char	*msh_ast_stringify(t_ast_node *node)
 	}
 	if (type == NODE_DELIM)
 		return (msh_ast_strdelim(node->delim));
+	if (type == NODE_PIPE)
+		return ("pipe");
 	return (msh_ast_node_strtype(type));
 }
 
