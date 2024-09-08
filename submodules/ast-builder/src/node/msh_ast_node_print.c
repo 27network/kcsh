@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:08:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/08 15:54:41 by emfriez          ###   ########.fr       */
+/*   Updated: 2024/09/08 16:20:35 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 #define PRE "DOT|	"
 #define LOGTYPE MSG_DEBUG_AST_BUILDER
+#define CHAR_OR "│" // a special unicode character to prevent graphwiz from 
+					// fucking up the display
 
 const char	*msh_ast_strdelim(t_ast_delim_type type);
 
@@ -37,10 +39,12 @@ static const char	*msh_ast_stringify(t_ast_node *node)
 			return (first_word->value.string);
 		return (msh_ast_strtoken(first_word->type));
 	}
+	if (type == NODE_DELIM && node->delim == DELIM_OR)
+		return (CHAR_OR CHAR_OR);
 	if (type == NODE_DELIM)
 		return (msh_ast_strdelim(node->delim));
 	if (type == NODE_PIPE)
-		return ("pipe");
+		return (CHAR_OR);
 	return (msh_ast_node_strtype(type));
 }
 
