@@ -1,5 +1,5 @@
 NAME = read-n 
-CC = gcc
+CC = clang
 CFLAGS = -std=c99
 
 all: $(NAME)

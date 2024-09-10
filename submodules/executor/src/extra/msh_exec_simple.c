@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 03:03:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 05:31:34 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #define SHOULD_EXIT -1
 #define BUILTIN_NOT_FOUND -2
 
-static int	msh_exec_perror(t_minishell *msh, int err, char *name)
+static int	msh_exec_perror(t_exec_state *state, int err, char *name)
 {
 	int	ret;
 
@@ -38,13 +38,13 @@ static int	msh_exec_perror(t_minishell *msh, int err, char *name)
 		if (msh_is_directory(name))
 		{
 			ret = 126;
-			msh_error(msh, "%s: %s\n", name, strerror(EISDIR));
+			msh_error(state->msh, "%s: %s\n", name, strerror(EISDIR));
 		}
 		else
-			msh_error(msh, "%s: %s\n", name, strerror(err));
+			msh_error(state->msh, "%s: %s\n", name, strerror(err));
 	}
 	else
-		msh_error(msh, "%s: command not found\n", name);
+		msh_error(state->msh, "%s: command not found\n", name);
 	errno = err;
 	return (ret);
 }
@@ -65,7 +65,7 @@ static int	msh_exec_direct(
 	{
 		msh_signal_setdfl();
 		if (execve(binary_path, av, envp) == -1)
-			status = msh_exec_perror(msh, errno, av[0]);
+			status = msh_exec_perror(state, errno, av[0]);
 		state->msh->execution_context.running = false;
 		free(binary_path);
 		return (status);

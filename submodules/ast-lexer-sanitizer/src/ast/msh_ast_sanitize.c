@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_exec_pipe.c                                    :+:      :+:    :+:   */
+/*   msh_ast_sanitize.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 03:07:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 06:40:08 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/09/10 08:03:24 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/09/10 09:11:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/exec.h>
+#define MSH_SANITIZER_TYPE t_ast_node
+#include <msh/ast/sanitizer.h>
 
-int	msh_exec_pipe(t_exec_state *state, t_ast_node *node)
+t_ast_error	msh_ast_sanitize(t_minishell *msh, t_ast_node **node)
 {
-	t_ast_node	*left;
-	t_ast_node	*right;
-
-	left = node->left;
-	right = node->right;
-	if (left->type == NODE_COMMAND)
-		return (msh_exec_command(state, left));
-	if (right->type == NODE_COMMAND)
-		return (msh_exec_command(state, right));
-	return (0);
+	(void)msh;
+	(void)node;
+	return (msh_ast_ok());
 }

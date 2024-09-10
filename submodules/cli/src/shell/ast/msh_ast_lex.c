@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:44:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 16:38:59 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:10:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static bool	msh_lex_handle_errors(t_ast_lexer *state, t_input_result input,
 		return (false);
 	}
 	msh_dump_tokens(state->msh, state->tokens);
-	err = msh_ast_sanitize(state->msh, &state->tokens);
+	err = msh_ast_sanitize_tokens(state->msh, &state->tokens);
 	if (err.type == AST_ERROR_NONE)
 		*result = state->tokens;
 	else

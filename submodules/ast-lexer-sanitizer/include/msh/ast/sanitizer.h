@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:18:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 16:48:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 08:20:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,34 @@
 # ifndef __MSH_AST_SANITIZER_H__
 #  define __MSH_AST_SANITIZER_H__
 
-#  include <ft/data/list.h>
-#  include <msh/ast/lexer.h>
+#  include <msh/ast/builder.h>
 
-typedef t_ast_error	t_ast_sanitizer_fn(t_minishell *msh, t_list **tokens);
+#  ifndef MSH_SANITIZER_TYPE
+
+//
+//       _.---,._,'
+//      /' _.--.<
+//        /'     `'
+//      /' _.---._____
+//      \.'   ___, .-'`
+//          /'    \\             .
+//        /'       `-.          -|-
+//       |                       |
+//       |                   .-'~~~`-.
+//       |                 .'         `.
+//       |                 |  R  I  P  |
+//       |                 |  kiroussa |
+//       |                 |           |
+//       |                 | death by  |
+//        \              \\| norminette|//
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+typedef void		t_iswearitsconstant;
+
+#   define MSH_SANITIZER_TYPE t_iswearitsconstant
+#  endif
+
+typedef t_ast_error	t_ast_sanitizer_fn(t_minishell *msh,
+						MSH_SANITIZER_TYPE **data_ptr);
 
 typedef struct s_ast_sanitizer_info
 {
@@ -27,7 +51,8 @@ typedef struct s_ast_sanitizer_info
 	const char			*name;
 }	t_ast_sanitizer_info;
 
-t_ast_error	msh_ast_sanitize(t_minishell *msh, t_list **tokens);
+t_ast_error	msh_ast_sanitize(t_minishell *msh, t_ast_node **root);
+t_ast_error	msh_ast_sanitize_tokens(t_minishell *msh, t_list **tokens);
 
 # endif // __MSH_AST_SANITIZER_H__
 #endif // SANITIZER_H

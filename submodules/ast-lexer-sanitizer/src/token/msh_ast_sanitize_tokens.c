@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_sanitize.c                                 :+:      :+:    :+:   */
+/*   msh_ast_sanitize_tokens.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 01:50:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 08:55:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <ft/string.h>
+#define MSH_SANITIZER_TYPE t_list
 #include <msh/ast/sanitizer.h>
 #include <msh/log.h>
 #include <msh/util.h>
@@ -117,7 +118,7 @@ static t_ast_error	msh_ast_sanitize_check(
 	return (err);
 }
 
-t_ast_error	msh_ast_sanitize(
+t_ast_error	msh_ast_sanitize_tokens(
 	t_minishell *msh,
 	t_list **tokens
 ) {

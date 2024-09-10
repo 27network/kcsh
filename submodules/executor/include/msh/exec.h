@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:24:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 01:51:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 06:39:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@
  * TODO: @kiroussa: rename this header
  */
 
-#  include <msh/minishell.h>
-#  include <msh/ast/lexer.h>
-#  include <msh/ast/types.h>
+#  include <msh/ast/builder.h>
 #  include <msh/exec/types.h>
 
 //DEPRECATED
-int	msh_exec_simple(t_minishell *msh, char **line);
+int	msh_exec_simple(t_exec_state *state, char **line);
 int	msh_exec_status(int wait_status);
 //DEPRECATED
 

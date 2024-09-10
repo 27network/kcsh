@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 01:52:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:15:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <msh/util.h>
 
 const char	*msh_syntax_error(t_ast_token *token);
+
 t_ast_error	msh_ast_build(t_minishell *msh, t_list *tokens,
 				t_ast_node **result);
 
@@ -26,7 +27,6 @@ static t_list	*msh_ast_find_tkn(t_minishell *msh, t_list *tokens,
 	t_list		*last;
 	t_ast_token	*tok;
 
-	(void) msh;
 	node = tokens;
 	last = NULL;
 	while (node)

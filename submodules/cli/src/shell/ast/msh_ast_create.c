@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:35:02 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/26 16:46:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:10:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/builder.h>
+#include <msh/ast/sanitizer.h>
 
 static int	msh_strip_last_delim(t_list *tokens)
 {
@@ -47,6 +48,14 @@ int	msh_ast_create(t_minishell *msh, t_list *tokens, t_ast_node **result)
 	{
 		msh_ast_error_print(msh, err);
 		*result = NULL;
+	}
+	else
+	{
+		err = msh_ast_sanitize(msh, result);
+		if (err.type != AST_ERROR_NONE)
+			msh_ast_error_print(msh, err);
+		if (err.type != AST_ERROR_NONE)
+			*result = NULL;
 	}
 	return (*result != NULL);
 }
