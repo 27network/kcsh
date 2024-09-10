@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/03 20:40:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:51:21 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <msh/cli/history.h>
 #include <msh/cli/input.h>
 #include <msh/cli/shell.h>
-#include <msh/exec/exec.h>
+#include <msh/exec.h>
 #include <msh/env.h>
 #include <msh/log.h>
 #include <stdio.h>

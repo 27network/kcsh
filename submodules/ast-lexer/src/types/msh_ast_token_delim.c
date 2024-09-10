@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:22:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 00:01:38 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static t_ast_error	msh_delim_find_kind(const char *input,
 {
 	if (!ft_strncmp(input, "&&", 2))
 		*type = DELIM_AND;
+	else if (*input == '&')
+		*type = DELIM_ASYNC;
 	else if (!ft_strncmp(input, "||", 2))
 		*type = DELIM_OR;
 	else if (*input == ';')

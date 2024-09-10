@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/08 16:20:38 by emfriez          ###   ########.fr        #
+#    Updated: 2024/09/09 01:51:58 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -201,13 +201,9 @@ valgrind:
 	@clear
 	@MSH_VALGRIND=1 valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./$(NAME) $(VG_RUN)
 
-revalgrind: bonus valgrind
-
 voidgrind:
 	@clear
 	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
-
-revoidgrind: bonus voidgrind
 
 flex:
 	nix-shell -p cloc --command 'cloc . --include-lang="C/C++ Header,C,D,make,Nix,Bourne Again Shell,Python,Bourne Shell"'

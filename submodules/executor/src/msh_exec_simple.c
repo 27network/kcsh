@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 13:53:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 03:03:14 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <ft/string.h>
 #include <msh/env.h>
 #include <msh/builtin.h>
-#include <msh/exec/exec.h>
+#include <msh/exec.h>
 #include <msh/util.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,7 +28,7 @@
 #define SHOULD_EXIT -1
 #define BUILTIN_NOT_FOUND -2
 
-static int	msh_exec_error(t_minishell *msh, int err, char *name)
+static int	msh_exec_perror(t_minishell *msh, int err, char *name)
 {
 	int	ret;
 
@@ -49,8 +49,8 @@ static int	msh_exec_error(t_minishell *msh, int err, char *name)
 	return (ret);
 }
 
-static int	msh_exec(
-	t_minishell *msh,
+static int	msh_exec_direct(
+	t_exec_state *state,
 	char *binary_path,
 	char **av,
 	char **envp
@@ -58,25 +58,25 @@ static int	msh_exec(
 	pid_t	pid;
 	int		status;
 
-	msh->interactive = false;
+	state->msh->interactive = false;
 	status = -1;
-	pid = msh_fork(msh);
+	pid = msh_fork(state->msh);
 	if (pid == 0)
 	{
 		msh_signal_setdfl();
 		if (execve(binary_path, av, envp) == -1)
-			status = msh_exec_error(msh, errno, av[0]);
-		msh->execution_context.running = false;
+			status = msh_exec_perror(msh, errno, av[0]);
+		state->msh->execution_context.running = false;
 		free(binary_path);
 		return (status);
 	}
 	else if (pid < 0)
-		msh_error(msh, "%s: %m\n", binary_path);
+		msh_error(state->msh, "%s: %m\n", binary_path);
 	else
 	{
-		msh_signal_init(msh, false);
+		msh_signal_init(state->msh, false);
 		if (waitpid(pid, &status, 0) < 0)
-			msh_error(msh, "%s: %m\n", binary_path);
+			msh_error(state->msh, "%s: %m\n", binary_path);
 	}
 	free(binary_path);
 	return (msh_exec_status(status));
@@ -111,31 +111,30 @@ int	msh_exec_builtin(t_minishell *msh, char **args, char **env)
 	return (BUILTIN_NOT_FOUND);
 }
 
-int	msh_exec_simple(t_minishell *msh, char **args)
+int	msh_exec_simple(t_exec_state *state, char **args)
 {
 	int		status;
 	char	**env;
 	char	*path;
 	bool	old_interactive;
 
-	env = msh_env_tab(msh, ENV_EXPORTED);
-	status = msh_exec_builtin(msh, args, env);
+	env = msh_env_tab(state->msh, ENV_EXPORTED);
+	status = msh_exec_builtin(state->msh, args, env);
 	if (status != BUILTIN_NOT_FOUND)
 		return (status);
 	if (*args[0] != '.' && !ft_strchr(args[0], '/'))
-		path = msh_resolve_path(msh, args[0]);
+		path = msh_resolve_path(state->msh, args[0]);
 	else
 		path = ft_strdup(args[0]);
-	old_interactive = msh->interactive;
+	old_interactive = state->msh->interactive;
 	if (path)
-		status = msh_exec(msh, path, args, env);
+		status = msh_exec_direct(state, path, args, env);
 	else
-	{
-		msh_error(msh, "%s: command not found\n", args[0]);
+		msh_error(state->msh, "%s: command not found\n", args[0]);
+	if (!path)
 		status = 127;
-	}
-	msh->interactive = old_interactive;
-	msh_signal_init(msh, false);
+	state->msh->interactive = old_interactive;
+	msh_signal_init(state->msh, false);
 	msh_env_tab_free(env);
 	return (status);
 }

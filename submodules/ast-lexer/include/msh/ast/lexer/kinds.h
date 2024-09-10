@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:22:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 19:28:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef enum e_ast_delim
 	DELIM_SEMICOLON,	// ;
 	DELIM_AND,			// &&
 	DELIM_OR,			// ||
+	DELIM_ASYNC,		// &
 }	t_ast_delim_type;
 
 typedef enum e_ast_redir

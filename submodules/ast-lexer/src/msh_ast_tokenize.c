@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:21:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,11 @@ static t_ast_error	msh_ast_next_global_token(t_ast_lexer *state,
 		return (msh_ast_token_simple(TKN_SEMISEMI, token, inc, 2));
 	else if (*input == '\n' || (FEAT_TOK_AND && !ft_strncmp(input, "&&", 2))
 		|| (FEAT_TOK_OR && !ft_strncmp(input, "||", 2))
+		|| (FEAT_JOB_CONTROL && *input == '&')
 		|| (FEAT_TOK_SEMICOLON && *input == ';'))
 		return (msh_ast_token_delim(state, token, inc));
 	else if (*input == '|')
 		return (msh_ast_token_simple(TKN_PIPE, token, inc, 1));
-	else if (FEAT_JOB_CONTROL && *input == '&')
-		return (msh_ast_token_simple(TKN_AMP, token, inc, 1));
 	return (msh_ast_token_word(state, token, inc));
 }
 

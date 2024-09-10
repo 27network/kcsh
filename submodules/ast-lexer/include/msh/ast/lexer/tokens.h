@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/27 15:37:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ typedef enum e_ast_tkn_type
 	TKN_SPACE,			// A space, tab, or newline -- only inside strings
 	TKN_KEYWORD,		// if, then, else, elif, fi, ...
 	TKN_PIPE,			// |
-	TKN_AMP,			// & -- async function
-	TKN_DELIM,			// \n, ;, ||, &&
+	TKN_DELIM,			// \n, ;, ||, &&, or & (async)
 	TKN_REDIR,			// >, >>, <, <<, ...
 	TKN_SEMISEMI,		// ;; (end of switch case)
 	TKN_GROUP,			// {, }, (, ) -- a collection of tokens

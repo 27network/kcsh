@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 19:34:38 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ const char	*msh_syntax_error(t_ast_token *token);
 static t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
 {
 	static const t_ast_token_type	no_dupes[] = {
-		TKN_PIPE, TKN_AMP, TKN_DELIM, TKN_SEMISEMI};
+		TKN_PIPE, TKN_DELIM, TKN_SEMISEMI};
 	t_ast_token						*token;
 	t_ast_token						*next;
 	size_t							i;
@@ -56,8 +56,8 @@ static t_ast_error	msh_ast_sanitize_check_first(
 	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check_first: ");
 	if (msh->flags.debug_sanitizer)
 		msh_ast_token_print(msh, token);
-	if (token->type == TKN_PIPE || token->type == TKN_AMP || token->type
-		== TKN_DELIM || token->type == TKN_SEMISEMI)
+	if (token->type == TKN_PIPE || token->type == TKN_DELIM
+		|| token->type == TKN_SEMISEMI)
 		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_syntax_error(
 					token), false));
 	return (msh_ast_ok());
@@ -69,7 +69,7 @@ static t_ast_error	msh_ast_sanitize_check_word_before(
 	t_ast_token *prev_tkn
 ) {
 	static const t_ast_token_type	no_first[] = {
-		TKN_PIPE, TKN_AMP, TKN_DELIM, TKN_SEMISEMI};
+		TKN_PIPE, TKN_DELIM, TKN_SEMISEMI};
 	int								i;
 	t_ast_token						*curr_tkn;
 

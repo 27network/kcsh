@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 02:33:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 12:20:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ const char	*msh_ast_strdelim(t_ast_delim_type type)
 {
 	static const char	*delim_map[] = {
 	[DELIM_SEMICOLON] = ";", [DELIM_AND] = "&&", [DELIM_OR] = "||",
-	[DELIM_NEWLINE] = "\\n"
+	[DELIM_NEWLINE] = "\\n", [DELIM_ASYNC] = "&"
 	};
 
 	if (type < 0 || type >= (sizeof(delim_map) / sizeof(*delim_map)))

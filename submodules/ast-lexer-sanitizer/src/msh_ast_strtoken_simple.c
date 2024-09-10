@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:58:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/24 15:17:59 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:50:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ const char	*msh_ast_strtoken_simple(t_ast_token *token)
 		return (token->value.data);
 	if (token->type == TKN_PIPE)
 		return ("|");
-	if (token->type == TKN_AMP)
-		return ("&");
 	if (token->type == TKN_DELIM)
 		return (msh_ast_strdelim(token->kind));
 	if (token->type == TKN_SEMISEMI)

@@ -1,2 +1,2 @@
 echo meow \
-	fuck my ass
+	what the

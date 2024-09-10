@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/07 00:36:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/09 01:51:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <ft/print.h>
 #include <msh/cli/opt.h>
 #include <msh/cli/shell.h>
-#include <msh/exec/exec.h>
+#include <msh/exec.h>
 
 static int	msh_find_flag_index(const char **argv)
 {
