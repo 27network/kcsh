@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:43:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:09:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_ast_error	msh_ast_transform_try_merge(t_minishell *msh, t_list *token,
 		next = token->next->content;
 	if (msh_ast_transform_try_merge_known(token, current, next, &new))
 		return (msh_ast_transform_try_merge_others(msh, current, work));
-	msh_log(msh, MSG_DEBUG_AST_TRANSFORMER, "transform_mergel: ");
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "transform_mergel: ");
 	if (msh->flags.debug_transformer)
 	{
 		msh_ast_token_print(msh, new);

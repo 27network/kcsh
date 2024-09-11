@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:40:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:52:38 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:10:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	msh_ast_is_substituable(t_ast_lexer *state)
 		ret = true;
 	else if (*line == '$')
 		ret = msh_ast_is_substituable_dollar(state, line);
-	msh_log(state->msh, MSG_DEBUG_AST_TOKENIZER, "is substituable: %s\n",
+	msh_log(state->msh, MSG_DEBUG_TOKENIZER, "is substituable: %s\n",
 		msh_strbool(ret));
 	return (ret);
 }

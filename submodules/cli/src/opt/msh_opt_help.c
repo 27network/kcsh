@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/17 14:46:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:24:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	msh_print_help(t_minishell *msh, int fd)
 	ft_dprintf(fd, "        --help\n");
 	ft_dprintf(fd, "        --debug\n");
 	ft_dprintf(fd, "        --debug-ast\n");
+	ft_dprintf(fd, "        --debug-ast-sanitizer\n");
 	ft_dprintf(fd, "        --debug-executor\n");
-	ft_dprintf(fd, "        --debug-pipelines\n");
-	ft_dprintf(fd, "        --debug-sanitizer\n");
 	ft_dprintf(fd, "        --debug-tokenizer\n");
+	ft_dprintf(fd, "        --debug-token-sanitizer\n");
 	ft_dprintf(fd, "        --debug-transformer\n");
 	ft_dprintf(fd, "        --version\n");
 	ft_dprintf(fd, "Shell options:\n");

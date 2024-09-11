@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/18 22:04:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:11:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 
 #  define RETURN_SUCCESS 0
 #  define RETURN_INVALID_OPT 2
+
+typedef struct s_opt_handler
+{
+	const char	*name;
+	bool		*flag;
+}	t_opt_handler;
 
 void	msh_handle_opts(t_minishell *msh, int argc, const char **argv);
 

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/03 20:31:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:09:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ static bool	msh_should_print_type(t_minishell *msh, t_log_type type)
 		return (true);
 	if (msh->flags.debug_generic)
 		return (true);
-	if (type == MSG_DEBUG_AST_TOKENIZER)
+	if (type == MSG_DEBUG_TOKENIZER)
 		return (msh->flags.debug_tokenizer);
-	if (type == MSG_DEBUG_AST_TRANSFORMER)
+	if (type == MSG_DEBUG_EXEC_TRANSFORMER)
 		return (msh->flags.debug_transformer);
+	if (type == MSG_DEBUG_TOKEN_SANITIZER)
+		return (msh->flags.debug_token_sanitizer);
 	if (type == MSG_DEBUG_AST_SANITIZER)
-		return (msh->flags.debug_sanitizer);
+		return (msh->flags.debug_ast_sanitizer);
 	if (type == MSG_DEBUG_AST_BUILDER)
 		return (msh->flags.debug_ast);
-	if (type == MSG_DEBUG_EXECUTOR_BUILDER)
-		return (msh->flags.debug_pipelines);
 	if (type == MSG_DEBUG_EXECUTOR)
 		return (msh->flags.debug_executor);
 	return (false);
@@ -44,18 +44,18 @@ static const char	*msh_debug_log_prefix(t_log_type type)
 {
 	if (type == MSG_DEBUG_GENERIC)
 		return ("[DEBUG] ");
-	if (type == MSG_DEBUG_AST_TOKENIZER)
-		return ("[AST/TOKENIZER] ");
-	if (type == MSG_DEBUG_AST_TRANSFORMER)
-		return ("[AST/TRANSFORMER] ");
+	if (type == MSG_DEBUG_TOKENIZER)
+		return ("[TKN] ");
+	if (type == MSG_DEBUG_TOKEN_SANITIZER)
+		return ("[TKN/SANITIZE] ");
 	if (type == MSG_DEBUG_AST_SANITIZER)
-		return ("[AST/SANITIZER] ");
+		return ("[AST/SANITIZE] ");
 	if (type == MSG_DEBUG_AST_BUILDER)
-		return ("[AST/BUILDER] ");
-	if (type == MSG_DEBUG_EXECUTOR_BUILDER)
-		return ("[EXECUTOR/PIPELINES] ");
+		return ("[AST/BUILD] ");
 	if (type == MSG_DEBUG_EXECUTOR)
-		return ("[EXECUTOR] ");
+		return ("[EXEC] ");
+	if (type == MSG_DEBUG_EXEC_TRANSFORMER)
+		return ("[EXEC/TRANSFORM] ");
 	return (NULL);
 }
 

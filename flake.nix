@@ -19,7 +19,7 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pkgs42 = matching42pkgs.legacyPackages.${system};
-        stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.llvmPackages_latest.stdenv;
+        stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.llvmPackages_19.stdenv;
       in
       {
         devShell = (pkgs.mkShell.override { inherit stdenv; }) {
@@ -45,5 +45,4 @@
       }
     );
 }
-# vim: ts=2 sw=2 et
 

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/17 14:48:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:06:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 
 typedef struct s_msh_flags
 {
-	// Debug flags
+	// Debug flags (see shared@msh/log.h)
 	bool	debug_generic;				// MSG_DEBUG_GENERIC
-	bool	debug_tokenizer;			// MSG_DEBUG_AST_TOKENIZER
-	bool	debug_sanitizer;			// MSG_DEBUG_AST_SANITIZER
+	bool	debug_tokenizer;			// MSG_DEBUG_TOKENIZER
+	bool	debug_token_sanitizer;		// MSG_DEBUG_TOKEN_SANITIZER
 	bool	debug_ast;					// MSG_DEBUG_AST_BUILDER
-	bool	debug_transformer;			// MSG_DEBUG_AST_TRANSFORMER
+	bool	debug_ast_sanitizer;		// MSG_DEBUG_AST_SANITIZER
+	bool	debug_transformer;			// MSG_DEBUG_EXEC_TRANSFORMER
 	bool	debug_executor;				// MSG_DEBUG_EXECUTOR
-	bool	debug_pipelines;			// MSG_DEBUG_EXECUTOR_BUILDER
 	// POSIX Flags
 	bool	mark_modified_variables;	// -a allexport
 	bool	exit_on_error;				// -e errexit

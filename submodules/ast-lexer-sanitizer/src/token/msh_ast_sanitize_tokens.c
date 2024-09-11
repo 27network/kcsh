@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 08:55:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:07:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static t_ast_error	msh_ast_sanitize_check_first(
 ) {
 	if (!current || !token)
 		return (msh_ast_ok());
-	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check_first: ");
-	if (msh->flags.debug_sanitizer)
+	msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "sanitize_check_first: ");
+	if (msh->flags.debug_token_sanitizer)
 		msh_ast_token_print(msh, token);
 	if (token->type == TKN_PIPE || token->type == TKN_DELIM
 		|| token->type == TKN_SEMISEMI)
@@ -102,18 +102,18 @@ static t_ast_error	msh_ast_sanitize_check(
 ) {
 	t_ast_error	err;
 
-	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check: ");
-	if (msh->flags.debug_sanitizer)
+	msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "sanitize_check: ");
+	if (msh->flags.debug_token_sanitizer)
 		msh_ast_token_print(msh, curr);
 	if (!prev)
 		err = msh_ast_sanitize_check_first(msh, current, curr);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
-	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check_duplicate\n");
+	msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "sanitize_check_duplicate\n");
 	err = msh_ast_sanitize_check_duplicate(current);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
-	msh_log(msh, MSG_DEBUG_AST_SANITIZER, "sanitize_check_word_before\n");
+	msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "sanitize_check_word_before\n");
 	err = msh_ast_sanitize_check_word_before(current, prev);
 	return (err);
 }
@@ -132,7 +132,7 @@ t_ast_error	msh_ast_sanitize_tokens(
 	while (current && current->content && err.type == AST_ERROR_NONE)
 	{
 		err = msh_ast_sanitize_check(msh, current, prevt, current->content);
-		msh_log(msh, MSG_DEBUG_AST_SANITIZER, "got error? %s\n",
+		msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "got error? %s\n",
 			msh_strbool(err.type != 0));
 		if (current && current->content)
 			prevt = current->content;

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/08/17 15:00:12 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/11 17:40:45 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC			=	history/msh_history_file.c \
 				history/msh_history_push.c \
 				history/msh_history_raw.c \
 				history/msh_history_save.c \
+				opt/msh_handle_debug_generic.c \
 				opt/msh_handle_opts.c \
 				opt/msh_opt_command.c \
 				opt/msh_opt_flags.c \

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    config.mk                                          :+:      :+:    :+:    #
+#    defaults.mk                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/08/26 14:46:43 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/11 23:39:57 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC_DIR			?= src
 INCLUDE_DIR		?= include
 
 CC				?= clang
-CFLAGS			+= -Wall -Wextra -Werror -g3 -fno-plt -fPIE
+CFLAGS			+= -Wall -Wextra -Werror -g3 -fno-plt -fPIE -std=c23
 DFLAGS 			+= -MT $@ -MMD -MP -MF $(D_DIR)/$*.tmp.d
 
 ifeq ($(KCSH_TESTS), 1)

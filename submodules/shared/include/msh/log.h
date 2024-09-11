@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:07:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/12 16:55:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:06:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ typedef enum e_log_type
 	MSG_ERROR = 0,
 	MSG_WARNING,
 	MSG_DEBUG_GENERIC,
-	MSG_DEBUG_AST_TOKENIZER,
-	MSG_DEBUG_AST_SANITIZER,
-	MSG_DEBUG_AST_TRANSFORMER,
+	MSG_DEBUG_TOKENIZER,
+	MSG_DEBUG_TOKEN_SANITIZER,
 	MSG_DEBUG_AST_BUILDER,
-	MSG_DEBUG_EXECUTOR_BUILDER,
+	MSG_DEBUG_AST_SANITIZER,
+	MSG_DEBUG_EXEC_TRANSFORMER,
 	MSG_DEBUG_EXECUTOR,
 }	t_log_type;
 

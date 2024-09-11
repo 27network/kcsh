@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_lexer_debug.c                              :+:      :+:    :+:   */
+/*   msh_handle_debug_generic.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 01:13:13 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 18:10:33 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/09/11 17:40:23 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/09/11 17:40:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/lexer.h>
-#define __MSH_LOG_INTERNAL__
-#include <msh/log.h>
-#include <stdarg.h>
+#include <msh/minishell.h>
 
-void	msh_ast_lexer_debug(t_ast_lexer *lexer, const char *format, ...)
+void	msh_handle_debug_generic(t_minishell *msh)
 {
-	va_list	args;
-
-	va_start(args, format);
-	msh_vlog(lexer->msh, MSG_DEBUG_TOKENIZER, format, args);
-	va_end(args);
+	msh->flags.debug_generic = true;
+	msh->flags.debug_tokenizer = true;
+	msh->flags.debug_token_sanitizer = true;
+	msh->flags.debug_ast = true;
+	msh->flags.debug_ast_sanitizer = true;
+	msh->flags.debug_transformer = true;
+	msh->flags.debug_executor = true;
 }

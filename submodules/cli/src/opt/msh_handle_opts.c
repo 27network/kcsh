@@ -6,11 +6,9 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:14:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 15:00:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:34:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#define AVAILABLE_SHORT_OPTS "c"
 
 #include <ft/string.h>
 #include <ft/print.h>
@@ -53,15 +51,34 @@ static void	msh_handle_short(
 		msh_handle_invalid(msh, cmds, false);
 }
 
-static void	msh_handle_debug_generic(t_minishell *msh)
-{
-	msh->flags.debug_generic = true;
-	msh->flags.debug_ast = true;
-	msh->flags.debug_executor = true;
-	msh->flags.debug_pipelines = true;
-	msh->flags.debug_sanitizer = true;
-	msh->flags.debug_tokenizer = true;
-	msh->flags.debug_transformer = true;
+void	msh_handle_debug_generic(t_minishell *msh);
+
+static void	msh_handle_debug_opts(
+	t_minishell *msh,
+	const char *cmd
+) {
+	t_opt_handler	*debug_handlers;
+	size_t			i;
+
+	i = 0;
+	debug_handlers = (t_opt_handler[]){
+	{"ast", &msh->flags.debug_ast},
+	{"ast-sanitizer", &msh->flags.debug_ast_sanitizer},
+	{"executor", &msh->flags.debug_executor},
+	{"tokenizer", &msh->flags.debug_tokenizer},
+	{"token-sanitizer", &msh->flags.debug_token_sanitizer},
+	{"transformer", &msh->flags.debug_transformer},
+	};
+	while (i < 6)
+	{
+		if (ft_strcmp(cmd, debug_handlers[i].name) == 0)
+		{
+			*(debug_handlers[i].flag) = true;
+			return ;
+		}
+		i++;
+	}
+	msh_handle_invalid(msh, cmd, true);
 }
 
 static void	msh_handle_opt(
@@ -76,18 +93,8 @@ static void	msh_handle_opt(
 		msh_opt_flags(msh);
 	else if (ft_strcmp(cmd, "--debug") == 0)
 		msh_handle_debug_generic(msh);
-	else if (ft_strcmp(cmd, "--debug-ast") == 0)
-		msh->flags.debug_ast = true;
-	else if (ft_strcmp(cmd, "--debug-executor") == 0)
-		msh->flags.debug_executor = true;
-	else if (ft_strcmp(cmd, "--debug-pipelines") == 0)
-		msh->flags.debug_pipelines = true;
-	else if (ft_strcmp(cmd, "--debug-sanitizer") == 0)
-		msh->flags.debug_sanitizer = true;
-	else if (ft_strcmp(cmd, "--debug-tokenizer") == 0)
-		msh->flags.debug_tokenizer = true;
-	else if (ft_strcmp(cmd, "--debug-transformer") == 0)
-		msh->flags.debug_transformer = true;
+	else if (ft_strncmp(cmd, "--debug-", 8) == 0)
+		msh_handle_debug_opts(msh, cmd + 8);
 	else if (ft_strncmp(cmd, "--", 2) == 0)
 		msh_handle_invalid(msh, cmd, true);
 	else if (ft_strncmp(cmd, "-", 1) == 0)
