@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:49:47 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 03:03:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:15:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ static bool	msh_getent_passwd(t_minishell *msh, struct passwd *pwd,
 	return (ret);
 }
 
+/**
+ * Note: Usage of msh_is_valgrind() is a way to not display tons of errors when
+ * running in debug mode, NOT a way to get around the program leaking memory.
+ */
 struct passwd	msh_getpw_for(t_minishell *msh, uid_t uid, const char *name)
 {
 	struct passwd	pwd;

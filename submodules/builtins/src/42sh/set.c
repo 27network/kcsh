@@ -140,7 +140,7 @@ static int	msh_builtin_set(int argc, char **argv, t_minishell *msh)
 	return (0);
 }
 
-__attribute__((constructor))
+[[gnu::constructor]]
 void	register_set(void)
 {
 	msh_builtin_register((t_builtin){

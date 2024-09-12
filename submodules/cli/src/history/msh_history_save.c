@@ -23,7 +23,7 @@
 
 static bool	msh_save_shakespeare(
 	t_minishell *msh,
-	__attribute__((unused)) int fd
+	[[maybe_unused]] int fd
 ) {
 	msh_error(msh, "shakespeare history saving not implemented\n");
 	return (true);
@@ -33,7 +33,7 @@ static bool	msh_save_shakespeare(
 #  define LINELOG_SAVE msh_save_readline
 
 static bool	msh_save_readline(
-	__attribute__((unused)) t_minishell *msh,
+	[[maybe_unused]] t_minishell *msh,
 	int fd
 ) {
 	HIST_ENTRY	***history_ptr;
@@ -78,7 +78,7 @@ void	msh_history_save(t_minishell *msh)
 
 #else
 
-void	msh_history_save(__attribute__((unused)) t_minishell *msh)
+void	msh_history_save([[maybe_unused]] t_minishell *msh)
 {
 }
 

@@ -36,7 +36,7 @@ void	msh_ast_error_free(t_ast_error error)
 }
 
 static void	msh_ast_error_data(
-	__attribute__((unused)) t_minishell *msh,
+	[[maybe_unused]] t_minishell *msh,
 	const char *type_message,
 	t_ast_error	error
 ) {

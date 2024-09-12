@@ -25,7 +25,7 @@ static int	shk_wrap_ioctl(struct winsize *ws)
 
 #else
 
-static int	shk_wrap_ioctl(__attribute__((unused)) struct winsize *ws)
+static int	shk_wrap_ioctl([[maybe_unused]] struct winsize *ws)
 {
 	return (-1);
 }

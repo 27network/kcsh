@@ -51,7 +51,7 @@ bool	msh_env_is_valid_name(const char *name, bool assignment)
 #ifdef KCSH_TESTS
 # define TARGET msh_env_is_valid_name
 
-__attribute__((constructor))
+[[gnu::constructor]]
 void	msh_env_is_valid_name_test(void)
 {
 	assert(TARGET("HOME", false), __FILE__, "HOME isn't a valid name");

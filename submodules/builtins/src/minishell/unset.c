@@ -24,7 +24,7 @@
 #endif // FEAT_BUILTIN_UNSET_OPT
 
 static int	msh_builtin_unset(
-	__attribute__((unused)) int argc,
+	[[maybe_unused]] int argc,
 	char **argv,
 	t_minishell *msh
 ) {
@@ -54,7 +54,7 @@ static int	msh_builtin_unset(
 	return (ret);
 }
 
-__attribute__((constructor))
+[[gnu::constructor]]
 void	register_unset(void)
 {
 	msh_builtin_register((t_builtin){

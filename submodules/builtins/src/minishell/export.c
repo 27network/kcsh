@@ -154,7 +154,7 @@ static int	msh_builtin_export(int argc, char **argv, t_minishell *msh)
 
 #endif // FEAT_BUILTIN_EXPORT_OPT
 
-__attribute__((constructor))
+[[gnu::constructor]]
 void	register_export(void)
 {
 	msh_builtin_register((t_builtin){

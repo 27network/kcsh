@@ -66,7 +66,7 @@ static int	msh_builtin_env(int argc, char **argv, char **envp)
 	return (0);
 }
 
-__attribute__((constructor))
+[[gnu::constructor]]
 void	register_env(void)
 {
 	msh_builtin_register((t_builtin){

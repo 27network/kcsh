@@ -22,7 +22,7 @@ static void	msh_ast_transform_try_wordify(t_list *node)
 }
 
 t_ast_error	msh_ast_transform_wordify(
-	__attribute__((unused)) t_minishell *msh,
+	[[maybe_unused]] t_minishell *msh,
 	t_list **tokens
 ) {
 	t_list		*current;

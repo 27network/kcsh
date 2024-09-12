@@ -47,7 +47,7 @@ static bool	shk_input_hook_dev(
 	return (false);
 }
 
-__attribute__((unused))
+[[maybe_unused]]
 static void	shk_draw_word_hook(
 	t_shakespeare_data *shk,
 	const t_shk_hook_type type,

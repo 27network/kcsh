@@ -57,7 +57,7 @@ void	msh_history_load(t_minishell *msh)
 
 #else
 
-void	msh_history_load(__attribute__((unused)) t_minishell *msh)
+void	msh_history_load([[maybe_unused]] t_minishell *msh)
 {
 }
 

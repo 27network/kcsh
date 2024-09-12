@@ -36,8 +36,8 @@ int	msh_history_file(t_minishell *msh, int flags)
 #else
 
 int	msh_history_file(
-	__attribute__((unused)) t_minishell *msh,
-	__attribute__((unused)) int flags
+	[[maybe_unused]] t_minishell *msh,
+	[[maybe_unused]] int flags
 ) {
 	return (-1);
 }
