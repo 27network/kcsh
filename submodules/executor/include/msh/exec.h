@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:24:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 06:39:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:02:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 #  include <msh/ast/builder.h>
 #  include <msh/exec/types.h>
+#  include <sys/types.h>
 
 //DEPRECATED
 int	msh_exec_simple(t_exec_state *state, char **line);

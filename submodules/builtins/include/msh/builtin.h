@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 02:55:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 18:49:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:00:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 #  define BUILTIN_HIDDEN 0x008
 #  define BUILTIN_SPECIAL 0x010
 
-#  define ATTR __attribute__
-
 /**
  * @brief Builtin structure
  *
@@ -46,7 +44,7 @@ typedef struct s_builtin
 	const char	*usage;
 	const char	*help;
 
-	int			(*func)();
+	void		*func;
 
 	int			flags;
 }	t_builtin;
@@ -58,7 +56,7 @@ void		msh_builtin_print_usage(t_builtin *builtin, int fd);
 // just to be sure
 #  define BUILTIN_REGISTRY_SIZE 256
 
-// god i hate C2X 
+// god i hate C23
 typedef int	(*t_builtin_fboth)(int, char **, char **, t_minishell *);
 typedef int	(*t_builtin_fenv)(int, char **, char **);
 typedef int	(*t_builtin_fmsh)(int, char **, t_minishell *);

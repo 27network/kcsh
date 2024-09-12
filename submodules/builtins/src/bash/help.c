@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 12:41:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/08 19:36:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:09:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	msh_help_command_wall(t_minishell *msh)
 
 static int	msh_help(
 	int argc,
-	ATTR((unused)) char **argv,
+	[[maybe_unused]] char **argv,
 	t_minishell *msh
 ) {
 	if (argc == 1)

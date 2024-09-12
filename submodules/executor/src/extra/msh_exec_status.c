@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:21:50 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 22:53:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:07:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,25 @@
 
 #ifndef WCOREDUMP
 
+// Taken from https://git.musl-libc.org/cgit/musl/tree/include/sys/wait.h#n51
 bool	_wcoredump(int status)
 {
 	return (status & 0x80);
 }
 
 # define WCOREDUMP _wcoredump
-#endif
+#endif // !WCOREDUMP
+
+#ifndef WIFCONTINUED
+
+// Taken from https://git.musl-libc.org/cgit/musl/tree/include/sys/wait.h#n55 
+bool	_wifcontinued(int status)
+{
+	return (status == 0xffff);
+}
+
+# define WIFCONTINUED _wifcontinued
+#endif // !WIFCONTINUED
 
 int	msh_exec_status(int wait_status)
 {
