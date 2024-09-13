@@ -6,11 +6,9 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 07:16:26 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/12 16:08:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:34:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <msh/signal.h>
 
 #include <errno.h>
 #include <ft/io.h>
@@ -20,6 +18,7 @@
 #include <msh/cli/input.h>
 #include <msh/features.h>
 #include <msh/log.h>
+#include <msh/signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

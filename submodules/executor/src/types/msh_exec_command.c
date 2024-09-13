@@ -6,30 +6,54 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 17:20:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:04:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/data/list.h>
 #include <msh/exec.h>
 #include <msh/log.h>
 #include <stdio.h>
 #include <unistd.h>
 
-int	msh_exec_command_infork(t_exec_state *state, const char **cmdline)
+static void	msh_exec_command_stdin(t_exec_state *state, t_list *fd_node)
 {
-	(void)state;
-	(void)cmdline;
+	const int	*fd = (int *)fd_node->content;
+
+	dup2(*fd, 0);
+	close(*fd);
+	(void) state;
+}
+
+static int	msh_exec_command_infork(
+	t_exec_state *state,
+	const char **cmdline,
+	int fds[2]
+) {
+	if (state->fd_stack)
+		msh_exec_command_stdin(state, ft_lst_last(state->fd_stack));
+	close(fds[0]);
+	dup2(fds[1], 1);
+	close(fds[1]);
+	(void) cmdline;
+	//TODO: redirections
 	return (0);
 }
 
-int	msh_exec_command_outfork(t_exec_state *state, const char **cmdline)
-{
-	(void)state;
-	(void)cmdline;
+static int	msh_exec_command_outfork(
+	t_exec_state *state,
+	const char **cmdline,
+	int fds[2]
+) {
+	close(fds[1]);
+	(void) cmdline;
+	(void) state;
+	// msh_exec_push_fd(state, fds[0], 0);
 	return (0);
 }
 
-int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
+[[maybe_unused]]
+static int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
 {
 	pid_t	pid;
 	int		fds[2];
@@ -48,19 +72,20 @@ int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
 		return (1);
 	}
 	if (pid == 0)
-		return (msh_exec_command_infork(state, cmdline));
-	return (msh_exec_command_outfork(state, cmdline));
+		return (msh_exec_command_infork(state, cmdline, fds));
+	return (msh_exec_command_outfork(state, cmdline, fds));
 }
 
+//TODO: transform
+//TODO: expansions
+//TODO: check redirs
+//TODO: check builtin <------
+//TODO: exec
 int	msh_exec_command(t_exec_state *state, t_ast_node *node)
 {
-	// if (!msh_ast_expand(state->msh, node))
-	// {
-	// 	msh_error(state->msh, "expansion error\n");
-	// 	return (1);
-	// }
-	(void)node;
-	(void)state;
+	t_ast_error	err;
+
+	err = msh_ast_transform(state->msh, &node->tokens);
 	printf("msh_exec_command\n");
 	printf("node->type: %s\n", msh_ast_node_strtype(node->type));
 	return (0);

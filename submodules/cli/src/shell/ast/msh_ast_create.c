@@ -6,13 +6,16 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:35:02 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 09:10:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:27:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/builder.h>
 #include <msh/ast/sanitizer.h>
 
+/**
+ * Removes the last \n from the token list, since it's from our linelib
+ */
 static int	msh_strip_last_delim(t_list *tokens)
 {
 	t_list	*node;

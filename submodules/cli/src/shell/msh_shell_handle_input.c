@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 23:35:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:11:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,13 @@ static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
 static void	msh_takeoff(t_minishell *msh, t_input_result input)
 {
 	t_ast_node	*ast;
+	bool		ast_ok;
 
-	if (msh_handle_ast(msh, input, &ast) && !msh->forked && !msh->flags
-		.debug_tokenizer && !msh->flags.debug_token_sanitizer
-		&& !msh->flags.debug_ast_sanitizer && !msh->flags.debug_ast)
+	ast_ok = msh_handle_ast(msh, input, &ast);
+	ft_strdel((char **) &input.buffer);
+	if (ast_ok && !msh->forked && !msh->flags.debug_tokenizer
+		&& !msh->flags.debug_token_sanitizer && !msh->flags.debug_ast_sanitizer
+		&& !msh->flags.debug_ast)
 	{
 		if (!msh_exec_wrap(msh, ast))
 			msh->execution_context.exit_code = 1;
@@ -102,5 +105,4 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		return ;
 	msh_handle_history(input, false);
 	msh_takeoff(msh, input);
-	ft_strdel((char **) &input.buffer);
 }

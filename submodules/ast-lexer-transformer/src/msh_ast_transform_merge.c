@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:08:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:42:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static bool	msh_ast_transform_try_merge_known(
 		*new = msh_ast_merge_strtostr(token, current, next);
 	else if (next && current->type == TKN_NUMBER && next->type == TKN_REDIR)
 		*new = msh_ast_merge_fdtoredir(token, current, next);
-	else if (false && next && current->type == TKN_REDIR
-		&& next->type == TKN_SEP)
-		*new = msh_ast_merge_redirtosep(token, current, next);
+	// else if (false && next && current->type == TKN_REDIR
+	// 	&& next->type == TKN_SEP)
+	// 	*new = msh_ast_merge_redirtosep(token, current, next);
 	return (*new == NULL);
 }
 

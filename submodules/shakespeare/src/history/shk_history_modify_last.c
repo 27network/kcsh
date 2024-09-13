@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 20:21:32 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 22:18:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:58:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	shk_history_modify_last(const char *line)
 	shk_history_push_entry(history);
 }
 
+// See cli/src/history/msh_history_modify_last.c
 void	msh_history_modify_last(const char *line)
 		__attribute__((weak, alias("shk_history_modify_last")));

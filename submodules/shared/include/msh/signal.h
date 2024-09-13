@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:09:18 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/12 16:10:23 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:24:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 # undef SIGNAL_H
 # ifndef __MSH_SIGNAL_H__
 #  define __MSH_SIGNAL_H__
+
+#  ifndef __USE_MISC
+#   define __USE_POSIX19930
+#   define __USE_MISC
+#  endif // !__USE_MISC
 
 #  include <signal.h>
 

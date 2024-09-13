@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 20:40:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 20:17:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:58:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ some features will be disabled\n"
  *       the `mov` intrinsics (+2), and read the int offset from %rsi 
  *       (function address + 4). We then add the offset to the function address
  *       to get the pointer to `the_history`.
+ *
+ * @note lmao.
  *
  * @return uint64_t The pointer.
  */

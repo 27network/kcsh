@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:51:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/28 22:18:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:59:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	msh_history_modify_last(const char *line)
  * You know you have a good codebase when you can pull stuff like this and it
  * makes perfect logical sense.
  *
- * And yes, i'm proud of this.
+ * And yes, i'm proud of this shit.
+ *
+ * @see shakespeare/src/history/shk_history_modify_last.c
  */
 
 #endif // !FEAT_NO_READLINE
