@@ -106,7 +106,7 @@ static int	msh_echo_handle_opts(
 }
 
 static void	msh_echo_write(
-	[[maybe_unused]] t_minishell *msh,
+	__attribute__((unused)) t_minishell *msh,
 	char *arg,
 	int do_v9
 ) {
@@ -155,7 +155,7 @@ static int	msh_echo(
 	return (0);
 }
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_echo(void)
 {
 	msh_builtin_register((t_builtin){

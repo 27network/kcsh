@@ -72,7 +72,7 @@ static int	msh_builtin_shift(int argc, char **argv, t_minishell *msh)
 	return (msh_shift(msh, n));
 }
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_shift(void)
 {
 	msh_builtin_register((t_builtin){

@@ -54,7 +54,7 @@ static void	msh_init_flags(t_minishell *msh)
 
 void	msh_init(
 	t_minishell *msh,
-	[[maybe_unused]] int argc,
+	__attribute__((unused)) int argc,
 	const char **argv,
 	const char **envp
 ) {

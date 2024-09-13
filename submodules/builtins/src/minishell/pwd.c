@@ -76,7 +76,7 @@ static int	msh_builtin_pwd(int argc, char **argv, t_minishell *msh)
 
 #endif // FEAT_BUILTIN_PWD_OPT
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_pwd(void)
 {
 	msh_builtin_register((t_builtin){

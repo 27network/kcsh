@@ -42,7 +42,7 @@ int	msh_builtin_no_op(int argc, char **argv)
 	return (0);
 }
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_no_op(void)
 {
 	msh_builtin_register((t_builtin){

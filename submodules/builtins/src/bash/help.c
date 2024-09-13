@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 12:41:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 19:07:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:07:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static int	msh_help(
 	return (0);
 }
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_help(void)
 {
 	msh_builtin_register((t_builtin){

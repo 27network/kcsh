@@ -50,7 +50,7 @@ int	msh_builtin_cd(int argc, char **argv, t_minishell *msh)
 	return (1);
 }
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_cd(void)
 {
 	msh_builtin_register((t_builtin){

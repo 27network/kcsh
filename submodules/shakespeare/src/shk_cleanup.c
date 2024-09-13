@@ -14,7 +14,7 @@
 #include <shakespeare.h>
 #include <stdlib.h>
 
-[[gnu::destructor]]
+__attribute__((destructor))
 static void	shk_cleanup(void)
 {
 	t_shakespeare_data	*shk;

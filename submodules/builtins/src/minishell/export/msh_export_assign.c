@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:51:14 by ebouchet          #+#    #+#             */
-/*   Updated: 2024/09/12 16:54:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:01:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static int	msh_export_update(t_minishell *msh, t_variable *variable,
 	return (0);
 }
 
-[[clang::always_inline]]
+__attribute__((always_inline))
 static inline int	flags(bool plus, bool negate)
 {
 	return (plus * FLAG_PLUS | negate * FLAG_NEGATE);

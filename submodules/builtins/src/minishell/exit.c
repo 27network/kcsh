@@ -100,7 +100,7 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 	return (ret);
 }
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_exit(void)
 {
 	msh_builtin_register((t_builtin){

@@ -61,9 +61,9 @@ static void	msh_print_clock_t(clock_t t)
 }
 
 static int	msh_builtin_times(
-	[[maybe_unused]] int argc,
-	[[maybe_unused]] char **argv,
-	[[maybe_unused]] t_minishell *msh
+	__attribute__((unused)) int argc,
+	__attribute__((unused)) char **argv,
+	__attribute__((unused)) t_minishell *msh
 ) {
 	struct tms	tms;
 
@@ -82,8 +82,8 @@ static int	msh_builtin_times(
 #else
 
 static int	msh_builtin_times(
-	[[maybe_unused]] int argc,
-	[[maybe_unused]] char **argv,
+	__attribute__((unused)) int argc,
+	__attribute__((unused)) char **argv,
 	t_minishell *msh
 ) {
 	msh_error(msh, "times: not implemented\n");
@@ -93,7 +93,7 @@ static int	msh_builtin_times(
 
 #endif // FEAT_SYSCALLS
 
-[[gnu::constructor]]
+__attribute__((constructor))
 void	register_times(void)
 {
 	msh_builtin_register((t_builtin){

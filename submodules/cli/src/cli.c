@@ -38,7 +38,7 @@ static void	msh_setup_linelib(t_minishell *msh)
 # else
 
 static void	msh_setup_linelib(
-	[[maybe_unused]] t_minishell *msh
+	__attribute__((unused)) t_minishell *msh
 ) {
 }
 
@@ -65,9 +65,9 @@ int	main(int argc, const char *argv[], const char *envp[])
 #else
 
 int	main(
-	[[maybe_unused]] int argc,
-	[[maybe_unused]] const char *argv[],
-	[[maybe_unused]] const char *envp[]
+	__attribute__((unused)) int argc,
+	__attribute__((unused)) const char *argv[],
+	__attribute__((unused)) const char *envp[]
 ) {
 	return (0);
 }
