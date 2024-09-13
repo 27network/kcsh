@@ -6,11 +6,12 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 19:04:00 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:38:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/data/list.h>
+#include <msh/ast/transformer.h>
 #include <msh/exec.h>
 #include <msh/log.h>
 #include <stdio.h>
@@ -76,8 +77,9 @@ static int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
 	return (msh_exec_command_outfork(state, cmdline, fds));
 }
 
+void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
+
 //TODO: transform
-//TODO: expansions
 //TODO: check redirs
 //TODO: check builtin <------
 //TODO: exec
@@ -85,8 +87,9 @@ int	msh_exec_command(t_exec_state *state, t_ast_node *node)
 {
 	t_ast_error	err;
 
-	err = msh_ast_transform(state->msh, &node->tokens);
-	printf("msh_exec_command\n");
-	printf("node->type: %s\n", msh_ast_node_strtype(node->type));
+	err = msh_ast_transform(state->msh, &node->command.tokens);
+	if (!err.type)
+		return (1);
+	msh_dump_tokens(state->msh, node->command.tokens);
 	return (0);
 }

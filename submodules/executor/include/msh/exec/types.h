@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 17:54:24 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 17:50:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:07:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_exec_state
 	 */
 	t_minishell	*msh;
 	/**
-	 * @brief	
+	 * @brief	A stack of file descriptors to be closed when the pipeline ends.
 	 */
 	t_list		*fd_stack;
 	/**
