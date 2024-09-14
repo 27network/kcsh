@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 21:36:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:34:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	msh_exec_entry(t_minishell *msh, t_ast_node *node)
 	int				ret;
 
 	msh_exec_state(&state, msh);
+	msh_log(msh, MSG_DEBUG_EXECUTOR, "Executing AST node %p\n", node);
 	ret = msh_exec(&state, node);
-	msh_ast_node_free(node);
 	return (ret);
 }

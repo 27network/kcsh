@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 20:38:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:35:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	msh_exec_command(t_exec_state *state, t_ast_node *node)
 	t_ast_error	err;
 
 	err = msh_ast_transform(state->msh, &node->command.tokens);
-	if (!err.type)
+	if (err.type)
 		return (1);
 	msh_dump_tokens(state->msh, node->command.tokens);
 	return (0);

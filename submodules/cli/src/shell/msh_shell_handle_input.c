@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 15:11:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:31:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ static void	msh_takeoff(t_minishell *msh, t_input_result input)
 
 	ast_ok = msh_handle_ast(msh, input, &ast);
 	ft_strdel((char **) &input.buffer);
-	if (ast_ok && !msh->forked && !msh->flags.debug_tokenizer
-		&& !msh->flags.debug_token_sanitizer && !msh->flags.debug_ast_sanitizer
-		&& !msh->flags.debug_ast)
+	if (ast_ok && !msh->forked)
 	{
 		if (!msh_exec_wrap(msh, ast))
 			msh->execution_context.exit_code = 1;

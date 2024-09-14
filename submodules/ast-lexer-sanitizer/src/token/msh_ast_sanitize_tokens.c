@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 23:07:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:56:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,9 @@
 
 const char	*msh_syntax_error(t_ast_token *token);
 
-static t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
-{
-	static const t_ast_token_type	no_dupes[] = {
-		TKN_PIPE, TKN_DELIM, TKN_SEMISEMI};
-	t_ast_token						*token;
-	t_ast_token						*next;
-	size_t							i;
-
-	if (!current->next)
-		return (msh_ast_ok());
-	token = current->content;
-	next = current->next->content;
-	if (!token || !next)
-		return (msh_ast_errd(AST_ERROR_ALLOC, "sanitize_check_dupes: "
-				"empty token", false));
-	if (token->type != next->type)
-		return (msh_ast_ok());
-	i = 0;
-	while (i < sizeof(no_dupes) / sizeof(no_dupes[0]))
-	{
-		if (token->type == no_dupes[i])
-			return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)msh_syntax_error(
-						token), false));
-		i++;
-	}
-	return (msh_ast_ok());
-}
+t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current);
+t_ast_error	msh_ast_sanitize_check_word_before(t_list *current,
+				t_ast_token *prev_tkn);
 
 static t_ast_error	msh_ast_sanitize_check_first(
 	t_minishell *msh,
@@ -127,6 +103,9 @@ t_ast_error	msh_ast_sanitize_tokens(
 	t_ast_error	err;
 
 	current = *tokens;
+	while (current && msh_ast_sanitize_skip_leading(current))
+		current = current->next;
+	*tokens = current;
 	prevt = NULL;
 	err = msh_ast_ok();
 	while (current && current->content && err.type == AST_ERROR_NONE)
