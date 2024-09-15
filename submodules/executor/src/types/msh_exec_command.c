@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/14 18:35:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:55:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	msh_exec_command_outfork(
 	return (0);
 }
 
-[[maybe_unused]]
+__attribute__((unused))
 static int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
 {
 	pid_t	pid;
