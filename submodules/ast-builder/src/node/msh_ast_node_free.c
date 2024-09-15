@@ -6,20 +6,17 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:59:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/26 13:51:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:56:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <msh/ast/builder.h>
+#include <stdio.h>
 
-static void	msh_ast_free_command(t_ast_node *node)
+void	msh_ast_node_free_token_tree(t_list *target_list)
 {
-	ft_lst_free(&node->command.tokens, (t_lst_dealloc) msh_ast_token_free);
-	ft_lst_free(&node->command.env, (t_lst_dealloc) msh_ast_token_free);
-	ft_lst_free(&node->command.args, (t_lst_dealloc) msh_ast_token_free);
-	ft_lst_free(&node->command.redirs, (t_lst_dealloc) msh_ast_token_free);
-	// ft_lst_free(&node->command.heredocs, (t_lst_dealloc) msh_ast_token_free);
+	ft_lst_delete(target_list, (t_lst_dealloc) msh_ast_token_free);
 }
 
 void	msh_ast_node_free(t_ast_node *node)
@@ -28,7 +25,12 @@ void	msh_ast_node_free(t_ast_node *node)
 		return ;
 	msh_ast_node_free(node->left);
 	msh_ast_node_free(node->right);
-	if (node->type == NODE_COMMAND)
-		msh_ast_free_command(node);
+	printf("freeing node %p\n", node);
+	if (node->tree_tokens)
+		printf("freeing tree tokens %p\n", node->tree_tokens);
+	if (node->tree_tokens)
+		ft_lst_free(&node->tree_tokens,
+			(t_lst_dealloc) msh_ast_node_free_token_tree);
+	printf("freed node %p\n", node);
 	free(node);
 }

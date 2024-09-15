@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_sanitize_check_duplicate.c                 :+:      :+:    :+:   */
+/*   msh_ast_sanitize_token_duplicate.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:56:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/14 19:57:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:49:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 #include <msh/log.h>
 #include <msh/util.h>
 
-t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
+const char	*msh_syntax_error(t_ast_token *token);
+
+t_ast_error	msh_ast_sanitize_token_duplicate(t_minishell *msh, t_list *current)
 {
 	static const t_ast_token_type	no_dupes[] = {
 		TKN_PIPE, TKN_DELIM, TKN_SEMISEMI};
@@ -25,6 +27,7 @@ t_ast_error	msh_ast_sanitize_check_duplicate(t_list *current)
 	t_ast_token						*next;
 	size_t							i;
 
+	msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "sanitize_check_duplicate\n");
 	if (!current->next)
 		return (msh_ast_ok());
 	token = current->content;

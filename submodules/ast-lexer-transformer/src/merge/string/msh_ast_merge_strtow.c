@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:52:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:45:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:04:37 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ t_ast_token	*msh_ast_merge_strtow(t_list *token, t_ast_token *string,
 	if (!ft_lst_tadd(&string->value.list, word))
 		return (NULL);
 	token->next = next->next;
-	ft_lst_delete(next, NULL);
+	// ft_lst_delete(next, NULL);
 	return (string);
 }

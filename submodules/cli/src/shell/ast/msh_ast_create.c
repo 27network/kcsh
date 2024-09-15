@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:35:02 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 15:27:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:20:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	msh_ast_create(t_minishell *msh, t_list *tokens, t_ast_node **result)
 	ret = msh_strip_last_delim(tokens);
 	if (ret)
 		return (ret - 1);
-	err = msh_ast_build(msh, tokens, result);
+	err = msh_ast_build_root(msh, tokens, result);
 	if (err.type != AST_ERROR_NONE)
 	{
 		msh_ast_error_print(msh, err);
@@ -56,9 +56,11 @@ int	msh_ast_create(t_minishell *msh, t_list *tokens, t_ast_node **result)
 	{
 		err = msh_ast_sanitize(msh, result);
 		if (err.type != AST_ERROR_NONE)
+		{
 			msh_ast_error_print(msh, err);
-		if (err.type != AST_ERROR_NONE)
+			msh_ast_node_free(*result);
 			*result = NULL;
+		}
 	}
 	return (*result != NULL);
 }

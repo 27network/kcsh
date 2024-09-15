@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/14 18:31:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:31:22 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ static void	msh_takeoff(t_minishell *msh, t_input_result input)
 	{
 		if (!msh_exec_wrap(msh, ast))
 			msh->execution_context.exit_code = 1;
+		msh_ast_node_free(ast);
 	}
 	else
 		msh->execution_context.exit_code = 1;
-	msh_ast_node_free(ast);
 }
 
 void	msh_shell_handle_input(t_minishell *msh, t_input_result input)

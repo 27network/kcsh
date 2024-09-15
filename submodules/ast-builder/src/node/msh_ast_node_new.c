@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:36:13 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/26 13:42:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:28:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_ast_error	msh_ast_node_new_filled(t_ast_node **result, t_ast_node_type type,
 	if (!node)
 		return (msh_ast_errd(AST_ERROR_ALLOC, ERROR_MESSAGE, false));
 	node->type = type;
-	node->parent = NULL;
 	node->left = left;
 	node->right = right;
 	*result = node;

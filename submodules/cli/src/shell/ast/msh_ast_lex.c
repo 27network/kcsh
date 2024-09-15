@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:44:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 09:10:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:55:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ static bool	msh_lex_handle_errors(t_ast_lexer *state, t_input_result input,
 		msh_ast_error_print(state->msh, err);
 		if (input.type == INPUT_EOF)
 			msh_error(state->msh, "syntax error: unexpected end of file\n");
-		return (false);
 	}
+	if (err.type != AST_ERROR_NONE)
+		return (err.type == AST_ERROR_CANCEL);
 	msh_dump_tokens(state->msh, state->tokens);
 	err = msh_ast_sanitize_tokens(state->msh, &state->tokens);
 	if (err.type == AST_ERROR_NONE)
