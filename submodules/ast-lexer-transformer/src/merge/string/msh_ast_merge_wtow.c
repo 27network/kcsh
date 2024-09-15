@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:05:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:07:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:28:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static t_ast_token	*msh_ast_merge_wtow_create(
 		msh_ast_token_free(string);
 	if (!next)
 		return (NULL);
-	// msh_ast_token_free(first);
-	// msh_ast_token_free(second);
+	msh_ast_token_free(first);
+	msh_ast_token_free(second);
 	token->next = next->next;
-	// ft_lst_delete(next, NULL);
+	ft_lst_delete(next, NULL);
 	token->content = string;
 	return (string);
 }
@@ -68,7 +68,7 @@ t_ast_token	*msh_ast_merge_wtow(t_list *token, t_ast_token *first,
 			+ ft_strlen(second->value.string) + 1, sizeof(char));
 	if (!string->value.string)
 	{
-		// msh_ast_token_free(string);
+		msh_ast_token_free(string);
 		return (NULL);
 	}
 	ft_strcat(string->value.string, first->value.string);

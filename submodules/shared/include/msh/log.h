@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:07:05 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 23:06:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:13:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,16 @@ void	msh_warn(t_minishell *msh, const char *format, ...)
  * @param ... Arguments for the format string.
  */
 void	msh_error(t_minishell *msh, const char *format, ...)
+		__attribute__((format(printf, 2, 3)));
+
+/**
+ * @brief Prints the given debug message.
+ *
+ * @param msh Minishell instance.
+ * @param format Format string for the message.
+ * @param ... Arguments for the format string.
+ */
+void	msh_debug(t_minishell *msh, const char *format, ...)
 		__attribute__((format(printf, 2, 3)));
 
 # endif // __MSH_LOG_H__

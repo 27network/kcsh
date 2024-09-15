@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/19 15:55:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:20:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <ft/string.h>
 #include <msh/ast/lexer.h>
 #include <msh/features.h>
+#include <msh/log.h>
 #include <stdlib.h>
 
 #define TKN_ACTUAL TKN_WORD
@@ -32,12 +33,12 @@ static t_ast_error	msh_ast_make_word(t_ast_lexer *state, t_ast_token **tokret,
 		TRACE(state, TKN_ACTUAL, 2);
 		return (msh_ast_errd(AST_ERROR_ALLOC, WORD_ALLOC_FAIL, false));
 	}
+	msh_log(state->msh, MSG_DEBUG_TOKENIZER, "making word %s\n", word);
 	value = ft_strdup(word);
 	if (!value)
-	{
 		TRACE(state, TKN_ACTUAL, 2);
+	if (!value)
 		return (msh_ast_errd(AST_ERROR_ALLOC, WORD_ALLOC_FAIL, false));
-	}
 	err = msh_ast_token_new(TKN_WORD, tokret);
 	if (err.type != AST_ERROR_NONE)
 	{
@@ -127,7 +128,7 @@ t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 	if (FEAT_PARSER_INHIBITORS && msh_should_escape(state))
 		return (msh_escaped_word(state, tokret, inc));
 	size = ft_strcspn(state->input + state->cursor, DELIM_CHARS);
-	if (size == 0 && state->input[state->cursor + 1] != '\0')
+	if (size == 0 && state->input[state->cursor] != '\0')
 		size++;
 	value = ft_strndup(state->input + state->cursor, size);
 	err = msh_ast_make_word(state, tokret, inc, value);

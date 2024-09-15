@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 16:47:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:45:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static bool	msh_ast_sanitize_should_skip(t_list *current, t_list **tokens)
 	return (false);
 }
 
-t_ast_error	msh_ast_sanitize_tokens_impl(t_minishell *msh, t_list *current)
+static t_ast_error	msh_ast_sanitize_tokens_impl(t_minishell *msh, t_list *current)
 {
 	t_ast_token	*prevt;
 	t_ast_error	err;
@@ -112,8 +112,10 @@ t_ast_error	msh_ast_sanitize_tokens(
 	t_minishell *msh,
 	t_list **tokens
 ) {
+	t_ast_error	err;
 	t_list		*current;
 	t_list		*next;
+	t_list		*last_non_sep;
 
 	current = *tokens;
 	while (current && msh_ast_sanitize_skip_leading(current, &next))
@@ -121,5 +123,18 @@ t_ast_error	msh_ast_sanitize_tokens(
 	*tokens = current;
 	if (msh_ast_sanitize_should_skip(current, tokens))
 		return (msh_ast_err(AST_ERROR_CANCEL, false));
-	return (msh_ast_sanitize_tokens_impl(msh, current));
+	err = msh_ast_sanitize_tokens_impl(msh, current);
+	if (err.type == AST_ERROR_NONE)
+	{
+		next = current;
+		last_non_sep = current;
+		while (next && next->next)
+		{
+			next = next->next;
+			if (((t_ast_token *) next->content)->type != TKN_SEP)
+				last_non_sep = next;
+		}
+		ft_lst_free(&last_non_sep->next, (t_lst_dealloc) msh_ast_token_free);
+	}
+	return (err);
 }

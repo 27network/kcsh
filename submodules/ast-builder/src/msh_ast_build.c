@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 17:56:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:22:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_list	*msh_ast_find_tkn(t_minishell *msh, t_list *tokens,
 	return (last);
 }
 
-#define EOF_WOMP_WOMP "Unexpected end of input"
+#define EOF_WOMP_WOMP "syntax error: unexpected end of file"
 
 static t_ast_error	msh_ast_root_node(t_minishell *msh, t_list *tokens,
 						t_list *sep, t_ast_node **result)
@@ -88,19 +88,19 @@ t_ast_error	msh_ast_build(t_minishell *msh, t_list *tokens, t_ast_node **result)
 static t_list	*msh_build_backup_list(t_list *tokens)
 {
 	t_list		*nodes;
-	size_t		i;
+	t_list		*node;
 
-	nodes = ft_calloc(ft_lst_size(tokens), sizeof(t_list));
-	if (!nodes)
-		return (NULL);
-	i = 0;
-	while (tokens)
+	printf("Building backup list\n"); fflush(stdout);
+	nodes = NULL;
+	node = tokens;
+	while (node)
 	{
-		if (tokens->next)
-			nodes[i].next = &nodes[i + 1];
-		nodes[i].content = tokens;
-		i++;
-		tokens = tokens->next;
+		if (!ft_lst_tadd(&nodes, node))
+		{
+			ft_lst_free(&nodes, (t_lst_dealloc) msh_ast_node_free_token_tree);
+			break ;
+		}
+		node = node->next;
 	}
 	return (nodes);
 }
@@ -120,6 +120,6 @@ t_ast_error	msh_ast_build_root(t_minishell *msh, t_list *tokens,
 	if (!err.type && *result)
 		(*result)->tree_tokens = token_backup;
 	else
-		ft_lst_free(&token_backup, (t_lst_dealloc) msh_ast_node_free_token_tree);
+		ft_lst_free(&token_backup, NULL);
 	return (err);
 }

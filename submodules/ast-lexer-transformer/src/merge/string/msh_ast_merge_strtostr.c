@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:28:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:04:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:28:21 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ t_ast_token	*msh_ast_merge_strtostr(t_list *token, t_ast_token *first,
 	first->value.list = msh_lst_merge(first->value.list, second->value.list);
 	second->value.list = NULL;
 	token->next = next->next;
-	// ft_lst_delete(next, (t_lst_dealloc) msh_ast_token_free);
+	ft_lst_delete(next, (t_lst_dealloc) msh_ast_token_free);
 	return (first);
 }
