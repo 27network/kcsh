@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:59:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 17:56:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:53:03 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@ void	msh_ast_node_free(t_ast_node *node)
 		return ;
 	msh_ast_node_free(node->left);
 	msh_ast_node_free(node->right);
-	printf("freeing node %p\n", node);
-	if (node->tree_tokens)
-		printf("freeing tree tokens %p\n", node->tree_tokens);
 	if (node->tree_tokens)
 		ft_lst_free(&node->tree_tokens,
 			(t_lst_dealloc) msh_ast_node_free_token_tree);
-	printf("freed node %p\n", node);
 	free(node);
 }
