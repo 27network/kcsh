@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:28:23 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 23:28:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:49:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ static t_list	*msh_lst_merge(t_list *first, t_list *second)
  * - Next token (yes)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_strtostr(t_list *token, t_ast_token *first,
-				t_ast_token *second)
+t_ast_token	*msh_ast_merge_strtostr(t_minishell *msh, t_list *token,
+				t_ast_token *first, t_ast_token *second)
 {
 	t_list	*next;
 
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "running merge_strtostr\n");
 	if (!token || !first || !second)
 		return (NULL);
 	next = token->next;
@@ -54,5 +55,6 @@ t_ast_token	*msh_ast_merge_strtostr(t_list *token, t_ast_token *first,
 	second->value.list = NULL;
 	token->next = next->next;
 	ft_lst_delete(next, (t_lst_dealloc) msh_ast_token_free);
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "merge_strtostr success\n");
 	return (first);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:52:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 23:28:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:18:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@
  * - Next token (no)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_strtow(t_list *token, t_ast_token *string,
-				t_ast_token *word)
+t_ast_token	*msh_ast_merge_strtow(t_minishell *msh, t_list *token,
+				t_ast_token *string, t_ast_token *word)
 {
 	t_list	*next;
 
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "running merge_strtow\n");
 	if (!token || !word)
 		return (NULL);
 	next = token->next;
@@ -39,5 +40,6 @@ t_ast_token	*msh_ast_merge_strtow(t_list *token, t_ast_token *string,
 		return (NULL);
 	token->next = next->next;
 	ft_lst_delete(next, NULL);
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "merge_strtow success\n");
 	return (string);
 }

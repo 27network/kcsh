@@ -1,5 +1,8 @@
 # TODO list
 
+- [ ] Make the ast-builder tree_tokens support nested tokens (TKN_GROUP, TKN_STRING)
+- [ ] Make the free function from tree_tokens ignore nested tokens (basically cleanup before calling ast_tkn_free)
+
 ## Goals
 
 - [x] Basic setup, submodules, Makefiles, dependencies 

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 16:02:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:24:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_ast_token			*msh_ast_merge_fdtoredir(t_list *token,
 t_ast_token			*msh_ast_merge_redirtosep(t_list *current,
 						t_ast_token *redir, t_ast_token *sep);
 
-t_ast_token			*msh_ast_merge_wtostr(t_list *token,
+t_ast_token			*msh_ast_merge_wtostr(t_minishell *msh, t_list *token,
 						t_ast_token *current, t_ast_token *next);
-t_ast_token			*msh_ast_merge_strtow(t_list *token,
+t_ast_token			*msh_ast_merge_strtow(t_minishell *msh, t_list *token,
 						t_ast_token *current, t_ast_token *next);
-t_ast_token			*msh_ast_merge_wtow(t_list *token,
+t_ast_token			*msh_ast_merge_wtow(t_minishell *msh, t_list *token,
 						t_ast_token *current, t_ast_token *next);
-t_ast_token			*msh_ast_merge_strtostr(t_list *token,
+t_ast_token			*msh_ast_merge_strtostr(t_minishell *msh, t_list *token,
 						t_ast_token *current, t_ast_token *next);
 
 static t_ast_error	msh_ast_transform_try_merge_others(
@@ -41,27 +41,37 @@ static t_ast_error	msh_ast_transform_try_merge_others(
 	return (msh_ast_ok());
 }
 
-static bool	msh_ast_transform_try_merge_known(
+#define MERGE_DONE	0
+#define MERGE_NEXT	1
+#define MERGE_FAIL	2
+
+static int	msh_ast_transform_try_merge_known(
+	t_minishell *msh,
 	t_list *token,
 	t_ast_token *current,
-	t_ast_token *next,
-	t_ast_token **new
+	t_ast_token *next
 ) {
-	*new = NULL;
+	t_ast_token	*new;
+
+	new = NULL;
 	if (next && current->type == TKN_STRING && next->type == TKN_WORD)
-		*new = msh_ast_merge_strtow(token, current, next);
+		new = msh_ast_merge_strtow(msh, token, current, next);
 	else if (next && current->type == TKN_WORD && next->type == TKN_WORD)
-		*new = msh_ast_merge_wtow(token, current, next);
+		new = msh_ast_merge_wtow(msh, token, current, next);
 	else if (next && current->type == TKN_WORD && next->type == TKN_STRING)
-		*new = msh_ast_merge_wtostr(token, current, next);
+		new = msh_ast_merge_wtostr(msh, token, current, next);
 	else if (next && current->type == TKN_STRING && next->type == TKN_STRING)
-		*new = msh_ast_merge_strtostr(token, current, next);
+		new = msh_ast_merge_strtostr(msh, token, current, next);
 	// else if (next && current->type == TKN_NUMBER && next->type == TKN_REDIR)
 	// 	*new = msh_ast_merge_fdtoredir(token, current, next);
 	// else if (false && next && current->type == TKN_REDIR
 	// 	&& next->type == TKN_SEP)
 	// 	*new = msh_ast_merge_redirtosep(token, current, next);
-	return (*new == NULL);
+	else
+		return (MERGE_NEXT);
+	if (new == NULL)
+		return (MERGE_FAIL);
+	return (MERGE_DONE);
 }
 
 /**
@@ -76,7 +86,7 @@ static t_ast_error	msh_ast_transform_try_merge(t_minishell *msh,
 {
 	t_ast_token	*current;
 	t_ast_token	*next;
-	t_ast_token	*new;
+	int			ret;
 
 	if (!token || !token->content)
 		return (msh_ast_ok());
@@ -85,14 +95,16 @@ static t_ast_error	msh_ast_transform_try_merge(t_minishell *msh,
 	if (token->next && token->next->content)
 		next = token->next->content;
 	*work = false;
-	if (msh_ast_transform_try_merge_known(token, current, next, &new))
+	ret = msh_ast_transform_try_merge_known(msh, token, current, next);
+	if (ret == MERGE_NEXT)
 		return (msh_ast_transform_try_merge_others(msh, current, work));
 	*work = true;
-	if (!new)
+	if (ret == MERGE_FAIL)
 		return (msh_ast_errd(AST_ERROR_ALLOC, ": failed token merge", false));
-	(void) msh;
 	return (msh_ast_ok());
 }
+
+void				msh_dump_tokens(t_minishell *msh, t_list *tokens);
 
 static t_ast_error	msh_ast_transform_merge_loop(t_minishell *msh,
 						t_list **tokens, bool *workret)
@@ -101,16 +113,22 @@ static t_ast_error	msh_ast_transform_merge_loop(t_minishell *msh,
 	t_ast_error	err;
 	bool		work;
 
+	// printf("merge loop> start at %p\n", *tokens);
 	current = *tokens;
+	// msh_dump_tokens(NULL, current);
 	err = msh_ast_ok();
 	while (current && err.type == AST_ERROR_NONE)
 	{
+		// printf("merge loop> current: %p, next: %p\n", current, current->next);
 		work = false;
 		err = msh_ast_transform_try_merge(msh, current, &work);
 		if (work)
 			*workret = true;
+		// if (err.type != AST_ERROR_NONE)
+		// 	printf("merge loop> err\n");
 		if (err.type != AST_ERROR_NONE)
 			break ;
+		// printf("merge loop> end, current is %p\n", current);
 		current = current->next;
 	}
 	return (err);

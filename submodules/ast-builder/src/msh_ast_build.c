@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 16:00:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:30:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static t_ast_error	msh_ast_root_node(t_minishell *msh, t_list *tokens,
 	if (!sep)
 		return (msh_ast_node_command(msh, tokens, result));
 	if (((t_ast_token *) sep->content)->type == TKN_GROUP)
-		return (msh_ast_build(msh, ((t_ast_token *) sep->content)->value.list,
-				result));
+		return (msh_ast_build(msh, ((t_ast_token *) sep->content)
+				->value.list, result));
 	if (!sep->next)
 		return (msh_ast_errd(AST_ERROR_UNEXPECTED, EOF_WOMP_WOMP, true));
 	if (sep == tokens)
