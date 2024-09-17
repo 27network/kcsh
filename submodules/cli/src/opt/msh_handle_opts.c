@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:14:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 23:34:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:31:40 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	msh_handle_short(
 		msh_handle_invalid(msh, cmds, false);
 }
 
-void	msh_handle_debug_generic(t_minishell *msh);
+void	msh_handle_debug_generic(t_minishell *msh, bool generic);
 
 static void	msh_handle_debug_opts(
 	t_minishell *msh,
@@ -92,7 +92,9 @@ static void	msh_handle_opt(
 	else if (ft_strcmp(cmd, "--flags") == 0)
 		msh_opt_flags(msh);
 	else if (ft_strcmp(cmd, "--debug") == 0)
-		msh_handle_debug_generic(msh);
+		msh_handle_debug_generic(msh, true);
+	else if (ft_strcmp(cmd, "--debug-almost-all") == 0)
+		msh_handle_debug_generic(msh, false);
 	else if (ft_strncmp(cmd, "--debug-", 8) == 0)
 		msh_handle_debug_opts(msh, cmd + 8);
 	else if (ft_strncmp(cmd, "--", 2) == 0)

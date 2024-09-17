@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 23:39:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:34:16 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
 	return (msh_exec_command_outfork(state, cmdline, fds));
 }
 
+__attribute__((unused))
 static t_list	*msh_tokens_clone(t_list *tokens)
 {
 	t_list	*cloned;
@@ -102,16 +103,18 @@ void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
 //TODO: exec
 int	msh_exec_command(t_exec_state *state, t_ast_node *node)
 {
-	t_ast_error	err;
-	t_list		*cloned;
+	// t_ast_error	err;
+	// t_list		*cloned;
 
-	cloned = msh_tokens_clone(node->command.tokens);
-	if (!cloned)
-		return (1);
-	err = msh_ast_transform(state->msh, &cloned);
-	if (err.type)
-		return (1);
-	msh_dump_tokens(state->msh, cloned);
-	ft_lst_free(&cloned, (t_lst_dealloc) msh_ast_token_free);
+	// cloned = msh_tokens_clone(node->command.tokens);
+	// if (!cloned)
+	// 	return (1);
+	// err = msh_ast_transform(state->msh, &cloned);
+	// if (err.type)
+	// 	return (1);
+	// msh_dump_tokens(state->msh, cloned);
+	// ft_lst_free(&cloned, (t_lst_dealloc) msh_ast_token_free);
+	(void) state;
+	(void) node;
 	return (0);
 }

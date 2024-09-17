@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 17:24:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:30:24 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	msh_print_help(t_minishell *msh, int fd)
 	ft_dprintf(fd, "        --flags\n");
 	ft_dprintf(fd, "        --help\n");
 	ft_dprintf(fd, "        --debug\n");
+	ft_dprintf(fd, "        --debug-almost-all\n");
 	ft_dprintf(fd, "        --debug-ast\n");
 	ft_dprintf(fd, "        --debug-ast-sanitizer\n");
 	ft_dprintf(fd, "        --debug-executor\n");
