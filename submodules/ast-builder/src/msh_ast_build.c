@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 23:22:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:00:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,13 @@ static t_list	*msh_build_backup_list(t_list *tokens)
 	t_list		*nodes;
 	t_list		*node;
 
-	printf("Building backup list\n"); fflush(stdout);
 	nodes = NULL;
 	node = tokens;
 	while (node)
 	{
 		if (!ft_lst_tadd(&nodes, node))
 		{
-			ft_lst_free(&nodes, (t_lst_dealloc) msh_ast_node_free_token_tree);
+			ft_lst_free(&nodes, NULL);
 			break ;
 		}
 		node = node->next;
