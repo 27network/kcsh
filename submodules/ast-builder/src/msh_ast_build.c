@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 18:30:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:09:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,25 @@ t_ast_error	msh_ast_build(t_minishell *msh, t_list *tokens, t_ast_node **result)
 static t_list	*msh_build_backup_list(t_list *tokens)
 {
 	t_list		*nodes;
-	t_list		*node;
+	t_ast_token	*tok;
 
 	nodes = NULL;
-	node = tokens;
-	while (node)
+	while (tokens)
 	{
-		if (!ft_lst_tadd(&nodes, node))
+		if (!ft_lst_tadd(&nodes, tokens))
 		{
 			ft_lst_free(&nodes, NULL);
 			break ;
 		}
-		node = node->next;
+		tok = (t_ast_token *) tokens->content;
+		if (tok->value.list && (tok->type == TKN_GROUP
+				|| tok->type == TKN_STRING) && !ft_lst_add(&nodes,
+				msh_build_backup_list(tok->value.list)))
+		{
+			ft_lst_free(&nodes, NULL);
+			break ;
+		}
+		tokens = tokens->next;
 	}
 	return (nodes);
 }
