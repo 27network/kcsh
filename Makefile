@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/13 14:35:14 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/18 17:48:25 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ ifeq ($(MAKE_TRACE), 1)
 $(info Setting new compilation mode: $(COMP_MODE))
 endif
 _					:=	$(shell echo "$(COMP_MODE)" > $(LAST_COMP))
-_					:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
+# _					:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
 endif
 endif
 
