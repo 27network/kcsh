@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/15 15:13:02 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/19 05:06:58 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ DEPS		=	ast-lexer ast-builder
 include ../common-prelude.mk
 
 SRC			=	ast/msh_ast_sanitize.c \
+				token/impl/msh_ast_sanitize_token_dropseps.c \
 				token/impl/msh_ast_sanitize_token_duplicate.c \
 				token/impl/msh_ast_sanitize_token_first.c \
 				token/impl/msh_ast_sanitize_token_recurse.c \

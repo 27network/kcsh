@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 04:52:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 05:10:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,19 @@ static t_ast_error	msh_ast_sanitize_tokens_impl(t_minishell *msh, t_list *curren
 {
 	t_ast_token	*prevt;
 	t_ast_error	err;
+	t_list		*next;
 
 	prevt = NULL;
 	err = msh_ast_ok();
 	while (current && current->content && err.type == AST_ERROR_NONE)
 	{
+		next = current->next;
 		err = msh_ast_sanitize_check(msh, current, prevt, current->content);
 		msh_log(msh, MSG_DEBUG_TOKEN_SANITIZER, "got error? %s\n",
 			msh_strbool(err.type != 0));
 		if (current && current->content)
 			prevt = current->content;
-		current = current->next;
+		current = next;
 	}
 	return (err);
 }
