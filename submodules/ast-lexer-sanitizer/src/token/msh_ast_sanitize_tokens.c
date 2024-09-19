@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/18 19:29:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 04:52:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,17 @@ static t_ast_error	msh_ast_sanitize_check(
 		msh_ast_token_print(msh, curr);
 	if (!prev)
 		err = msh_ast_sanitize_token_first(msh, current, curr);
-	if (err.type != AST_ERROR_NONE)
-		return (err);
-	err = msh_ast_sanitize_token_duplicate(msh, current);
-	if (err.type != AST_ERROR_NONE)
-		return (err);
-	if (prev)
+	if (err.type == AST_ERROR_NONE)
+		err = msh_ast_sanitize_token_duplicate(msh, current);
+	if (prev && err.type == AST_ERROR_NONE)
 	{
 		err = msh_ast_sanitize_token_word_before(msh, current, prev);
-		if (err.type != AST_ERROR_NONE)
-			return (err);
-		err = msh_ast_sanitize_token_dropseps(msh, current, prev);
-		if (err.type != AST_ERROR_NONE)
-			return (err);
+		if (err.type == AST_ERROR_NONE)
+			err = msh_ast_sanitize_token_dropseps(msh, current, prev);
 	}
-	return (msh_est_sanitize_token_recurse(msh, current, curr));
+	if (err.type == AST_ERROR_NONE)
+		err = msh_ast_sanitize_token_recurse(msh, current, curr);
+	return (err);
 }
 
 static bool	msh_ast_sanitize_skip_leading(t_list *current, t_list **nextret)
