@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 05:10:25 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:29:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,36 @@ static bool	msh_ast_sanitize_skip_leading(t_list *current, t_list **nextret)
 	return (ret);
 }
 
-static bool	msh_ast_sanitize_should_skip(t_list *current, t_list **tokens)
+static bool	msh_ast_sanitize_trailing_newlines(t_list **tokens)
 {
+	t_list		*last;
+	t_list		*pre_last;
 	t_ast_token	*tkn;
 
-	if (!current || !tokens)
-		return (true);
-	if (current->next != NULL)
+	if (!tokens || !*tokens)
 		return (false);
-	tkn = (t_ast_token *) current->content;
-	if (!tkn)
+	last = *tokens;
+	while (last && last->next && last->next->next)
+		last = last->next;
+	pre_last = last;
+	last = last->next;
+	if (!pre_last || !pre_last->content)
 		return (false);
+	tkn = (t_ast_token *) pre_last->content;
+	if (!last && tkn->type == TKN_DELIM && tkn->kind == DELIM_NEWLINE)
+		return (ft_lst_free(tokens, (t_lst_dealloc) msh_ast_token_free), 1);
+	if (!last)
+		return (false);
+	tkn = (t_ast_token *) last->content;
 	if (tkn->type == TKN_DELIM && tkn->kind == DELIM_NEWLINE)
-	{
-		ft_lst_free(tokens, (t_lst_dealloc) msh_ast_token_free);
-		return (true);
-	}
+		pre_last->next = NULL;
+	if (tkn->type == TKN_DELIM && tkn->kind == DELIM_NEWLINE)
+		ft_lst_delete(last, (t_lst_dealloc) msh_ast_token_free);
 	return (false);
 }
 
-static t_ast_error	msh_ast_sanitize_tokens_impl(t_minishell *msh, t_list *current)
+static t_ast_error	msh_ast_sanitize_tokens_impl(t_minishell *msh,
+						t_list *current)
 {
 	t_ast_token	*prevt;
 	t_ast_error	err;
@@ -126,7 +136,7 @@ t_ast_error	msh_ast_sanitize_tokens(
 	while (current && msh_ast_sanitize_skip_leading(current, &next))
 		current = next;
 	*tokens = current;
-	if (msh_ast_sanitize_should_skip(current, tokens))
+	if (msh_ast_sanitize_trailing_newlines(tokens))
 		return (msh_ast_err(AST_ERROR_CANCEL, false));
 	err = msh_ast_sanitize_tokens_impl(msh, current);
 	if (err.type == AST_ERROR_NONE)

@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/18 17:48:25 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/19 05:20:35 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -206,7 +206,7 @@ voidgrind:
 	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
 
 flex:
-	nix-shell -p cloc --command 'clear; cloc config submodules third-party/libft --include-lang="C/C++ Header,C,D,make,Nix,Python,Bourne Shell"'
+	nix-shell -p cloc --command 'cloc config submodules third-party/libft --include-lang="C/C++ Header,C,D,make,Nix,Python,Bourne Shell"'
 
 debug_ast: 42bonus
 ifeq ($(DEBUG_AST_CMD), )

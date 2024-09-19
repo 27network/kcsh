@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 18:24:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 06:20:27 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,16 @@ static t_ast_error	msh_ast_transform_merge_loop(t_minishell *msh,
 	t_ast_error	err;
 	bool		work;
 
-	// printf("merge loop> start at %p\n", *tokens);
 	current = *tokens;
-	// msh_dump_tokens(NULL, current);
 	err = msh_ast_ok();
 	while (current && err.type == AST_ERROR_NONE)
 	{
-		// printf("merge loop> current: %p, next: %p\n", current, current->next);
 		work = false;
 		err = msh_ast_transform_try_merge(msh, current, &work);
 		if (work)
 			*workret = true;
-		// if (err.type != AST_ERROR_NONE)
-		// 	printf("merge loop> err\n");
 		if (err.type != AST_ERROR_NONE)
 			break ;
-		// printf("merge loop> end, current is %p\n", current);
 		current = current->next;
 	}
 	return (err);

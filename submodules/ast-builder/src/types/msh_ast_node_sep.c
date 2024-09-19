@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:40:01 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/18 18:40:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 05:54:25 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ static t_list	*msh_list_cutoff(t_list *tokens, t_list *sep)
 	return (tokens);
 }
 
+// tmp -> start of list (left side)
+// sep -> sep token
+// target sep#next -> start of list (right side)
 static t_ast_error	msh_ast_node_sep_children(t_minishell *msh, t_list *tmp,
 						t_ast_node *node, t_list *sep)
 {

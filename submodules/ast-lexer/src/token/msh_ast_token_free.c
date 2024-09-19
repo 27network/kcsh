@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 18:43:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 06:09:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	msh_ast_token_free(t_ast_token *token)
 	if (!token || (unsigned long long) token <= 10 || (unsigned long long) token
 		>= ULLONG_MAX - 10)
 		return ;
-	// printf("Free'd token contents: ");
-	// msh_ast_token_print(NULL, token);
 	if (!token->value.data)
 		(void) token->value.data;
 	else if ((token->type == TKN_SUBST || token->type == TKN_WORD
