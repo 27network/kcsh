@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:15:34 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/11 17:08:38 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:29:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ void	msh_env_defaults(t_minishell *msh)
 	msh_env_set_if_not(msh, "PS4", ENV_DEFAULT_PS4, 0);
 	msh_env_set_if_not(msh, "HISTFILE", msh_expand_tilde(msh,
 			ENV_DEFAULT_HISTFILE), ENV_ALLOC_VALUE);
-	msh_env_set_if_not(msh, "HISTFILESIZE", ft_itoa(ENV_DEFAULT_HISTFILESIZE),
-		ENV_ALLOC_VALUE);
-	msh_env_set_if_not(msh, "HISTSIZE", ft_itoa(ENV_DEFAULT_HISTSIZE),
-		ENV_ALLOC_VALUE);
 	msh_env_push(msh, "IFS", ENV_DEFAULT_IFS, 0);
 	msh_env_set_if_not(msh, "HOSTTYPE", msh_get_hosttype(msh), ENV_ALLOC_VALUE);
 	msh_env_adjust_shlvl(msh, 1);

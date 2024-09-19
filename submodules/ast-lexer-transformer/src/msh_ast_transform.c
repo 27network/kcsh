@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 07:58:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:36:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_ast_transformer_info	*msh_ast_transformers(void)
 
 static int	*msh_ast_transformer_order(size_t *size)
 {
-	static const int	order[] = {2, 0, 2, 1, 2};
+	static const int	order[] = {2, 0, 2, 1, 0};
 	static const size_t	order_size = sizeof(order) / sizeof(order[0]);
 
 	if (size)

@@ -9,17 +9,15 @@
 - [x] Makefile: transitive dependencies
 - [x] Makefile: speedups
 - [x] Shell-like input w/ readline, basic prompt
-  - [ ] Prompt picker builtin?
 - [x] Execution structure
 - [x] Tokenizer (part 1), environment manager, `execve`
 - [x] Tokenizer (part 2): Separate environment variables, 
 - [x] Lexer & Parser
 - [x] AST Builder (part 1)
-  - [ ] Make a simple separation system where only `TKN_DELIM` & `TKN_PIPE` are used as separators
+  - [x] Make a simple separation system where only `TKN_DELIM` & `TKN_PIPE` are used as separators
     - This will allow for expansion at execution time
-  - [ ] Maybe cleanup `TKN_SEP`???
+  - [x] Maybe cleanup `TKN_SEP`???
 - [x] Builtins (part 1), manager, dynamic registration
-- [ ] Pipeline builder
 - [ ] Execution (part 1)
 
 - [ ] To be defined
@@ -42,21 +40,20 @@
     - [ ] Out-append
     - [ ] Here-docs
   - [ ] Implement pipes
-  - [ ] Handle environment variables
-    - [ ] Handle `$?`
+  - [x] Handle environment variables
+    - [x] Handle `$?`
   - Signal handling
     - [x] Interactive mode
     - [x] Passed down to subprocesses
   - Builtins
     - [x] `echo` with `-n`
-    - [ ] `cd` with a relative or absolute path
-      - [ ] EXTRA: Handle `~`
-      - [ ] EXTRA: Handle `-`
-    - [ ] `pwd` no flags
-    - [ ] `export` no flags
-    - [ ] `unset` no flags
+    - [x] `cd` with a relative or absolute path
+      - [ ] EXTRA: Handle `~` (transformer)
+      - [x] EXTRA: Handle `-`
+    - [x] `pwd` no flags
+    - [x] `export` no flags
+    - [x] `unset` no flags
     - [x] `env` no flags or arg
-      - TODO: fix env ordering 
     - [x] `exit`
 - Bonus
   - [ ] Implement `&&`, `||`, and `()`
@@ -103,10 +100,10 @@
   - `bash -c "echo meow"` exec la cmd
   - `bash -c "meow echo" "arg0" "arg1"` exec la cmd, change le nom du shell (arg0) et passe les args script (arg1)
 - [x] `echo "echo lol" | minishell`
-- [ ] `minishell test.sh`
+- [x] `minishell test.sh`
   - `bash anything.sh [arg1] [arg2]`, exec script, needs read perm, rejects binary executables 
     - [x] Reject binary executable
     - [x] Check path
     - [x] Check perms
-    - [ ] Actually run the damn file 
+    - [x] Actually run the damn file 
   - shebang: redirects to `minishell <file>`

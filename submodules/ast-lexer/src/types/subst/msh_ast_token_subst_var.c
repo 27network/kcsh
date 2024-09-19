@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:53:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 00:01:38 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:31:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #define TKN_ACTUAL TKN_SUBST
 #define ALLOC_FAIL "failed to allocate memory for substitution token"
 
+size_t	msh_ast_get_var_length(char *input, bool is_braces);
+
 static char	*msh_find_variable(const char *input, size_t *len)
 {
 	size_t	size;
@@ -28,7 +30,7 @@ static char	*msh_find_variable(const char *input, size_t *len)
 		*len = 1;
 		return (ft_ctostr(*input));
 	}
-	size = ft_strcspn(input, DELIM_CHARS);
+	size = msh_ast_get_var_length((char *) input, false);
 	if (!size)
 		return (NULL);
 	*len = size;

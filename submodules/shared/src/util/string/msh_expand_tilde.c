@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/11 16:40:41 by ebouchet         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:31:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*msh_expand_tilde(t_minishell *msh, const char *str)
 	size_t	e_len;
 
 	if (!str || *str != '~')
-		return ((char *) str);
+		return (ft_strdup(str));
 	if (str[1] == '/' || !str[1])
 		home = msh_current_home(msh, &repl_len);
 	else

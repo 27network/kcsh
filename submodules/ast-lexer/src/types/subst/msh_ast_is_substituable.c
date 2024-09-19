@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:40:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 18:10:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:26:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,14 @@
 
 bool	msh_ast_is_substituable_var(const char *input);
 
-//TODO: Move this out to a var/ subfolder
-bool	msh_ast_is_substituable_var(const char *input)
-{
-	char	*until_sep;
-	size_t	length;
-	bool	ret;
-
-	length = ft_strcspn(input, DELIM_CHARS);
-	if (!length)
-		return (false);
-	until_sep = ft_strndup(input, length);
-	if (!until_sep)
-		return (false);
-	ret = msh_env_is_valid_name(until_sep, false);
-	free(until_sep);
-	return (ret);
-}
-
 #define TODO42SH false
 
 static bool	msh_ast_is_substituable_dollar(t_ast_lexer *state, const char *line)
 {
-	const char	first = line[0];
 	const char	second = line[1];
 	const char	third = line[2];
 
 	(void) state;
-	if (first != '$')
-		return (false);
 	if (second == '{' && FEAT_PARSER_PARAM_EXPANSION)
 		return (TODO42SH);
 	if (second == '(' && third == '(' && FEAT_PARSER_ARITHMETIC)
