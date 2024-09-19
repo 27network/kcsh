@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/08/21 17:42:26 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/19 10:53:25 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	ast-lexer-transformer
-DEPS		=	ast-builder ast-lexer
+DEPS		=	ast-builder ast-lexer ast-lexer-sanitizer
 
 include ../common-prelude.mk
 
@@ -26,6 +26,7 @@ SRC			=	merge/redir/msh_ast_merge_fdtoredir.c \
 				msh_ast_transform_merge.c \
 				msh_ast_transform_merge_late.c \
 				msh_ast_transform_standardize.c \
+				msh_ast_transform_substitute.c \
 				msh_ast_transform_wordify.c
 
 include ../common.mk

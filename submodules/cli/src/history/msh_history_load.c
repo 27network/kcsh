@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:31:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/10 17:07:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:55:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	msh_history_load(t_minishell *msh)
 	char		*line;
 	int			i;
 
+	if (fd < 0)
+		msh_log(msh, MSG_DEBUG_GENERIC, "failed to open history file: %m\n");
 	if (fd < 0)
 		return ;
 	i = 0;

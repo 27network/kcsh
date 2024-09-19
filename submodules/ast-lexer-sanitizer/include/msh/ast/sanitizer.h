@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:18:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 08:20:47 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:42:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@
 //       |                 | death by  |
 //        \              \\| norminette|//
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-typedef void		t_iswearitsconstant;
+typedef void		t_i_swear_its_constant;
 
-#   define MSH_SANITIZER_TYPE t_iswearitsconstant
+#   define MSH_SANITIZER_TYPE t_i_swear_its_constant
 #  endif
 
 typedef t_ast_error	t_ast_sanitizer_fn(t_minishell *msh,

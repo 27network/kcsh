@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:00:06 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 08:55:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:51:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@
 #define ERROR_MSG " near unexpected token"
 
 const char	*msh_ast_strtoken_simple(t_ast_token *token);
+const char	*msh_ast_strtoken_simple_impl(t_ast_token *token,
+				const char *paran);
 
-const char	*msh_syntax_error(t_ast_token *token)
+const char	*msh_syntax_error_impl(t_ast_token *token, const char *paren)
 {
 	char		*msg;
 	size_t		len;
 	const char	*preemptive;
 
-	preemptive = msh_ast_strtoken_simple(token);
+	preemptive = msh_ast_strtoken_simple_impl(token, paren);
 	if (!preemptive)
 		return (ft_strdup(ERROR_MSG));
 	len = ft_strlen(ERROR_MSG) + 3 + ft_strlen(preemptive) + 1;
@@ -36,4 +38,9 @@ const char	*msh_syntax_error(t_ast_token *token)
 	ft_strlcat(msg, preemptive, len);
 	ft_strlcat(msg, "'", len);
 	return (msg);
+}
+
+const char	*msh_syntax_error(t_ast_token *token)
+{
+	return (msh_syntax_error_impl(token, ")"));
 }

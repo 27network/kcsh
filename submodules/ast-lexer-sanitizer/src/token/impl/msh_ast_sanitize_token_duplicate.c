@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:56:57 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 07:34:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:50:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #include <msh/log.h>
 #include <msh/util.h>
 
-const char	*msh_ast_strtoken_simple_impl(t_ast_token *token,
-				const char *paran);
+const char	*msh_syntax_error_impl(t_ast_token *token, const char *paren);
 
 t_ast_error	msh_ast_sanitize_token_duplicate(t_minishell *msh, t_list *current)
 {

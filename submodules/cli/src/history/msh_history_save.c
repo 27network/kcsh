@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:32:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:07:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:52:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <ft/print.h>
 # include <msh/log.h>
+# include <msh/util.h>
 # include <unistd.h>
 
 # if FEAT_NO_READLINE
@@ -65,6 +66,9 @@ void	msh_history_save(t_minishell *msh)
 {
 	int			fd;
 
+	if (!msh->interactive || msh->forked)
+		msh_log(msh, MSG_DEBUG_GENERIC, "not saving history: %s %s\n",
+			msh_strbool(!msh->interactive), msh_strbool(msh->forked));
 	if (!msh->interactive || msh->forked)
 		return ;
 	fd = msh_history_file(msh, O_CREAT | O_TRUNC | O_WRONLY);

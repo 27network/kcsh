@@ -6,19 +6,24 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/13 20:23:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:58:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/transformer.h>
+#define MSH_SANITIZER_TYPE t_list
+#include <msh/ast/sanitizer.h>
 #include <msh/log.h>
 
 t_ast_error	msh_ast_transform_merge(t_minishell *msh, t_list **tokens);
+t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens);
 
 static t_ast_transformer_info	*msh_ast_transformers(void)
 {
 	static const t_ast_transformer_info	transformers[] = {
 	{.name = "merge", .fn = msh_ast_transform_merge},
+	{.name = "substitute", .fn = msh_ast_transform_substitute},
+	{.name = "sanitize", .fn = msh_ast_sanitize_tokens},
 	};
 
 	return ((t_ast_transformer_info *)transformers);
@@ -26,7 +31,7 @@ static t_ast_transformer_info	*msh_ast_transformers(void)
 
 static int	*msh_ast_transformer_order(size_t *size)
 {
-	static const int	order[] = {0};
+	static const int	order[] = {2, 0, 2, 1, 2};
 	static const size_t	order_size = sizeof(order) / sizeof(order[0]);
 
 	if (size)
