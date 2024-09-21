@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 18:26:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:27:45 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,16 @@ int	msh_exec_command(
 	__attribute__((unused)) t_exec_state *state,
 	__attribute__((unused)) t_ast_node *node
 ) {
-	// t_ast_error	err;
-	// t_list		*cloned;
-	//
-	// cloned = msh_clone_tokens(state->msh, node->command.tokens);
-	// if (!cloned)
-	// 	return (1);
-	// err = msh_ast_transform(state->msh, &cloned);
-	// if (!err.type)
-	// 	msh_dump_tokens(state->msh, cloned);
-	// ft_lst_free(&cloned, (t_lst_dealloc) msh_ast_token_free);
-	// return (!!err.type);
+	t_ast_error	err;
+	t_list		*cloned;
+
+	cloned = msh_clone_tokens(state->msh, node->command.tokens);
+	if (!cloned)
+		return (1);
+	err = msh_ast_transform(state->msh, &cloned);
+	if (!err.type)
+		msh_dump_tokens(state->msh, cloned);
+	ft_lst_free(&cloned, (t_lst_dealloc) msh_ast_token_free);
+	return (!!err.type);
 	return (0);
 }

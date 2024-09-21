@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:04:21 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 18:26:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:27:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <msh/log.h>
 #include <msh/util.h>
 #include <stdlib.h>
+
+bool	msh_env_is_valid_name_char(char c);
 
 size_t	msh_ast_get_var_length(char *input, bool is_braces)
 {
@@ -29,12 +31,10 @@ size_t	msh_ast_get_var_length(char *input, bool is_braces)
 	{
 		c = input[length];
 		if (c == '\0' || (c == '}' && is_braces))
-			return (length);
-		input[length] = 0;
-		valid = msh_env_is_valid_name(input, false);
-		input[length] = c;
+			break ;
+		valid = msh_env_is_valid_name_char(c);
 		if (!valid)
-			return (length - 1);
+			break ;
 		length++;
 	}
 	return (length);

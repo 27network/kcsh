@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 22:13:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/26 14:25:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:05:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <msh/env.h>
 #include <msh/tests.h>
 
-static bool	msh_env_is_valid_name_char(char c)
+bool	msh_env_is_valid_name_char(char c)
 {
 	return (c == '_' || ft_isalnum(c));
 }
