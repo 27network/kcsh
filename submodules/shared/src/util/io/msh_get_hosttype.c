@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 02:17:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 15:28:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:38:16 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@
 # include <sys/utsname.h>
 #endif // FEAT_SYSCALLS
 
+char	*msh_resolve_path_internal(t_minishell *msh, const char *filename);
+
 static int	msh_get_hosttype_exec(t_minishell *msh, char **args, int fds[2],
 				char *result)
 {
@@ -192,7 +194,7 @@ char	*msh_gethosttype(t_minishell *msh)
 	int		fds[2];
 	char	result[1024];
 
-	path = msh_resolve_path(msh, "uname");
+	path = msh_resolve_path_internal(msh, "uname");
 	if (!path)
 		return (ft_strdup(DEFAULT_ARCH));
 	if (pipe(fds) == -1)

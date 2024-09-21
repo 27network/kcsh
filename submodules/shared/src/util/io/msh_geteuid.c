@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 23:38:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 03:01:57 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:38:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+char	*msh_resolve_path_internal(t_minishell *msh, const char *filename);
 
 static int	msh_geteuid_exec(t_minishell *msh, char **args, int fds[2],
 				char *result)
@@ -56,7 +58,7 @@ int	msh_uid(t_minishell *msh, bool real)
 	flags = "-u";
 	if (real)
 		flags = "-ru";
-	path = msh_resolve_path(msh, "id");
+	path = msh_resolve_path_internal(msh, "id");
 	if (!path)
 		return (-1);
 	if (pipe(fds) == -1)

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:44:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/09 14:01:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:22:42 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 #include <ft/string.h>
 #include <msh/minishell.h>
 #include <msh/env.h>
+#include <msh/util.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
+
+#define INTERNAL_PATH "/run/current-system/sw/bin:~/.nix-profile/bin:\
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 static bool	msh_validate(const char *filename)
 {
 	struct stat	st;
 
+	if (ft_strstr(filename, "(nil)"))
+		return (false);
 	if (stat(filename, &st) < 0)
 		return (false);
 	if (S_ISDIR(st.st_mode))
@@ -33,8 +39,8 @@ static bool	msh_validate(const char *filename)
 	return (true);
 }
 
-static char	*msh_resolve_executable(t_minishell *msh, const char *filename,
-				char **dirs)
+static char	*msh_resolve_executable(t_minishell *msh, const char *file,
+				char **dirs, bool resolve_home)
 {
 	size_t	i;
 	char	*found;
@@ -47,10 +53,12 @@ static char	*msh_resolve_executable(t_minishell *msh, const char *filename,
 		if (!found && *dirs[i])
 		{
 			if (!ft_strcmp(dirs[i], "."))
-				current = ft_format("%s/%s", msh->execution_context.cwd,
-						filename);
+				current = ft_format("%s/%s", msh->execution_context.cwd, file);
+			else if (resolve_home && dirs[i][0] == '~')
+				current = ft_format("%s/%s", msh_expand_tilde(msh, dirs[i]),
+						file);
 			else
-				current = ft_format("%s/%s", dirs[i], filename);
+				current = ft_format("%s/%s", dirs[i], file);
 			if (current && msh_validate(current))
 				found = current;
 			else if (current)
@@ -61,21 +69,18 @@ static char	*msh_resolve_executable(t_minishell *msh, const char *filename,
 	return (found);
 }
 
-char	*msh_resolve_path(t_minishell *msh, const char *filename)
+char	*msh_resolve_path_impl(t_minishell *msh, const char *filename,
+			char *path, bool resolve_home)
 {
-	char	*path;
 	char	**dirs;
 	size_t	i;
 
 	if (filename[0] == '/' || ft_strchr(filename, '/'))
 		return (ft_strdup(filename));
-	path = msh_env_value(msh, "PATH");
-	if (!path || !*path)
-		path = ".";
 	dirs = ft_split(path, ':');
 	if (!dirs)
 		return (NULL);
-	path = msh_resolve_executable(msh, filename, dirs);
+	path = msh_resolve_executable(msh, filename, dirs, resolve_home);
 	i = 0;
 	while (dirs[i])
 		free(dirs[i++]);
@@ -83,4 +88,24 @@ char	*msh_resolve_path(t_minishell *msh, const char *filename)
 	if (path && path[0] == '.' && path[1] == '/')
 		ft_memmove(path, path + 2, ft_strlen(path + 2) + 1);
 	return (path);
+}
+
+char	*msh_resolve_path(t_minishell *msh, const char *filename)
+{
+	char	*path;
+
+	path = msh_env_value(msh, "PATH");
+	if (!path || !*path)
+		path = ".";
+	return (msh_resolve_path_impl(msh, filename, path, false));
+}
+
+char	*msh_resolve_path_internal(t_minishell *msh, const char *filename)
+{
+	char	*resolved;
+
+	resolved = msh_resolve_path(msh, filename);
+	if (!resolved)
+		resolved = msh_resolve_path_impl(msh, filename, INTERNAL_PATH, true);
+	return (resolved);
 }

@@ -6,12 +6,12 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 05:36:04 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/13 19:09:28 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/21 16:15:37 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROJECT_NAME	?= kcsh
-PROJECT_VERSION	?= 0.5.5
+PROJECT_VERSION	?= 0.6.1
 
 SRC_DIR			?= src
 INCLUDE_DIR		?= include
