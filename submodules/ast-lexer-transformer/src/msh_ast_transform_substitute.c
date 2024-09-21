@@ -6,12 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 19:21:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:58:26 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/string.h>
 #include <msh/ast/transformer.h>
+#include <msh/env.h>
 #include <msh/log.h>
 
 static t_list	*msh_ast_transform_subst_append_split(t_minishell *msh,
@@ -38,21 +39,28 @@ static t_list	*msh_ast_transform_subst_noifs(t_minishell *msh,
 	return (new);
 }
 
-static t_list	*msh_ast_transform_subst_append(t_minishell *msh,
+static t_ast_error	msh_ast_transform_subst_append(t_minishell *msh,
 					t_list **next, t_list *tokens, t_ast_token *tkn)
 {
-	const char	*env = tkn->value.string;
-	char		*subst;
+	char		*env;
+	char		*ifs;
+	t_list		*torepl;
+	t_ast_error	err;
 
-	subst = msh_env_value(msh, env);
+	ifs = msh_env_value(msh, "IFS");
+	if (!ifs)
+		ifs = ENV_DEFAULT_IFS;
+	env = msh_env_value(msh, tkn->value.string);
 	next = tokens->next;
-	if (!subst)
+	if (!env)
 		ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
-	if (!subst)
+	if (!env)
 		return (next);
 	if (!*ifs)
-		return (msh_ast_transform_subst_noifs(msh, next, tokens, env));
-	return (msh_ast_transform_subst_append_split(msh, tokens, tkn, ifs));
+		to_repl = msh_ast_transform_subst_noifs(msh, next, tokens, env);
+	else
+		to_repl = msh_ast_transform_subst_append_split(msh, tokens, tkn, ifs);
+	return (msh_ast_ok());
 }
 
 // &tokens_list so we can replace the first one
@@ -62,21 +70,18 @@ static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 {
 	t_list		*tokens;
 	t_list		*next_backup;
-	t_list		*replace;
 	t_ast_token	*tkn;
 	t_ast_error	err;
 
 	tokens = *target;
 	next_backup = tokens->next;
-	replace = NULL;
 	tkn = (t_ast_token *)tokens->content;
 	err = msh_ast_ok();
 	if (tkn->type == TKN_SUBST && tkn->kind == SUBST_VAR)
-		err = msh_ast_transform_subst_append(msh, &replace, tokens, tkn);
+		err = msh_ast_transform_subst_append(msh, target, tokens, tkn);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
-	replace->next = next_backup;
-	*target = tokens;
+	ft_lst_last(*target)->next = next_backup;
 	return (err);
 }
 
@@ -85,13 +90,9 @@ t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 	t_ast_error	err;
 	t_list		*token;
 	t_ast_token	*tkn;
-	char		*ifs;
 
 	if (!tokens || !*tokens)
 		return (msh_ast_ok());
-	ifs = msh_env_value(msh, "IFS");
-	if (!ifs)
-		ifs = ENV_DEFAULT_IFS;
 	token = *tokens;
 	err = msh_ast_transform_subst_target(msh, &token);
 	if (err.type != AST_ERROR_NONE)
