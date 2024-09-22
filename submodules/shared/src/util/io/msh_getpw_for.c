@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:49:47 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/21 22:08:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/22 13:31:19 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,4 @@ struct passwd	msh_getpw_for(t_minishell *msh, uid_t uid, const char *name)
 		return (pwd);
 	ft_bzero(&pwd, sizeof(pwd));
 	return (pwd);
-
+}

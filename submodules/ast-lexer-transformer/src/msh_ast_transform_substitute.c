@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/21 23:24:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:54:12 by emfriez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <msh/log.h>
 #include <stdio.h>
 
+#define LEVEL MSG_DEBUG_EXEC_TRANSFORMER
+
+__attribute__((unused))
 static t_ast_error	msh_ast_transform_subst_append_split(t_minishell *msh,
 						t_list **next, t_ast_token *tkn, const char *ifs)
 {
@@ -63,10 +66,10 @@ static t_ast_error	msh_ast_transform_subst_append(t_minishell *msh,
 		ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
 	if (!env)
 		return (msh_ast_ok());
-	if (!*ifs)
-		err = msh_ast_transform_subst_noifs(msh, next, env);
-	else
-		err = msh_ast_transform_subst_append_split(msh, next, tkn, ifs);
+	// if (!*ifs)
+	err = msh_ast_transform_subst_noifs(msh, next, env);
+	// else
+	// 	err = msh_ast_transform_subst_append_split(msh, next, tkn, ifs);
 	ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
 	return (err);
 }
@@ -89,7 +92,11 @@ static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 		err = msh_ast_transform_subst_append(msh, target, tokens, tkn);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
-	ft_lst_last(*target)->next = next_backup;
+	tokens = ft_lst_last(*target);
+	if (!tokens)
+		*target = next_backup;
+	else
+		tokens->next = next_backup;
 	return (err);
 }
 
@@ -108,12 +115,14 @@ t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 	*tokens = token;
 	while (token && token->next)
 	{
-		printf("token: %p\n", token);
+		msh_log(msh, LEVEL, "transform_substitute_loop %p", token);
 		tkn = (t_ast_token *)token->next->content;
 		if (tkn->type == TKN_SUBST && tkn->kind == SUBST_VAR)
+		{
+			msh_log(msh, LEVEL, ""
 			err = msh_ast_transform_subst_target(msh, &token->next);
-		if (err.type != AST_ERROR_NONE)
 			return (err);
+		}
 		token = token->next;
 	}
 	return (err);
