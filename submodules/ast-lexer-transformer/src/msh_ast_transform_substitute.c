@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/22 17:54:12 by emfriez          ###   ########.fr       */
+/*   Updated: 2024/09/22 21:52:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ __attribute__((unused))
 static t_ast_error	msh_ast_transform_subst_append_split(t_minishell *msh,
 						t_list **next, t_ast_token *tkn, const char *ifs)
 {
-	(void)msh;
-	(void)next;
-	(void)tkn;
-	(void)ifs;
 	return (msh_ast_ok());
 }
 
@@ -40,6 +36,7 @@ static t_ast_error	msh_ast_transform_subst_noifs(
 	err = msh_ast_token_new(TKN_WORD, &new_tkn);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
+	new = NULL;
 	new_tkn->value.string = ft_strdup(env_value);
 	if (!new_tkn->value.string || !ft_lst_tadd(&new, new_tkn))
 	{
@@ -63,14 +60,19 @@ static t_ast_error	msh_ast_transform_subst_append(t_minishell *msh,
 		ifs = ENV_DEFAULT_IFS;
 	env = msh_env_value(msh, tkn->value.string);
 	if (!env)
+	{
 		ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
-	if (!env)
+		*next = NULL;
 		return (msh_ast_ok());
-	// if (!*ifs)
-	err = msh_ast_transform_subst_noifs(msh, next, env);
-	// else
-	// 	err = msh_ast_transform_subst_append_split(msh, next, tkn, ifs);
-	ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
+	}
+	if (!*ifs)
+		err = msh_ast_transform_subst_noifs(msh, next, env);
+	else
+		err = msh_ast_transform_subst_append_split(msh, next, tkn, ifs);
+	if (err.type != AST_ERROR_NONE)
+		ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
+	if (err.type != AST_ERROR_NONE)
+		*next = NULL;
 	return (err);
 }
 
@@ -108,20 +110,21 @@ t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 
 	if (!tokens || !*tokens)
 		return (msh_ast_ok());
-	token = *tokens;
-	err = msh_ast_transform_subst_target(msh, &token);
+	err = msh_ast_transform_subst_target(msh, tokens);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
-	*tokens = token;
+	token = *tokens;
 	while (token && token->next)
 	{
-		msh_log(msh, LEVEL, "transform_substitute_loop %p", token);
+		msh_log(msh, LEVEL, "transform_substitute_loop %p\n", token);
 		tkn = (t_ast_token *)token->next->content;
 		if (tkn->type == TKN_SUBST && tkn->kind == SUBST_VAR)
 		{
-			msh_log(msh, LEVEL, ""
+			msh_log(msh, LEVEL, "substituting target %p (points to %p)\n",
+				&token->next, token->next);
 			err = msh_ast_transform_subst_target(msh, &token->next);
-			return (err);
+			if (err.type != AST_ERROR_NONE)
+				break ;
 		}
 		token = token->next;
 	}
