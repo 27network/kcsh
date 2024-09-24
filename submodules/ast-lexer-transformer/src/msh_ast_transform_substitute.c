@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/22 21:52:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:20:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ __attribute__((unused))
 static t_ast_error	msh_ast_transform_subst_append_split(t_minishell *msh,
 						t_list **next, t_ast_token *tkn, const char *ifs)
 {
+	(void)msh;
+	(void)next;
+	(void)tkn;
+	(void)ifs;
 	return (msh_ast_ok());
 }
 
@@ -58,6 +62,7 @@ static t_ast_error	msh_ast_transform_subst_append(t_minishell *msh,
 	ifs = msh_env_value(msh, "IFS");
 	if (!ifs)
 		ifs = ENV_DEFAULT_IFS;
+	msh_log(msh, LEVEL, "transform_subst_append %p (%s)\n", tokens, tkn->value.string);
 	env = msh_env_value(msh, tkn->value.string);
 	if (!env)
 	{
@@ -65,13 +70,13 @@ static t_ast_error	msh_ast_transform_subst_append(t_minishell *msh,
 		*next = NULL;
 		return (msh_ast_ok());
 	}
-	if (!*ifs)
-		err = msh_ast_transform_subst_noifs(msh, next, env);
-	else
-		err = msh_ast_transform_subst_append_split(msh, next, tkn, ifs);
-	if (err.type != AST_ERROR_NONE)
+	// if (!*ifs)
+	err = msh_ast_transform_subst_noifs(msh, next, env);
+	// else
+		// err = msh_ast_transform_subst_append_split(msh, next, tkn, ifs);
+	if (err.type == AST_ERROR_NONE)
 		ft_lst_delete(tokens, (t_lst_dealloc) msh_ast_token_free);
-	if (err.type != AST_ERROR_NONE)
+	else
 		*next = NULL;
 	return (err);
 }
@@ -79,19 +84,22 @@ static t_ast_error	msh_ast_transform_subst_append(t_minishell *msh,
 // &tokens_list so we can replace the first one
 // &current->next so we can replace the next one based on the next one
 static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
-						t_list **target)
+						t_list **target, t_ast_token *tkn)
 {
 	t_list		*tokens;
 	t_list		*next_backup;
-	t_ast_token	*tkn;
 	t_ast_error	err;
 
+	if (tkn->type != TKN_SUBST)
+		return (msh_ast_ok());
+	msh_log(msh, LEVEL, "transform_subst_target %p (%p)\n", target, *target);
 	tokens = *target;
 	next_backup = tokens->next;
-	tkn = (t_ast_token *)tokens->content;
 	err = msh_ast_ok();
-	if (tkn->type == TKN_SUBST && tkn->kind == SUBST_VAR)
+	if (tkn->kind == SUBST_VAR)
 		err = msh_ast_transform_subst_append(msh, target, tokens, tkn);
+	else
+		return (err);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
 	tokens = ft_lst_last(*target);
@@ -102,6 +110,8 @@ static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 	return (err);
 }
 
+void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
+
 t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 {
 	t_ast_error	err;
@@ -110,7 +120,10 @@ t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 
 	if (!tokens || !*tokens)
 		return (msh_ast_ok());
-	err = msh_ast_transform_subst_target(msh, tokens);
+	msh_dump_tokens(NULL, *tokens);
+	tkn = (t_ast_token *)(*tokens)->content;
+	err = msh_ast_transform_subst_target(msh, tokens, tkn);
+	msh_dump_tokens(NULL, *tokens);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
 	token = *tokens;
@@ -118,15 +131,11 @@ t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 	{
 		msh_log(msh, LEVEL, "transform_substitute_loop %p\n", token);
 		tkn = (t_ast_token *)token->next->content;
-		if (tkn->type == TKN_SUBST && tkn->kind == SUBST_VAR)
-		{
-			msh_log(msh, LEVEL, "substituting target %p (points to %p)\n",
-				&token->next, token->next);
-			err = msh_ast_transform_subst_target(msh, &token->next);
-			if (err.type != AST_ERROR_NONE)
-				break ;
-		}
+		err = msh_ast_transform_subst_target(msh, &token->next, tkn);
+		if (err.type != AST_ERROR_NONE)
+			break ;
 		token = token->next;
 	}
+	msh_log(msh, LEVEL, "transform_substitute end\n");
 	return (err);
 }

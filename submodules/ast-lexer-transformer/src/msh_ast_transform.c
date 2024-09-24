@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 18:36:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:36:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 t_ast_error	msh_ast_transform_merge(t_minishell *msh, t_list **tokens);
 t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens);
+void		msh_dump_tokens(t_minishell *msh, t_list *tokens);
 
 static t_ast_transformer_info	*msh_ast_transformers(void)
 {
@@ -54,6 +55,7 @@ t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 	order = msh_ast_transformer_order(&size);
 	while (!err.type && *tokens_ptr && n < size)
 	{
+		msh_dump_tokens(msh, *tokens_ptr);
 		transformer = msh_ast_transformers()[order[n]];
 		msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "running transformer '%s'\n",
 			transformer.name);
