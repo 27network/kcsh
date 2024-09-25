@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 00:31:55 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/27 06:18:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:39:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_ast_lexer	msh_ast_lexer_sub(t_ast_lexer *parent, char delim)
 	lexer.delim = delim;
 	lexer.found_matching = false;
 	lexer.tokens = NULL;
+	lexer.ifs = parent->ifs;
 	lexer.allow_escape = parent->allow_escape && delim != '\'';
+	lexer.discrim_mode = parent->discrim_mode;
 	return (lexer);
 }

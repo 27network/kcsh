@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:53:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 16:31:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:06:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ static char	*msh_find_variable(const char *input, size_t *len)
 	return (env);
 }
 
-/**
- * Simple variable substitution:
- *  - $?
- *  - $VARIABLE_NAME
- *  - $_
- */
 t_ast_error	msh_ast_token_subst_var(t_ast_lexer *state, t_ast_token **tknret,
 				size_t *inc)
 {

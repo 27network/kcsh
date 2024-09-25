@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:52 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/06/01 20:18:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:39:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_ast_lexer
 	bool				found_matching;
 	t_list				*tokens;
 	bool				allow_escape;
+	const char			*ifs;
+	bool				discrim_mode;
 }	t_ast_lexer;
 
 t_ast_lexer	msh_ast_lexer_root(t_minishell *msh, const char *input);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 01:50:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:56:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,16 @@ static bool	msh_ast_is_redirection(t_ast_lexer *state)
  But no. Lenghty and verbose code it is.
 */
 
+const char	*msh_syntax_error_char(const char c);
+
 static t_ast_error	msh_ast_next_global_token(t_ast_lexer *state,
 						t_ast_token **token, size_t *inc, const char *input)
 {
 	t_ast_error	err;
 
+	if ((FEAT_TOK_PARAN && *input == ')') || (FEAT_TOK_GROUP && *input == '}'))
+		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)
+				msh_syntax_error_char(*input), false));
 	err = msh_ast_token_keyword(state, token, inc);
 	if (err.type != AST_ERROR_CANCEL)
 		return (err);
@@ -85,11 +90,12 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 	*inc = 0;
 	*token = NULL;
 	DBG(state, "(%d) lookup at '%s'\n", state->id, input);
-	if (*input != '\n' && ft_strchr(SEP_CHARS, *input))
+	if (*input != '\n' && (ft_strchr(state->ifs, *input)
+			|| ft_strchr(SEP_CHARS, *input)))
 		return (msh_ast_token_sep(state, token, inc));
-	else if (msh_ast_is_substituable(state))
+	else if (msh_ast_is_substituable(state) && !state->discrim_mode)
 		return (msh_ast_token_substitution(state, token, inc));
-	if (state->delim == '\"')
+	if (state->delim == '\"' || state->discrim_mode)
 		return (msh_ast_token_word(state, token, inc));
 	else if ((*input == '(' && FEAT_TOK_PARAN) || (*input == '{'
 			&& FEAT_TOK_GROUP))

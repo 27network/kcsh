@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:00:06 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 10:51:19 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:57:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,22 @@
 const char	*msh_ast_strtoken_simple(t_ast_token *token);
 const char	*msh_ast_strtoken_simple_impl(t_ast_token *token,
 				const char *paran);
+
+const char	*msh_syntax_error_char(const char c)
+{
+	char	*msg;
+	size_t	len;
+
+	len = ft_strlen(ERROR_MSG) + 3 + 1 + 1;
+	msg = ft_calloc(len, sizeof(char));
+	if (!msg)
+		return (NULL);
+	ft_strlcpy(msg, ERROR_MSG, len);
+	ft_strlcat(msg, " `", len);
+	msg[len - 3] = c;
+	ft_strlcat(msg, "'", len);
+	return (msg);
+}
 
 const char	*msh_syntax_error_impl(t_ast_token *token, const char *paren)
 {
