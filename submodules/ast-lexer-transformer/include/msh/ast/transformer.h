@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:32:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 17:16:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:59:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 #  include <msh/minishell.h>
 #  include <msh/log.h>
 
-typedef t_ast_error	t_ast_transformer_fn(t_minishell *msh, t_list **tokens);
+typedef t_ast_error	t_ast_transformer_fn(t_minishell *msh, t_list **tokens,
+							size_t n);
 
 typedef struct s_ast_transformer_info
 {

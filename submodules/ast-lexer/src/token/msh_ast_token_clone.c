@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 23:28:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/25 00:35:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:42:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ static bool	msh_ast_token_realloc(t_ast_token *tok, t_ast_token **token)
 	return (true);
 }
 
+static void	msh_token_free(t_ast_token **token)
+{
+	if (!token || !*token)
+		return ;
+	msh_ast_token_free(*token);
+	*token = NULL;
+}
+
 t_list	*msh_clone_tokens(t_minishell *msh, t_list *tokens);
 
 t_ast_token	*msh_ast_token_clone(t_ast_token *token)
@@ -41,20 +49,15 @@ t_ast_token	*msh_ast_token_clone(t_ast_token *token)
 	{
 		clone->value.list = msh_clone_tokens(NULL, clone->value.list);
 		if (!clone->value.list)
-		{
-			msh_ast_token_free(clone);
-			return (NULL);
-		}
+			msh_token_free(&clone);
 	}
-	else if (token->value.string && (token->type == TKN_WORD || token->type
-			== TKN_SEP || ))
+	else if (token->value.string && (token->type == TKN_SUBST
+			|| token->type == TKN_WORD || token->type == TKN_SEP
+			|| token->type == TKN_COMMENT || token->type == TKN_NUMBER))
 	{
 		clone->value.string = ft_strdup(token->value.string);
 		if (!clone->value.string)
-		{
-			msh_ast_token_free(clone);
-			return (NULL);
-		}
+			msh_token_free(&clone);
 	}
 	return (clone);
 }

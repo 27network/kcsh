@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_merge_late_redirtostring.c                 :+:      :+:    :+:   */
+/*   msh_ast_merge_redirtostring.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:57:52 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:44:50 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:18:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  * - Next token (no)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_late_redirtostring(t_list *current,
+t_ast_token	*msh_ast_merge_redirtostring(t_list *current,
 				t_ast_token *redir, t_ast_token *string)
 {
 	t_list	*next;
