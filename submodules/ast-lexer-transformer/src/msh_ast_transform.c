@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/26 00:57:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:08:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,6 @@ static t_ast_transformer_info	*msh_ast_transformers(void)
 	};
 
 	return ((t_ast_transformer_info *)transformers);
-}
-
-static int	*msh_ast_transformer_order(size_t *size)
-{
-	static const int	order[] = {2, 0, 2, 1, 0, 2};
-	static const size_t	order_size = sizeof(order) / sizeof(order[0]);
-
-	if (size)
-		*size = order_size;
-	return ((int *)order);
 }
 
 t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
