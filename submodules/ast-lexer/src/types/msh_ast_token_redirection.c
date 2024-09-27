@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:36:16 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/27 15:38:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:35:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,30 @@ static long long	msh_redir_try_yoink_fd(t_ast_lexer *state, size_t *inc)
 	return (n);
 }
 
+static t_ast_error	msh_ast_redir_filltype(t_ast_token *token,
+						t_ast_lexer *state)
+{
+	t_ast_lexer	lexer;
+	t_ast_error	err;
+
+	err = msh_ast_ok();
+	if (token->kind == REDIR_FD_IN || token->kind == REDIR_FD_OUT)
+	{
+		token->value.redir.right_fd = msh_redir_try_yoink_fd(state, NULL);
+		if (token->value.redir.right_fd != -1)
+			token->value.redir.state = REDIR_STATE_FD;
+	}
+	else
+	{
+		lexer = msh_ast_lexer_root(state->msh, state->input + state->cursor);
+		err = msh_ast_tokenize(&lexer);
+		if (err.type == AST_ERROR_NONE)
+			token->value.redir.right_word = lexer.tokens->content;
+		return (err);
+	}
+	return (msh_ast_ok());
+}
+
 t_ast_error	msh_ast_token_redirection(t_ast_lexer *state, t_ast_token **tokret,
 				size_t *inc)
 {
@@ -104,13 +128,9 @@ t_ast_error	msh_ast_token_redirection(t_ast_lexer *state, t_ast_token **tokret,
 		token->value.redir.left_fd = -1;
 		token->value.redir.right_fd = -1;
 		*inc = msh_ast_redir_len(type);
-		if (type == REDIR_FD_IN || type == REDIR_FD_OUT)
-		{
-			token->value.redir.right_fd = msh_redir_try_yoink_fd(state, inc);
-			if (token->value.redir.right_fd != -1)
-				token->value.redir.state = REDIR_STATE_FD;
-		}
-		*tokret = token;
+		err = msh_ast_redir_filltype(token, state);
+		if (err.type == AST_ERROR_NONE)
+			*tokret = token;
 	}
 	return (err);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:35:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:44:43 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:10:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@
  * - Next token (yes)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_fdtoredir(t_list *current, t_ast_token *fd,
-			t_ast_token *redir)
+t_ast_token	*msh_ast_merge_fdtoredir(t_minishell *msh, t_list *current,
+			t_ast_token *fd, t_ast_token *redir)
 {
 	long long	number;
 	t_list		*next;
 
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "merge fdtoredir\n");
 	if (!current || !fd || !redir || redir->value.redir.left_fd != -1
 		|| ft_strtoll(fd->value.string, &number))
 		return (NULL);

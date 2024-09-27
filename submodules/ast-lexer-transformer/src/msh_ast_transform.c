@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/26 18:08:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:53:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 t_ast_error	msh_ast_transform_merge(t_minishell *msh, t_list **tokens,
 				size_t order);
 t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens,
+				size_t order);
+t_ast_error	msh_ast_transform_wordify(t_minishell *msh, t_list **tokens,
 				size_t order);
 void		msh_dump_tokens(t_minishell *msh, t_list *tokens);
 
@@ -33,14 +35,15 @@ static t_ast_transformer_info	*msh_ast_transformers(void)
 	{.name = "merge", .fn = msh_ast_transform_merge},
 	{.name = "substitute", .fn = msh_ast_transform_substitute},
 	{.name = "sanitize", .fn = msh_ast_sanitize_tokens_wrapper},
+	{.name = "wordify", .fn = msh_ast_transform_wordify},
 	};
 
-	return ((t_ast_transformer_info *)transformers);
+	return ((t_ast_transformer_info *) transformers);
 }
 
 t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 {
-	static const int		order = {2, 0, 2, 1, 2, 0, 2};
+	static const int		order[] = {2, 0, 2, 1, 2, 0, 2, 3, 2, 0, 2};
 	size_t					n;
 	t_ast_error				err;
 	t_ast_transformer_info	transformer;

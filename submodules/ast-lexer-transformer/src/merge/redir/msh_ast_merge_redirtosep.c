@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:43:02 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:44:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:10:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@
  * - Next token (yes)
  * - Next node (yes)
  */
-t_ast_token	*msh_ast_merge_redirtosep(t_list *current,
+t_ast_token	*msh_ast_merge_redirtosep(t_minishell *msh, t_list *current,
 				t_ast_token *redir, t_ast_token *sep)
 {
 	t_list		*next;
 
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "merge redirtosep\n");
 	if (!current || !sep || !redir)
 		return (NULL);
 	next = current->next;

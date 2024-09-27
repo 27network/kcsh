@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/26 00:50:57 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/27 15:30:16 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC			=	merge/redir/msh_ast_merge_fdtoredir.c \
 				subst/msh_ast_transform_subst_var.c \
 				msh_ast_transform.c \
 				msh_ast_transform_merge.c \
+				msh_ast_transform_merge_recurse.c \
 				msh_ast_transform_standardize.c \
 				msh_ast_transform_substitute.c \
 				msh_ast_transform_wordify.c
