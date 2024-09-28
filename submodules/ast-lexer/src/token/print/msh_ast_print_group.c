@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:21:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:03:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:42:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	msh_ast_token_print0(t_ast_token *token);
 
-static void	msh_ast_token_print_list(t_ast_token *token)
+void	msh_ast_token_print_list(t_ast_token *token)
 {
 	if (!token)
 		return ;

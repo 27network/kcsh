@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:45:20 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/17 12:15:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:31:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ast_error	msh_ast_token_string(t_ast_lexer *state, t_ast_token **token,
 	t_ast_error	err;
 
 	state->cursor += 1;
-	local = msh_ast_lexer_sub(state, '"');
+	local = msh_ast_lexer_sub(state, "\"");
 	err = msh_ast_tokenize(&local);
 	if (err.type != AST_ERROR_NONE)
 		return (err);

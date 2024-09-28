@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/27 15:53:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:42:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 t_ast_error	msh_ast_transform_merge(t_minishell *msh, t_list **tokens,
 				size_t order);
-t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens,
+t_ast_error	msh_ast_transform_substitute_tilde(t_minishell *msh,
+				t_list **tokens, size_t order);
+t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
 				size_t order);
 t_ast_error	msh_ast_transform_wordify(t_minishell *msh, t_list **tokens,
 				size_t order);
@@ -33,17 +35,33 @@ static t_ast_transformer_info	*msh_ast_transformers(void)
 {
 	static const t_ast_transformer_info	transformers[] = {
 	{.name = "merge", .fn = msh_ast_transform_merge},
-	{.name = "substitute", .fn = msh_ast_transform_substitute},
+	{.name = "substitute_var", .fn = msh_ast_transform_substitute_var},
 	{.name = "sanitize", .fn = msh_ast_sanitize_tokens_wrapper},
 	{.name = "wordify", .fn = msh_ast_transform_wordify},
+	{.name = "substitute_tilde", .fn = msh_ast_transform_substitute_tilde},
 	};
 
 	return ((t_ast_transformer_info *) transformers);
 }
 
+static void	msh_transformer_log(t_minishell *msh, const char *msg,
+				t_ast_error *err, bool stage)
+{
+	if (stage)
+	{
+		msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "running transformer '%s'\n",
+			msg);
+		return ;
+	}
+	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "transformer '%s' returned"
+		"%s\n", msg, msh_ast_strerror(err->type));
+}
+
+// merge, subsitute (~), merge, substitute ($var), merge, 
+// (substitute (*.c), merge  
 t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 {
-	static const int		order[] = {2, 0, 2, 1, 2, 0, 2, 3, 2, 0, 2};
+	static const int		order[] = {0, 4, 0, 1, 0, 3, 0};
 	size_t					n;
 	t_ast_error				err;
 	t_ast_transformer_info	transformer;
@@ -54,16 +72,17 @@ t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 	err = msh_ast_ok();
 	while (!err.type && *tokens_ptr && n < sizeof(order) / sizeof(order[0]))
 	{
-		msh_dump_tokens(msh, *tokens_ptr);
 		transformer = msh_ast_transformers()[order[n]];
-		msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "running transformer '%s'\n",
-			transformer.name);
+		msh_transformer_log(msh, transformer.name, NULL, true);
 		err = transformer.fn(msh, tokens_ptr, n);
 		if (err.type != AST_ERROR_NONE)
-			msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "transformer '%s' returned"
-				"%s\n", transformer.name, msh_ast_strerror(err.type));
+			break ;
+		msh_dump_tokens(msh, *tokens_ptr);
+		transformer = msh_ast_transformers()[2];
+		err = transformer.fn(msh, tokens_ptr, 2);
 		n++;
 	}
-	msh_log(msh, MSG_DEBUG_EXEC_TRANSFORMER, "transofmration done\n\n");
+	if (err.type != AST_ERROR_NONE)
+		msh_transformer_log(msh, transformer.name, &err, false);
 	return (err);
 }

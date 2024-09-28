@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 06:52:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 01:50:35 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:23:01 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_ast_tkn_redir_data
 	union
 	{
 		int						right_fd;
-		t_ast_token				*right_word;
+		t_list					*right_word;
 	};
 	t_ast_tkn_redir_state	state;
 }	t_ast_tkn_redir_data;

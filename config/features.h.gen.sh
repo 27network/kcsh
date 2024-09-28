@@ -17,6 +17,8 @@ FEAT_BONUS_MSH=( \
 	# Should be in modular42sh, but the current shakespeare implementation doesn't support history yet
 	# so i'll put it here to impress the crowd
 	"HISTORY_FILE" 1 \
+	# this is also to flex
+	"TILDE_EXPANSION" 1 \
 )
 
 FEAT_MANDATORY_42SH=( \

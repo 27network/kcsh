@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 23:20:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:24:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,30 @@
 #define WORD_END "unexpected end of word"
 #define WORD_ALLOC_FAIL ": failed to allocate word"
 #define ALLOWED_STRING_ESCAPES "$`\"\\\n"
+#define ALLOWED "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_/ \n\t"
+
+static t_ast_error	msh_transform_into_subst(t_ast_lexer *state,
+						t_ast_token **tokret, t_ast_error err, size_t *inc)
+{
+	const char	*input = state->input + state->cursor + *inc;
+	t_ast_token	*token;
+	size_t		i;
+
+	token = *tokret;
+	if (token && token->value.string && FEAT_TILDE_EXPANSION)
+	{
+		if (token->value.string[0] == '~')
+		{
+			i = ft_strlen(token->value.string);
+			if ((token->value.string[1] == 0 || token->value.string[i - 1]
+					!= '/') && input[0] != 0 && !ft_strchr(ALLOWED, input[0]))
+				return (err);
+			token->type = TKN_SUBST;
+			token->kind = SUBST_TILDE;
+		}
+	}
+	return (err);
+}
 
 static t_ast_error	msh_ast_make_word(t_ast_lexer *state, t_ast_token **tokret,
 						size_t *inc, const char *word)
@@ -29,10 +53,9 @@ static t_ast_error	msh_ast_make_word(t_ast_lexer *state, t_ast_token **tokret,
 	t_ast_error	err;
 
 	if (!word)
-	{
 		TRACE(state, TKN_ACTUAL, 2);
+	if (!word)
 		return (msh_ast_errd(AST_ERROR_ALLOC, WORD_ALLOC_FAIL, false));
-	}
 	msh_log(state->msh, MSG_DEBUG_TOKENIZER, "making word %s\n", word);
 	value = ft_strdup(word);
 	if (!value)
@@ -49,7 +72,7 @@ static t_ast_error	msh_ast_make_word(t_ast_lexer *state, t_ast_token **tokret,
 	(*tokret)->value.string = value;
 	*inc += ft_strlen(word);
 	TRACE(state, TKN_ACTUAL, (err.type != AST_ERROR_NONE) * 2);
-	return (err);
+	return (msh_transform_into_subst(state, tokret, err, inc));
 }
 
 /**
@@ -106,7 +129,7 @@ static t_ast_error	msh_escaped_word(t_ast_lexer *state, t_ast_token **tokret,
 static bool	msh_should_escape(t_ast_lexer *state)
 {
 	const bool	escaping = (state->input[state->cursor] == '\\');
-	const bool	inside_string = (state->delim == '\"');
+	const bool	inside_string = msh_ast_lexer_is_delim(state, '\"');
 
 	if (!escaping)
 		return (false);

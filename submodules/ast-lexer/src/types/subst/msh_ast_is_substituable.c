@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:40:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 18:26:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:01:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static bool	msh_ast_is_substituable_dollar(t_ast_lexer *state, const char *line)
  * - $(())
  * - ``
  * - $'' or $""
+ * - *
+ *   - ? [] idk
  */
 bool	msh_ast_is_substituable(t_ast_lexer *state)
 {
@@ -59,6 +61,8 @@ bool	msh_ast_is_substituable(t_ast_lexer *state)
 	bool		ret;
 
 	if (!state)
+		return (false);
+	if (state->discrim_mode && state->delim == 0)
 		return (false);
 	line = &state->input[state->cursor];
 	if (!line || !*line)
@@ -68,6 +72,8 @@ bool	msh_ast_is_substituable(t_ast_lexer *state)
 		ret = true;
 	else if (*line == '$')
 		ret = msh_ast_is_substituable_dollar(state, line);
+	else if (*line == '*' && !state->delim && FEAT_PARSER_WILDCARD)
+		ret = true;
 	msh_log(state->msh, MSG_DEBUG_TOKENIZER, "is substituable: %s\n",
 		msh_strbool(ret));
 	return (ret);

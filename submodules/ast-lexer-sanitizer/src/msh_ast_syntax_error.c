@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:00:06 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/24 21:57:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:27:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ const char	*msh_syntax_error_char(const char c)
 	ft_strlcpy(msg, ERROR_MSG, len);
 	ft_strlcat(msg, " `", len);
 	msg[len - 3] = c;
+	ft_strlcat(msg, "'", len);
+	return (msg);
+}
+
+const char	*msh_syntax_error_str(const char *c)
+{
+	char	*msg;
+	size_t	len;
+
+	len = ft_strlen(ERROR_MSG) + 10 + ft_strlen(c);
+	msg = ft_calloc(len, sizeof(char));
+	if (!msg)
+		return (NULL);
+	ft_strlcpy(msg, ERROR_MSG, len);
+	ft_strlcat(msg, " `", len);
+	ft_strlcat(msg, c, len);
 	ft_strlcat(msg, "'", len);
 	return (msg);
 }

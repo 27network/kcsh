@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 01:25:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 01:35:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:54:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@
 
 static int	msh_token_type(t_ast_lexer *state)
 {
-	if (state->delim == '\'' || state->delim == '"')
+	const bool	inside_string = msh_ast_lexer_is_delim(state, '"');
+	const bool	inside_word = msh_ast_lexer_is_delim(state, '\'');
+
+	if (inside_string || inside_word)
 		return (TKN_WORD);
 	return (TKN_SEP);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 07:29:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:50:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static bool	msh_ast_sanitize_skip_leading(t_list *current, t_list **nextret)
 	if (!tkn)
 		return (false);
 	ret = tkn->type == TKN_SEP;
+	ret |= tkn->type == TKN_DELIM && tkn->kind == DELIM_NEWLINE;
 	if (ret)
 		ft_lst_delete(current, (t_lst_dealloc) msh_ast_token_free);
 	return (ret);

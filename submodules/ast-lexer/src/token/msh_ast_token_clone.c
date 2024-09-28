@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 23:28:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/25 16:42:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:13:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ t_ast_token	*msh_ast_token_clone(t_ast_token *token)
 		if (!clone->value.string)
 			msh_token_free(&clone);
 	}
+	else if (token->type == TKN_REDIR && token->value.redir.right_word)
+		clone->value.redir.right_word = msh_clone_tokens(NULL,
+				token->value.redir.right_word);
 	return (clone);
 }
 

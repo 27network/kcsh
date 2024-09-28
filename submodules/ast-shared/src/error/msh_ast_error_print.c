@@ -6,25 +6,26 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:52:35 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:19:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:41:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/mem.h>
 #include <ft/print.h>
+#include <ft/string.h>
 #include <msh/ast/error.h>
 #include <msh/log.h>
 #include <unistd.h>
 
-static char	msh_reverse_match(const char c)
+static char	msh_reverse_match(const char *c)
 {
-	if (c == ')')
-		return ('(');
-	if (c == '}')
-		return ('{');
-	if (c == ']')
-		return ('[');
-	return (c);
+	if (ft_strcmp(c, "(") == 0)
+		return (')');
+	if (ft_strcmp(c, "{") == 0)
+		return ('}');
+	if (ft_strcmp(c, "[") == 0)
+		return (']');
+	return ('?');
 }
 
 void	msh_ast_error_free(t_ast_error error)
@@ -40,13 +41,13 @@ static void	msh_ast_error_data(
 	const char *type_message,
 	t_ast_error	error
 ) {
-	char	c;
+	char	*c;
 
 	if (error.type != AST_ERROR_UNEXPECTED)
 		ft_putstr_fd(type_message, STDERR_FILENO);
 	if (error.type == AST_ERROR_UNEXPECTED_EOF)
 	{
-		c = (char)(unsigned long long) error.data;
+		c = (char *)error.data;
 		ft_putstr_fd(" while looking for matching `", STDERR_FILENO);
 		ft_putchar_fd(msh_reverse_match(c), STDERR_FILENO);
 		ft_putchar_fd('\'', STDERR_FILENO);

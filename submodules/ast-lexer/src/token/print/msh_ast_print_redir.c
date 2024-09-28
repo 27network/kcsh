@@ -6,10 +6,11 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:53:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/25 14:43:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:06:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/data/list.h>
 #include <msh/ast/lexer.h>
 #include <stdio.h>
 
@@ -28,7 +29,7 @@ const char	*msh_ast_strredir(t_ast_redir_type type)
 	return (redir_strs[type]);
 }
 
-void	msh_ast_token_print0(t_ast_token *token);
+void	msh_ast_token_print_list(void *token);
 
 void	msh_ast_print_redir(t_ast_token *token)
 {
@@ -38,9 +39,9 @@ void	msh_ast_print_redir(t_ast_token *token)
 	printf("%d", token->value.redir.left_fd);
 	printf(" %s ", msh_ast_strredir(token->kind));
 	if (token->kind == REDIR_FD_IN || token->kind == REDIR_FD_OUT)
-		printf("%d", token->value.redir.right_fd);
-	else if (token->value.redir.right_fd != -1)
-		msh_ast_token_print0(token->value.redir.right_word);
+		printf("&%d", token->value.redir.right_fd);
+	else if (token->value.redir.state == REDIR_STATE_WORD)
+		ft_lst_foreach(token->value.redir.right_word, msh_ast_token_print_list);
 	else
 		printf("[missing]");
 	printf(" )");

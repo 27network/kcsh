@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:22:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/27 16:16:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:23:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ t_ast_error			msh_ast_transform_merge_recurse(t_minishell *msh,
 
 t_ast_token			*msh_ast_merge_fdtoredir(t_minishell *msh, t_list *token,
 						const t_ast_token *current, const t_ast_token *next);
-t_ast_token			*msh_ast_merge_redirtosep(t_minishell *msh, t_list *token,
-						const t_ast_token *current, const t_ast_token *next);
-t_ast_token			*msh_ast_merge_redirtostring(t_minishell *msh,
-						t_list *token, const t_ast_token *current,
-						const t_ast_token *next);
 
 t_ast_token			*msh_ast_merge_wtostr(t_minishell *msh, t_list *token,
 						const t_ast_token *current, const t_ast_token *next);
@@ -51,11 +46,6 @@ static t_ast_error	msh_ast_transform_try_merge_others(
 	if (next && current->type == TKN_NUMBER && next->type == TKN_REDIR
 		&& FEAT_PARSER_42SH_REDIRS)
 		new = msh_ast_merge_fdtoredir(msh, token, current, next);
-	// else if (next && current->type == TKN_REDIR && next->type == TKN_SEP)
-	// 	new = msh_ast_merge_redirtosep(msh, token, current, next);
-	// else if (next && current->type == TKN_REDIR && next->type == TKN_STRING
-	// 	&& current->value.redir.state == REDIR_STATE_UNSET)
-	// 	new = msh_ast_merge_redirtostring(msh, token, current, next);
 	else
 		return (msh_ast_err(AST_ERROR_CANCEL, false));
 	if (new == NULL)

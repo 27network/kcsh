@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/19 16:04:44 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/28 17:04:06 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,11 @@ SRC			=	token/print/msh_ast_print_delim.c \
 				token/msh_ast_token_new.c \
 				token/msh_ast_token_print.c \
 				token/msh_ast_token_trace.c \
-				types/subst/impl/msh_ast_is_substituable_var.c \
+				types/redir/msh_ast_redir_filltype.c \
+				types/subst/impl/msh_ast_token_subst_var.c \
+				types/subst/impl/msh_ast_token_subst_wildcard.c \
 				types/subst/msh_ast_is_substituable.c \
-				types/subst/msh_ast_token_subst_var.c \
+				types/subst/msh_ast_is_substituable_var.c \
 				types/subst/msh_ast_token_substitution.c \
 				types/msh_ast_token_comment.c \
 				types/msh_ast_token_delim.c \
@@ -42,6 +44,7 @@ SRC			=	token/print/msh_ast_print_delim.c \
 				types/msh_ast_token_string.c \
 				types/msh_ast_token_word.c \
 				msh_ast_lexer_debug.c \
+				msh_ast_lexer_is_delim.c \
 				msh_ast_lexer_root.c \
 				msh_ast_lexer_sub.c \
 				msh_ast_tokenize.c

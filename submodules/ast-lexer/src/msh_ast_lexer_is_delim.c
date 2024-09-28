@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_lexer_root.c                               :+:      :+:    :+:   */
+/*   msh_ast_lexer_is_delim.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 07:35:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:46:04 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/09/28 13:32:46 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/09/28 15:32:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/string.h>
 #include <msh/ast/lexer.h>
-#include <msh/features.h>
-#include <stddef.h>
 
-t_ast_lexer	msh_ast_lexer_root(t_minishell *msh, const char *line)
+bool	msh_ast_lexer_check_delim(t_ast_lexer *state, const char c)
 {
-	return ((t_ast_lexer){
-		.id = 0,
-		.msh = msh,
-		.input = line,
-		.parent = NULL,
-		.cursor = 0,
-		.delim = 0,
-		.found_matching = false,
-		.tokens = NULL,
-		.allow_escape = FEAT_PARSER_INHIBITORS,
-		.ifs = SEP_CHARS,
-		.discrim_mode = false
-	});
+	if (c == 0 && state->delim != NULL)
+		return (false);
+	return (c == 0 || ft_strchr(state->delim, c));
+}
+
+bool	msh_ast_lexer_is_delim(t_ast_lexer *state, const char c)
+{
+	if (c == 0 && state->delim != NULL)
+		return (false);
+	if (!state->delim)
+		return (c == 0);
+	return (ft_strchr(state->delim, c));
 }

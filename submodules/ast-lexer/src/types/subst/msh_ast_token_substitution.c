@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 03:44:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/18 00:01:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:07:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 t_ast_error	msh_ast_token_subst_var(t_ast_lexer *state, t_ast_token **tknret,
 				size_t *inc);
+t_ast_error	msh_ast_token_subst_wildcard(t_ast_lexer *state,
+				t_ast_token **tknret, size_t *inc);
 
 static t_ast_error	msh_ast_token_substitution_underlying(
 	const char *input,
@@ -41,6 +43,8 @@ static t_ast_error	msh_ast_token_substitution_underlying(
 			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "( not impl", false));
 		return (msh_ast_token_subst_var(state, tokret, inc));
 	}
+	if (first == '*' && FEAT_PARSER_WILDCARD)
+		return (msh_ast_token_subst_wildcard(state, tokret, inc));
 	return (msh_ast_errd(AST_ERROR_UNEXPECTED, "unexpected substitution", 0));
 }
 

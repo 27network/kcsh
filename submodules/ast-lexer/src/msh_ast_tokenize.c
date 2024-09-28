@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/24 21:56:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:00:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 #include <msh/util.h>
 #include <stdlib.h>
 
+#define G FEAT_TOK_GROUP
 #define DBG msh_ast_lexer_debug
 
 #define LEXER_INPUT_ALLOC_ERR ": failed to allocate memory for command input"
 #define TOKEN_NODE_ALLOC_ERR ": failed to allocate memory for token node"
 
 #define UNEXPECTED_EOF "unexpected EOF while looking for matching `%c'"
+
+bool		msh_ast_lexer_is_delim(t_ast_lexer *state, const char c);
 
 static bool	msh_ast_is_redirection(t_ast_lexer *state)
 {
@@ -93,12 +96,12 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 	if (*input != '\n' && (ft_strchr(state->ifs, *input)
 			|| ft_strchr(SEP_CHARS, *input)))
 		return (msh_ast_token_sep(state, token, inc));
-	else if (msh_ast_is_substituable(state) && !state->discrim_mode)
+	else if (msh_ast_is_substituable(state))
 		return (msh_ast_token_substitution(state, token, inc));
-	if (state->delim == '\"' || state->discrim_mode)
+	if (msh_ast_lexer_is_delim(state, '\"')
+		|| (state->discrim_mode && !state->delim))
 		return (msh_ast_token_word(state, token, inc));
-	else if ((*input == '(' && FEAT_TOK_PARAN) || (*input == '{'
-			&& FEAT_TOK_GROUP))
+	else if ((*input == '(' && FEAT_TOK_PARAN) || (*input == '{' && G))
 		return (msh_ast_token_group(state, token, inc));
 	else if (*input == '\'')
 		return (msh_ast_token_single_quote(state, token, inc));
@@ -115,31 +118,30 @@ static t_ast_error	msh_ast_next_token(t_ast_lexer *state, t_ast_token **token,
 #define ERROR_MSG_STR "[ERROR] %s (%s), recoverable: %s\n"
 #define ERROR_MSG_CHR "[ERROR] %s (%c), recoverable: %s\n"
 
-static t_ast_error	msh_ast_lexer_errors(t_ast_lexer *state, t_ast_error err)
+static t_ast_error	msh_ast_lexer_errors(t_ast_lexer *s, t_ast_error err)
 {
-	const size_t	len = ft_strlen(state->input);
+	const size_t	len = ft_strlen(s->input);
 	const char		*fmt = ERROR_MSG_STR;
 
 	if (err.type != AST_ERROR_NONE)
 	{
 		if (err.type == AST_ERROR_UNEXPECTED_EOF)
 			fmt = ERROR_MSG_CHR;
-		DBG(state, fmt, msh_ast_strerror(err.type), err.data,
+		DBG(s, fmt, msh_ast_strerror(err.type), err.data,
 			msh_strbool(err.retry));
 		return (err);
 	}
-	if (state->cursor > len)
+	if (s->cursor > len)
 	{
-		DBG(state, "[WARN] Lexer's cursor was ahead of input (%d)\n", (int)len);
-		state->cursor = len;
+		DBG(s, "[WARN] Lexer's cursor was ahead of input (%d)\n", (int)len);
+		s->cursor = len;
 	}
-	if (state->delim != 0 && state->input[state->cursor] != state->delim)
+	if (s->delim && !msh_ast_lexer_is_delim(s, s->input[s->cursor]))
 	{
-		DBG(state, "Delimiter '%c' not found, reprompting...\n", state->delim);
-		return (msh_ast_errd(AST_ERROR_UNEXPECTED_EOF,
-				(void *)(unsigned long long) state->delim, true));
+		DBG(s, "Delimiter '%s' not found, reprompting...\n", s->delim);
+		return (msh_ast_errd(AST_ERROR_UNEXPECTED_EOF, (char *)s->delim, 1));
 	}
-	DBG(state, "Done matching, cursor: %d\n", (int) state->cursor);
+	DBG(s, "Done matching, cursor: %d\n", (int) s->cursor);
 	return (msh_ast_ok());
 }
 
@@ -153,7 +155,7 @@ t_ast_error	msh_ast_tokenize(t_ast_lexer *state)
 		return (msh_ast_errd(AST_ERROR_ALLOC, LEXER_INPUT_ALLOC_ERR, false));
 	err = msh_ast_ok();
 	while (err.type == AST_ERROR_NONE && state->cursor < ft_strlen(state->input)
-		&& state->input[state->cursor] != state->delim)
+		&& !msh_ast_lexer_is_delim(state, state->input[state->cursor]))
 	{
 		err = msh_ast_next_token(state, &token, &inc);
 		if (err.type != AST_ERROR_NONE)

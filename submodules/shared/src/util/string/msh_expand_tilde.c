@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 15:31:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:59:19 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,19 @@ static char	*msh_find_user_home(t_minishell *msh, const char *str,
 	char			username[1024];
 	size_t			u_len;
 
-	if (!str || !*str || !ft_strchr(str, '/'))
+	printf("finding user home for '%s'\n", str);
+	if (!str || !*str)
 		return (NULL);
+	printf("finding user home for 2 '%s'\n", str);
 	ft_bzero(username, sizeof(username));
 	u_len = ft_strcspn(str, "/");
+	printf("finding user home for 34 '%s' len %zu\n", str, u_len);
 	if (u_len >= sizeof(username) || u_len == 0)
 		return (NULL);
+	printf("finding user home for 3 '%s'\n", str);
 	ft_strlcpy(username, str, u_len + 1);
 	pwd = msh_getpwnam(msh, username);
+	printf("got passwd for '%s': %s %s\n", username, pwd.pw_name, pwd.pw_dir);
 	if (!pwd.pw_name)
 	{
 		msh_passwd_free(&pwd);

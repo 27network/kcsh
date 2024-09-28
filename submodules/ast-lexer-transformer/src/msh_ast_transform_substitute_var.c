@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_transform_substitute.c                     :+:      :+:    :+:   */
+/*   msh_ast_transform_substitute_var.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/24 20:04:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:07:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,19 @@
 
 #define LEVEL MSG_DEBUG_EXEC_TRANSFORMER
 
+t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
+				__attribute__((unused)) size_t order);
 t_ast_error	msh_ast_transform_subst_var(t_minishell *msh, t_list **next,
 				t_list *tokens, t_ast_token *tkn);
 void		msh_dump_tokens(t_minishell *msh, t_list *tokens);
+
+t_ast_error	msh_ast_transform_subst_wrap(t_minishell *msh, t_list **target,
+				t_list *tokens, t_ast_token *tkn)
+{
+	if (tkn->type == TKN_STRING && tkn->value.list)
+		return (msh_ast_transform_substitute_var(msh, &tkn->value.list, 0));
+	return (msh_ast_transform_subst_var(msh, target, tokens, tkn));
+}
 
 static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 						t_list **target, t_ast_token *tkn, bool *rerun)
@@ -29,14 +39,14 @@ static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 	t_list		*next_backup;
 	t_ast_error	err;
 
-	if (tkn->type != TKN_SUBST)
+	if (tkn->type != TKN_SUBST && tkn->type != TKN_STRING)
 		return (msh_ast_ok());
 	msh_log(msh, LEVEL, "transform_subst_target %p (%p)\n", target, *target);
 	tokens = *target;
 	next_backup = tokens->next;
 	err = msh_ast_ok();
-	if (tkn->kind == SUBST_VAR)
-		err = msh_ast_transform_subst_var(msh, target, tokens, tkn);
+	if (tkn->kind == SUBST_VAR || tkn->type == TKN_STRING)
+		err = msh_ast_transform_subst_wrap(msh, target, tokens, tkn);
 	else
 		return (err);
 	if (err.type != AST_ERROR_NONE)
@@ -52,7 +62,8 @@ static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 	return (err);
 }
 
-t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
+t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
+				__attribute__((unused)) size_t order)
 {
 	t_ast_error	err;
 	t_list		*token;
@@ -66,7 +77,7 @@ t_ast_error	msh_ast_transform_substitute(t_minishell *msh, t_list **tokens)
 	rerun = false;
 	err = msh_ast_transform_subst_target(msh, tokens, tkn, &rerun);
 	if (rerun)
-		return (msh_ast_transform_substitute(msh, tokens));
+		return (msh_ast_transform_substitute_var(msh, tokens, 0));
 	token = *tokens;
 	while (!err.type && token && token->next)
 	{

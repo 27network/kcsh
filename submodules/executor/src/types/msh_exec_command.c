@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/21 17:27:45 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:53:10 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,87 +17,63 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static void	msh_exec_command_stdin(t_exec_state *state, t_list *fd_node)
-{
-	const int	*fd = (int *)fd_node->content;
-
-	dup2(*fd, 0);
-	close(*fd);
-	(void) state;
-}
-
-static int	msh_exec_command_infork(
-	t_exec_state *state,
-	const char **cmdline,
-	int fds[2]
-) {
-	if (state->fd_stack)
-		msh_exec_command_stdin(state, ft_lst_last(state->fd_stack));
-	close(fds[0]);
-	dup2(fds[1], 1);
-	close(fds[1]);
-	(void) cmdline;
-	//TODO: redirections
-	return (0);
-}
-
-static int	msh_exec_command_outfork(
-	t_exec_state *state,
-	const char **cmdline,
-	int fds[2]
-) {
-	close(fds[1]);
-	(void) cmdline;
-	(void) state;
-	// msh_exec_push_fd(state, fds[0], 0);
-	return (0);
-}
-
-__attribute__((unused))
-static int	msh_exec_command_prepare(t_exec_state *state, const char **cmdline)
-{
-	pid_t	pid;
-	int		fds[2];
-
-	if (pipe(fds) == -1)
-	{
-		perror("pipe");
-		return (1);
-	}
-	pid = msh_fork(state->msh);
-	if (pid == -1)
-	{
-		close(fds[0]);
-		close(fds[1]);
-		perror("fork");
-		return (1);
-	}
-	if (pid == 0)
-		return (msh_exec_command_infork(state, cmdline, fds));
-	return (msh_exec_command_outfork(state, cmdline, fds));
-}
-
 void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
 t_list	*msh_clone_tokens(t_minishell *msh, t_list *tokens);
 
-//TODO: transform
-//TODO: check redirs
-//TODO: check builtin <------
-//TODO: exec
+static int	msh_exec_command_setup(t_exec_state *state, t_ast_node *node)
+{
+}
+
+static int	msh_exec_command_prepare(t_exec_state *state, t_ast_node *node)
+{
+	t_list		*token;
+	t_ast_token	*t;
+	bool		error;
+
+	token = node->command.tokens;
+	error = false;
+	while (token && !error)
+	{
+		t = (t_ast_token *) token->content;
+		if (t->type == TKN_REDIR && !ft_lst_tadd(&node->command.redirs, t))
+			error = true;
+		else if (t->type == TKN_STRING && !ft_lst_tadd(&node->command.args, t))
+			error = true;
+		else
+			printf("unhandled token type %s\n", msh_ast_strtoken(t->type));
+		token = token->next;
+	}
+	if (!error)
+		return (msh_exec_command_setup(state, node));
+	ft_lst_free(&node->command.redirs, NULL);
+	ft_lst_free(&node->command.args, NULL);
+	ft_lst_free(&node->command.env, NULL);
+	msh_error(state->msh, "failed to prepare command (memalloc?)\n");
+	return (1);
+}
+
 int	msh_exec_command(
-	__attribute__((unused)) t_exec_state *state,
-	__attribute__((unused)) t_ast_node *node
+	t_exec_state *state,
+	t_ast_node *node
 ) {
 	t_ast_error	err;
 	t_list		*cloned;
+	t_list		*backup;
+	int			ret;
 
 	cloned = msh_clone_tokens(state->msh, node->command.tokens);
 	if (!cloned)
 		return (1);
 	err = msh_ast_transform(state->msh, &cloned);
+	ret = !!err.type;
 	if (!err.type)
+	{
+		backup = node->command.tokens;
+		node->command.tokens = cloned;
 		msh_dump_tokens(state->msh, cloned);
+		ret = msh_exec_command_prepare(state, node);
+		node->command.tokens = backup;
+	}
 	ft_lst_free(&cloned, (t_lst_dealloc) msh_ast_token_free);
-	return (!!err.type);
-	return (0);
+	return (ret);
 }

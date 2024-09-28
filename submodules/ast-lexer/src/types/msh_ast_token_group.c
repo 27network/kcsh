@@ -6,21 +6,20 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:18:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/17 12:15:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:55:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh/ast/lexer.h>
+#include <msh/features.h>
 
-static char	msh_delim_for(const char c)
+static const char	*msh_delim_for(const char c)
 {
 	if (c == '(')
-		return (')');
-	if (c == '{')
-		return ('}');
-	if (c == '[')
-		return (']');
-	return (c);
+		return (")");
+	if (c == '{' && FEAT_TOK_GROUP)
+		return ("}");
+	return (0);
 }
 
 t_ast_error	msh_ast_token_group(t_ast_lexer *state, t_ast_token **token,
