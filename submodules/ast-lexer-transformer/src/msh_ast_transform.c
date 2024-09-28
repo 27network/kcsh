@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 17:42:23 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 19:07:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	msh_transformer_log(t_minishell *msh, const char *msg,
 // (substitute (*.c), merge  
 t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 {
-	static const int		order[] = {0, 4, 0, 1, 0, 3, 0};
+	static const int		order[] = {0, 4, 0, 1, 0};//3, 0};
 	size_t					n;
 	t_ast_error				err;
 	t_ast_transformer_info	transformer;

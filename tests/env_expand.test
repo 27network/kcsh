@@ -8,3 +8,6 @@ echo $?SALUT
 # Expanding in quoted strings
 echo "$USER"
 echo '$USER'
+
+# what the fuck
+echo $"" "$" '$' $a '$a' "$a" $"a" $'a' "'$a'" '"$a"' '"'$a'"' "'"$a"'" '$'a "$"a

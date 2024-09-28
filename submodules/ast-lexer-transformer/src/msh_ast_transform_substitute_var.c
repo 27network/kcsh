@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 18:07:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:29:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,17 @@ void		msh_dump_tokens(t_minishell *msh, t_list *tokens);
 t_ast_error	msh_ast_transform_subst_wrap(t_minishell *msh, t_list **target,
 				t_list *tokens, t_ast_token *tkn)
 {
-	if (tkn->type == TKN_STRING && tkn->value.list)
-		return (msh_ast_transform_substitute_var(msh, &tkn->value.list, 0));
+	t_ast_error	err;
+
+	if (tkn->type == TKN_STRING)
+	{
+		if (tkn->value.list)
+			err = msh_ast_transform_substitute_var(msh, &tkn->value.list, 0);
+		else
+			err = msh_ast_ok();
+		(*target)->next = NULL;
+		return (err);
+	}
 	return (msh_ast_transform_subst_var(msh, target, tokens, tkn));
 }
 
@@ -44,11 +53,10 @@ static t_ast_error	msh_ast_transform_subst_target(t_minishell *msh,
 	msh_log(msh, LEVEL, "transform_subst_target %p (%p)\n", target, *target);
 	tokens = *target;
 	next_backup = tokens->next;
-	err = msh_ast_ok();
 	if (tkn->kind == SUBST_VAR || tkn->type == TKN_STRING)
 		err = msh_ast_transform_subst_wrap(msh, target, tokens, tkn);
 	else
-		return (err);
+		return (msh_ast_ok());
 	if (err.type != AST_ERROR_NONE)
 		return (err);
 	msh_log(msh, LEVEL, "after subst: (%p)\n", *target);
@@ -72,7 +80,6 @@ t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
 
 	if (!tokens || !*tokens)
 		return (msh_ast_ok());
-	msh_log(msh, LEVEL, "transform_substitute %p\n", *tokens);
 	tkn = (t_ast_token *)(*tokens)->content;
 	rerun = false;
 	err = msh_ast_transform_subst_target(msh, tokens, tkn, &rerun);
@@ -83,6 +90,7 @@ t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
 	{
 		msh_log(msh, LEVEL, "transform_substitute_loop %p\n", token);
 		tkn = (t_ast_token *)token->next->content;
+		rerun = false;
 		err = msh_ast_transform_subst_target(msh, &token->next, tkn, &rerun);
 		if (err.type != AST_ERROR_NONE)
 			break ;

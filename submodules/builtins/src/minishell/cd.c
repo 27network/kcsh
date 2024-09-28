@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:04:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:24:25 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 19:44:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	register_cd(void)
 		.usage = CD_USAGE,
 		.help = CD_HELP,
 		.func = msh_builtin_cd,
-		.flags = BUILTIN_NEEDS_MSH | BUILTIN_SPECIAL,
+		.flags = BUILTIN_NEEDS_MSH,
 	});
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/14 18:34:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/28 19:49:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,21 @@
 
 int	msh_exec(t_exec_state *state, t_ast_node *node)
 {
+	int		ret;
+	bool	is_in_pipe;
+
 	if (node->type == NODE_COMMAND)
-		return (msh_exec_command(state, node));
+		ret = msh_exec_command(state, node);
 	if (node->type == NODE_PIPE)
-		return (msh_exec_pipe(state, node));
+	{
+		is_in_pipe = state->is_in_pipe;
+		state->is_in_pipe = true;
+		ret = msh_exec_pipe(state, node);
+		state->is_in_pipe = is_in_pipe;
+	}
 	if (node->type == NODE_DELIM)
-		return (msh_exec_delim(state, node));
-	msh_error(state->msh, "Unknown AST node type: %s",
-		msh_ast_node_strtype(node->type));
-	return (1);
+		ret = msh_exec_delim(state, node);
+	return (ret);
 }
 
 static void	msh_exec_state(t_exec_state *state, t_minishell *msh)
