@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:17:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 08:44:06 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ is that of the last command executed."
 \n\
 Exits the shell with a status of N.  Returns an error if not executed\n\
 in a login shell."
+
+#define ERR_INVALID_ARG "%s: %s: numeric argument required\n"
+#define ERR_TOO_MANY_ARGS "%s: too many arguments\n"
 
 static bool	msh_parse_numeric(const char *str, int *res)
 {
@@ -79,21 +82,23 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 	opt = msh_exit_opts(msh, argc, argv);
 	if (opt != 0)
 		return (opt - 1);
+	opt++;
 	if (msh->interactive)
 		msh_exit_dialog(msh, argv[0]);
 	if (argc == 1 || opt == 2)
 		msh->execution_context.running = false;
 	if (argc == 1 || opt == 2)
+		printf("exit_code: %d\n", msh->execution_context.exit_code);
+	if (argc == 1 || opt == 2)
 		return (msh->execution_context.exit_code);
 	if (!msh_parse_numeric(argv[opt], &ret))
 	{
-		msh_error(msh, "%s: %s: numeric argument required\n",
-			argv[0], argv[opt]);
+		msh_error(msh, ERR_INVALID_ARG, argv[0], argv[opt]);
 		msh->execution_context.running = false;
 		return (2);
 	}
 	if (argc > opt + 1)
-		msh_error(msh, "%s: too many arguments\n", argv[0]);
+		msh_error(msh, ERR_TOO_MANY_ARGS, argv[0]);
 	if (argc > opt + 1)
 		return (1);
 	msh->execution_context.running = false;

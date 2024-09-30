@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:22:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 04:38:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  * 		  many widely-useful function prototypes.
  */
 
+#  include <ft/data/list.h>
 #  include <msh/flags.h>
 #  include <stdbool.h>
 #  include <stddef.h>
@@ -104,7 +105,9 @@ typedef struct s_execution_context
  *
  * @param env				Environment variables map, see `t_map`.
  * @param interactive		Whether the shell is running in interactive mode.
- * @param forked			Whether the running process is a fork.
+ * @param forked			The fork depth of the current process.
+ *
+ * @param background		A list of background processes 
  */
 typedef struct s_minishell
 {
@@ -116,7 +119,9 @@ typedef struct s_minishell
 	struct termios			term;
 	t_variable				*variables;
 	bool					interactive;
-	bool					forked;
+	uint64_t				forked;
+
+	t_list					*background;
 }	t_minishell;
 
 /**

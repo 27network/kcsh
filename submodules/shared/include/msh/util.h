@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:46:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 07:46:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 
 #  include <msh/minishell.h>
 #  include <pwd.h>
+#  include <stdint.h>
 #  include <stdio.h>
 #  include <sys/stat.h>
 #  include <sys/types.h>
+#  include <unistd.h>
 
 /**
  * @brief Gets the string representation of the given boolean value.
@@ -30,6 +32,16 @@
  * @return "true" if the value is `true`, "false" otherwise.
  */
 const char		*msh_strbool(bool value);
+
+/**
+ * @brief Creates a temporary file.
+ *
+ * @param prefix The prefix of the temporary file.
+ * @param suffix The suffix of the temporary file.
+ *
+ * @return The path of the temporary file.
+ */
+const char		*msh_tmpfile(const char *prefix, const char *suffix);
 
 /**
  * @brief Resolve the path of a file or script
@@ -239,6 +251,13 @@ char			*msh_canonicalize(const char *path);
  * @param path The working directory path.
  */
 void			msh_set_cwd(t_minishell *msh, const char *path);
+
+/**
+ * @brief Gets the current process ID.
+ *
+ * @return The current process ID.
+ */
+pid_t			msh_getpid(void);
 
 /**
  * @brief Gets the user information from the given user ID.

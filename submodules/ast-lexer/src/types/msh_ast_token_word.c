@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:44:38 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 18:24:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:30:56 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,10 @@ t_ast_error	msh_ast_token_word(t_ast_lexer *state, t_ast_token **tokret,
 	TRACE(state, TKN_ACTUAL, 1);
 	if (FEAT_PARSER_INHIBITORS && msh_should_escape(state))
 		return (msh_escaped_word(state, tokret, inc));
-	size = ft_strcspn(state->input + state->cursor, DELIM_CHARS);
+	if (state->allow_subst)
+		size = ft_strcspn(state->input + state->cursor, DELIM_CHARS);
+	else
+		size = ft_strcspn(state->input + state->cursor, DELIM_CHARS_HEREDOC);
 	if (size == 0 && state->input[state->cursor] != '\0')
 		size++;
 	value = ft_strndup(state->input + state->cursor, size);

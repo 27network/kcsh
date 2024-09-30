@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:02:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 18:49:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 03:51:54 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_ast_node_type
 	NODE_COMMAND,
 	NODE_PIPE,
 	NODE_DELIM,
-	// NODE_GROUP,
+	NODE_GROUP,
 }	t_ast_node_type;
 
 /**
@@ -33,6 +33,8 @@ typedef enum e_ast_node_type
  *
  * @param args A list of parsed TKN_STRING tokens.
  * @param redirs A list of parsed TKN_REDIR tokens.
+ *
+ * @param background Whether the command is a background process.
  */
 typedef struct s_ast_node_command
 {
@@ -42,6 +44,8 @@ typedef struct s_ast_node_command
 
 	t_list		*args;
 	t_list		*redirs;
+
+	bool		background;
 }	t_ast_node_command;
 
 typedef struct s_ast_node

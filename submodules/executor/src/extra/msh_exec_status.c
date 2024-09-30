@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:21:50 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/15 22:53:17 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 08:08:03 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ int	msh_exec_status(int wait_status)
 	if (WIFSIGNALED(wait_status))
 	{
 		sig = WTERMSIG(wait_status);
-		if (sig != SIGINT)
+		if (sig != SIGINT && sig != SIGTERM && sig != SIGPIPE)
+		{
 			ft_dprintf(2, "%s", msh_strsignal(sig));
-		if (WCOREDUMP(wait_status))
-			ft_dprintf(2, " (core dumped)");
+			if (WCOREDUMP(wait_status))
+				ft_dprintf(2, " (core dumped)");
+		}
 		ft_dprintf(2, "\n");
 		return (sig + 128);
 	}

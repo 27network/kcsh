@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/10 05:31:34 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 08:13:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,15 @@ static int	msh_exec_direct(
 	char **av,
 	char **envp
 ) {
-	pid_t	pid;
 	int		status;
 
 	state->msh->interactive = false;
 	status = -1;
-	pid = msh_fork(state->msh);
-	if (pid == 0)
-	{
-		msh_signal_setdfl();
-		if (execve(binary_path, av, envp) == -1)
-			status = msh_exec_perror(state, errno, av[0]);
-		state->msh->execution_context.running = false;
-		free(binary_path);
-		return (status);
-	}
-	else if (pid < 0)
-		msh_error(state->msh, "%s: %m\n", binary_path);
-	else
-	{
-		msh_signal_init(state->msh, false);
-		if (waitpid(pid, &status, 0) < 0)
-			msh_error(state->msh, "%s: %m\n", binary_path);
-	}
+	if (execve(binary_path, av, envp) == -1)
+		status = msh_exec_perror(state, errno, av[0]);
+	state->msh->execution_context.running = false;
 	free(binary_path);
-	return (msh_exec_status(status));
+	return (status);
 }
 
 int	msh_exec_builtin(t_minishell *msh, char **args, char **env)

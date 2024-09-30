@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/16 12:52:38 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/30 07:45:43 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC			=	env/default/msh_env_default_pwd.c \
 				env/msh_env_remove.c \
 				env/msh_env_set_if_not.c \
 				env/msh_env_value.c \
+				log/msh_debug.c \
 				log/msh_error.c \
 				log/msh_log.c \
 				log/msh_vlog.c \
@@ -54,6 +55,7 @@ SRC			=	env/default/msh_env_default_pwd.c \
 				util/io/msh_get_hostname.c \
 				util/io/msh_get_hosttype.c \
 				util/io/msh_geteuid.c \
+				util/io/msh_getpid.c \
 				util/io/msh_getpw_for.c \
 				util/io/msh_getpwnam.c \
 				util/io/msh_getpwuid.c \
@@ -64,6 +66,7 @@ SRC			=	env/default/msh_env_default_pwd.c \
 				util/io/msh_passwd_free.c \
 				util/io/msh_same_file.c \
 				util/io/msh_term_size.c \
+				util/io/msh_tmpfile.c \
 				util/string/msh_ansicstr.c \
 				util/string/msh_canonicalize.c \
 				util/string/msh_contains_shell_metas.c \

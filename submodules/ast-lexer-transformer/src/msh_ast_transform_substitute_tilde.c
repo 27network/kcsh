@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 07:40:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 18:01:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:50:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,26 @@
 #include <msh/env.h>
 #include <msh/log.h>
 #include <msh/util.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define LEVEL MSG_DEBUG_EXEC_TRANSFORMER
 
 static t_ast_error	msh_ast_transform_tilde_target(t_minishell *msh,
-						t_ast_token *tkn)
+						t_ast_token *tkn, t_list *last)
 {
 	char		*value;
 	char		*new_val;
 
-	if (tkn->type != TKN_SUBST || tkn->kind != SUBST_TILDE)
+	if (last && last->content
+		&& ((t_ast_token *)last->content)->type != TKN_SEP)
+	{
+		tkn->type = TKN_WORD;
 		return (msh_ast_ok());
+	}
 	value = tkn->value.string;
 	if (!value)
 		return (msh_ast_ok());
-	printf("tilde expansion: %s\n", value);
 	new_val = msh_expand_tilde(msh, value);
-	printf("tilde expansion (LE RETOUR): %s\n", new_val);
 	if (!new_val)
 		return (msh_ast_errd(AST_ERROR_ALLOC,
 				": failed tilde expansion", false));
@@ -61,10 +62,8 @@ t_ast_error	msh_ast_transform_substitute_tilde(t_minishell *msh,
 	while (!err.type && token)
 	{
 		tkn = (t_ast_token *)token->content;
-		if (tkn->type == TKN_SUBST && tkn->kind == SUBST_TILDE
-			&& (!last || (last->content
-					&& ((t_ast_token *)last->content)->type == TKN_SEP)))
-			err = msh_ast_transform_tilde_target(msh, tkn);
+		if (tkn->type == TKN_SUBST && tkn->kind == SUBST_TILDE)
+			err = msh_ast_transform_tilde_target(msh, tkn, last);
 		if (err.type != AST_ERROR_NONE)
 			break ;
 		last = token;

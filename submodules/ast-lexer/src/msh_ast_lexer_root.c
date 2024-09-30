@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 07:35:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:46:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:27:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_ast_lexer	msh_ast_lexer_root(t_minishell *msh, const char *line)
 		.found_matching = false,
 		.tokens = NULL,
 		.allow_escape = FEAT_PARSER_INHIBITORS,
+		.allow_subst = true,
 		.ifs = SEP_CHARS,
 		.discrim_mode = false
 	});

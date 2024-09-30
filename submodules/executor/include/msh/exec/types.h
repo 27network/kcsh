@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 17:54:24 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 18:36:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 07:53:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,23 @@
 #  define __MSH_EXEC_TYPES_H__
 
 #  include <msh/minishell.h>
+#  include <sys/types.h>
+#  include <sys/wait.h>
 
 typedef struct s_exec_state
 {
 	/**
-	 * @brief	bon c'est minishell quoi
+	 * @brief	The current minishell
 	 */
 	t_minishell	*msh;
 	/**
-	 * @brief	A stack of file descriptors to be closed when the pipeline ends.
+	 * @brief	A stack of process ids
 	 */
-	t_list		*fd_stack;
+	t_list		*pids;
 	/**
-	 * @brief	Whether the current command/pipeline is in a piped, basically
-	 *			"do we fork or not?"
+	 * @brief	The execution depth
 	 */
-	bool		is_in_pipe;
+	uint64_t	depth;
 }	t_exec_state;
 
 # endif // __MSH_EXEC_TYPES_H__

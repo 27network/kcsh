@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/19 05:20:35 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/29 23:48:06 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,7 @@ endif
 RM					:=	rm -rf
 
 VG_RUN				?=
+NO_VG				?= 1
 _DISABLE_CLEAN_LOG	:= 0
 
 TEST_TARGET ?= 42bonus
@@ -199,11 +200,11 @@ re: _hide_cursor
 
 valgrind:
 	@clear
-	@MSH_VALGRIND=1 valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./$(NAME) $(VG_RUN)
+	@MSH_VALGRIND=$(NO_VG) valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes -q ./$(NAME) $(VG_RUN)
 
 voidgrind:
 	@clear
-	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=1 ./$(NAME) $(VG_RUN)
+	@valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes -q env -i MSH_VALGRIND=$(NO_VG) ./$(NAME) $(VG_RUN)
 
 flex:
 	nix-shell -p cloc --command 'cloc config submodules third-party/libft --include-lang="C/C++ Header,C,D,make,Nix,Python,Bourne Shell"'

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 14:21:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:58:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 06:08:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 
 #define ACCEPTABLE_REDIR_FOLLOWUPS " \t\n0123456789abcdefghijklmnopqrstuvwxyz\
-ABCDEFGHIJKLMNOPQRSTUVWXYZ'\"$"
+ABCDEFGHIJKLMNOPQRSTUVWXYZ'\"$./~*?:,=+_%@!`"
 
 static long long	msh_redir_try_yoink_fd(t_ast_lexer *state, size_t *inc)
 {
@@ -46,7 +46,7 @@ const char	*msh_syntax_error_str(const char *c);
 const char	*msh_syntax_error_char(char c);
 
 static t_ast_error	msh_ast_redir_fill_lex(t_ast_token *token,
-						t_ast_lexer *state, size_t *inc)
+						t_ast_lexer *state, size_t *inc, bool heredoc)
 
 {
 	t_ast_lexer	lexer;
@@ -64,6 +64,7 @@ static t_ast_error	msh_ast_redir_fill_lex(t_ast_token *token,
 		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)
 				msh_syntax_error_str("newline"), false));
 	lexer = msh_ast_lexer_root(state->msh, input);
+	lexer.allow_subst = !heredoc;
 	lexer.discrim_mode = true;
 	lexer.delim = SEP_CHARS;
 	err = msh_ast_tokenize(&lexer);
@@ -79,16 +80,21 @@ t_ast_error	msh_ast_redir_filltype(t_ast_token *token,
 						t_ast_lexer *state, size_t *inc)
 
 {
-	t_ast_error	err;
+	t_ast_error				err;
+	const t_ast_redir_type	type = token->kind;
+	const bool				is_heredoc = type == REDIR_HEREDOC
+		|| type == REDIR_HEREDOC_STRIP;
+	const bool				is_redir_fd = type == REDIR_FD_IN
+		|| type == REDIR_FD_OUT;
 
 	err = msh_ast_ok();
-	if (token->kind == REDIR_FD_IN || token->kind == REDIR_FD_OUT)
+	if (is_redir_fd)
 	{
 		token->value.redir.right_fd = msh_redir_try_yoink_fd(state, NULL);
 		if (token->value.redir.right_fd != -1)
 			token->value.redir.state = REDIR_STATE_FD;
 	}
 	else
-		err = msh_ast_redir_fill_lex(token, state, inc);
+		err = msh_ast_redir_fill_lex(token, state, inc, is_heredoc);
 	return (err);
 }

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:45:29 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 17:53:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:45:51 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <msh/util.h>
 #include <msh/log.h>
 #include <msh/minishell.h>
+#include <msh/signal.h>
 #include <unistd.h>
 
 static bool	msh_fetch_term(t_minishell *msh)
@@ -61,6 +62,7 @@ void	msh_init(
 	ft_bzero(msh, sizeof(t_minishell));
 	msh->binary_name = argv[0];
 	msh->interactive = msh_is_interactive(msh);
+	msh_signal_init(msh, false);
 	if (msh->interactive && !msh_fetch_term(msh))
 	{
 		msh_error(msh, "failed to fetch termios\n");

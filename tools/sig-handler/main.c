@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_exec_wrap.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 16:01:33 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 08:39:36 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/09/30 07:28:04 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/09/30 07:28:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/types.h>
-#include <msh/exec.h>
+#include <unistd.h>
+#include <signal.h>
 
-int	msh_exec_entry(t_minishell *msh, t_ast_node *node);
-
-bool	msh_exec_wrap(t_minishell *msh, t_ast_node *ast)
+int main(int argc, char **argv)
 {
-	return (msh_exec_entry(msh, ast));
+	const char	*name = argv[1];
+
+	return (0);
 }

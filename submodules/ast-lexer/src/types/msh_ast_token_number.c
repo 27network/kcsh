@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 02:20:15 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 22:30:25 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:50:12 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <ft/string.h>
 #include <limits.h>
 #include <msh/ast/lexer.h>
+#include <msh/features.h>
+
+#if FEAT_PARSER_42SH_REDIRECTIONS
 
 static bool	msh_is_number(const char *input)
 {
@@ -55,3 +58,16 @@ t_ast_error	msh_ast_token_number(t_ast_lexer *state, t_ast_token **tokret,
 	}
 	return (err);
 }
+
+#else
+
+t_ast_error	msh_ast_token_number(t_ast_lexer *state, t_ast_token **tokret,
+				size_t *inc)
+{
+	(void) state;
+	(void) tokret;
+	(void) inc;
+	return (msh_ast_errd(AST_ERROR_CANCEL, "not implemented", false));
+}
+
+#endif // FEAT_PARSER_42SH_REDIRECTIONS

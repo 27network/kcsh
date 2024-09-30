@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/17 16:03:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:05:48 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	msh_handle_history(t_input_result input, bool should_pop)
 }
 
 static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
-				t_ast_node **result)
+				t_ast_node **result, bool *res)
 {
 	t_list	*tokens;
 	char	*prompt;
@@ -62,8 +62,9 @@ static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
 	*result = NULL;
 	if (!msh_ast_lex(msh, input, prompt, &tokens))
 		return (false);
+	*res = (tokens == NULL);
 	msh_dump_tokens(msh, tokens);
-	if (!msh_ast_create(msh, tokens, result))
+	if (!*res && !msh_ast_create(msh, tokens, result))
 		ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
 	if (*result && msh->flags.debug_ast)
 		msh_ast_node_print(msh, *result);
@@ -74,12 +75,16 @@ static void	msh_takeoff(t_minishell *msh, t_input_result input)
 {
 	t_ast_node	*ast;
 	bool		ast_ok;
+	bool		ret;
 
-	ast_ok = msh_handle_ast(msh, input, &ast);
+	ret = false;
+	ast_ok = msh_handle_ast(msh, input, &ast, &ret);
 	ft_strdel((char **) &input.buffer);
+	if (ret)
+		return ;
 	if (ast_ok && !msh->forked)
 	{
-		if (!msh_exec_wrap(msh, ast))
+		if (msh_exec_wrap(msh, ast))
 			msh->execution_context.exit_code = 1;
 		msh_ast_node_free(ast);
 	}
@@ -95,11 +100,9 @@ void	msh_shell_handle_input(t_minishell *msh, t_input_result input)
 		msh->execution_context.exit_code = 1;
 		msh_error(msh, "error while reading input\n");
 	}
-	if (input.buffer && !*input.buffer)
+	if (!input.buffer || !*input.buffer || !ft_strcmp(input.buffer, "\n"))
 		ft_strdel((char **) &input.buffer);
-	if (!input.buffer)
-		msh->execution_context.exit_code = 0;
-	if (!input.buffer)
+	if (!input.buffer || !*input.buffer || !ft_strcmp(input.buffer, "\n"))
 		return ;
 	msh_handle_history(input, false);
 	msh_takeoff(msh, input);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:52 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 15:23:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:54:55 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 #  define SEP_CHARS " \t\n"
 #  define DELIM_CHARS " \t\n{}()[]*?;|&<>`\"&'\\$"
+#  define DELIM_CHARS_HEREDOC " \t\n();|&<>`\"'\\"
 
 typedef struct s_ast_lexer
 {
@@ -37,6 +38,7 @@ typedef struct s_ast_lexer
 	bool				found_matching;
 	t_list				*tokens;
 	bool				allow_escape;
+	bool				allow_subst;
 	const char			*ifs;
 	bool				discrim_mode;
 }	t_ast_lexer;

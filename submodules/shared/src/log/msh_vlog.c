@@ -6,13 +6,14 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/11 23:09:12 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 07:51:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft/print.h>
 #define __MSH_LOG_INTERNAL__
 #include <msh/log.h>
+#include <msh/util.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -62,7 +63,7 @@ static const char	*msh_debug_log_prefix(t_log_type type)
 static void	msh_message_handler(t_minishell *msh, t_log_type type,
 	char *msg)
 {
-	const int	target_fd = STDOUT_FILENO;
+	const int	target_fd = STDERR_FILENO;
 	const char	*prefix = msh_debug_log_prefix(type);
 
 	if (msh && (type == MSG_ERROR || msh->execution_context.show_line))
@@ -72,6 +73,8 @@ static void	msh_message_handler(t_minishell *msh, t_log_type type,
 	}
 	if (prefix)
 		ft_putstr_fd(prefix, target_fd);
+	if (type == MSG_DEBUG_EXECUTOR)
+		ft_dprintf(target_fd, "[%d] ", msh_getpid());
 	if (msh && msh->execution_context.show_line)
 	{
 		ft_putstr_fd("line ", target_fd);

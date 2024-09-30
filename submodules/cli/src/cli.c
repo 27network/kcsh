@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/08/21 16:47:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:45:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <msh/cli/shell.h>
 #include <msh/builtin.h>
 #include <msh/features.h>
-#include <msh/signal.h>
 #include <msh/util.h>
 
 #if FEAT_NO_READLINE
@@ -50,7 +49,6 @@ int	main(int argc, const char *argv[], const char *envp[])
 
 	msh_builtin_registry_sort();
 	msh_init(&minishell, argc, argv, envp);
-	msh_signal_init(&minishell, false);
 	msh_setup_linelib(&minishell);
 	if (argc != 1)
 		msh_handle_opts(&minishell, argc, argv);
