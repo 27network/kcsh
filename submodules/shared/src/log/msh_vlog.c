@@ -6,10 +6,13 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:10:56 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 07:51:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:26:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft/mem.h>
+#include <ft/string/parse.h>
+#include <ft/string.h>
 #include <ft/print.h>
 #define __MSH_LOG_INTERNAL__
 #include <msh/log.h>
@@ -60,29 +63,54 @@ static const char	*msh_debug_log_prefix(t_log_type type)
 	return (NULL);
 }
 
+static size_t	msh_message_length(t_minishell *msh, t_log_type type,
+					const char *msg)
+{
+	const char	*prefix = msh_debug_log_prefix(type);
+	size_t		len;
+
+	len = ft_strlen(msh->name) + 4;
+	if (prefix)
+		len += ft_strlen(prefix);
+	if (type == MSG_DEBUG_EXECUTOR)
+		len += 20;
+	if (msh && msh->execution_context.show_line)
+		len += 5 + 20 + 2;
+	if (msg)
+		len += ft_strlen(msg);
+	return (len);
+}
+
+#define TARGET_FD STDERR_FILENO
+
 static void	msh_message_handler(t_minishell *msh, t_log_type type,
 	char *msg)
 {
-	const int	target_fd = STDERR_FILENO;
-	const char	*prefix = msh_debug_log_prefix(type);
+	const char		*prefix = msh_debug_log_prefix(type);
+	const size_t	len = msh_message_length(msh, type, msg);
+	char			*buf;
+	char			*tmp;
 
+	buf = ft_calloc(len + 1, sizeof(char));
+	if (!buf)
+		ft_dprintf(TARGET_FD, "%s: %s\n", msh->name, msg);
 	if (msh && (type == MSG_ERROR || msh->execution_context.show_line))
+		ft_strlcat(buf, msh->name, len);
+	if (msh && (type == MSG_ERROR || msh->execution_context.show_line))
+		ft_strlcat(buf, ": ", len);
+	ft_strlcat(buf, prefix, len);
+	if (buf && msh && msh->execution_context.show_line)
 	{
-		ft_putstr_fd(msh->name, target_fd);
-		ft_putstr_fd(": ", target_fd);
+		ft_strlcat(buf, "line ", len);
+		tmp = ft_itoa(msh->execution_context.line);
+		ft_strlcat(buf, tmp, len);
+		free(tmp);
+		ft_strlcat(buf, ": ", len);
 	}
-	if (prefix)
-		ft_putstr_fd(prefix, target_fd);
-	if (type == MSG_DEBUG_EXECUTOR)
-		ft_dprintf(target_fd, "[%d] ", msh_getpid());
-	if (msh && msh->execution_context.show_line)
-	{
-		ft_putstr_fd("line ", target_fd);
-		ft_putnbr_fd(msh->execution_context.line, target_fd);
-		ft_putstr_fd(": ", target_fd);
-	}
-	if (msg)
-		ft_putstr_fd(msg, target_fd);
+	ft_strlcat(buf, msg, len);
+	if (buf)
+		ft_putstr_fd(buf, TARGET_FD);
+	free(buf);
 }
 
 void	msh_vlog(t_minishell *msh, t_log_type type, const char *format,
