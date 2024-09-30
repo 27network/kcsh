@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 08:13:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:17:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	msh_exec_perror(t_exec_state *state, int err, char *name)
 	int	ret;
 
 	ret = 127;
+	if (err == EACCES)
+		ret = 126;
 	if (ft_strchr(name, '/'))
 	{
 		if (msh_is_directory(name))
@@ -44,7 +46,12 @@ static int	msh_exec_perror(t_exec_state *state, int err, char *name)
 			msh_error(state->msh, "%s: %s\n", name, strerror(err));
 	}
 	else
-		msh_error(state->msh, "%s: command not found\n", name);
+	{
+		if (err == ENOENT)
+			msh_error(state->msh, "%s: command not found\n", name);
+		else
+			msh_error(state->msh, "%s: %s\n", name, strerror(err));
+	}
 	errno = err;
 	return (ret);
 }

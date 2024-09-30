@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 08:58:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:23:40 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
 		return (msh_exec_command_redirections(state, node));
 	if (pid == 0)
 	{
-		state->msh->execution_context.running = false;
 		msh_signal_setdfl();
 		return (msh_exec_command_redirections(state, node));
 	}
@@ -107,6 +106,7 @@ static int	msh_exec_command_prepare(t_exec_state *state, t_ast_node *node)
 		msh_log(state->msh, MSG_DEBUG_EXECUTOR, "Command setup\n");
 	if (!error)
 		error = msh_exec_command_setup(state, node);
+	msh_log(state->msh, MSG_DEBUG_EXECUTOR, "Command setup done %d\n", error);
 	ft_lst_free(&node->command.redirs, NULL);
 	ft_lst_free(&node->command.args, NULL);
 	ft_lst_free(&node->command.env, NULL);

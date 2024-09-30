@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:31:40 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 04:58:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:03:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 // 	return (close(fds[1]));
 // }
 
-int	msh_save_fds(t_minishell *msh, int fds[2])
+int	msh_save_fds(t_minishell *msh, int fds[3])
 {
 	int		ret;
 
@@ -67,10 +67,18 @@ int	msh_save_fds(t_minishell *msh, int fds[2])
 		return (0);
 	}
 	fds[1] = ret;
+	ret = dup(STDIN_FILENO);
+	if (ret == -1)
+	{
+		close(fds[0]);
+		close(fds[1]);
+		return (0);
+	}
+	fds[2] = ret;
 	return (1);
 }
 
-int	msh_restore_fds(t_minishell *msh, int fds[2])
+int	msh_restore_fds(t_minishell *msh, int fds[3])
 {
 	int		ret;
 
@@ -80,10 +88,17 @@ int	msh_restore_fds(t_minishell *msh, int fds[2])
 	if (ret == -1)
 	{
 		close(fds[1]);
+		close(fds[2]);
 		return (0);
 	}
 	ret = dup2(fds[1], STDERR_FILENO);
 	close(fds[1]);
+	if (ret == -1)
+		close(fds[2]);
+	if (ret == -1)
+		return (0);
+	ret = dup2(fds[2], STDIN_FILENO);
+	close(fds[2]);
 	if (ret == -1)
 		return (0);
 	return (1);

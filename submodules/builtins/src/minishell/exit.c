@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:34:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 08:44:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:39:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ static int	msh_builtin_exit(int argc, char **argv, t_minishell *msh)
 		msh_exit_dialog(msh, argv[0]);
 	if (argc == 1 || opt == 2)
 		msh->execution_context.running = false;
-	if (argc == 1 || opt == 2)
-		printf("exit_code: %d\n", msh->execution_context.exit_code);
 	if (argc == 1 || opt == 2)
 		return (msh->execution_context.exit_code);
 	if (!msh_parse_numeric(argv[opt], &ret))

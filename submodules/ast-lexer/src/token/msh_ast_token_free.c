@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:14:52 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:29:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #include <msh/ast/lexer.h>
 #include <stdint.h>
 #include <stdio.h>
+
+static void	msh_ast_token_free_redir(t_ast_token *redir)
+{
+	if (redir->value.redir.state == REDIR_STATE_WORD)
+	{
+		ft_lst_free(&redir->value.redir.right_word,
+			(t_lst_dealloc) msh_ast_token_free);
+		ft_strdel(&redir->value.redir.right_string);
+	}
+}
 
 void	msh_ast_token_free(t_ast_token *token)
 {
@@ -30,11 +40,7 @@ void	msh_ast_token_free(t_ast_token *token)
 	else if (token->type == TKN_GROUP || token->type == TKN_STRING)
 		ft_lst_free(&token->value.list, (t_lst_dealloc) msh_ast_token_free);
 	else if (token->type == TKN_REDIR)
-	{
-		if (token->value.redir.state == REDIR_STATE_WORD)
-			ft_lst_free(&token->value.redir.right_word,
-				(t_lst_dealloc) msh_ast_token_free);
-	}
+		msh_ast_token_free_redir(token);
 	else if (token->type == TKN_DELIM || token->type == TKN_PIPE
 		|| token->type == TKN_SEMISEMI || token->type == TKN_KEYWORD)
 	{

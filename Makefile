@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/29 23:48:06 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/30 17:02:28 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -200,7 +200,7 @@ re: _hide_cursor
 
 valgrind:
 	@clear
-	@MSH_VALGRIND=$(NO_VG) valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes -q ./$(NAME) $(VG_RUN)
+	@MSH_VALGRIND=$(NO_VG) valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes ./$(NAME) $(VG_RUN)
 
 voidgrind:
 	@clear

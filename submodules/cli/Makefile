@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/17 17:50:36 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/09/30 12:11:30 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,10 @@ SRC			=	history/msh_history_file.c \
 				shell/input/msh_input.c \
 				shell/input/msh_input_forked.c \
 				shell/input/msh_input_type.c \
+				shell/input/msh_input_wrap.c \
 				shell/prompt/msh_shell_prompt_parse.c \
 				shell/msh_exec_wrap.c \
+				shell/msh_shell_handle_heredocs.c \
 				shell/msh_shell_handle_input.c \
 				shell/msh_shell_loop.c \
 				cli.c

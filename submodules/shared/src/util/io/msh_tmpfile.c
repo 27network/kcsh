@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 23:00:30 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/29 23:27:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:45:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static bool	msh_can_create_file(const char *path)
 
 static char	*msh_beg_for_path(char *path, size_t threshold)
 {
-	if (threshold == TMP_FILE_MAX_THRESHOLD)
+	if (threshold >= TMP_FILE_MAX_THRESHOLD)
 	{
 		free(path);
 		return (NULL);
@@ -76,8 +76,8 @@ const char	*msh_tmpfile(const char *prefix, const char *suffix)
 
 	if (!suffix)
 		suffix = ".tmp";
-	len = ft_strlen(prefix) + TMP_FILE_RANDOM_LEN + ft_strlen(suffix)
-		+ ft_strlen(TMP_FILE_LOCATION);
+	len = ft_strlen(TMP_FILE_LOCATION) + ft_strlen(prefix) + TMP_FILE_RANDOM_LEN
+		+ 10 + ft_strlen(suffix);
 	name = ft_calloc(1, len + 1);
 	if (!name)
 		return (NULL);
@@ -87,7 +87,7 @@ const char	*msh_tmpfile(const char *prefix, const char *suffix)
 		ft_bzero(name, len + 1);
 		ft_strlcpy(name, TMP_FILE_LOCATION, len);
 		if (prefix)
-			ft_strlcpy(name, prefix, len);
+			ft_strlcat(name, prefix, len);
 		ft_strlcat(name, msh_random_name(), len);
 		ft_strlcat(name, suffix, len);
 		if (access(name, F_OK) == -1 && msh_can_create_file(name))

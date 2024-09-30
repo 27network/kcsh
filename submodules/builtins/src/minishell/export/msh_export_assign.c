@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:51:14 by ebouchet          #+#    #+#             */
-/*   Updated: 2024/07/10 18:01:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:48:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ static int	msh_export_error(t_minishell *msh, const char *data, int errtype)
 	return (1);
 }
 
+static int	msh_export_nosep_check(const char *arg, char **name)
+{
+	if (!*name)
+		return (NAME_ALLOC_ERROR);
+	if (!msh_env_is_valid_name(arg, true))
+		return (INVALID_IDENTIFIER_ERROR);
+	return (0);
+}
+
 static int	msh_export_parse(const char *arg, char **name,
 				char **value, bool *plus)
 {
@@ -58,9 +67,7 @@ static int	msh_export_parse(const char *arg, char **name,
 	if (!sep)
 	{
 		*name = ft_strdup(arg);
-		if (!*name)
-			return (NAME_ALLOC_ERROR);
-		return (0);
+		return (msh_export_nosep_check(*name, name));
 	}
 	*name = ft_strndup(arg, sep - arg);
 	if (!*name)

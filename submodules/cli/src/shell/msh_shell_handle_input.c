@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 05:22:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 09:25:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:11:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include <msh/log.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+void	msh_handle_heredocs(t_minishell *msh, t_list *tokens,
+			const char *prompt);
 
 void	msh_handle_history(t_input_result input, bool should_pop)
 {
@@ -64,9 +67,10 @@ static bool	msh_handle_ast(t_minishell *msh, t_input_result input,
 		return (false);
 	*res = (tokens == NULL);
 	msh_dump_tokens(msh, tokens);
-	if (!*res && !msh_ast_create(msh, tokens, result))
+	msh_handle_heredocs(msh, tokens, prompt);
+	if (msh->forked || (!*res && !msh_ast_create(msh, tokens, result)))
 		ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
-	if (*result && msh->flags.debug_ast)
+	if (!msh->forked && *result && msh->flags.debug_ast)
 		msh_ast_node_print(msh, *result);
 	return (*result != NULL);
 }

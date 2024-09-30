@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 05:39:29 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:52:20 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,12 @@
 
 int	g_signal = -1;
 
-#if !FEAT_JOB_CONTROL
-
 static void	msh_handle_continue(int sig)
 {
 	(void)sig;
 	rl_on_new_line();
 	rl_redisplay();
 }
-
-#endif // !FEAT_JOB_CONTROL
 
 static void	msh_setup_echoctl(t_minishell *msh, bool close_stdin)
 {

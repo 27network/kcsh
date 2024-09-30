@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 23:28:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 14:13:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:29:43 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ static void	msh_token_free(t_ast_token **token)
 
 t_list	*msh_clone_tokens(t_minishell *msh, t_list *tokens);
 
+static void	msh_token_clone_redir(t_ast_token *token, t_ast_token **clone)
+{
+	if (token->value.redir.state == REDIR_STATE_WORD)
+	{
+		(*clone)->value.redir.right_word = msh_clone_tokens(NULL,
+				token->value.redir.right_word);
+		if (token->value.redir.right_string)
+			(*clone)->value.redir.right_string
+				= ft_strdup(token->value.redir.right_string);
+	}
+}
+
 t_ast_token	*msh_ast_token_clone(t_ast_token *token)
 {
 	t_ast_token	*clone;
@@ -59,9 +71,8 @@ t_ast_token	*msh_ast_token_clone(t_ast_token *token)
 		if (!clone->value.string)
 			msh_token_free(&clone);
 	}
-	else if (token->type == TKN_REDIR && token->value.redir.right_word)
-		clone->value.redir.right_word = msh_clone_tokens(NULL,
-				token->value.redir.right_word);
+	else if (token->type == TKN_REDIR)
+		msh_token_clone_redir(token, &clone);
 	return (clone);
 }
 

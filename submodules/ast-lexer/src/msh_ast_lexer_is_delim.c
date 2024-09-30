@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:32:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 15:32:30 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:14:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ bool	msh_ast_lexer_check_delim(t_ast_lexer *state, const char c)
 
 bool	msh_ast_lexer_is_delim(t_ast_lexer *state, const char c)
 {
+	if (c == 0 && state->discrim_mode)
+		return (true);
 	if (c == 0 && state->delim != NULL)
 		return (false);
 	if (!state->delim)

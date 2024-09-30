@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/29 17:31:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:39:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ static void	msh_transformer_log(t_minishell *msh, const char *msg,
 		"%s\n", msg, msh_ast_strerror(err->type));
 }
 
-// merge, subsitute (~), merge, substitute ($var), merge, 
-// (substitute (*.c), merge  
-t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
+t_ast_error	msh_ast_transform_impl(t_minishell *msh, t_list **tokens_ptr,
+				bool special)
 {
 	static const int		order[] = {0, 4, 0, 1, 0, 3, 0};
 	size_t					n;
@@ -74,10 +73,10 @@ t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 	{
 		transformer = msh_ast_transformers()[order[n]];
 		msh_transformer_log(msh, transformer.name, NULL, true);
-		err = transformer.fn(msh, tokens_ptr, n);
+		if (!special || n != 4)
+			err = transformer.fn(msh, tokens_ptr, n);
 		if (err.type != AST_ERROR_NONE)
 			break ;
-		msh_dump_tokens(msh, *tokens_ptr);
 		transformer = msh_ast_transformers()[2];
 		err = transformer.fn(msh, tokens_ptr, 2);
 		n++;
@@ -85,4 +84,9 @@ t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
 	if (err.type != AST_ERROR_NONE)
 		msh_transformer_log(msh, transformer.name, &err, false);
 	return (err);
+}
+
+t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens_ptr)
+{
+	return (msh_ast_transform_impl(msh, tokens_ptr, false));
 }

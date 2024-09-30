@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:32:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/25 18:59:04 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:35:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_ast_transformer_info
 }	t_ast_transformer_info;
 
 t_ast_error	msh_ast_transform(t_minishell *msh, t_list **tokens);
+t_ast_error	msh_ast_transform_impl(t_minishell *msh, t_list **tokens,
+				bool special);
 
 # endif // __MSH_AST_TRANSFORMER_H__
 #endif // TRANSFORMER_H
