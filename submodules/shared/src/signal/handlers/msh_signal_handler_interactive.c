@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:04:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:09:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:44:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	msh_shakespeare_newline(void)
 
 static void	msh_readline_newline(void)
 {
-	ft_putstr("LESIGNALHANDLERLA\n");
+	ft_putstr("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

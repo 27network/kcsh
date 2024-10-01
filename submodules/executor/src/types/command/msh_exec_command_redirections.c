@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:51:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:29:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:28:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int		msh_exec_simple(t_exec_state *state, char **args);
 void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
 
 bool	msh_ast_token_heredoc_expand(t_ast_token *token);
-char	*msh_exec_command_heredoc_expand(t_exec_state *state, const char *path,
-			const char *new_path);
+char	*msh_exec_command_heredoc_expand(t_exec_state *state,
+			t_ast_token *token, const char *path, const char *new_path);
 
 char	*msh_exec_command_heredoc_in(t_exec_state *state,
 			t_ast_token *token, bool heredoc_expand)
@@ -54,7 +54,7 @@ char	*msh_exec_command_heredoc_in(t_exec_state *state,
 	new_path = (char *) msh_tmpfile("heredoc-xpand.", ".tmp");
 	if (!new_path)
 		return (path);
-	return (msh_exec_command_heredoc_expand(state, path, new_path));
+	return (msh_exec_command_heredoc_expand(state, token, path, new_path));
 }
 
 char	*msh_exec_command_extrapolate_path(t_exec_state *state,

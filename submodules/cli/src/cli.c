@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/10/01 14:18:31 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:44:21 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	main(int argc, const char *argv[], const char *envp[])
 		msh_history_free();
 	}
 	if (minishell.flags.debug_executor)
-		msh_debug(&minishell, "pid %d exited with code %d\n", msh_getpid(),
-			minishell.execution_context.exit_code);
+		msh_log(&minishell, MSG_DEBUG_EXECUTOR, "pid %d exited with "
+			"code %d\n", msh_getpid(), minishell.execution_context.exit_code);
 	msh_destroy(&minishell);
 	return (minishell.execution_context.exit_code);
 }

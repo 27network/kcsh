@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:10:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 16:52:20 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:49:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	msh_signal_init(t_minishell *msh, bool close_stdin)
 		msh_setup_echoctl(msh, close_stdin);
 	else
 		msh_setup_regular(msh, close_stdin);
+	signal(SIGPIPE, SIG_IGN);
 	if (FEAT_JOB_CONTROL)
 	{
 		signal(SIGTSTP, SIG_IGN);

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:21:46 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:28:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:26:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*msh_exec_command_heredoc_to_string(t_exec_state *state, t_list *tokens)
 	if (!line)
 		return (NULL);
 	msh_heredoc_delim_size(state->msh, (char *)line, tokens);
+	ft_lst_free(&tokens, (t_lst_dealloc) msh_ast_token_free);
 	return (line);
 }
 
@@ -99,8 +100,8 @@ void	msh_exec_command_heredoc_expand_loop(t_exec_state *state,
 	}
 }
 
-char	*msh_exec_command_heredoc_expand(t_exec_state *state, const char *path,
-			const char *new_path)
+char	*msh_exec_command_heredoc_expand(t_exec_state *state, t_ast_token *t,
+			const char *path, const char *new_path)
 {
 	int		fd;
 	int		fd2;
@@ -117,6 +118,8 @@ char	*msh_exec_command_heredoc_expand(t_exec_state *state, const char *path,
 		close(fd);
 		return (NULL);
 	}
+	ft_strdel(&t->value.redir.right_string);
+	t->value.redir.right_string = (char *) new_path;
 	msh_exec_command_heredoc_expand_loop(state, fd, fd2);
 	close(fd2);
 	close(fd);

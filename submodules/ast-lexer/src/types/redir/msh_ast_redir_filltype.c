@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 14:21:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 11:05:56 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:36:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ static t_ast_error	msh_ast_redir_fill_lex(t_ast_token *token,
 	err = msh_ast_tokenize(state);
 	if (err.type != AST_ERROR_NONE)
 		return (err);
+	if (ft_lst_size(state->tokens) == 0)
+		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)
+				msh_syntax_error_str("newline"), false));
 	token->value.redir.right_word = state->tokens;
 	token->value.redir.state = REDIR_STATE_WORD;
 	*inc += state->cursor;
