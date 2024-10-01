@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:45:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 16:04:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:13:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static void	msh_update_oldpwd(t_minishell *msh)
+static void	msh_update_oldpwd(t_minishell *msh, const char *oldpwd)
 {
-	const char	*oldpwd = msh->execution_context.cwd;
 	char		*oldpwd_value;
 	t_variable	*v_oldpwd;
 
 	oldpwd_value = msh_env_value(msh, "OLDPWD");
 	if (oldpwd_value)
-		free(oldpwd_value);
+		ft_strdel(&oldpwd_value);
 	v_oldpwd = msh_env_get(msh, "OLDPWD", ENV_EXPORTED | ENV_ALLOC_VALUE);
 	if (!v_oldpwd)
-		return ;
-	v_oldpwd->value = (char *) oldpwd;
+		ft_strdel((char **) &oldpwd);
+	else
+	{
+		v_oldpwd->value = (char *) oldpwd;
+		v_oldpwd->flags |= ENV_ALLOC_VALUE;
+	}
 }
 
 void	msh_set_cwd(t_minishell *msh, const char *cwd)
@@ -46,7 +49,7 @@ void	msh_set_cwd(t_minishell *msh, const char *cwd)
 		}
 	}
 	if (msh->execution_context.cwd)
-		msh_update_oldpwd(msh);
+		msh_update_oldpwd(msh, msh->execution_context.cwd);
 	msh->execution_context.cwd = cwd;
 	msh_env_push(msh, "PWD", cwd, ENV_EXPORTED);
 	v_pwd = msh_env_find(msh, "PWD");
