@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/29 23:36:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:27:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@
 #include <msh/util.h>
 
 #define NAME __FILE_NAME__
+
+static char	*msh_home_env(t_minishell *msh, size_t *repl_len)
+{
+	static char		buffer[1024] = {0};
+	char			*home;
+
+	home = msh_env_value(msh, "HOME");
+	if (!home)
+		return (NULL);
+	ft_bzero(buffer, sizeof(buffer));
+	ft_strlcpy(buffer, home, sizeof(buffer));
+	*repl_len = ft_strlen(home);
+	return (buffer);
+}
 
 static char	*msh_current_home(t_minishell *msh, size_t *repl_len)
 {
@@ -32,7 +46,7 @@ static char	*msh_current_home(t_minishell *msh, size_t *repl_len)
 	{
 		msh_passwd_free(&pwd);
 		if (msh_env_value(msh, "HOME"))
-			return (msh_env_value(msh, "HOME"));
+			return (msh_home_env(msh, repl_len));
 		return (NULL);
 	}
 	ft_bzero(buffer, sizeof(buffer));
