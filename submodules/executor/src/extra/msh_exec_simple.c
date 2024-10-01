@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:21:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:54:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int	msh_exec_direct(
 
 	state->msh->interactive = false;
 	status = -1;
+	msh_signal_setdfl();
 	if (execve(binary_path, av, envp) == -1)
 		status = msh_exec_perror(state, errno, av[0]);
 	state->msh->execution_context.running = false;

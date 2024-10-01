@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:43 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:51:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:51:05 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include <msh/ast/builder.h>
 #include <msh/exec.h>
 #include <msh/log.h>
+#include <msh/signal.h>
 #include <msh/util.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -47,12 +49,36 @@ static void	msh_exec_state(t_exec_state *state, t_minishell *msh)
 	state->msh = msh;
 }
 
+static int	msh_exec_await(t_minishell *msh, t_list *pids, int ret, pid_t c_pid)
+{
+	const bool	interactive = msh->interactive;
+	int			s;
+	pid_t		pid;
+
+	msh->interactive = false;
+	msh_signal_init(msh, false);
+	while (pids)
+	{
+		s = 0;
+		pid = (pid_t)(uint64_t)pids->content;
+		ft_lst_remove(&pids, pids, NULL);
+		if (msh->forked)
+			continue ;
+		msh_log(msh, MSG_DEBUG_EXECUTOR, "[%d] wait(%d)\n", c_pid, pid);
+		if (waitpid(pid, &s, 0) == -1 && (errno != EINTR && errno != ECHILD))
+			msh_error(msh, "failed to wait for pid %d (entry): %m\n", pid);
+		else
+			ret = msh_exec_status_impl(s, false);
+	}
+	msh->interactive = interactive;
+	msh_signal_init(msh, false);
+	return (ret);
+}
+
 int	msh_exec_entry(t_minishell *msh, t_ast_node *node)
 {
 	t_exec_state	state;
 	int				ret;
-	int				s;
-	pid_t			pid;
 	pid_t			c_pid;
 
 	msh_exec_state(&state, msh);
@@ -60,17 +86,8 @@ int	msh_exec_entry(t_minishell *msh, t_ast_node *node)
 	c_pid = 0;
 	if (msh->flags.debug_executor)
 		c_pid = msh_getpid();
-	while (state.pids)
-	{
-		s = 0;
-		pid = (pid_t)(uint64_t)state.pids->content;
-		ft_lst_remove(&state.pids, state.pids, NULL);
-		msh_log(msh, MSG_DEBUG_EXECUTOR, "[%d] wait(%d)\n", c_pid, pid);
-		if (waitpid(pid, &s, 0) == -1 && (errno != EINTR && errno != ECHILD))
-			msh_error(msh, "failed to wait for pid %d (entry): %m\n", pid);
-		else
-			ret = msh_exec_status_impl(s, true);
-	}
+	if (state.pids)
+		ret = msh_exec_await(msh, state.pids, ret, c_pid);
 	msh->execution_context.exit_code = ret;
 	msh_log(msh, MSG_DEBUG_EXECUTOR, "Done executing AST node %p\n", node);
 	return (0);

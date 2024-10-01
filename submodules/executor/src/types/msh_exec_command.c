@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 11:23:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:01:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
 	}
 	if (node->command.background)
 		return (TODO_42SH);
-	state->msh->interactive = false;
 	msh_signal_init(state->msh, false);
 	if (waitpid(pid, &status, 0) == -1 && (errno != EINTR && errno != ECHILD))
 	{
