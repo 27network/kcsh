@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 08:58:37 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:54:07 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	msh_update_env(t_minishell *msh, bool update_lineno)
 	size_t	lines;
 	size_t	cols;
 
+	msh_env_push(msh, "?", ft_itoa(msh->execution_context.exit_code),
+		ENV_ALLOC_VALUE | ENV_INVISIBLE | ENV_NO_UNSET | ENV_INTEGER);
 	g_signal = -1;
 	if (update_lineno)
 		msh_env_push(msh, "LINENO", ft_itoa(msh->execution_context.line),
@@ -55,8 +57,6 @@ static void	msh_update_execution_context(t_minishell *msh,
 		msh_error(msh, "input: an error occured while reading input\n");
 		msh->execution_context.exit_code = 2;
 	}
-	msh_env_push(msh, "?", ft_itoa(msh->execution_context.exit_code),
-		ENV_ALLOC_VALUE | ENV_INVISIBLE | ENV_NO_UNSET | ENV_INTEGER);
 	msh_update_env(msh, false);
 }
 

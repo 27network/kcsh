@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/30 04:25:28 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/01 12:23:46 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ include ../common-prelude.mk
 
 SRC			=	extra/msh_exec_simple.c \
 				extra/msh_exec_status.c \
+				types/command/msh_exec_command_heredoc_expand.c \
 				types/command/msh_exec_command_not_builtin.c \
 				types/command/msh_exec_command_redirections.c \
 				types/command/msh_exec_command_setup_fds.c \

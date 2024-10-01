@@ -8,17 +8,21 @@
 # - The first element is the name of the feature.
 # - The second element is whether that feature is enabled or not.
 
-FEAT_BONUS_MSH=( \
-	"PARSER_WILDCARD" 1 \
-	"TOK_OR" 1 \
-	"TOK_AND" 1 \
-	"TOK_PARAN" 1 \
-
+FEAT_MANDATORY_MSH=( \
 	# Should be in modular42sh, but the current shakespeare implementation doesn't support history yet
 	# so i'll put it here to impress the crowd
 	"HISTORY_FILE" 1 \
 	# this is also to flex
 	"TILDE_EXPANSION" 1 \
+	# this is useful
+	"CLI_OPTS" 1 \
+)
+
+FEAT_BONUS_MSH=( \
+	"PARSER_WILDCARD" 1 \
+	"TOK_OR" 1 \
+	"TOK_AND" 1 \
+	"TOK_PARAN" 1 \
 )
 
 FEAT_MANDATORY_42SH=( \
@@ -114,6 +118,7 @@ FEAT_BONUS_42SH=( \
 # - The first element is the name of the category.
 # - The second element is whether that category is enabled or not.
 CATEGORY_FLAGS=( \
+	"MANDATORY_MSH" 0 \
 	"BONUS_MSH" 0 \
 	"MANDATORY_42SH" 0 \
 	"BONUS_42SH" 0 \

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 09:46:03 by maldavid          #+#    #+#             */
-/*   Updated: 2024/09/29 18:45:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:11:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,29 @@ int	main(int argc, const char *argv[], const char *envp[])
 	msh_builtin_registry_sort();
 	msh_init(&minishell, argc, argv, envp);
 	msh_setup_linelib(&minishell);
-	if (argc != 1)
+	if (argc != 1 && FEAT_CLI_OPTS)
 		msh_handle_opts(&minishell, argc, argv);
-	msh_history_load(&minishell);
-	msh_shell_loop(&minishell);
-	msh_history_save(&minishell);
-	msh_history_free();
+	else if (argc != 1)
+	{
+		ft_dprintf(STDERR_FILENO, "usage: %s\n", argv[0]);
+		minishell.execution_context.exit_code = 1;
+	}
+	if (argc == 1 || FEAT_CLI_OPTS)
+	{
+		msh_history_load(&minishell);
+		msh_shell_loop(&minishell);
+		msh_history_save(&minishell);
+		msh_history_free();
+	}
 	msh_destroy(&minishell);
 	return (minishell.execution_context.exit_code);
 }
 
 #else
 
-int	main(
-	__attribute__((unused)) int argc,
-	__attribute__((unused)) const char *argv[],
-	__attribute__((unused)) const char *envp[]
-) {
+int	main(void)
+{
+	ft_dprintf(STDERR_FILENO, "\n\t👍 all tests ran, did it explode? 💥\n\n");
 	return (0);
 }
 

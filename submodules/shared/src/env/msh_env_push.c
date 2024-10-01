@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:20:04 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/10 09:51:16 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:11:17 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
 			const char *value, int flags)
 {
 	if (!value && (flags & ENV_ALLOC_VALUE))
+	{
 		ft_dprintf(2, "msh_env_update_existing: value is NULL but flags"
-			" suggest it should be allocated\n");
+			" suggest it should be allocated, looks like a malloc issue\n");
+		flags &= ~(ENV_ALLOC_VALUE);
+	}
 	if (variable->value && variable->flags & ENV_ALLOC_VALUE)
 		free(variable->value);
 	if (variable->set_fn)

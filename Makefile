@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/30 17:02:28 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/01 12:14:22 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -183,7 +183,7 @@ clean:
 	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then $(MAKE) -C $(LIBFT_DIR) NO_LOG="$(FREEZE_LOGS)" clean; fi 
 
 oclean:
-	@$(PRINTF) "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object files $(GRAY)($(CACHE_DIR))$(RESET)\n"
+	@$(PRINTF) "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object cache $(GRAY)($(CACHE_DIR))$(RESET)\n"
 	@$(RM) $(CACHE_DIR)
 
 fclean:			_fclean_prelude clean
@@ -200,7 +200,7 @@ re: _hide_cursor
 
 valgrind:
 	@clear
-	@MSH_VALGRIND=$(NO_VG) valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes ./$(NAME) $(VG_RUN)
+	@MSH_VALGRIND=$(NO_VG) valgrind $(VSUPP_ARG) -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=no --track-fds=yes -q ./$(NAME) $(VG_RUN)
 
 voidgrind:
 	@clear
