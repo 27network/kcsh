@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:51:14 by ebouchet          #+#    #+#             */
-/*   Updated: 2024/09/30 09:48:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:05:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <msh/log.h>
 #include <stdlib.h>
 
-#define UNKNOWN_ERROR -1
 #define INVALID_IDENTIFIER_ERROR 1
 #define NAME_ALLOC_ERROR 2
 #define VALUE_ALLOC_ERROR 3
@@ -26,26 +25,7 @@
 
 void	msh_env_update_existing(t_minishell *msh, t_variable *variable,
 			const char *value, int flags);
-
-static int	msh_export_error(t_minishell *msh, const char *data, int errtype)
-{
-	static const char	*error_messages[] = {
-		"export: `%s': not a valid identifier\n",
-		"export: name allocation error\n",
-		"export: value allocation error\n",
-		"export: env allocation error\n",
-		"export: `%s': not a function\n",
-		"%s: readonly variable\n",
-	};
-	const char			*message;
-
-	if (errtype == UNKNOWN_ERROR)
-		message = "export: unknown error\n";
-	else
-		message = error_messages[errtype - 1];
-	msh_error(msh, message, data);
-	return (1);
-}
+int		msh_export_error(t_minishell *msh, const char *data, int errtype);
 
 static int	msh_export_nosep_check(const char *arg, char **name)
 {

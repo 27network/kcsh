@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:59:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/25 00:21:22 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:34:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,21 @@
 
 #define LEVEL MSG_DEBUG_EXEC_TRANSFORMER
 
+void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
+
 static t_ast_error	msh_ast_transform_subst_var_split(t_minishell *msh,
 						t_list **next, const char *env, const char *ifs)
 {
-	t_ast_lexer	lexer;
-	t_ast_error	err;
+	const uint64_t	fork_level = msh->forked;
+	t_ast_lexer		lexer;
+	t_ast_error		err;
 
+	msh->forked = 0;
 	lexer = msh_ast_lexer_root(msh, env);
 	lexer.ifs = ifs;
 	lexer.discrim_mode = true;
 	err = msh_ast_tokenize(&lexer);
+	msh->forked = fork_level;
 	if (err.type == AST_ERROR_NONE)
 		*next = lexer.tokens;
 	return (err);

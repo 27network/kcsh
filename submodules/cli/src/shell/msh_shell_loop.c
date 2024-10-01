@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:16:25 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 11:54:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:30:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 
-static void	msh_update_env(t_minishell *msh, bool update_lineno)
+void	msh_update_env(t_minishell *msh, bool update_lineno)
 {
 	size_t	lines;
 	size_t	cols;

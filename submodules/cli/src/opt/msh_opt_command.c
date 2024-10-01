@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:15:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/09 01:51:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:30:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <msh/cli/opt.h>
 #include <msh/cli/shell.h>
 #include <msh/exec.h>
+
+void	msh_update_env(t_minishell *msh, bool update_lineno);
 
 static int	msh_find_flag_index(const char **argv)
 {
@@ -50,6 +52,7 @@ void	msh_opt_command(t_minishell *msh, int argc, const char **argv)
 	msh->interactive = false;
 	msh->execution_context.show_line = true;
 	msh->execution_context.line = 1;
+	msh_update_env(msh, true);
 	cmd = (char *) ft_strdup(cmd);
 	if (!cmd)
 		msh_error(msh, "-c: %s\n", "error while allocating memory");

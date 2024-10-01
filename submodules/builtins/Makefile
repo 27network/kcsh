@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 06:49:07 by kiroussa          #+#    #+#              #
-#    Updated: 2024/07/16 13:17:04 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/01 18:01:56 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,9 @@ SRC			=	42sh/jobs/bg.c \
 				minishell/cd/msh_cd_home.c \
 				minishell/cd/msh_cd_oldpwd.c \
 				minishell/cd/msh_cd_relative.c \
-				minishell/export/msh_export_print.c \
 				minishell/export/msh_export_assign.c \
+				minishell/export/msh_export_error.c \
+				minishell/export/msh_export_print.c \
 				minishell/cd.c \
 				minishell/echo.c \
 				minishell/env.c \
