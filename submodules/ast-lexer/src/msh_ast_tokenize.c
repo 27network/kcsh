@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:45:27 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 10:13:53 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:21:24 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static t_ast_error	msh_ast_next_global_token(t_ast_lexer *state,
 	if ((FEAT_TOK_PARAN && *input == ')') || (FEAT_TOK_GROUP && *input == '}'))
 		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)
 				msh_syntax_error_char(*input), false));
+	if (FEAT_PARSER_BANG && *input == '!')
+		return (msh_ast_token_simple(TKN_BANG, token, inc, 1));
 	err = msh_ast_token_keyword(state, token, inc);
 	if (err.type != AST_ERROR_CANCEL)
 		return (err);
@@ -168,6 +170,7 @@ t_ast_error	msh_ast_tokenize(t_ast_lexer *state)
 		state->cursor += ft_max(inc, 1);
 	}
 	err = msh_ast_lexer_errors(state, err);
+	msh_ast_tokenize_post(state, token, &err);
 	if (state->msh->forked || err.type != AST_ERROR_NONE)
 		ft_lst_free(&state->tokens, (t_lst_dealloc) msh_ast_token_free);
 	return (err);

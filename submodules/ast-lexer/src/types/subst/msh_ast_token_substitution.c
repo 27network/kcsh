@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 03:44:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 17:07:41 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 05:09:23 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static t_ast_error	msh_ast_token_substitution_underlying(
 			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "( not impl", false));
 		return (msh_ast_token_subst_var(state, tokret, inc));
 	}
-	if (first == '*' && FEAT_PARSER_WILDCARD)
-		return (msh_ast_token_subst_wildcard(state, tokret, inc));
 	return (msh_ast_errd(AST_ERROR_UNEXPECTED, "unexpected substitution", 0));
 }
 

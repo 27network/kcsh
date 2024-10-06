@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:15:48 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/15 16:55:11 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 03:53:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_ast_error	msh_ast_build(t_minishell *msh, t_list *tokens,
 t_ast_error	msh_ast_build_root(t_minishell *msh, t_list *tokens,
 				t_ast_node **result);
 
+t_ast_error	msh_ast_node_group(t_minishell *msh, t_list *tokens,
+				t_ast_node **result);
 t_ast_error	msh_ast_node_command(t_minishell *msh, t_list *tokens,
 				t_ast_node **result);
 t_ast_error	msh_ast_node_sep(t_minishell *msh, t_list *tokens, t_list *sep,

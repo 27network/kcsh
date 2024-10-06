@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:21:50 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:51:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:51:41 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@ bool	_wcoredump(int status)
 # define WCOREDUMP _wcoredump
 #endif
 
-int	msh_exec_status_impl(int wait_status, bool in_pipe)
+#define EXIT_CODE_OFFSET 128
+
+int	msh_exec_status_impl(t_minishell *msh, int wait_status, bool in_pipe)
 {
 	int	sig;
 
 	if (WIFSIGNALED(wait_status))
 	{
 		sig = WTERMSIG(wait_status);
-		if (sig != SIGINT && sig != SIGTERM && sig != SIGPIPE)
+		msh->execution_context.interrupt |= (sig == SIGINT);
+		if (sig != SIGINT && sig != SIGPIPE)
 		{
 			ft_dprintf(2, "%s", msh_strsignal(sig));
 			if (WCOREDUMP(wait_status))
@@ -41,10 +44,10 @@ int	msh_exec_status_impl(int wait_status, bool in_pipe)
 		}
 		if (!in_pipe)
 			ft_dprintf(2, "\n");
-		return (sig + 128);
+		return (sig + EXIT_CODE_OFFSET);
 	}
 	else if (WIFSTOPPED(wait_status))
-		return (WSTOPSIG(wait_status) + 128);
+		return (WSTOPSIG(wait_status) + EXIT_CODE_OFFSET);
 	else if (WIFEXITED(wait_status))
 		return (WEXITSTATUS(wait_status));
 	else if (WIFCONTINUED(wait_status))
@@ -52,7 +55,7 @@ int	msh_exec_status_impl(int wait_status, bool in_pipe)
 	return (-1);
 }
 
-int	msh_exec_status(int wait_status)
+int	msh_exec_status(t_minishell *msh, int wait_status)
 {
-	return (msh_exec_status_impl(wait_status, false));
+	return (msh_exec_status_impl(msh, wait_status, false));
 }

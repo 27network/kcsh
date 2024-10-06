@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/18 17:09:51 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 05:54:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,44 @@ static t_list	*msh_ast_find_tkn(t_minishell *msh, t_list *tokens,
 	return (last);
 }
 
+const char	*msh_syntax_error_char(const char c);
+
+__attribute__((always_inline))
+static inline bool	msh_ast_is_background(t_list *sep)
+{
+	t_ast_token	*token;
+
+	if (!sep)
+		return (false);
+	token = (t_ast_token *) sep->content;
+	if (!token)
+		return (false);
+	if (token->type != TKN_DELIM)
+		return (false);
+	return (token->kind == DELIM_ASYNC);
+}
+
 #define EOF_WOMP_WOMP "syntax error: unexpected end of file"
 
 static t_ast_error	msh_ast_root_node(t_minishell *msh, t_list *tokens,
 						t_list *sep, t_ast_node **result)
 {
+	const size_t	group_count = msh_ast_token_count(tokens, TKN_GROUP);
+	const bool		is_background = msh_ast_is_background(sep);
+
 	if (!sep)
+	{
+		if (group_count > 1)
+			return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)
+					msh_syntax_error_char(')'), false));
+		if (group_count == 1)
+			return (msh_ast_node_group(msh, tokens, result));
 		return (msh_ast_node_command(msh, tokens, result));
+	}
 	if (((t_ast_token *) sep->content)->type == TKN_GROUP)
 		return (msh_ast_build(msh, ((t_ast_token *) sep->content)
 				->value.list, result));
-	if (!sep->next)
+	if (!sep->next && !is_background)
 		return (msh_ast_errd(AST_ERROR_UNEXPECTED, EOF_WOMP_WOMP, true));
 	if (sep == tokens)
 		return (msh_ast_errd(AST_ERROR_SYNTAX, (void *) msh_syntax_error(
@@ -65,8 +92,6 @@ static t_ast_error	msh_ast_root_node(t_minishell *msh, t_list *tokens,
 
 #undef EOF_WOMP_WOMP
 
-#define NO_TOKENS_MSG "No tokens to define an AST with... what?"
-
 t_ast_error	msh_ast_build(t_minishell *msh, t_list *tokens, t_ast_node **result)
 {
 	t_list		*split_node;
@@ -75,57 +100,10 @@ t_ast_error	msh_ast_build(t_minishell *msh, t_list *tokens, t_ast_node **result)
 	split_node = msh_ast_find_tkn(msh, tokens, TKN_DELIM);
 	if (!split_node)
 		split_node = msh_ast_find_tkn(msh, tokens, TKN_PIPE);
-	if (!split_node)
-		split_node = msh_ast_find_tkn(msh, tokens, TKN_GROUP);
 	err = msh_ast_root_node(msh, tokens, split_node, result);
 	if (err.type)
 		msh_log(msh, MSG_DEBUG_AST_BUILDER, "error: ");
 	if (err.type && msh->flags.debug_ast)
 		msh_ast_error_print(msh, err);
-	return (err);
-}
-
-static t_list	*msh_build_backup_list(t_list *tokens)
-{
-	t_list		*nodes;
-	t_ast_token	*tok;
-
-	nodes = NULL;
-	while (tokens)
-	{
-		if (!ft_lst_tadd(&nodes, tokens))
-		{
-			ft_lst_free(&nodes, NULL);
-			break ;
-		}
-		tok = (t_ast_token *) tokens->content;
-		if (tok->value.list && (tok->type == TKN_GROUP
-				|| tok->type == TKN_STRING) && !ft_lst_add(&nodes,
-				msh_build_backup_list(tok->value.list)))
-		{
-			ft_lst_free(&nodes, NULL);
-			break ;
-		}
-		tokens = tokens->next;
-	}
-	return (nodes);
-}
-
-t_ast_error	msh_ast_build_root(t_minishell *msh, t_list *tokens,
-					t_ast_node **result)
-{
-	t_ast_error	err;
-	t_list		*token_backup;
-
-	if (!tokens)
-		return (msh_ast_errd(AST_ERROR_ALLOC, NO_TOKENS_MSG, false));
-	token_backup = msh_build_backup_list(tokens);
-	if (!token_backup)
-		return (msh_ast_errd(AST_ERROR_ALLOC, "Could not clone tokens", false));
-	err = msh_ast_build(msh, tokens, result);
-	if (!err.type && *result)
-		(*result)->tree_tokens = token_backup;
-	else
-		ft_lst_free(&token_backup, NULL);
 	return (err);
 }

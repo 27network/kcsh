@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:10:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 07:46:20 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 05:33:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,16 @@ struct passwd	msh_getpwnam(t_minishell *msh, const char *name);
  * @param pwd The user information to free.
  */
 void			msh_passwd_free(struct passwd *pwd);
+
+/**
+* @brief Prints a message indicating that the given command was not found.
+*        This will first try to invoke `command-not-found` if
+*        it's set, and if not, it will print the message to stderr.
+* 
+* @param msh The minishell instance.
+* @param name The name of the command.
+*/
+void			msh_command_not_found(t_minishell *msh, const char *name);
 
 # endif // __MSH_UTIL_H__
 #endif // UTIL_H

@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_node_strtype.c                             :+:      :+:    :+:   */
+/*   msh_ast_token_count.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 16:13:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/04 05:58:29 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/10/04 03:56:51 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/10/04 03:56:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/builder.h>
+#include <msh/ast/lexer.h>
 
-const char	*msh_ast_node_strtype(t_ast_node_type type)
+size_t	msh_ast_token_count(t_list *tokens, t_ast_token_type type)
 {
-	static const char	*types[] = {
-	[NODE_COMMAND] = "COMMAND",
-	[NODE_PIPE] = "PIPE",
-	[NODE_DELIM] = "DELIM",
-	[NODE_GROUP] = "GROUP",
-	};
+	size_t	count;
+	t_list	*node;
 
-	if (type < 0 || type >= (sizeof(types) / sizeof(*types)))
-		return ("NODE_UNKNOWN");
-	return (types[type]);
+	count = 0;
+	node = tokens;
+	while (node)
+	{
+		if (((t_ast_token *) node->content)->type == type)
+			count++;
+		node = node->next;
+	}
+	return (count);
 }

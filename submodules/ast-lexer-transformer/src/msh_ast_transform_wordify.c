@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:56:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 04:36:32 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 04:55:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ static t_ast_error	msh_ast_transform_try_wordify(t_list *node)
 	err = msh_ast_ok();
 	if (token && token->type == TKN_NUMBER)
 		token->type = TKN_WORD;
+	else if (token && token->type == TKN_BANG)
+	{
+		token->type = TKN_WORD;
+		token->value.string = ft_strdup("!");
+	}
 	else if (token && token->type == TKN_STRING)
 	{
 		err = msh_ast_transform_wordify(NULL, &token->value.list, 0);

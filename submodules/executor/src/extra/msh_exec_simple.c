@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:43:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 13:54:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 06:02:28 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	msh_exec_perror(t_exec_state *state, int err, char *name)
 	else
 	{
 		if (is_pdir || err == ENOENT)
-			msh_error(state->msh, "%s: command not found\n", name);
+			msh_command_not_found(state->msh, name);
 		else
 			msh_error(state->msh, "%s: %s\n", name, strerror(err));
 	}
@@ -123,7 +123,7 @@ int	msh_exec_simple(t_exec_state *state, char **args)
 	if (path)
 		status = msh_exec_direct(state, path, args, env);
 	else
-		msh_error(state->msh, "%s: command not found\n", args[0]);
+		msh_command_not_found(state->msh, args[0]);
 	if (!path)
 		status = 127;
 	state->msh->interactive = old_interactive;

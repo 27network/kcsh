@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 13:13:03 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 19:16:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/05 04:23:46 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static t_ast_error	msh_ast_sanitize_token_check_prev(t_minishell *msh,
 	(void) current;
 	if (token->type == TKN_GROUP)
 	{
-		if (prev_tkn->type != TKN_PIPE && prev_tkn->type != TKN_DELIM)
+		if (prev_tkn->type != TKN_PIPE && prev_tkn->type != TKN_DELIM
+			&& prev_tkn->type != TKN_SEP)
 			return (msh_ast_errd(AST_ERROR_SYNTAX, (void *)
 					msh_syntax_error_impl(token, "("), false));
 	}

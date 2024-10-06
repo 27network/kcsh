@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/30 07:45:43 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/04 05:49:50 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC			=	env/default/msh_env_default_pwd.c \
 				signal/msh_signal_init.c \
 				signal/msh_signal_setdfl.c \
 				signal/msh_strsignal.c \
+				util/io/msh_command_not_found.c \
 				util/io/msh_fileno.c \
 				util/io/msh_get_hostname.c \
 				util/io/msh_get_hosttype.c \

@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:54:45 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:40:07 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 05:14:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ Options:\n\
   \\t	horizontal tab\n\
   \\v	vertical tab\n\
   \\\\	backslash\n\
-  \\0nnn	the character whose ASCII code is NNN (octal).  NNN can be\n\
+  \\0num	the character whose ASCII code is NNN (octal).  NNN can be\n\
 		0 to 3 octal digits\n\
 \n\
 Exit Status:\n\

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/19 05:06:58 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/04 06:39:30 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC			=	ast/msh_ast_sanitize.c \
 				token/impl/msh_ast_sanitize_token_first.c \
 				token/impl/msh_ast_sanitize_token_recurse.c \
 				token/impl/msh_ast_sanitize_token_word_before.c \
+				token/msh_ast_sanitize_check.c \
 				token/msh_ast_sanitize_tokens.c \
 				token/msh_ast_strtoken_simple.c \
 				msh_ast_syntax_error.c

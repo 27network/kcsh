@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 07:24:53 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:49:27 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:48:49 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 #  define DEFAULT_MODE 0666
 
 int	msh_exec_simple(t_exec_state *state, char **line);
-int	msh_exec_status(int wait_status);
-int	msh_exec_status_impl(int wait_status, bool in_pipe);
+int	msh_exec_status(t_minishell *msh, int wait_status);
+int	msh_exec_status_impl(t_minishell *msh, int wait_status, bool in_pipe);
 
 int	msh_exec_entry(t_minishell *msh, t_ast_node *node);
 

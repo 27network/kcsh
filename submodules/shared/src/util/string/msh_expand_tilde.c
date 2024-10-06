@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 22:27:15 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 05:52:37 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,19 @@
 
 #define NAME __FILE_NAME__
 
-static char	*msh_home_env(t_minishell *msh, size_t *repl_len)
-{
-	static char		buffer[1024] = {0};
-	char			*home;
-
-	home = msh_env_value(msh, "HOME");
-	if (!home)
-		return (NULL);
-	ft_bzero(buffer, sizeof(buffer));
-	ft_strlcpy(buffer, home, sizeof(buffer));
-	*repl_len = ft_strlen(home);
-	return (buffer);
-}
-
 static char	*msh_current_home(t_minishell *msh, size_t *repl_len)
 {
 	static char		buffer[1024] = {0};
 	int				uid;
 	struct passwd	pwd;
+	char			*home_env;
 
+	home_env = msh_env_value(msh, "HOME");
+	if (home_env)
+	{
+		*repl_len = 1;
+		return (home_env);
+	}
 	uid = msh_getuid(msh);
 	if (uid < 0)
 		return (NULL);
@@ -45,8 +38,6 @@ static char	*msh_current_home(t_minishell *msh, size_t *repl_len)
 	if (!pwd.pw_name)
 	{
 		msh_passwd_free(&pwd);
-		if (msh_env_value(msh, "HOME"))
-			return (msh_home_env(msh, repl_len));
 		return (NULL);
 	}
 	ft_bzero(buffer, sizeof(buffer));
@@ -86,6 +77,29 @@ static char	*msh_find_user_home(t_minishell *msh, const char *str,
 	return (buffer);
 }
 
+static char	*msh_expand_tilde_ctx(t_minishell *msh, const char *str,
+				size_t *repl_len)
+{
+	char	*home;
+
+	home = NULL;
+	if (str[1] == '/' || !str[1])
+		home = msh_current_home(msh, repl_len);
+	else if (str[1] == '+' && (str[2] == '/' || str[2] == '\0'))
+	{
+		home = msh_env_value(msh, "PWD");
+		*repl_len = 2;
+	}
+	else if (str[1] == '-' && (str[2] == '/' || str[2] == '\0'))
+	{
+		home = msh_env_value(msh, "OLDPWD");
+		*repl_len = 2;
+	}
+	else
+		home = msh_find_user_home(msh, str + 1, repl_len);
+	return (home);
+}
+
 char	*msh_expand_tilde(t_minishell *msh, const char *str)
 {
 	char	*home;
@@ -97,10 +111,7 @@ char	*msh_expand_tilde(t_minishell *msh, const char *str)
 	if (!str || *str != '~')
 		return (ft_strdup(str));
 	msh_debug(msh, NAME": requireing tilde expansion: '%s'\n", str);
-	if (str[1] == '/' || !str[1])
-		home = msh_current_home(msh, &repl_len);
-	else
-		home = msh_find_user_home(msh, str + 1, &repl_len);
+	home = msh_expand_tilde_ctx(msh, str, &repl_len);
 	if (!home)
 		return (ft_strdup(str));
 	h_len = ft_strlen(home);

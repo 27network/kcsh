@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:18:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 13:55:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 06:33:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ t_ast_error	msh_ast_token_group(t_ast_lexer *state, t_ast_token **token,
 		return (err);
 	}
 	group_tkn->value.list = local.tokens;
+	group_tkn->kind = GROUP_SUBSHELL;
+	if (type == '{')
+		group_tkn->kind = GROUP_BRACE;
 	*token = group_tkn;
 	*inc += local.cursor + 1;
 	return (err);

@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/09/28 17:04:06 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/04 06:56:34 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC			=	token/print/msh_ast_print_delim.c \
 				token/print/msh_ast_print_string.c \
 				token/msh_ast_strtoken.c \
 				token/msh_ast_token_clone.c \
+				token/msh_ast_token_count.c \
 				token/msh_ast_token_free.c \
 				token/msh_ast_token_new.c \
 				token/msh_ast_token_print.c \
@@ -47,6 +48,7 @@ SRC			=	token/print/msh_ast_print_delim.c \
 				msh_ast_lexer_is_delim.c \
 				msh_ast_lexer_root.c \
 				msh_ast_lexer_sub.c \
-				msh_ast_tokenize.c
+				msh_ast_tokenize.c \
+				msh_ast_tokenize_post.c
 
 include ../common.mk

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:40:01 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/19 05:54:25 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/05 01:21:15 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ static t_ast_error	msh_ast_node_sep_children(t_minishell *msh, t_list *tmp,
 		err = msh_ast_build(msh, sep->next, &node->right);
 	if (err.type != AST_ERROR_NONE)
 		msh_ast_node_free(node);
+	if (node->right)
+		node->right->parent = node;
+	if (node->left)
+		node->left->parent = node;
 	return (err);
 }
 

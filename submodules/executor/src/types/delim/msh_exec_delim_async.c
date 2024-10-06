@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_ast_node_strtype.c                             :+:      :+:    :+:   */
+/*   msh_exec_delim_async.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 16:13:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/04 05:58:29 by kiroussa         ###   ########.fr       */
+/*   Created: 2024/10/04 22:34:48 by kiroussa          #+#    #+#             */
+/*   Updated: 2024/10/05 00:40:32 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <msh/ast/builder.h>
+#include <msh/exec.h>
 
-const char	*msh_ast_node_strtype(t_ast_node_type type)
+void	msh_update_env(t_minishell *msh, bool update_lineno);
+
+int	msh_exec_delim_async(t_exec_state *state, t_ast_node *node)
 {
-	static const char	*types[] = {
-	[NODE_COMMAND] = "COMMAND",
-	[NODE_PIPE] = "PIPE",
-	[NODE_DELIM] = "DELIM",
-	[NODE_GROUP] = "GROUP",
-	};
+	int	ret;
 
-	if (type < 0 || type >= (sizeof(types) / sizeof(*types)))
-		return ("NODE_UNKNOWN");
-	return (types[type]);
+	ret = 0;
+	(void) state;
+	(void) node;
+	return (ret);
 }

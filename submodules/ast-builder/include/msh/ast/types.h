@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:02:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 03:51:54 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 04:51:13 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef enum e_ast_node_type
  * @param tokens The initial raw tokens list
  *
  * @param env The inline environment variables, if any (unused)
- *
  * @param args A list of parsed TKN_STRING tokens.
  * @param redirs A list of parsed TKN_REDIR tokens.
  *
@@ -41,12 +40,22 @@ typedef struct s_ast_node_command
 	t_list		*tokens;
 
 	t_list		*env;
-
 	t_list		*args;
 	t_list		*redirs;
 
 	bool		background;
 }	t_ast_node_command;
+
+typedef struct s_ast_node_group
+{
+	t_list		*tokens;
+
+	t_list		*group;
+
+	t_list		*redirs;
+
+	bool		background;
+}	t_ast_node_group;
 
 typedef struct s_ast_node
 {
@@ -59,6 +68,7 @@ typedef struct s_ast_node
 	{
 		t_ast_delim_type	delim;
 		t_ast_node_command	command;
+		t_ast_node_group	group;
 	};
 }	t_ast_node;
 

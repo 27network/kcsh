@@ -6,7 +6,7 @@
 #    By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/12 07:00:21 by kiroussa          #+#    #+#              #
-#    Updated: 2024/10/01 18:01:11 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/05 00:40:50 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,10 @@ SRC			=	extra/msh_exec_simple.c \
 				types/command/msh_exec_command_redirect_setup.c \
 				types/command/msh_exec_command_redirections.c \
 				types/command/msh_exec_command_setup_fds.c \
+				types/delim/msh_exec_delim_and.c \
+				types/delim/msh_exec_delim_async.c \
+				types/delim/msh_exec_delim_or.c \
+				types/delim/msh_exec_delim_semicolon.c \
 				types/msh_exec_command.c \
 				types/msh_exec_delim.c \
 				types/msh_exec_group.c \

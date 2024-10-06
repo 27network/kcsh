@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 14:01:36 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/05 21:26:08 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		msh_restore_fds(t_minishell *msh, int fds[2]);
 int		msh_save_fds(t_minishell *msh, int fds[2]);
 
 bool	msh_exec_command_not_builtin(t_ast_node *node);
-int		msh_exec_status(int wait_status);
 int		msh_exec_command_redirections(t_exec_state *state,
 			t_ast_node *node);
 
@@ -56,12 +55,13 @@ static int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
 	}
 	state->msh->interactive = interactive;
 	msh_signal_init(state->msh, false);
-	return (msh_exec_status(status));
+	return (msh_exec_status(state->msh, status));
 }
 
 static int	msh_exec_command_setup(t_exec_state *state, t_ast_node *node)
 {
-	const bool		do_fork = state->depth == 1
+	const bool		do_fork = (node->parent == NULL
+			|| node->parent->type == NODE_DELIM)
 		&& msh_exec_command_not_builtin(node);
 	pid_t			pid;
 	int				fds[2];
@@ -100,7 +100,7 @@ static int	msh_exec_command_prepare(t_exec_state *state, t_ast_node *node)
 		token = token->next;
 	}
 	if (error)
-		msh_error(state->msh, "failed to prepare command (memalloc?)\n");
+		msh_error(state->msh, "failed to prepare command (malloc error)\n");
 	else
 		msh_log(state->msh, MSG_DEBUG_EXECUTOR, "Command setup\n");
 	if (!error)

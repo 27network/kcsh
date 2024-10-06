@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 03:07:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 12:46:21 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:57:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static inline int	msh_exec_pipe_left(t_exec_state *state, t_ast_node *node,
 	{
 		msh_error(state->msh, "failed to push pid %d, awaiting\n", pid);
 		waitpid(pid, &status, 0);
-		msh_exec_status(status);
+		msh_exec_status(state->msh, status);
 		return (1);
 	}
 	return (0);
@@ -68,7 +68,7 @@ static inline int	msh_exec_pipe_right(t_exec_state *state, t_ast_node *node,
 		msh_log(state->msh, MSG_DEBUG_EXECUTOR, "failed to push pid %d,"
 			" awaiting\n", pid);
 		waitpid(pid, &status, 0);
-		return (msh_exec_status_impl(status, true) | 1);
+		return (msh_exec_status_impl(state->msh, status, true) | 1);
 	}
 	return (0);
 }

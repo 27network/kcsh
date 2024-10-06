@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:59:09 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 17:34:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/05 04:01:11 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static t_ast_error	msh_ast_transform_subst_var_split(t_minishell *msh,
 	lexer = msh_ast_lexer_root(msh, env);
 	lexer.ifs = ifs;
 	lexer.discrim_mode = true;
+	lexer.allow_subst = false;
 	err = msh_ast_tokenize(&lexer);
 	msh->forked = fork_level;
 	if (err.type == AST_ERROR_NONE)

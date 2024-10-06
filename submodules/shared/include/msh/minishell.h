@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 18:19:22 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 16:56:44 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:41:33 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_program_args
  * @param running	 Whether the shell is running or not. This is used to
  * 					 break out of the main loop in non-interactive mode, or
  * 					 when special builtins want to exit the shell.
+ * @param interrupt  Whether the shell was interrupted by a SIGINT.
  * @param cwd		 Current working directory of the shell.
  *
  * @param show_line	 Whether to show the line number in error messages.
@@ -82,6 +83,7 @@ typedef struct s_execution_context
 	t_program_args	shell_args;
 
 	bool			running;
+	bool			interrupt;
 	const char		*cwd;
 
 	bool			show_line;
