@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 01:44:08 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:52:58 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:01:04 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include <unistd.h>
 
 #define INTERNAL_PATH "/run/current-system/sw/bin:\
-/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib"
 
 static bool	msh_validate(const char *filename)
 {

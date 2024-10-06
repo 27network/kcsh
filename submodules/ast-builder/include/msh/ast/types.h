@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:02:28 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/04 04:51:13 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:56:00 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ typedef struct s_ast_node_command
 	t_list		*env;
 	t_list		*args;
 	t_list		*redirs;
-
-	bool		background;
 }	t_ast_node_command;
 
 typedef struct s_ast_node_group
@@ -53,8 +51,6 @@ typedef struct s_ast_node_group
 	t_list		*group;
 
 	t_list		*redirs;
-
-	bool		background;
 }	t_ast_node_group;
 
 typedef struct s_ast_node

@@ -6,14 +6,16 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 01:51:37 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/05 21:26:08 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:29:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <ft/data/list.h>
+#include <ft/mem.h>
 #include <msh/ast/transformer.h>
 #include <msh/exec.h>
+#include <msh/features.h>
 #include <msh/signal.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -23,8 +25,8 @@
 void	msh_dump_tokens(t_minishell *msh, t_list *tokens);
 t_list	*msh_clone_tokens(t_minishell *msh, t_list *tokens);
 
-int		msh_restore_fds(t_minishell *msh, int fds[2]);
-int		msh_save_fds(t_minishell *msh, int fds[2]);
+int		msh_restore_fds(t_minishell *msh, int fds[3]);
+int		msh_save_fds(t_minishell *msh, int fds[3]);
 
 bool	msh_exec_command_not_builtin(t_ast_node *node);
 int		msh_exec_command_redirections(t_exec_state *state,
@@ -32,7 +34,7 @@ int		msh_exec_command_redirections(t_exec_state *state,
 
 #define TODO_42SH 0
 
-static int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
+int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
 				bool do_fork, pid_t pid)
 {
 	const bool	interactive = state->msh->interactive;
@@ -45,8 +47,6 @@ static int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
 		msh_signal_setdfl();
 		return (msh_exec_command_redirections(state, node));
 	}
-	if (node->command.background)
-		return (TODO_42SH);
 	msh_signal_init(state->msh, false);
 	if (waitpid(pid, &status, 0) == -1 && (errno != EINTR && errno != ECHILD))
 	{
@@ -61,14 +61,16 @@ static int	msh_exec_command_dispatch(t_exec_state *state, t_ast_node *node,
 static int	msh_exec_command_setup(t_exec_state *state, t_ast_node *node)
 {
 	const bool		do_fork = (node->parent == NULL
-			|| node->parent->type == NODE_DELIM)
+			|| node->parent->type == NODE_DELIM
+			|| (node->parent->type == NODE_GROUP && !FEAT_SUBSHELLS))
 		&& msh_exec_command_not_builtin(node);
 	pid_t			pid;
-	int				fds[2];
+	int				fds[3];
 	int				ret;
 
 	ret = 0;
 	pid = -1;
+	ft_bzero(fds, sizeof(fds));
 	if (do_fork)
 	{
 		pid = msh_fork(state->msh);

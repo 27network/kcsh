@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:08:14 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/05 16:19:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:42:31 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,28 @@ static const char	*msh_ast_stringify(t_ast_node *node)
 static void	msh_ast_print_decls(t_minishell *msh, t_ast_node *node,
 				int id, int depth)
 {
+	char	*left;
+	char	*right;
+
 	if (!node)
 		return ;
 	if (node->type == NODE_GROUP)
 	{
-		depth++;
 		msh_log(msh, LOGTYPE, PRE"%ssubgraph cluster%d {\n",
-			msh_depth_str(depth - 1), id);
+			msh_depth_str(depth++), id);
 		msh_ast_print_decls(msh, node->left, id, depth);
 		msh_log(msh, LOGTYPE, PRE"%s}\n", msh_depth_str(depth - 1));
 	}
 	else
 	{
-		msh_log(msh, LOGTYPE, PRE"%snode%d[label=\"<f0> |<f1> %s |<f2>\"];\n",
-			msh_depth_str(depth), id, msh_ast_stringify(node));
+		left = "";
+		if (node->left)
+			left = "<f0> |";
+		right = "";
+		if (node->right)
+			right = " | <f2>";
+		msh_log(msh, LOGTYPE, PRE"%snode%d[label=\"%s<f1> %s%s\"];\n",
+			msh_depth_str(depth), id, left, msh_ast_stringify(node), right);
 		msh_ast_print_decls(msh, node->left, id * 2 + 1, depth);
 		msh_ast_print_decls(msh, node->right, id * 2 + 2, depth);
 	}

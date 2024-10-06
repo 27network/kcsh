@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:51:19 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 18:07:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:35:29 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,11 @@ static int	msh_exec_command_setup_redirs(t_exec_state *state,
 	t_ast_token	*tkn;
 	int			ret;
 
-	token = node->command.redirs;
+	token = NULL;
+	if (node->type == NODE_COMMAND)
+		token = node->command.redirs;
+	else if (node->type == NODE_GROUP)
+		token = node->group.redirs;
 	ret = 0;
 	while (token && !ret)
 	{
@@ -106,7 +110,7 @@ static int	msh_exec_command_execute_final(t_exec_state *state,
 int	msh_exec_command_redirections(t_exec_state *state,
 				t_ast_node *node)
 {
-	int		ret;
+	int			ret;
 
 	ret = msh_exec_command_setup_redirs(state, node);
 	if (ret != 0)
@@ -114,7 +118,9 @@ int	msh_exec_command_redirections(t_exec_state *state,
 		state->msh->execution_context.exit_code = ret;
 		return (ret);
 	}
-	if (ft_lst_size(node->command.args) != 0)
+	if (node->type == NODE_COMMAND && ft_lst_size(node->command.args) != 0)
 		ret = msh_exec_command_execute_final(state, node);
+	else if (node->type == NODE_GROUP)
+		ret = msh_exec(state, node->left);
 	return (ret);
 }
