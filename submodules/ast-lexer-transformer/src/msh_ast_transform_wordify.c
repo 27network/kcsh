@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:56:31 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/04 04:55:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:40:59 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ static t_ast_error	msh_ast_transform_try_wordify(t_list *node)
 		err = msh_ast_transform_wordify(NULL, &token->value.list, 0);
 		if (err.type == AST_ERROR_NONE)
 			err = msh_ast_transform_to_string(token);
+	}
+	else if (token && token->type == TKN_SUBST)
+	{
+		if (token->value.string)
+			token->type = TKN_WORD;
 	}
 	return (err);
 }

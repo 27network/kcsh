@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 13:39:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:45:02 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_ast_error	msh_ast_transform_impl(t_minishell *msh, t_list **tokens_ptr,
 			err = transformer.fn(msh, tokens_ptr, n);
 		if (err.type != AST_ERROR_NONE)
 			break ;
+		msh_dump_tokens(msh, *tokens_ptr);
 		transformer = msh_ast_transformers()[2];
 		err = transformer.fn(msh, tokens_ptr, 2);
 		n++;

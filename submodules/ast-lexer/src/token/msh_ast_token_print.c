@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:11:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 17:50:01 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:45:47 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	msh_ast_token_print0(t_ast_token *token)
 		msh_ast_print_redir(token);
 	else if (token->type == TKN_WORD || token->type == TKN_NUMBER
 		|| (token->type == TKN_SUBST && (token->kind == SUBST_VAR
-				|| token->kind == SUBST_VAR_RICH
-				|| token->kind == SUBST_TILDE)))
+				|| token->kind == SUBST_VAR_RICH || token->kind == SUBST_TILDE
+				|| token->kind == SUBST_PATTERN)))
 		msh_ast_print_string(token);
 	else if (token->type == TKN_DELIM)
 		msh_ast_print_delim(token);

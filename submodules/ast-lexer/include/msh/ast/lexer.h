@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:52 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/06 19:27:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/06 22:57:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #  include <msh/minishell.h>
 
 #  define SEP_CHARS " \t\n"
-#  define DELIM_CHARS " \t\n{}();|&<>`\"&'\\$"
+#  define DELIM_CHARS " \t\n{}()[]*?;|&<>`\"&'\\$"
 #  define DELIM_CHARS_HEREDOC " \t\n();|&<>`\"'\\"
 
 typedef struct s_ast_lexer

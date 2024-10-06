@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 01:22:00 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/28 17:33:49 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 01:11:36 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef enum e_ast_substitution
 	SUBST_CMDSUB_BQ,	// `...`
 	SUBST_ANSI_C,		// $''
 	SUBST_LOCALIZED,	// $""
-	SUBST_WILDCARD,		// *
+	SUBST_PATTERN,		// *, ?, [...]
 	SUBST_TILDE,		// ~
 }	t_ast_substitution_type;
 
