@@ -6,7 +6,7 @@
 #    By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/06 21:19:50 by kiroussa          #+#    #+#              #
-#    Updated: 2024/10/06 00:25:46 by kiroussa         ###   ########.fr        #
+#    Updated: 2024/10/07 03:17:06 by kiroussa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ CACHE_DIR_NAME		:=	.cache
 CACHE_DIR			:=	$(addprefix $(shell pwd)/, $(CACHE_DIR_NAME))
 
 COMP_MODE			?=	MANDATORY_MSH
+POSSIBLE_NAMES		:=	minishell minishell_bonus 42sh 42sh_bonus
 
 LAST_COMP			:=	$(CONFIG_DIR)/.last_comp
 _LAST_COMP_DATA		:=	$(shell cat $(LAST_COMP) 2>/dev/null)
@@ -56,6 +57,7 @@ endif
 ifeq ($(MAKE_TRACE), 1)
 $(info Setting new compilation mode: $(COMP_MODE))
 endif
+_					:=	$(shell rm -rf $(POSSIBLE_NAMES))
 _					:=	$(shell echo "$(COMP_MODE)" > $(LAST_COMP))
 # _					:=	$(shell rm -rf $(CACHE_DIR) $(NAME))
 endif
@@ -67,9 +69,6 @@ PRINTF				:=	:
 else
 -include header.mk
 endif
-
-
-POSSIBLE_NAMES		:=	minishell minishell_bonus 42sh 42sh_bonus
 
 SUBMODULES			:=	submodules
 
@@ -174,8 +173,11 @@ test: oclean
 remake: clean all
 
 _fclean_prelude:
-	@$(PRINTF) "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) binaries $(GRAY)(./$(NAME))$(RESET)\n"
+	@$(PRINTF) "🧹 Cleaned project binaries\n"
 	$(eval _DISABLE_CLEAN_LOG := 1)
+
+binclean: _fclean_prelude
+	@$(RM) $(POSSIBLE_NAMES)
 
 clean:
 	@if [ $(_DISABLE_CLEAN_LOG) -eq 0 ]; then printf "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) $(GRAY)(./$(CACHE_DIR_NAME))$(RESET)\n"; fi
@@ -186,11 +188,10 @@ oclean:
 	@$(PRINTF) "🧹 Cleaned $(BOLD_WHITE)$(NAME)$(RESET) object cache $(GRAY)($(CACHE_DIR))$(RESET)\n"
 	@$(RM) $(CACHE_DIR)
 
-fclean:			_fclean_prelude clean
+fclean:			binclean clean
 	@$(RM) $(FEATURES_H_ACTUAL)
 	@$(RM) $(FEATURES_H)
 
-	@$(RM) $(POSSIBLE_NAMES)
 	@$(MAKE) -C $(LIBFT_DIR) NO_LOG="$(FREEZE_LOGS)" fclean
 
 re: _hide_cursor

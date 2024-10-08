@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 01:00:21 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/07 01:08:33 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:33:52 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,8 @@ static t_ast_error	msh_ast_transform_try_merge_others(
 		new = msh_ast_merge_pattopat(msh, token, current, next);
 	else if (next && IS_PATTERN(current) && next->type == TKN_STRING)
 		new = msh_ast_merge_pattostr(msh, token, current, next);
-	else if (next && IS_PATTERN(current) && next->type == TKN_WORD)
-		new = msh_ast_merge_pattow(msh, token, current, next);
 	else if (next && current->type == TKN_STRING && IS_PATTERN(next))
 		new = msh_ast_merge_strtopat(msh, token, current, next);
-	else if (next && current->type == TKN_WORD && IS_PATTERN(next))
-		new = msh_ast_merge_wtopat(msh, token, current, next);
 	else
 		return (msh_ast_err(AST_ERROR_CANCEL, false));
 	if (new == NULL)

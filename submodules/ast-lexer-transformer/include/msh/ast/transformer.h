@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:32:59 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/09/30 13:35:26 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 03:09:57 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@
 
 typedef t_ast_error	t_ast_transformer_fn(t_minishell *msh, t_list **tokens,
 							size_t n);
+
+t_ast_error	msh_ast_transform_merge(t_minishell *msh, t_list **tokens,
+				size_t order);
+t_ast_error	msh_ast_transform_substitute_pattern(t_minishell *msh,
+				t_list **tokens, size_t order);
+t_ast_error	msh_ast_transform_substitute_tilde(t_minishell *msh,
+				t_list **tokens, size_t order);
+t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
+				size_t order);
+t_ast_error	msh_ast_transform_wordify(t_minishell *msh, t_list **tokens,
+				size_t order);
 
 typedef struct s_ast_transformer_info
 {

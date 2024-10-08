@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:08:36 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/07 00:45:02 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/07 03:09:50 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,6 @@
 #include <msh/ast/sanitizer.h>
 #include <msh/log.h>
 
-t_ast_error	msh_ast_transform_merge(t_minishell *msh, t_list **tokens,
-				size_t order);
-t_ast_error	msh_ast_transform_substitute_tilde(t_minishell *msh,
-				t_list **tokens, size_t order);
-t_ast_error	msh_ast_transform_substitute_var(t_minishell *msh, t_list **tokens,
-				size_t order);
-t_ast_error	msh_ast_transform_wordify(t_minishell *msh, t_list **tokens,
-				size_t order);
 void		msh_dump_tokens(t_minishell *msh, t_list *tokens);
 
 static t_ast_error	msh_ast_sanitize_tokens_wrapper(t_minishell *msh,
@@ -39,6 +31,7 @@ static t_ast_transformer_info	*msh_ast_transformers(void)
 	{.name = "sanitize", .fn = msh_ast_sanitize_tokens_wrapper},
 	{.name = "wordify", .fn = msh_ast_transform_wordify},
 	{.name = "substitute_tilde", .fn = msh_ast_transform_substitute_tilde},
+	{.name = "substitute_pattern", .fn = msh_ast_transform_substitute_pattern},
 	};
 
 	return ((t_ast_transformer_info *) transformers);
