@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 14:21:49 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 16:36:39 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 02:38:35 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 
 #define ACCEPTABLE_REDIR_FOLLOWUPS " \t\n0123456789abcdefghijklmnopqrstuvwxyz\
-ABCDEFGHIJKLMNOPQRSTUVWXYZ'\"$./~*?:,=+_%@!`"
+ABCDEFGHIJKLMNOPQRSTUVWXYZ'\"$./~*?[]:,=+_%@!`"
 
 static long long	msh_redir_try_yoink_fd(t_ast_lexer *state, size_t *inc)
 {

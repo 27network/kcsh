@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 03:44:51 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/06 23:30:40 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 02:37:53 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static t_ast_error	msh_ast_token_substitution_underlying(
 	if (first == '$')
 	{
 		if (second == '{' && FEAT_PARSER_PARAM_EXPANSION)
-			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "{ not impl", false));
+			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "${} not impl", false));
 		if (second == '(' && third == '(' && FEAT_PARSER_ARITHMETIC)
-			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "(( not impl", false));
+			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "$(( not impl", false));
 		if (second == '(' && FEAT_PARSER_CONTROL_SUBST)
-			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "( not impl", false));
+			return (msh_ast_errd(AST_ERROR_UNEXPECTED, "$() not impl", false));
 		return (msh_ast_token_subst_var(state, tokret, inc));
 	}
 	return (msh_ast_errd(AST_ERROR_UNEXPECTED, "unexpected substitution", 0));

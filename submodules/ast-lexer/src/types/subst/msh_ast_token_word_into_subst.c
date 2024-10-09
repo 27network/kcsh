@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 22:59:39 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/09 02:08:24 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 02:45:39 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <msh/features.h>
 #include <stdlib.h>
 
-#define ALLOWED "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_/ \n\t"
+#define ALLOWED "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_/ \n\
+\t|&<>)};"
 
 static t_ast_error	msh_ast_token_word_into_subst_tilde(t_ast_lexer *state,
 						t_ast_token **tokret, t_ast_error err, size_t *inc)
@@ -64,7 +65,7 @@ t_ast_error	msh_ast_token_word_into_subst(t_ast_lexer *state,
 	token = *tokret;
 	if (!token || !token->value.string)
 		return (err);
-	if (state->delim != 0)
+	if (state->delim && ft_strcmp(state->delim, "\"") == 0)
 		return (err);
 	if (!err.type && token->type == TKN_WORD && FEAT_TILDE_EXPANSION)
 		err = msh_ast_token_word_into_subst_tilde(state, tokret, err, inc);

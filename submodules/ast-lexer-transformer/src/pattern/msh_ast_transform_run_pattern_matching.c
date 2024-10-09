@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:47 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/09 01:48:55 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 02:31:58 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,9 @@ t_ast_error	msh_ast_transform_run_pattern_matching(t_minishell *msh,
 		if (token->type == TKN_GROUP || token->type == TKN_STRING)
 			err = msh_ast_transform_substitute_pattern(msh, &token->value.list,
 					0);
+		if (token->type == TKN_REDIR)
+			err = msh_ast_transform_substitute_pattern(msh, &token->value.list,
+					1);
 		current = current->next;
 	}
 	if (!msh_ast_token_count(*tokens, TKN_SUBST))
