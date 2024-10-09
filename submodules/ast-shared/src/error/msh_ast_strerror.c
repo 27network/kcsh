@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:49:10 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/21 16:38:14 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 00:56:44 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ const char	*msh_ast_strerror(t_ast_error_type type)
 	[AST_ERROR_UNEXPECTED] = "syntax error near unexpected token",
 	[AST_ERROR_UNEXPECTED_EOF] = "unexpected EOF",
 	[AST_ERROR_BAD_SUBSTITUTION] = "bad substitution",
+	[AST_ERROR_SYSTEM] = "system function error",
 	};
 
 	if (type < 0 || type >= _AST_ERROR_COUNT)

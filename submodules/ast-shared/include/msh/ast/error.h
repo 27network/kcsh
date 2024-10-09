@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/07/17 14:12:46 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 00:56:14 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum e_ast_error_type
 	AST_ERROR_UNEXPECTED,
 	AST_ERROR_UNEXPECTED_EOF,
 	AST_ERROR_BAD_SUBSTITUTION,
+	AST_ERROR_SYSTEM,
 	_AST_ERROR_COUNT,
 }	t_ast_error_type;
 

@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:05:17 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/05/30 00:02:06 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:47:26 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *
  * This is the ONLY "global-static-hack" in the project, which is necessary
  * since we access it on libc object construction and don't have shared
- * resources with main() at that point.
+ * resources with `main` at that point.
  *
  * This was either that, or putting a 64bit pointer as a string literal appended
  * to argv[0], so be happy.
@@ -32,7 +32,7 @@ t_builtin	*msh_builtin_registry(void)
 
 	if (!init)
 	{
-		ft_memset(registry, 0, sizeof(registry));
+		ft_bzero(registry, sizeof(registry));
 		init = true;
 	}
 	return (registry);

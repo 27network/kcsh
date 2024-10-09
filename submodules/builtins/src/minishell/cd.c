@@ -6,7 +6,7 @@
 /*   By: ebouchet <ebouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:04:11 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/01 15:15:03 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:06:38 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 #include <ft/mem.h>
 #include <msh/util.h>
 #include <msh/builtin.h>
-#include <msh/env.h>
 #include <string.h>
 
-#define CD_USAGE ""
-#define CD_HELP ""
+#define CD_USAGE "cd [dir]"
+#define CD_HELP "Change the shell working directory.\n\
+\n\
+Change the current directory to DIR.  The default DIR is the value of the\n\
+HOME shell variable.  If DIR is \"-\", it is converted to $OLDPWD.\n\
+\n\
+Exit Status:\n\
+Returns 0 if the directory is changed, and if $PWD is set successfully;\n\
+non-zero otherwise."
 
 int	msh_cd_absolute(t_minishell *msh, const char *target);
 int	msh_cd_relative(t_minishell *msh, const char *arg);
