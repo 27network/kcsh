@@ -6,7 +6,7 @@
 /*   By: kiroussa <oss@xtrm.me>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:04:58 by kiroussa          #+#    #+#             */
-/*   Updated: 2024/10/04 06:42:10 by kiroussa         ###   ########.fr       */
+/*   Updated: 2024/10/09 02:25:30 by kiroussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ static bool	msh_ast_sanitize_skip_leading(t_list *current, t_list **nextret)
 	return (ret);
 }
 
-static bool	msh_ast_sanitize_trailing_newlines(t_list **tokens)
+static bool	msh_ast_sanitize_trailing_newlines(t_list **tokens, t_list *current)
 {
 	t_list		*last;
 	t_list		*pre_last;
 	t_ast_token	*tkn;
 
+	*tokens = current;
 	if (!tokens || !*tokens)
 		return (false);
 	last = *tokens;
@@ -107,8 +108,7 @@ t_ast_error	msh_ast_sanitize_tokens(
 	current = *tokens;
 	while (current && msh_ast_sanitize_skip_leading(current, &next))
 		current = next;
-	*tokens = current;
-	if (msh_ast_sanitize_trailing_newlines(tokens))
+	if (msh_ast_sanitize_trailing_newlines(tokens, current))
 		return (msh_ast_err(AST_ERROR_CANCEL, false));
 	err = msh_ast_sanitize_tokens_impl(msh, current);
 	if (err.type == AST_ERROR_NONE)
@@ -121,7 +121,8 @@ t_ast_error	msh_ast_sanitize_tokens(
 			if (((t_ast_token *) next->content)->type != TKN_SEP)
 				last_non_sep = next;
 		}
-		ft_lst_free(&last_non_sep->next, (t_lst_dealloc) msh_ast_token_free);
+		if (last_non_sep)
+			ft_lst_free(&last_non_sep->next, (t_lst_dealloc)msh_ast_token_free);
 	}
 	return (err);
 }
